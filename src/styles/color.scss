@@ -1,0 +1,327 @@
+$color-primary: #67c23a;//#18c79c
+$color-border:#eee;
+$color-dx:#ed1844;
+$color-default:#333;
+$color-white:#fff;
+$color-gray:#999;
+  .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    @keyframes ani-demo-spin {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
+    .demo-spin-col{
+        height: 100%;
+        position: relative;
+        border: 1px solid #eee;
+    }
+    
+.ivu-icon-ios-arrow-back{
+    font-size:2.8rem;
+    position: relative;
+    top: 0.5rem;
+}
+input, textarea{
+    outline:0;
+}
+.user-con-wrap{
+    margin:1rem;
+}
+//登录注册头部
+.ding{
+    padding-top:2.5rem;
+    h3{
+        font-weight: bold;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+    h6{
+        font-size: 1.4rem;
+        margin-bottom: 2rem;
+    }
+}
+.color-gray{
+    color:#999;
+}
+
+.header-home-wrapper{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    z-index: 28;
+   padding-top:0.6rem;
+}
+.home-box{
+     position: fixed;
+}
+.sort-box{
+    position: relative;
+    background: #eee;
+    padding-bottom: 0.6rem;
+    .icon-back{
+        position: absolute;
+        left:1.5rem;
+        color:#666;
+        top:0rem;
+        font-size: 1.6rem;
+    }
+}
+.SearchBarWrapper{
+        padding-left: 4rem;
+        padding-right:4rem;
+}
+.search input{
+     font-size: .75rem;
+    line-height: .875rem;
+     border: 0;
+    display: inline-block;
+    background: 0;
+    text-indent: 2px;
+    width: 100%;
+    vertical-align: middle;
+    color: #999;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-top:0.5rem;
+    background: #fff;
+}
+.inputwrap{
+        position: absolute;
+    left: 0;
+    top: 0.2rem;
+    width: 100%;
+    padding-left:2.5rem;
+    padding-right: 1rem;
+}
+.login-ing
+{    height: 100%;
+    position: absolute;
+    right: 1rem;
+    top: 1.2rem;
+    color:#fff;
+}
+.search-button{
+    position: absolute;
+    right: 5px;
+    background: $color-dx;
+    border: 0 none;
+    color:#fff;
+    border-radius: 4px;
+    top:1rem;
+    padding: 0.3rem 0.5rem;
+}
+.search{
+       position: relative;
+    background: #fff;
+    border-radius: 1.5rem;
+    height: 2.5rem;
+    overflow: hidden;
+}
+.search-form-icon{
+    display: inline-block;
+    position: relative;
+    float: left;
+    vertical-align: top;
+    width: 1.6rem;
+    height: 1.6rem;
+    background-size: contain;
+    top: .4rem;
+    margin: 0 .3125rem 0 .625rem;
+}
+        .m_header_bar{
+    display: flex;
+    height: 4.4rem;
+    background-color: #fff;
+    position: relative;
+     .m_header_bar_back{
+        position: absolute;
+        top:0;
+       display: block;
+        width: 4.4rem;
+        height: 4.4rem;
+        line-height: 4.4rem;
+        text-align: center;
+        color: #999;
+        }
+        .m_header_bar_title{
+            padding-left: 4.4rem;
+             padding-right: 4.4rem;
+                height: 4.4rem;
+        line-height: 4.4rem;
+        font-size:1.8rem;
+        color: #333;
+        text-align: center;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        }
+        .m_header_bar_menu{
+             display: block;
+    width: 4.4rem;
+    height: 4.4rem;
+    line-height: 4.4rem;
+    font-size: 1.4rem;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    text-align: center;
+        }
+    }
+     .m_header_bar:after{
+        content: "";
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    background-color: #e5e5e5;
+    height: 1px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    }
+    .order{
+       .flex-ul{
+           background: #fff;
+            li{
+                display: flex;
+                flex-direction: row;
+                border-bottom: 1px solid #eee;
+                height:4.5rem;
+                line-height: 4.5rem;
+                font-size: 1.4rem;
+                padding:0 1rem;
+                label{
+                    font-size: 16px;
+                    cursor: pointer;
+                }
+            }
+            li> span:first-child{
+                flex:1;
+            }
+            
+       }
+    .bottom-buttom{
+        position: fixed;
+        bottom: 0;
+        text-align: center;
+        color: #fff;
+        background: $color-dx;
+        width: 100%;
+        padding-top:0.8rem;
+        padding-bottom: 0.8rem;
+    }
+    
+}
+    .login{
+        padding:3rem 1.5rem;
+        background: #fff;
+        overflow: hidden;
+        h3{
+            color:$color-dx;
+            font-weight: 100;
+        }
+        .btn-login{
+            width: 100%;
+            border-radius: 5rem;
+            padding:1rem 0;
+        }
+        .re{
+            float: right;
+            margin-top:4rem;
+            color:#333;
+            font-size:1.2rem;
+        }
+    }
+
+    .order-list{
+            padding:0 10px;
+            background: #fff;
+            li{
+                padding:10px 0;
+                border-bottom:1px solid $color-border;
+                font-size: 1.4rem;
+                display: flex;
+                cursor: pointer;
+            }
+            img{
+                height: 2rem;
+                width:2rem;
+                margin-right:1.5rem;
+            }
+            i{
+                position: fixed;
+                right: 1.5rem;
+                font-size: 1.6rem;
+            }
+        }
+        .ivu-icon-ios-arrow-left{
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        .flex-ul li span:last-child{
+             font-size: 1.8rem;
+        }
+
+.goodslist div{
+    background: #fff;
+    position: relative;
+    label{
+        background: $color-dx;
+        color: #fff;
+        padding: 5px;
+    }
+    img{
+        max-width: 100%;
+    }
+    span{
+        display: block;
+    padding: 0.5rem 1rem 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+   font-size: 1.4rem;
+    }
+    h4{
+        padding-left: 10px;
+        color:$color-dx;
+        font-size: 1.6rem;
+        font-weight: normal;
+    }
+}
+.spdetail a{
+    display: flex;
+    background: #fff;
+    img{
+        width:35%;
+        height:35%
+    }
+    div{
+        width:65%;
+        border-bottom: 1px solid #eee;
+        background: #fff;
+        margin-left:1rem;
+        padding-right: 1rem;
+    }
+    .sP{
+        margin-top:1rem;
+    color:$color-default;
+    text-align:left;
+    font-size:1.4rem;
+    background-color:$color-white;
+    }
+    .sh6{
+    color:$color-dx;
+    text-align:left;
+    font-size:1.4rem;
+    background-color:$color-white;
+    padding-bottom:0.5em;
+    overflow:hidden;
+    margin-top: 0.5rem;
+    }
+}

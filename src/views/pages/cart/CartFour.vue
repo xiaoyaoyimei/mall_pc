@@ -62,7 +62,7 @@
   }
 </script>
 
-<style>
+<style scoped="scoped">
 .zhifu{
   min-height: 600px;
 }
@@ -74,93 +74,5 @@
     font-weight: 900;
     line-height: 34px;
     height: 34px;
-}
-.center {
-    margin: 0 auto;
-    width: 1100px;
-    /* background-color: pink; */
-    /* height: 100px; */
-}
-.M_main .M_nav {
-    height: 106px;
-    background-color: #E5E5E5;
-    margin: 16px 0;
-    padding: 22px 76px;
-}
-.M_main .M_nav ul {
-    text-align: center;
-}
-.fl {
-    float: left;
-}
-.M_main .M_nav ul li {
-    float: left;
-    position: relative;
-    margin-right: 245px;
-}
-.M_main .M_nav ul li div {
-    width: 50px;
-}
-.M_main .M_nav ul li div i {
-    display: block;
-    width: 46px;
-    height: 46px;
-}
- .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
-.clearfix { *zoom:1; }
-.S_iconCar i {
-    background: url(../../../assets/img/spring1.png) 0px -6px no-repeat;
-}
-.S_iconCount i {
-    background: url(../../../assets/img/spring1.png) 0px -60px no-repeat;
-}
-.S_iconPay i {
-    background: url(../../../assets/img/spring1.png)  0px -120px no-repeat;
-}
-.S_iconSucceed i {
-    background: url(../../../assets/img/spring1.png) -3px -174px no-repeat;
-}
-.M_main .M_nav ul .S_iconSucceed{
-  margin-right: 0px;
-}
-.M_main .M_nav ul li div b {
-    display: block;
-    line-height: 30px;
-}
-.red {
-    color: #E50011;
-}
-.M_main .M_nav ul li span {
-    float: left;
-    display: block;
-    width: 275px;
-    background-color: #CBCBCB;
-    height: 1px;
-    position: absolute;
-    top: 20px;
-    left: 46px;
-}
-.S_info {
-    margin: 50px 260px;
-}
-.S_info h4 {
-    font-size: 16px;
-    font-weight: 900;
-    line-height: 36px;
-}
-.S_info h4 i {
-    position: relative;
-    top: 10px;
-    display: inline-block;
-    width: 47px;
-    height: 37px;
-    background: url(../../../assets/img/spring1.png) -3px -250px no-repeat;
-}
-.S_info p {
-    font-size: 14px;
-    line-height: 36px;
-}
-a{
-  color: #555;
 }
 </style>

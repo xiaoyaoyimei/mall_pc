@@ -34,8 +34,8 @@
         };
         return {
           loginForm: {
-            loginName: '18336077236',
-            passWord: '0'
+            loginName: '188111996471',
+            passWord: '123'
           },
           loginRules: {
             loginName: [
@@ -77,6 +77,7 @@
 		              if (code !== 200) {
 		                  this.$Message.error(object);
 		              } else {
+		              	
 					        this.$Message.success('登录成功');
 					 		let data = res;  
 							//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  

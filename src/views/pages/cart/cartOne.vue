@@ -3,22 +3,6 @@
 		<div class="Mycar">
 			<h3 class="center1 ">购物车</h3>
 		</div>
-		<!-- <div class="M_main center1 clearfix">
-		    <div class="M_nav">
-				<ul class="fl">
-					<li class="S_iconCar">
-						<div><i></i><b class="red">购物车</b></div> <span></span></li>
-					<li class="S_iconCount">
-						<div><i></i><b class="">结算</b></div> <span></span></li>
-					<li class="S_iconPay">
-						<div><i></i><b class="">支付</b><span></span></div>
-					</li>
-					<li class="S_iconSucceed">
-						<div><i></i><b>支付成功</b></div>
-					</li>
-				</ul>
-    		</div>
-		</div> -->
 
 		<div v-if="cartList.length>0">
 		<div class='carthead'>
@@ -67,7 +51,7 @@
 						</div>
 					</Col>
 					<Col span="2">
-						<p class='cart_price'>￥{{x.salePrice}}</p>
+						<p class='cart_price'>￥{{x.salePrice}}*{{x.quantity}}</p>
 					</Col>
 					<Col span="1">
 						<span  @click="edit"  class="m_header_bar_menu">删除</span>
@@ -117,18 +101,34 @@ export default {
 		},
         methods: {
 
+        	 addcart(x){
+              		this.$axios({
+							    method: 'post',
+							    url:'/order/shopping/add',
+							    data:{
+							    	productItemId:x.id,
+							    	quantity:x.quantity
+							   	 }
+								}).then((res)=>{
+									if(res.code=='200'){
+										this.getCartList();
+									}else{
+										 this.$Message.warning(res.object);
+									}
+							});
+              },
         	changeNumber: function(event,x,index){
 					var obj=event.target;
 					x.quantity = parseInt(obj.value);
 					 if(this.temp.indexOf(index)<0){
 					     		this.temp.push(index)
 					     	}
-					     	   this.checkAllGroup=this.temp;
+					        this.checkAllGroup=this.temp;
 							this.checkAllGroupChange(this.temp);
+							this.addcart(x)
 					},
 					//添加
 					jia:function(x,index){
-					
 						if(x.quantity>=x.max){
 						x.quantity=x.max
 						}else{
@@ -136,9 +136,10 @@ export default {
 							 if(this.temp.indexOf(index)<0){
 					     		this.temp.push(index)
 					     	}
-					     	   this.checkAllGroup=this.temp;
+					        this.checkAllGroup=this.temp;
 							this.checkAllGroupChange(this.temp);
 						  }
+						this.addcart(x)
 					},
 					
 					//减
@@ -153,9 +154,12 @@ export default {
 						x.quantity=parseInt(x.quantity)-1; 
 				 		this.checkAllGroup=this.temp;
 						this.checkAllGroupChange(this.temp);
+						this.addcart(x)
 						}
 					},
         	getCartList(){
+        		if(localStorage.getItem('token')!=undefined){
+        			this.nologin=false;
         			this.$axios({
 							    method: 'post',
 							    url:'/order/shopping/list',
@@ -164,6 +168,7 @@ export default {
 										this.cartList=res.object;
 									}
 							});
+					}
         	},
 			edit(){
 				this.editface=!this.editface;
@@ -400,70 +405,4 @@ export default {
 		max-width:100px;
 		}
 	}
-</style>
-<style>
-.center1 {
-    margin: 0 auto;
-    width: 1100px;
-    /* background-color: pink; */
-    /* height: 100px; */
-}
-.M_main .M_nav {
-    height: 106px;
-    background-color: #E5E5E5;
-    margin: 16px 0;
-    padding: 22px 76px;
-}
-.M_main .M_nav ul {
-    text-align: center;
-}
-.fl {
-    float: left;
-}
-.M_main .M_nav ul li {
-    float: left;
-    position: relative;
-    margin-right: 245px;
-}
-.M_main .M_nav ul li div {
-    width: 50px;
-}
-.M_main .M_nav ul li div i {
-    display: block;
-    width: 46px;
-    height: 46px;
-}
- .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
-.clearfix { *zoom:1; }
-.S_iconCar i {
-    background: url(../../../assets/img/spring1.png) 0px -6px no-repeat;
-}
-.S_iconCount i {
-    background: url(../../../assets/img/spring1.png) -71px -59px  no-repeat;
-}
-.S_iconPay i {
-    background: url(../../../assets/img/spring1.png)  -64px -9px no-repeat;
-}
-.S_iconSucceed i {
-    background: url(../../../assets/img/spring1.png)  -73px -117px no-repeat;
-}
-.M_main .M_nav ul .S_iconSucceed{
-  margin-right: 0px;
-}
-.M_main .M_nav ul li div b {
-    display: block;
-    line-height: 30px;
-}
-.red {
-    color: #E50011;
-}
-.Mycar {
-    border-bottom: 1px solid #e7e7e7;
-}
-.Mycar h3 {
-    font-size: 18px;
-    font-weight: 900;
-    line-height: 34px;
-    height: 34px;
-}
 </style>

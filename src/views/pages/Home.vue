@@ -190,7 +190,7 @@
 							<a class="btn btn_buy" href="/detail/index?itemid=1000000000100511155736&amp;mtag=30022.1485.4">立即购买</a>
 						</div>
 					</div>
-							<!-- <div class="product product_5" v-if="(index % 5 == '4')">
+							<div class="product product_5" v-if="(index % 5 == '4')">
 						<router-link class="url" :title='item.model_name' :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
 							<img class="photo" :src='item.model_img |imgfilter'>
 							<span class="title">{{item.model_name}}</span>
@@ -203,7 +203,7 @@
 							<div class="price_wrap">¥<span class="price">1998.00</span></div>
 							<a class="btn btn_buy" href="/detail/index?itemid=1000000000100511154639&amp;mtag=30022.1485.5">立即购买</a>
 						</div>
-					</div>  -->
+					</div>
             </div>
 			<div class="floor floor_2">
         <!-- 美的商城_PC版_首页_明星单品楼层 1 -->
@@ -260,6 +260,20 @@
 							<div class="desc"></div>
 							<div class="price_wrap">¥<span class="price">1688.00</span></div>
 							<a class="btn btn_buy" href="/detail/index?itemid=1000000000100511155736&amp;mtag=30022.1485.4">立即购买</a>
+						</div>
+					</div>
+							<div class="product product_5" v-if="(index % 5 == '4')">
+						<router-link class="url" :title='item.model_name' :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
+							<img class="photo" :src='item.model_img |imgfilter'>
+							<span class="title">{{item.model_name}}</span>
+							<span class="price_wrap">¥<span class="price">{{item.sale_price}}</span></span>
+						</router-link>
+						<div class="mask"></div>
+						<div class="cover">
+							<div class="title">无罐双出水 五级RO反渗透 1:1节水</div>
+							<div class="desc"></div>
+							<div class="price_wrap">¥<span class="price">1998.00</span></div>
+							<a class="btn btn_buy" href="/detail/index?itemid=1000000000100511154639&amp;mtag=30022.1485.5">立即购买</a>
 						</div>
 					</div>
             </div>

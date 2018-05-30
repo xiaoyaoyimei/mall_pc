@@ -1,58 +1,85 @@
 <template>
     <div class='paymoney'>
-		<div class="Mycar">
-			<h3 class="center1 ">订单结算</h3>
-		</div>
-		<!-- <div class="M_main center1 clearfix">
-		    <div class="M_nav">
-				<ul class="fl">
-					<li class="S_iconCar">
-						<div><i></i><b class="red">购物车</b></div> <span></span></li>
-					<li class="S_iconCount">
-						<div><i></i><b class="red">结算</b></div> <span></span></li>
-					<li class="S_iconPay">
-						<div><i></i><b class="">支付</b><span></span></div>
-					</li>
-					<li class="S_iconSucceed">
-						<div><i></i><b>支付成功</b></div>
-					</li>
-				</ul>
-    		</div>
-		</div> -->
-			<div class="P_received clearfix">
-				<p class="P_rTit ">寄送到:</p>
-				<div class="P_ownedAddress fl">
-				<table class="" id="address_table"><tbody><tr class="P_addressHead"><th>配送到</th><th>收货人</th><th>所在地区</th><th>详细地址</th><th>手机</th></tr><tr class="P_addressList"><td><input class="chk_address_id" value="327" name="address_id" type="checkbox"></td> <td>要和</td><th>北京北京市崇文区</th><td>以后就交给</td><td>18336077236</td></tr></tbody></table>
-				</div>    
-			</div>
-            <div class="chooseAddress">
-            	<ul class="address" v-if="youdizhi">
-				<!-- <li>
-					<p><strong>{{addressList.person}} <label>{{addressList.phone}}</label></strong>
-					<span>{{addressList.receiveProvince}}{{addressList.receiveCity}}{{addressList.receiveDistrict}}{{addressList.address}}</span></p>
-						<Icon type="chevron-right"  @click.native="addAdd"></Icon>
-				</li> -->
-
-			   </ul>
-                	<Button @click='show1'>新增收货地址</Button>
-				<Form :model="addForm" ref="addForm" label-position="left" :label-width="100" :rules="ruleValidate" v-show="show"> 
+		<div id="addressWrap" class=""><div class="address-wrap">
+    <div class="wrap-header">
+        <h3>选择收货地址</h3>
+        <span class="small-text js_address_tips">地址切换可能导致价格和库存变动，请仔细确认</span>
+        
+    </div>
+    <div class="address-box clearfix" >
+        <div class="adr js_adr_check"  :class="{checked: index == selectItem}"  v-for="(addritem,index) in addressList" :key="index" @click="chooseAddr(addritem.id,index)">
+            <div class="adr-inner">
+                <i class="icon_checked"></i>
+                <div class="adr-head" >
+                    <span class="adr-province">{{addritem.receiveProvince}}</span>
+                    <span class="adr-city">{{addritem.receiveCity}}</span>
+                    <span class="adr-name">{{addritem.person}}</span>
+                </div>
+                <div class="adr-body" title="addritem.address">
+                    <p class="adr-text">
+                        <span class="adr-detail">{{addritem.address}}</span>
+                    </p>
+                      <span v-if="addritem.isDefault=='Y'">(默认)</span>
+                </div>
+                <div class="adr-foot">
+                    <a href="javascript:;" class="js_adr_edit" @click="editmodal(addritem)">编辑</a>
+                    <a href="javascript:;" class="js_adr_delete" @click="handleDelete(addritem.id)">删除</a>
+                </div>
+            </div>
+        </div>
+        <div class="adr js_adr_add" ms-hover="'hover'" @click="modaladdr=true">
+            <div class="adr-inner">
+                <div class="adr-add">
+                    <p class="adr-add-icon"><i class="icon_add">+</i></p>
+                    <p class="adr-add-text">添加地址</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+</div>
+                <Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading">
+				<Form :model="addForm" ref="addForm" label-position="left" :label-width="100" :rules="ruleValidate" > 
 					<FormItem label="收货人" prop="person">
-						<Input v-model="addForm.person" placeholder="收货人"></Input>
+						<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
 					</FormItem>
 					<FormItem label="手机号" prop="phone">
-						<Input v-model="addForm.phone" placeholder="联系电话"></Input>
+						<Input v-model="addForm.phone" placeholder="联系电话" autocomplete="off"></Input>
 					</FormItem>
 					<FormItem label="固定电话" >
-						<Input v-model="addForm.tel" placeholder="固定电话"></Input>
+						<Input v-model="addForm.tel" placeholder="固定电话" autocomplete="off"></Input>
 					</FormItem>
-					<FormItem label="所在地区"  prop="selectedOptionsAddr">
-						<Cascader  v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
-					</FormItem>
+			        <FormItem label="所在地区"  prop="selectedOptionsAddr">
+        		 <Cascader  v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
+        		</FormItem>
 					<FormItem label="详细地址" prop="address">
 						<Input v-model="addForm.address" placeholder="详细地址"></Input>
 					</FormItem>
 				</Form>
-            </div>
+				  </Modal>
+				   <Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading">
+					  	<Form :model="editForm" ref="editForm" label-position="left" :label-width="100" :rules="ruleValidate"  > 
+				        <FormItem label="收货人" prop="person">
+				            <Input v-model="editForm.person" placeholder="收货人"></Input>
+				        </FormItem>
+				        <FormItem label="手机号" prop="phone">
+				            <Input v-model="editForm.phone" placeholder="联系电话"></Input>
+				        </FormItem>
+				        <FormItem label="固定电话" >
+				            <Input v-model="editForm.tel" placeholder="固定电话"></Input>
+				        </FormItem>
+				        <FormItem label="所在地区"  prop="selectedOptionsAddr">
+				        	 <Cascader  v-model="editForm.selectedOptionsAddr" :data="addressOption"></Cascader>
+				        </FormItem>
+				         <FormItem label="详细地址" prop="address">
+				            <Input v-model="editForm.address" placeholder="详细地址"></Input>
+				        </FormItem>
+				    </Form>
+			    </Modal>
+			        <div class="wrap-header">
+        <h3>确认订单信息</h3>
+    </div>
             <div class="carttwo">
 <div class='carthead'>
 			<Row>
@@ -71,29 +98,34 @@
 				</Col>
 			</Row>
 		</div>
-		<Row>
-		    <Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange">
-		 		<Col  class='cartCol' span="24" v-for="(x,index) in cartList" :key="index"> 
- 
-					<Col span="4" ><p class="paddingLeft"><img class='cartImg' :src="imageSrc+x.image"></p></Col>
-					<Col span="11">
-						<p class='cart_black paddingLeft'>{{x.productName}}</p>
-						<p class='cart_gray paddingLeft'>{{x.productAttr}}</p>
-						
-					</Col>
-					<Col span="2">
-						<p class='cart_price paddingLeft'>￥{{x.salePrice}}</p>
+			<Row  class='cartCol' span="24" v-for="(x,index) in cartList" :key="index" > 
+						<Col span="4" ><p class="paddingLeft"><img class='cartImg' :src="imageSrc+x.image"></p></Col>
+						<Col span="11">
+							<p class='cart_black paddingLeft'>{{x.productName}}</p>
+							<p class='cart_gray paddingLeft'>{{x.productAttr}}</p>
+							<label class="promotion" v-if="x.promotionTitle !=null">{{x.promotionTitle}}</label>
+						</Col>
+						<Col span="2">
+						<p class='cart_price paddingLeft'>￥{{x.salePrice |pricefilter}}
+							<span v-if="x.promotionTitle ==null&&xscoupon" class="color-coupon">
+					       	 	￥{{couponprice(x.salePrice) |pricefilter }}
+					       	 </span></p>
 					</Col>
 					<Col span="3">
-						<p class='cart_qua paddingLeft'>*1</p>
+						<p class='cart_qua paddingLeft'>*{{x.quantity}}</p>
+						<p class='cart_qua paddingLeft color-coupon' v-if="x.promotionTitle ==null&&xscoupon">*{{x.quantity}}</p>
 					</Col>
 					<Col span="2">
-						<p class='cart_price paddingLeft'>￥{{x.salePrice}}</p>
+						<p class='cart_price paddingLeft'>￥{{x.salePrice|pricefilter}} 
+							<span v-if="x.promotionTitle ==null&&xscoupon" class="color-coupon">
+					       	 	￥{{couponprice(x.salePrice) |pricefilter}}
+					       	 </span></p>
 					</Col>
-				</Col>
-			</Checkbox-group>
-		</Row>
-
+				</Row>
+			</div>
+			<div class="exchange-code-inner" v-show="couponshow">
+                   优惠券:     <input type="text" class="item-box-txt js_exchange_code_txt" placeholder="请输入优惠券" v-model.trim="couponCode">
+                        <span class="item-box-btn-save js_exchange_code_confirm" @click='usecoupon'>确认</span>
 			</div>
          <div class='cartfoot'>
 			<strong>总价：￥<span>{{totalPrice}}</span></strong>
@@ -104,9 +136,42 @@
     </div>
 </template>
 <script>
-    export default {
+       export default {
         data () {
             return {
+            	loading:true,
+             addressOption: [],
+             selectItem:0,
+			  addForm: {
+		                    person: '',
+		                    phone: '',
+		                    selectedOptionsAddr:[],
+		                    address:'',
+		                    tel:'',
+		                },
+		                	  editForm: {
+		                    person: '',
+		                    phone: '',
+		                    selectedOptionsAddr:[],
+		                    address:'',
+		                    tel:'',
+		                },
+		            ruleValidate: {
+	                    person: [
+	                        { required: true, message: '收货人不能为空', trigger: 'blur' }
+	                    ],
+	                    phone: [
+	                        { required: true, message: '手机号不能为空', trigger: 'blur' },
+	                    ],
+                    	address:[
+	                        { required: true, message: '详细地址不能为空', trigger: 'blur' },
+	                    ]
+                   },
+                 modaleditaddr:false,
+            	modaladdr:false,
+            	orderfail:false,
+            	xscoupon:false,
+            	couponCode:'',
                 imageSrc:this.global_.imgurl,
                  indeterminate: true,
                 checkAll: false,
@@ -117,66 +182,24 @@
 				zslcount:0,
 				temp:[],
 				addressList:{},
-				show:false,
-				youdizhi:false,
 				tempcart:[],
 				productItemIds:[],
-				addForm: {
-					person: '',
-					phone: '',
-					selectedOptionsAddr:[],
-					address:'',
-					tel:'',
-				},
-				ruleValidate: {
-					person: [
-						{ required: true, message: '收货人不能为空', trigger: 'blur' }
-					],
-					phone: [
-						{ required: true, message: '手机号不能为空', trigger: 'blur' },
-					],
-					selectedOptionsAddr: [
-					{ required: true, type: 'array',message: '请选择省市区', trigger: 'blur' }
-					],
-					address:[
-						{ required: true, message: '详细地址不能为空', trigger: 'blur' },
-					]
-				},
+				couponshow:true,
+				couponmsg:{
+					availableSku:'',
+					availableCatalog:'',
+					modeValue:'',
+					couponMode:''
+				}
             }
         },
-  		watch: {
-            // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
-               '$route': 'getDD'
-          },
         methods: {
-			show1(){
-				if(this.show == false){
-					this.show = true;
-				}else{
-					this.show = false;
-				}
-			},
-        	getDD(){
-                let routerParams = this.$route.params.address;
-                if(routerParams!=undefined){
-                	this.addressList=routerParams;
-                	this.youdizhi=true
-                }
+        	chooseAddr(id,index){
+        		this.addressId=id;
+        		this.selectItem=index
+        		
         	},
-        	addAdd(){
-        		 sessionStorage.removeItem('fromc'); 
-		         sessionStorage.setItem('fromc','dingdan'); 
-        		 this.$router.push('/user/address') ;
-        	},
-		      getCartList(){
-		        this.cartList =  JSON.parse(sessionStorage.getItem('cart')); 
-		        var _this=this;
-		        _this.productItemIds=[];
-		          this.cartList.forEach(function(item,index) {
-					    _this.totalPrice +=item.salePrice*item.quantity;
-					    _this.productItemIds.push(item.id);
-				      });
-		      },
+        //获得地址列表
 		      getAddress(){
 		      	var _this=this;
 		      	  	this.$axios({
@@ -184,38 +207,275 @@
 						    url:'/address',
 						}).then((res)=>{
 							 if(res.length>0){
-							 	res.map(function (i) {
-							 		if(i.isDefault=='Y'&&JSON.stringify(_this.addressList) == "{}"){
-							 			_this.addressList=i
-							 		}
-							 	});
-								 this.youdizhi=true
+							 	_this.addressList=res
 							}
 						});
 		      },
+        	getAddressOption(){
+    	      		  	this.$axios({
+						    method: 'post',
+						    url:'/common/address',
+						}).then((res)=>{
+							 this.addressOption=res;
+						});
+    	      	},
+        	//新增地址
+        	ok () {
+                setTimeout(() => {
+                    this.loading = false;
+                    this.$nextTick(() => {
+                        this.loading = true;
+                                     this.$refs['addForm'].validate((valid) => {
+					if (valid) {
+							let temp=this.addForm;
+							temp.receiveProvince=this.addForm.selectedOptionsAddr[0];
+							temp.receiveCity=this.addForm.selectedOptionsAddr[1];
+							temp.receiveDistrict=this.addForm.selectedOptionsAddr[2];
+							delete temp['selectedOptionsAddr']
+							let para = Object.assign({}, temp);
+								this.$axios({
+							    method: 'post',
+							    url:'/address/insert',
+							    data:para,
+								}).then((res)=>{
+									if(res.code=='200'){
+								    this.modaladdr = false;
+									this.$refs['addForm'].resetFields();
+									this.getAddress();
+									this.$Message.success('修改成功');
+									}else if(res.code=='401'){
+										this.$Message.error(res.msg);
+										return ;
+									}else{
+										this.$Message.error(res.msg);
+										return ;
+									}
+							});
+					}
+				});
+                    });
+                }, 2000);
+       
+            },
+            
+            editmodal(item){
+            		this.modaleditaddr=true;
+            	    this.editForm.id=item.id;
+			        this.editForm.person=item.person;
+			        this.editForm.phone=item.phone;
+			        this.editForm.tel=item.tel;
+			        this.editForm.selectedOptionsAddr=[item.receiveProvince,item.receiveCity,item.receiveDistrict];
+			        this.editForm.address=item.address;
+			        
+            },
+                    	//编辑地址
+        	editaddr () {
+                setTimeout(() => {
+                    this.loading = false;
+                    this.$nextTick(() => {
+                        this.loading = true;
+		                this.$refs['editForm'].validate((valid) => {
+							if (valid) {
+									let temp=this.editForm;
+									let id=temp.id;
+									temp.receiveProvince=this.editForm.selectedOptionsAddr[0];
+									temp.receiveCity=this.editForm.selectedOptionsAddr[1];
+									temp.receiveDistrict=this.editForm.selectedOptionsAddr[2];
+									delete temp['selectedOptionsAddr']
+									delete temp['id']
+									let para = Object.assign({}, temp);
+										this.$axios({
+									    method: 'post',
+									    url:'/address/update?id='+id,
+									    data:para,
+										}).then((res)=>{
+											this.modaleditaddr = false;
+											this.$refs['editForm'].resetFields();
+											this.getAddress();
+											this.$Message.success('提交成功');
+									});
+							}
+						});
+                    });
+                }, 2000);
+       
+            },
+            //删除地址
+            handleDelete(value){
+       	   	   this.$Modal.confirm({
+                    title: '确认删除',
+                    content: '<p>确认删除该地址</p>',
+                    onOk: () => {
+                         	this.$axios({
+							    method: 'post',
+							    url:'/address/delete?id='+value+'',
+							}).then((res)=>{
+								if(res.code=='200'){
+									this.$Message.success('删除成功');
+									this.getAddress();
+								}
+						})
+                    },
+                    onCancel: () => {
+                        this.$Message.info('取消删除');
+                    }
+                });
+       	   		
+       	   },
+        	//总价计算
+        	jisuan(value){
+        		let _this=this;
+        		  //刚进入购物车页面
+        		if(value==undefined){
+        			  this.cartList.forEach(function(item,index) {
+					    _this.totalPrice +=item.salePrice*item.quantity;
+				   });
+        		}
+        		//使用优惠券
+        		else{
+        		  let couponmethod=value;
+	        		  if(couponmethod.availableSku==""&&couponmethod.availableCatalog==""){
+	        		      _this.totalPrice=0;
+		        	      if(couponmethod.couponMode=='rate'){
+		        		  	    this.cartList.forEach(function(item,index) {
+		        		  	    	if(item.promotionTitle!=''&&item.promotionTitle!=null&&item.promotionTitle!=undefined){
+		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    	}else{
+		        		  	    		_this.totalPrice +=item.salePrice*(1-couponmethod.modeValue)*item.quantity
+		        		  	    	}
+						   });
+		        		  }else{
+		        		  	    this.cartList.forEach(function(item,index) {
+		        		  	    	if(item.promotionTitle!=''&&item.promotionTitle!=null&&item.promotionTitle!=undefined){
+		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    	}else{
+		        		  	    		_this.totalPrice +=(item.salePrice-couponmethod.modeValue)*item.quantity
+		        		  	    	}
+						   });
+		        		  }
+	        		  }else if(couponmethod.availableSku!=""){
+	        		  	   _this.totalPrice=0;
+		        	      if(couponmethod.couponMode=='rate'){
+		        		  	    this.cartList.forEach(function(item,index) {
+		        		  	    	if(item.id==couponmethod.availableCatalog){
+		        		  	    		_this.totalPrice +=item.salePrice*(1-couponmethod.modeValue)*item.quantity
+		        		  	    	}else{
+		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    	}
+						   		});
+		        		  }else{
+		        		  	    this.cartList.forEach(function(item,index) {
+		        		  	    	if(item.id==couponmethod.availableCatalog){
+		        		  	    		_this.totalPrice +=(item.salePrice-couponmethod.modeValue)*item.quantity
+		        		  	    	}else{
+		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    	}
+						   });
+	        		  	}
+	        		  }else{
+	        		  	 _this.totalPrice=0;
+		        	      if(couponmethod.couponMode=='rate'){
+		        		  	    this.cartList.forEach(function(item,index) {
+		        		  	    	if(item.productType==couponmethod.availableSku){
+		        		  	    		_this.totalPrice +=item.salePrice*(1-couponmethod.modeValue)*item.quantity
+		        		  	    	}else{
+		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    	}
+						   		});
+		        		  }else{
+		        		  	    this.cartList.forEach(function(item,index) {
+		        		  	    	if(item.productType==couponmethod.availableSku){
+		        		  	    		_this.totalPrice +=(item.salePrice-couponmethod.modeValue)*item.quantity
+		        		  	    	}else{
+		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    	}
+						   });
+	        		  	}
+	        		  }
+        		  }
+        	},
+		      getCartList(){
+		        this.cartList =  JSON.parse(sessionStorage.getItem('cart')); 
+		        var _this=this;
+		         _this.productItemIds=[];
+		          let n=0;
+		          this.cartList.forEach(function(item,index) {
+		          	   if(item.promotionTitle!=''&&item.promotionTitle!=null){
+		          	     n+=1;
+		          	   }
+					    _this.productItemIds.push(item.id);
+				   });
+				      if(this.cartList.length==n){
+				      	this.couponshow=false
+				      }else{
+				      		this.couponshow=true
+				      }
+		      },
+		      //提交表单
             confirm(){
+            	
 	          	let para={
+						addressId:this.addressList[this.selectItem].id,
+	                    productItemIds:this.productItemIds,
+	                    couponCode:this.couponCode
+	          	};
+    	   	  	this.$axios({
+				    method: 'post',
+				    url:'/order/shopping/confirm',
+				    data:para
+				}).then((res)=>{
+					if(res.code=='200'){
+						 this.$router.push({name:'/cartthree',params: { orderNo: res.msg}});  
+					}else{
+				   this.$Modal.error({
+				   	title:'失败提示',
+                    content: res.msg,
+               		 });
+					}
+				});
+           },
+           //使用优惠券
+           usecoupon(){
+           	this.xscoupon=false
+           	if(this.couponCode==''){
+           		this.$Message.error('优惠码不能为空');
+           		return;
+           	}
+           	let para={
 						addressId:this.addressList.id,
-	                    productItemIds:this.productItemIds
-				  };
-				  this.$router.push({ name:'/cartthree'});
-    	   	  	// this.$axios({
-				//     method: 'post',
-				//     url:'/order/shopping/confirm',
-				//     data:para
-				// }).then((res)=>{
-				// 	if(res.code=='200'){
-				// 		 this.$router.push({name:'/cartthree',params: { orderNo: res.msg}});  
-				// 	}else{
-				// 		 this.$Message.error(res.msg);
-				// 	}
-				// });
-            }
+	                    productItemIds:this.productItemIds,
+	                    couponCode:this.couponCode
+	          	};
+           	  	this.$axios({
+				    method: 'post',
+				    url:'/promotion/coupon',
+				     data:para
+				}).then((res)=>{
+					if(res.code=='200'){
+						this.xscoupon=true;
+						this.couponmsg=Object.assign({}, res.object);
+						this.jisuan(this.couponmsg);
+					}else{
+						this.xscoupon=false;
+						this.$Message.error(res.object);
+					}
+				});
+          },
+          couponprice(value){
+          	let couponmsg=this.couponmsg;
+          	if(couponmsg.couponMode=='rate'){
+          		return value*(1-couponmsg.modeValue)
+          	}
+          	else{
+          		return value-couponmsg.modeValue
+          	}
+          }
         },
          mounted() {
          	this.getAddress();
+         	this.getAddressOption();
          	this.getCartList();
-         	this.getDD();
+         	this.jisuan();
 		}
     }
 </script>
@@ -320,7 +580,7 @@
 				button{
 					float: right;
 					height: 100%;
-					background: $color-dx;
+					background: #333;
 					color:#fff;
 					border:0 none;
 					padding-left: 15px;
@@ -352,8 +612,127 @@
 				padding:10px
 			}
 		}
+		/*地址样式-s*/
+
+.address-box .checked .adr-inner {
+    border: 2px solid #333;
+    padding: 19px;
+    color: #333;
+    z-index: 1;
+}
+.address-box .adr-add {
+    text-align: center;
+}
+.address-wrap {
+    margin-top: 40px;
+}
+.wrap-header h3 {
+    font-size: 24px;
+    line-height: 24px;
+    font-weight: 400;
+    color: #333;
+    margin-right: 15px;
+}
+.wrap-header .small-text {
+    font-size: 12px;
+    color: #999;
+}
+.address-box {
+    margin-top: 20px;
+}
+.address-box .adr {
+    float: left;
+    margin-top: -1px;
+    margin-left: -1px;
+    background-color: #fff;
+    cursor:pointer;
+}
+.address-box .adr-inner:hover {
+    background-color: #fafafa;
+}
+
+.address-box .adr-inner {
+    position: relative;
+    width: 256.25px;
+    height: 117px;
+    padding: 20px;
+    border: 1px solid #e9e9e9;
+    color: #999;
+}
+.address-box .adr-body {
+    margin-top: 10px;
+}
+.address-box .adr-inner .icon_checked {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    display: none;
+}
+.address-box .adr-head {
+    font-size: 0;
+}
+.address-box .adr-head span {
+    font-size: 14px;
+    line-height: 14px;
+}
+.address-box .adr-head .adr-name {
+    margin-left: 12px;
+}
+.address-box .adr-body .adr-detail {
+    margin-right: 8px;
+}
+.address-box .adr-foot {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+}
+.address-box .checked .icon_checked {
+    display: inline-block;
+}
+.address-box .adr-inner:hover  .adr-foot {
+    display: block;
+}
+.address-box .adr-add .adr-add-icon {
+    margin-top: 8px;
+    font-size: 18px;
+}
+.confirm-order-box .coupon-wrap .exchange-code .item-box-txt {
+    width: 438px;
+    margin-right: 20px;
+    float: left;
+}
+.item-box-txt {
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    font-size: 12px;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 10px;
+}
+.exchange-code-inner{
+	background: #fff;
+	padding: 10px ;
+}
+ .item-box-btn-save {
+    width: 64px;
+    height: 22px;
+    line-height: 22px;
+    border: 1px solid #333;
+    border-radius: 2px;
+    background: #333;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+}
+.color-coupon{
+	color:red
+}
+/*地址样式-e*/
 </style>
 <style>
+	
 .P_received {
     margin: 0px 0 60px 0;
     font-size: 14px;
@@ -366,96 +745,5 @@
 .fl {
     float: left;
 }
-.P_ownedAddress table {
-    border: 1px solid #e7e7e7;
-}
-table {
-    border-collapse: collapse;
-}
-.P_ownedAddress table .P_addressHead {
-    border-bottom: 1px solid #e7e7e7;
-}
-.P_ownedAddress table .P_addressHead th {
-    height: 40px;
-    padding: 0 5px;
-    border-top: 1px solid #e7e7e7;
-    border-bottom: 1px solid #e7e7e7;
-    background: #f2f2f2;
-    text-align: left;
-}
-.P_ownedAddress table .P_addressList {
-    height: 40px;
-    border-bottom: 1px solid #e7e7e7;
-}
-.P_ownedAddress table .P_addressList td {
-    padding: 5px;
-    white-space: normal;
-    word-wrap: break-word;
-    word-break: break-all;
-    position: relative;
-}
-.center1 {
-    margin: 0 auto;
-    width: 1100px;
-    /* background-color: pink; */
-    /* height: 100px; */
-}
-.M_main .M_nav {
-    height: 106px;
-    background-color: #E5E5E5;
-    margin: 16px 0;
-    padding: 22px 76px;
-}
-.M_main .M_nav ul {
-    text-align: center;
-}
-.fl {
-    float: left;
-}
-.M_main .M_nav ul li {
-    float: left;
-    position: relative;
-    margin-right: 245px;
-}
-.M_main .M_nav ul li div {
-    width: 50px;
-}
-.M_main .M_nav ul li div i {
-    display: block;
-    width: 46px;
-    height: 46px;
-}
- .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
-.clearfix { *zoom:1; }
-.S_iconCar i {
-    background: url(../../../assets/img/spring1.png) 0px -6px no-repeat;
-}
-.S_iconCount i {
-    background: url(../../../assets/img/spring1.png) 0px -60px no-repeat;
-}
-.S_iconPay i {
-    background: url(../../../assets/img/spring1.png)  -64px -9px no-repeat;
-}
-.S_iconSucceed i {
-    background: url(../../../assets/img/spring1.png)  -73px -117px no-repeat;
-}
-.M_main .M_nav ul .S_iconSucceed{
-  margin-right: 0px;
-}
-.M_main .M_nav ul li div b {
-    display: block;
-    line-height: 30px;
-}
-.red {
-    color: #E50011;
-}
-.Mycar {
-    border-bottom: 1px solid #e7e7e7;
-}
-.Mycar h3 {
-    font-size: 18px;
-    font-weight: 900;
-    line-height: 34px;
-    height: 34px;
-}
+
 </style>

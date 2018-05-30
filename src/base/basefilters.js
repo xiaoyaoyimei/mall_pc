@@ -15,11 +15,5 @@ var trim=(value)=>{
    value = value.toString()
    return  value.trim()
 }
-//价格.00
-var pricefilter=(value)=>{
-		if (!value) {
-    return ''
-  }
-   return  '￥'+parseInt(value).toFixed(2)
-}
-export { imgfilter, trim ,pricefilter}
+
+export { imgfilter, trim }

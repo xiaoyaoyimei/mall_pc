@@ -16,20 +16,20 @@
               <thead>
                   <tr><th class="left">订单详情</th><th class="left" width='100'>收货人</th><th class="left" width='100'>金额</th><th class="left" width='200'>状态</th></tr>
               </thead>
-                <tbody v-for="(x,index) in cartList" :key="index">
-                  <tr class="C_trth"><td ><span class="createTime">下单时间{{x.order.createTime}}</span> <span>订单号：{{x.order.orderNo}}</span> 
-                      <span>快递公司：摄魂风</span> <span> 快递单号：{{x.order.expressNo}}</span><span> 发货日期：{{x.order.deliverTime}}</span>
+                <tbody>
+                  <tr class="C_trth"><td ><span class="createTime">1018-05-20 00:00:00</span> <span>订单号：2012121243545645</span> 
+                      <span>快递公司：摄魂风</span> <span> 快递单号：4546544521321531</span><span> 发货日期：0.0.212121</span>
                   </td><td></td><td></td><td></td><td><i></i></td></tr>
-                  <tr class="C_trbd" v-for="(child,i) in x.orderItems" :key="i">
+                  <tr class="C_trbd">
                       <td>
-                          <div >
-                              <div class="fl tr_img"><a href="#"><img :src="child.productItemImg | imgfilter" alt=""></a></div>
+                          <div>
+                              <div class="fl tr_img"><a href="#"><img src="../../../assets/img/a1.png" alt=""></a></div>
                               <div class=" fl tr_imginfo">
-                                  <h3>{{child.productTitle}}</h3>
-                                <span>{{child.productAttrs}}</span>
+                                  <h3>DX定制男士套头卫衣1631S08-DX</h3>
+                                <span>颜色:DX定制外套<br>尺码:165</span>
                               </div>
                               <div class="tr_QTY fl ">
-                                  x {{child.quantity}}
+                                  x2
                               </div>
                           </div>
                         </td>
@@ -41,13 +41,79 @@
                             </div>
                         </td>
                           <td>
-                              ￥{{child.orderFee}}<br></td>
+                              ￥100.00<br></td>
                           <td class="orderStatus">
-                           {{statusfilter(x.order.orderStatus)}}<p></p>
-                            <div class="C_buyNow" v-if="x.order.orderStatus=='01'">
-                            <a   @click="quzhifu(x.order.orderNo)">立即支付</a>
+                           待付款<p></p>
+                            <div class="C_buyNow">
+                            <a  href="">立即支付</a>
                             <a  id="${result.order_no}" href="javascript:void(0);" class="cancelOrder">取消订单</a>  
                             </div>
+                          </td>  
+                  </tr>
+                </tbody>
+                                <tbody>
+                  <tr class="C_trth"><td ><span class="createTime">1018-05-20 00:00:00</span> <span>订单号：2012121243545645</span> 
+                      <span>快递公司：摄魂风</span> <span> 快递单号：4546544521321531</span><span> 发货日期：0.0.212121</span>
+                  </td><td></td><td></td><td></td><td><i></i></td></tr>
+                  <tr class="C_trbd">
+                      <td>
+                          <div>
+                              <div class="fl tr_img"><a href="#"><img src="../../../assets/img/a1.png" alt=""></a></div>
+                              <div class=" fl tr_imginfo">
+                                  <h3>DX定制男士套头卫衣1631S08-DX</h3>
+                                <span>颜色:DX定制外套<br>尺码:165</span>
+                              </div>
+                              <div class="tr_QTY fl ">
+                                  x2
+                              </div>
+                          </div>
+                        </td>
+                        <td>
+                            <div class="C_infocontect">
+                            <span class="C_infoName">
+                              的速度
+                            </span><b></b>                      
+                            </div>
+                        </td>
+                          <td>
+                              ￥100.00<p></p></td>
+                          <td class="orderStatus">
+                           待付款<p>
+                            <div class="C_buyNow">
+                            <a  href="">立即支付</a>
+                            <a  id="${result.order_no}" href="javascript:void(0);" class="cancelOrder">取消订单</a>  
+                            </div>
+                          </td>  
+                  </tr>
+                </tbody>
+                                <tbody>
+                  <tr class="C_trth"><td ><span class="createTime">1018-05-20 00:00:00</span> <span>订单号：2012121243545645</span> 
+                      <span>快递公司：摄魂风</span> <span> 快递单号：4546544521321531</span><span> 发货日期：0.0.212121</span>
+                  </td><td></td><td></td><td></td><td><i></i></td></tr>
+                  <tr class="C_trbd">
+                      <td>
+                          <div>
+                              <div class="fl tr_img"><a href="#"><img src="../../../assets/img/a1.png" alt=""></a></div>
+                              <div class=" fl tr_imginfo">
+                                  <h3>DX定制男士套头卫衣1631S08-DX</h3>
+                                <span>颜色:DX定制外套<br>尺码:165</span>
+                              </div>
+                              <div class="tr_QTY fl ">
+                                  x2
+                              </div>
+                          </div>
+                        </td>
+                        <td>
+                            <div class="C_infocontect">
+                            <span class="C_infoName">
+                              的速度
+                            </span><b></b>                      
+                            </div>
+                        </td>
+                          <td>
+                              ￥100.00<p></p></td>
+                          <td class="orderStatus">
+                           已取消
                           </td>  
                   </tr>
                 </tbody>
@@ -60,57 +126,25 @@
 
 <script>
 export default {
-    data() {
-    	 const temp=[] ;
+    data () {
       return {
-        cartList:[],
-       statusList:[]
-    	}
-   	 },
+        name: ''
+      }
+    },
     methods: {
-    	quzhifu(value){
-    		this.$router.push({name:'/cartthree',params:{orderNo:value}});  
-    	},
-    	statusfilter(value){
-    			for(var i = 0 ;i < this.statusList.length;i++){
-					if(this.statusList[i].key == value){
-						return this.statusList[i].value;
-					}
-				}
-    	},
-		seeDetail(value){
-			this.$router.push({name:'/order/detail',params:{orderNo:value}});  
-		},
-    	getStatusEnum(){
-    			this.$axios({
-						    method: 'get',
-						    url:'/order/enums',
-						}).then((res)=>{
-							if(res.code=='200'){
-                console.log(res)
-                alert(JSON.stringify(res))
-							this.statusList = res.object;
-							}
-						
-						});
-    	},
-	      getOrder(){
-	      			this.$axios({
-						    method: 'get',
-						    url:'/order/list',
-						}).then((res)=>{
-							if(res.code=='200'){
-                                console.log(res)
-                alert(JSON.stringify(res))
-								this.cartList= res.object;
-							}
-							
-						});
-	     	 }
-	    },
-         mounted() {
-				this.getOrder();
-				this.getStatusEnum();
+      getParams () {
+        // 取到路由带过来的参数 
+        let routerParams = this.$route.query.tabname
+        // 将数据放在当前组件的数据内
+        this.name = routerParams
+      }
+    },
+    watch: {
+    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+      '$route': 'getParams'
+    },
+    mounted() {
+			this.getParams();
 		}
   }
 </script>

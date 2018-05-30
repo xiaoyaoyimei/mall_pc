@@ -95,20 +95,33 @@
                         width: 150,
                         align: 'center',
                         render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
-                                    }
-                                }, '设为默认'),
-                                h('Button', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
-                                    }
-                                }, '删除')
-                            ]);
+                            if(params.row.isDefault == "N"){
+                                return h('div', [
+                                    h('Button', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.show(params.index)
+                                                }
+                                            }
+                                    }, '设为默认'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.remove(params.index)
+                                                }
+                                            }
+                                    }, '删除')
+                                ]);
+                            }
+                            
                         }
                     }
                 ],
@@ -129,7 +142,24 @@
 		},
        methods:{
             remove (index) {
-                this.addressList.splice(index, 1);
+                let value = this.addressList[index].id;
+                this.$Modal.confirm({
+                    title: '确认删除',
+                    content: '<p>确认删除该地址</p>',
+                    onOk: () => {
+                         	this.$axios({
+							    method: 'post',
+							    url:'/address/delete?id='+value+'',
+							}).then((res)=>{
+								if(res.code=='200'){
+									this.getAddressList();
+								}
+						})
+                    },
+                    onCancel: () => {
+                        this.$Message.info('取消删除');
+                    }
+                });
             },
             getAddressOption(){
                 this.$axios({
@@ -144,16 +174,18 @@
 						    method: 'post',
 						    url:'/address',
 						}).then((res)=>{
-							 this.addressList=res;
-							for(let i=0;i<this.addressList.length;i++){
-								if(this.addressList[i].isDefault=='N'){
-									this.addressList[i].isDefault=false;
-								}else{
-									this.addressList[i].isDefault=true;
-								}
-							}
+                             this.addressList=res;
 						});
-       	   },
+              },
+              show(index){
+                    let value = this.addressList[index].id;
+                  this.$axios({
+						    method: 'post',
+						    url:'/address/updateDefault?id='+value+'&isDefault=Y',
+						}).then((res)=>{
+								this.getAddressList();
+						})
+              },
        	   chooseDD(value){
        	   	 let fromc = localStorage.getItem('fromc');
        	   	   if(fromc!=undefined){
@@ -182,8 +214,6 @@
 							    url:'/address/insert',
 							    data:para,
 								}).then((res)=>{
-                                    console.log("*****************************")
-                                    console.log(res)
 									if(res.code=='200'){
 							        this.$Message.success('提交成功');
 									this.$refs['formCustom'].resetFields();
@@ -202,40 +232,9 @@
                 })
             },
             handleReset (name) {
-                debugger;
-                 console.log(name)
-                 console.log(this.$refs)
-                console.log(this.$refs[name])
                 this.$refs[name].resetFields();
             },
-       	   updateDefault(value){
-       	   	this.$axios({
-						    method: 'post',
-						    url:'/address/updateDefault?id='+value+'&isDefault=Y',
-						}).then((res)=>{
-								this.getAddressList();
-						})
-       	   },
-       	   handleDelete(value){
-       	   	   this.$Modal.confirm({
-                    title: '确认删除',
-                    content: '<p>确认删除该地址</p>',
-                    onOk: () => {
-                         	this.$axios({
-							    method: 'post',
-							    url:'/address/delete?id='+value+'',
-							}).then((res)=>{
-								if(res.code=='200'){
-									this.getAddressList();
-								}
-						})
-                    },
-                    onCancel: () => {
-                        this.$Message.info('取消删除');
-                    }
-                });
-       	   		
-       	   }
+
 	      },
 	      mounted(){
               this.getAddressList();

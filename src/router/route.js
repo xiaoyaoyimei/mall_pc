@@ -20,6 +20,16 @@ let routes =  [
 						path: '/cart',
 						component:resolve => require(['@/views/pages/cart/CartOne.vue'], resolve),
 					},
+					{
+						name:'新品频道',
+						path: '/newchannel',
+						component:resolve => require(['@/views/pages/NewChannel.vue'], resolve),
+					},
+					{
+						name:'/typesort',
+						path: '/typesort',
+						component:resolve => require(['@/views/pages/TypeSort.vue'], resolve),
+					},
 						{
 						name:'用户中心',
 						meta:{requireAuth:true},

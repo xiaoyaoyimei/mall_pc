@@ -234,7 +234,7 @@
 				title:'',
 				value11: '',
                 value12: '',
-                totalSize:'',
+                totalSize:1,
                 ha2:false,
                 hidden:false,
                 hidden1:false,
@@ -269,7 +269,6 @@
 					method: 'GET',
 					url:'/product/search?keyword='+this.value11+'&startRow='+this.startRow+'&pageSize='+this.pageSize,
 				}).then((res)=>{
-                    console.log(res)
 					this.productList = res.itemsList;
 					this.totalSize=res.total;
 				})
@@ -344,13 +343,6 @@
 		 mounted(){
 		   this.getList();
           },
-          vuex:{
-              getters:{
-                  keyword:function(state){
-                      return state.keyword
-                  }
-              }
-          }
     }
 </script>
 

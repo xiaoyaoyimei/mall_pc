@@ -41,7 +41,7 @@
             <!-- E 购物车-->
 
             <!-- S 未登陆 -->
-            <div class="opt opt_user opt_user_login_fail" id="unloginStatus" @mouseenter="enter1" style="display: block;">
+            <div class="opt opt_user opt_user_login_fail" id="unloginStatus" @mouseenter="enter1" :class="{loginflag:loginflag}">
                 <i class="icon_opt icon_user_main"></i>
                 <!--<i class="icon_atom icon_user_point_new"></i>-->
                 <span class="user_login_name">登录</span>
@@ -55,7 +55,7 @@
             <!-- E 未登陆 -->
 
             <!-- S 登陆成功-->
-            <div class="opt opt_user opt_user_login_success js_opt_user_login_success">
+            <div class="opt opt_user opt_user_login_success js_opt_user_login_success" @mouseenter="enter1" :class="{loginflag:!loginflag}">
                 <!--默认头像-->
                 <i class="icon_opt icon_user_main"></i>
                 <!--实际头像-->
@@ -63,17 +63,17 @@
                 <!--<i class="icon_atom icon_user_point_new" id="dot" style="display: nonex;"></i>-->
                 <i class="icon_atom icon_user_point_new js_act_dot" id="dot"></i>
                 <!--用户名，优先昵称，再手机，最后是亲爱的美的用户-->
-                <span class="user_login_name js_user_login_name"></span>
+                <span class="user_login_name js_user_login_name">{{loginuserid}}</span>
                 <!--下拉箭头-->
                 <!--<i class="icon_opt icon_arrow_show"></i>-->
                 <!--下面三角形-->
                 <!--<i class="icon_opt icon_arrow_link"></i>-->
             </div>
 
-            <div class="opt opt_user opt_enterprise_user_login_success js_opt_enterprise_user_login_success">
-                <i class="icon_opt icon_user_main"></i>
-                <img class="user_login_img js_user_login_img" src="" alt="用户头像" width="20" height="20">
-                <span class="user_login_name js_user_login_name"></span>
+            <div class="opt opt_user opt_enterprise_user_login_success js_opt_enterprise_user_login_success" @mouseenter="enter1">
+               {{loginflag}} <i class="icon_opt icon_user_main"></i>
+                <img class="user_login_img js_user_login_img" src=""  width="20" height="20">
+                <span class="user_login_name js_user_login_name" >{{loginuserid}}</span>
             </div>
             <!-- E 登陆成功-->
 
@@ -96,7 +96,7 @@
         
         <!-- E 运营活动项 -->
         <div class="row row_my_order">
-            <a href="#/user/orderlist" target="_blank">
+            <a href="#/user/orderlist">
                 <i class="icon_atom icon_my_order"></i>
                 <span class="fn">我的订单</span>
             </a>
@@ -120,13 +120,13 @@
             </a>
         </div> -->
         <div class="row row_address">
-            <a href="#/user/address" target="_blank">
+            <a href="#/user/address" >
                 <i class="icon_atom icon_address"></i>
                 <span class="fn">地址管理</span>
             </a>
         </div>
         <div class="row row_account row_last">
-            <a href="#/user/myinfo" target="_blank">
+            <a href="#/user/myinfo">
                 <i class="icon icon_account"></i>
                 <span class="fn">账户设置</span>
             </a>
@@ -141,20 +141,20 @@
     <!-- S 购物车顶部导航弹窗 -->
     <div class="common_cart_wrap" :class="{hidden1:hidden1}" style="right: 86px;">
         <!-- S 购物车未登录 -->
-        <div class="common_cart_login" >
+        <div class="common_cart_login"  :class="{loginflag:loginflag}" >
             立即<a href="#/login">登录</a>，查看购物车商品
         </div>
         <!-- E 购物车未登录 -->
 
         <!-- S 购物车无商品 -->
-        <div class="common_cart_nothing">
+        <div class="common_cart_nothing" :class="{loginflag:!loginflag}">
             <div class="icon_opt icon_cart_middle"></div>
             购物车中还没有商品，赶紧选购吧！
         </div>
         <!-- E 购物车无商品 -->
 
         <!-- S 购物车有商品 -->
-        <div class="common_cart_something">
+        <div class="common_cart_something" :class="{loginflag:!loginflag}">
             <ul class="common_cart_list js_common_cart_list">
             </ul>
             <div class="common_cart_bottom">
@@ -182,11 +182,24 @@
                   hidden1:false,
                   hidden2:false,
                   opt_search_hover:false,
+                  loginflag:true,
+                  loginuserid:'hello'
 
             }
         },
 		methods:{
-
+            isLogin(){
+                if(localStorage.getItem("token")!=undefined&&localStorage.getItem("token")!=""){
+	      				this.$axios({
+					    method: 'post',
+					    url:'/account',
+					}).then((res)=>{
+                        this.loginflag=false;
+                        this.loginuserid = localStorage.getItem("userId") ;
+                        console.log(localStorage.getItem("token"))
+					});
+    	     	 }
+            },
 			ha(){
 				alert(this.ha2)
 				this.ha2 = false;
@@ -200,11 +213,6 @@
             },
             changeCount(){
                  this.opt_search_hover=false;
-            },
-            goList(){
-                console.log(this.value11)
-               let  keyword = this.value11
-               this.update(keyword)
             },
             enter(){
                 this.hidden1 =true;
@@ -228,13 +236,9 @@
             },
     	    
         },
-        vuex:{
-            actions:{
-                update:function({dispatch},keyword){
-                    dispatch("UPDATE",keyword)
-                }
-            }
-        }
+  		mounted(){
+			this.isLogin();
+		}
     }
 </script>
 
@@ -422,9 +426,11 @@
     color: #fff;
     margin: 11px 0 0 5px;
 }
-.opt_user_login_fail {
+.opt_user_login_fail , .opt_user_login_success{
     width: 86px;
+    display: none;
 }
+
 .header .opt_wrap .icon_user_main {
     float: left;
     width: 20px;
@@ -691,6 +697,24 @@
     margin: 0 6px 0 16px;
     position: relative;
     top: 4px;
+}
+.loginflag{
+    display: block!important;
+}
+.header .opt_wrap .opt_user_login_success .user_login_name, .header .opt_wrap .opt_enterprise_user_login_success .user_login_name {
+    max-width: 120px;
+    overflow: hidden;
+}
+.header .opt_wrap .user_login_name {
+    display: block;
+    float: left;
+    margin-left: 2px;
+    cursor: pointer;
+    line-height: 44px;
+    color: #fff;
+}
+.header .common_cart_wrap .common_cart_login{
+    display: none;
 }
 </style>
 <style>

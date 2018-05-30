@@ -83,7 +83,7 @@
        }
 </script>
 
-<style scoped="scoped" lang="scss">
+<style lang="scss">
 
 </style>
 <style>

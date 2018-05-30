@@ -1,29 +1,14 @@
 <template>
 <div>
 	<div class="sortDetail">
-		<!-- <Carousel
-            v-model="value3"
-            :autoplay="setting.autoplay"
-            :autoplay-speed="setting.autoplaySpeed"
-            :dots="setting.dots"
-            :radius-dot="setting.radiusDot"
-            :trigger="setting.trigger"
-            :arrow="setting.arrow">
-                <CarouselItem>
-                        <div class="demo-carousel"><img-zoom src="/static/img/banner.d911d6a.jpg" width="450" height="250" bigsrc="/static/img/banner.d911d6a.jpg" :configs="configs"></img-zoom></div>
-                </CarouselItem>
-                <CarouselItem>
-                        <div class="demo-carousel"><img-zoom src="/static/img/banner1.2e50723.jpg" width="450" height="250" bigsrc="/static/img/banner1.2e50723.jpg" :configs="configs"></img-zoom></div>
-                </CarouselItem>
-    	</Carousel> -->
         <Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots"
             :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow">
-              <CarouselItem>
+            <CarouselItem>
               	  <iframe style="width:400px;height:400px" ref="video" frameborder=0 allowfullscreen></iframe>  
-              </CarouselItem>
-                <CarouselItem v-for="(item, index) in shangp.productImageList"  :key="index">
-                        <div class="demo-carousel" ><img-zoom :src="item.listImg |imgfilter"  width="450" :bigsrc="item.listImg |imgfilter" :configs="configs"></img-zoom></div>
-                </CarouselItem>
+            </CarouselItem> 
+            <CarouselItem v-for="(item, index) in shangp.productImageList"  :key="index">
+                    <div class="demo-carousel" ><img-zoom :src="item.listImg |imgfilter"  width="450" :bigsrc="item.originImg | imgfilter" :configs="configs"></img-zoom></div>
+            </CarouselItem>
     	</Carousel>
         <div class="delie">
             <div class="G_info hidden">
@@ -31,7 +16,7 @@
                             <p>迪锐克斯DXRACER R011蓝黑色单件</p>
                             <div class="G_changeDetail">
                                 <input id="product_id" name="product_id" value="173" type="hidden">
-                                <p><span class="G_left"> 零售价：&nbsp;</span> <span class="G_right" style="">￥<b>{{shangp.product.salePrice | pricefilter}}</b>  </span></p>
+                                <p><span class="G_left"> 零售价：&nbsp;</span> <span class="G_right" style=""><b>{{shangp.product.salePrice | pricefilter}}</b>  </span></p>
                                 <input value="29" id="hidden_inventory" type="hidden">
                                 
                                 <div class="G_MEAS">
@@ -70,7 +55,7 @@
         </div>
        <Tabs class="spjs">
         <TabPane label="商品介绍">
-        	<ul><li class="center" v-for="(item, index) in productimg"  :key="index"><img :src="item.imgUrl |imgfilter"></li></ul>
+        	<ul><li class="center1" v-for="(item, index) in productimg"  :key="index"><img :src="item.imgUrl |imgfilter"></li></ul>
         </TabPane>
         <TabPane label="规格参数" >
         		<ul class="gk">
@@ -123,6 +108,14 @@ import imgZoom from 'vue2.0-zoom'
                     radiusDot: false,
                     trigger: 'click',
                     arrow: 'hover'
+                },
+                configs: {
+                    width:650,
+                    height:300,
+                    maskWidth:100,
+                    maskHeight:100,
+                    maskColor:'red',
+                    maskOpacity:0.2
                 },
             }
         },
@@ -295,7 +288,7 @@ import imgZoom from 'vue2.0-zoom'
         position: relative;
         .ivu-carousel{
             width: 400px;
-            height: 500px;
+            height: 400px;
             display: inline-block;
         }
         .delie{
@@ -433,14 +426,19 @@ import imgZoom from 'vue2.0-zoom'
     cursor: pointer;
     line-height: 30px;
 }
-.center{
+.center1{
     text-align: center;
     img{
         width: 100%;
     }
 }
 .gk{
-    
+    overflow: hidden;
+    li{
+        float: left;
+        width: 33.33%;
+        text-align: center;
+    }
 }
 .sortDetail .G_info .G_changeDetail .G_changeQTY #G_QTY {
     width: 42px;

@@ -83,7 +83,7 @@
        }
 </script>
 
-<style scoped="scoped" lang="scss">
+<style>
 .zhifu{
 	width: 100%;
 	max-width: 1100px;

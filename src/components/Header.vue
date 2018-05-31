@@ -430,7 +430,6 @@
     width: 86px;
     display: none;
 }
-
 .header .opt_wrap .icon_user_main {
     float: left;
     width: 20px;

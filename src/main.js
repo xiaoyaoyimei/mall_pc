@@ -7,25 +7,27 @@ import routes from '@/router/route'
 import store from '@/store/store'
 import iView from 'iview';
 import axios from 'axios';
+import 'iview/dist/styles/iview.css';
 import '@/my-theme/index.less'
 import moment from 'moment/moment'
 import fang_ from '@/assets/js/user.js'
+import imgZoom from 'vue2.0-zoom'
 //设置全局变量
 import global_ from '@/base/baseParam';
-Vue.config.productionTip = false
-Vue.use(VueRouter)
-Vue.use(iView);
-Vue.prototype.global_=global_;
-Vue.prototype.$axios = axios;
-Vue.prototype.fang_ = fang_;
+
 // 导入所有的过滤器变量
 import * as custom from '@/base/basefilters/'
 // 导出的是对象，可以直接通过key和value来获得过滤器的名和过滤器的方法
 Object.keys(custom).forEach(key => {
     Vue.filter(key, custom[key])
 })
+Vue.config.productionTip = false
+Vue.use(VueRouter)
+Vue.use(iView);
+Vue.prototype.global_=global_;
+Vue.prototype.$axios = axios;
+Vue.prototype.fang_ = fang_;
 //window.setInterval(fang_.login(app),3000);
-
 //判断是否登录
 //let sendBtnTimer = setInterval(changeSendBtn,5000)
 function changeSendBtn() {
@@ -41,7 +43,7 @@ function changeSendBtn() {
 		              } else {
 					        this.$Message.success('登录成功');
 							let data = res.data;  
-							//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  
+							//根据store中set_token方法将token保存至localStorage/localStorage中，data["Authentication-Token"]，获取token的value值  
 							this.$store.commit('set_token',{token:data.object["token"],userId:data.object["userId"]});  
 //							 ...mapMutations({
 //   							 'set_token',{token:data.object["token"]} // 将 `this.add()` 映射为 `this.$store.commit('increment')`
@@ -67,30 +69,23 @@ store.commit('set_token',{token: localStorage.getItem('token'),userId:localStora
 const router = new VueRouter({  
 routes  
 });  
-router.beforeEach((to, from, next) => { 
+  
+router.beforeEach((to, from, next) => {  
 		if (to.matched.some(r => r.meta.requireAuth)) { 
-			if (store.state.token!==null&&store.state.token!==undefined&&store.state.token!=="") {  
+			if (store.state.token) {  
 			next();  
 			}  
 			else {  
-				next({  
-						path: '/login',  
-						query: {redirect: to.fullPath}  
-				})  
+			next({  
+					path: '/login',  
+					query: {redirect: to.fullPath}  
+			})  
 			}  
 		}  
 		else {  
 		next();  
 		}  
 }) 
-/* eslint-disable no-new */
-var app =new Vue({
-  el: '#app',
-  router,
-  store,//使用store
-  components: { App },
-  template: '<App/>'
-})
 //设置拦截器
 axios.defaults.baseURL = 'http://10.0.0.2:8081/mall/pc/';
 // axios.defaults.baseURL = 'http://test-shop.dxracer.com.cn:8084/mall/pc/';
@@ -101,40 +96,36 @@ if(store.state.token){
  	config.headers['token'] = store.state.token;
 	config.headers['loginUserId']=store.state.userId  
 }  
-else{
-}
+  
 return config;  
 }, error => {  
-	console.log(error.response);
 // 对请求错误做些什么  
 return Promise.reject(error);  
 });  
   
 // http response 拦截器  
 axios.interceptors.response.use(  
-response => { 
-    // token 已过期，重定向到登录页面  
-    if (response.data.code == '401'){  
-        localStorage.clear()  
-        router.replace({  
-                        path: '/login',  
-                        query: {redirect: router.currentRoute.fullPath}  
-                    })  
-    }  
-    return response.data
+response => {  
+return response.data;  
 },  
 error => {  
-	console.log(error.response);
 if (error.response) {  
 		switch (error.response.status) {  
-		case 401: 
-		this.$store.commit('del_token');
+		case 401:  
+		this.$store.commit('del_token');  
 		router.replace({  
 		path: '/login',  
 		query: {redirect: router.currentRoute.fullPath}//登录成功后跳入浏览的当前页面  
-		});
+		})  
 }  
 }  
-return Promise.reject(error)  
+return Promise.reject(error.response.data)  
 }); 
-
+/* eslint-disable no-new */
+var app =new Vue({
+  el: '#app',
+  router,
+  store,//使用store
+  components: { App },
+  template: '<App/>'
+})

@@ -269,6 +269,7 @@
 					method: 'GET',
 					url:'/product/search?keyword='+this.value11+'&startRow='+this.startRow+'&pageSize='+this.pageSize,
 				}).then((res)=>{
+                    console.log(res)
 					this.productList = res.itemsList;
 					this.totalSize=res.total;
 				})

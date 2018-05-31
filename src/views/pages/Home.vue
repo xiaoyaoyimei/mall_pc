@@ -379,7 +379,7 @@
     margin: 0 auto;
     overflow: hidden;
 }
-.ivu-carousel-arrow.left {
+.index .ivu-carousel-arrow.left {
     left: 226px;
 }
  .side_nav_wrap {

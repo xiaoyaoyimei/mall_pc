@@ -1,64 +1,51 @@
 <template>
-	<div class="order">
-    <h4 class="C_deListTit">我的订单</h4>
-    <div class="C_orderList">
-        <div class="C_ot clearfix">
-            <ul>
-                <li><a href="javascript:void(0);" class="a_order_status active">全部订单</a></li>
-                <li><a href="javascript:void(0);" class="a_order_status">待付款</a></li>
-                <li><a href="javascript:void(0);" class="a_order_status">已付款</a></li>
-                <li><a href="javascript:void(0);" class="a_order_status">已发货</a></li>
-            </ul>
-            <div class="C_otR fr"><input type="text" placeholder="订单号" id="order_no"><a href="javascript:void(0);" class="a_order_no"><i></i></a></div>
-        </div>
-        <div class="c_oc clearfix content">
-            <table>
+        <div>
+            <table class="order-tb">
               <thead>
-                  <tr><th class="left">订单详情</th><th class="left" width='100'>收货人</th><th class="left" width='100'>金额</th><th class="left" width='200'>状态</th></tr>
+                  <tr>
+                  	<th >商品</th>
+                  	<th width='100'>单价</th>
+                  	<th  width='100'>数量</th>
+                  	<th width='200'>状态</th>
+                   <th  width='100'>操作</th></tr>
               </thead>
                 <tbody v-for="(x,index) in cartList" :key="index">
-                  <tr class="C_trth"><td ><span class="createTime">下单时间{{x.order.createTime}}</span> <span>订单号：{{x.order.orderNo}}</span> 
-                      <span>快递公司：摄魂风</span> <span> 快递单号：{{x.order.expressNo}}</span><span> 发货日期：{{x.order.deliverTime}}</span>
-                  </td><td></td><td></td><td></td><td><i></i></td></tr>
-                  <tr class="C_trbd" v-for="(child,i) in x.orderItems" :key="i">
+                  <tr class="hidden_border">
+                  	<td  colspan="5">
+                  		<span>订单号：{{x.order.orderNo}}</span><span class="date">{{x.order.createTime | formatDate}}</span>  
+                  </td>
+                  </tr>
+                  <tr  v-for="(child,i) in x.orderItems" :key="i">
                       <td>
-                          <div >
-                              <div class="fl tr_img"><a href="#"><img :src="child.productItemImg | imgfilter" alt=""></a></div>
-                              <div class=" fl tr_imginfo">
-                                  <h3>{{child.productTitle}}</h3>
-                                <span>{{child.productAttrs}}</span>
+                              <div class="goods_pic">
+                              	<a href="javascript:void(0)"><img :src="child.productItemImg | imgfilter" alt=""></a>
+                                 <div class="goods_title"> <p >{{child.productTitle}}</p>
+                                <p>{{child.productAttrs}}</p>
+                                </div>
                               </div>
-                              <div class="tr_QTY fl ">
-                                  x {{child.quantity}}
-                              </div>
-                          </div>
                         </td>
-                        <td>
-                            <div class="C_infocontect">
-                            <span class="C_infoName">
-                              的速度
-                            </span><b></b>                      
-                            </div>
-                        </td>
-                          <td>
-                              ￥{{child.orderFee}}<br></td>
-                          <td class="orderStatus">
-                           {{statusfilter(x.order.orderStatus)}}<p></p>
-                            <div class="C_buyNow" v-if="x.order.orderStatus=='01'">
+                        <td> {{child.quantity}}</td>
+                          <td> ￥{{child.orderFee}}</td>
+                          <td>  {{statusfilter(x.order.orderStatus)}}
+                          	<br/>
+                          	<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情</router-link>
+                          </td>
+                          <td >
+                         
+                            <div  v-if="x.order.orderStatus=='01'">
                             <a   @click="quzhifu(x.order.orderNo)">立即支付</a>
-                            <a  id="${result.order_no}" href="javascript:void(0);" class="cancelOrder">取消订单</a>  
+                            <a  id="${result.order_no}" href="javascript:void(0);" >取消订单</a>  
                             </div>
                           </td>  
+                          
                   </tr>
                 </tbody>
             </table>
         </div>
-
-    </div>
-  </div>
 </template>
 
 <script>
+	import { formatDate } from '@/assets/js/date.js'
 export default {
     data() {
     	 const temp=[] ;
@@ -67,9 +54,15 @@ export default {
        statusList:[]
     	}
    	 },
+   	     filters: {
+    formatDate(time) {
+    var date = new Date(time);
+    return formatDate(date, 'yyyy-MM-dd hh:mm');
+   }
+},
     methods: {
     	quzhifu(value){
-    		this.$router.push({name:'/cartthree',params:{orderNo:value}});  
+    		this.$router.push({name:'/cartthree',query:{orderNo:value}});  
     	},
     	statusfilter(value){
     			for(var i = 0 ;i < this.statusList.length;i++){
@@ -112,194 +105,56 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-.C_deListTit {
-    border-bottom: 1px solid #e7e7e7;
-    line-height: 36px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    font-weight: 900;
-    max-width: 1100px;
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
 }
-.left{
-  text-align:left;
-}
-.C_ot ul {
-  float: left;
-}
-.C_ot ul li {
-  float: left;
-  padding-right: 20px;
-}
-.C_ot .C_otR input {
-  float: left;
-  width: 158px;
-  height: 23px;
-  line-height: 18px;
-  padding: 2px 5px 3px;
-  border: 1px solid #ccc;
-}
-.C_ot .C_otR a {
-  position: relative;
-  float: left;
-  width: 52px;
-  height: 23px;
-  line-height: 99em;
-  overflow: hidden;
-  border: 1px solid #ddd;
-  border-left: 0;
-  text-align: center;
-  background-color: #f7f7f7;
-}
-.C_ot .C_otR a i {
-  position: absolute;
-  left: 17px;
-  top: 3px;
-  display: inline-block;
-  vertical-align: middle;
-  width: 18px;
-  height: 16px;
-  overflow: hidden;
-  background: url(../../../assets/img/spring1.png) no-repeat -150px -42px;
-}
-.c_oc table thead {
-  line-height: 36px;
-}
-.c_oc table tbody .C_trbd img {
-  width: 60px;
-  height: 60px;
-  margin: 0 14px;
-}
-.clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
-.clearfix { *zoom:1; }
-.fr{
-    float: right;
-}
-.fl{
-    float: left;
-}
-.order{
-  max-width: 1100px;
-  width:100%;
-  margin: 0 auto;
-  min-height:900px;
-}
-</style>
-<style>
-.C_main .C_info .C_detail > ul > li ul > li{
-  line-height: 26px;
-}
-.active{
-  border-bottom: 2px solid rgb(228, 57, 60);
-}
-a{
-  color: #555;
-}
-.c_oc table thead {
-  line-height: 36px;
-}
-.c_oc table tbody .C_trbd img {
-  width: 60px;
-  height: 60px;
-  margin: 0 14px;
-}
-.icon_cancel {
-  position: relative;
-}
-.icon_cancel i {
-  position: absolute;
-  left: 38px;
-  top: 6px;
-  display: none;
-  width: 18px;
-  height: 16px;
-  background: url(../../../assets/img/spring1.png) no-repeat -150px -90px;
-}
-.icon_cancel i:hover {
-  position: absolute;
-  left: 38px;
-  top: 6px;
-  display: none;
-  width: 18px;
-  height: 16px;
-  background: url(../../../assets/img/spring1.png) no-repeat -148px -70px;
-  cursor: pointer;
-}
-.tr_imginfo {
-  line-height: 18px;
-  overflow: hidden;
-  color: #333;
-  text-align: left;
-  width: 240px;
-  margin-right: 34px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.tr_imginfo h3{
-	font-size:14px;
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
+.order-tb thead{
+	    border: 1px solid #e9e9e9;
+    background-color: #fafafa;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    line-height: 40px;
+    height: 40px;
 }
 
-.tr_QTY {
-  line-height: 60px;
-  margin: 0 40px;
+    .goods_pic a{
+    	display: block;
+    	float: left;
+    }
+    .goods_pic img{
+    width: 120px;
+    box-sizing: border-box;
+    }
+    .order-tb tbody {
+    color: #333;
+    background-color: #fff;
+    text-align: center;
 }
-.C_infocontect {
-  position: relative;
+ .order-tb tbody  td{
+ 	border: 1px solid #e9e9e9;
+ 	padding:  20px;
+ }
+  .order-tb tbody .hidden_border{
+    height: 40px;
+    vertical-align: middle;
+    border: 1px solid #e9e9e9;
+    background-color: #fff;
+    color: #333;
+    font-size: 12px;
+    position: relative;
+    text-align: left;
+    }
+      .order-tb tbody .hidden_border td{
+      	   padding: 0 20px 0 20px;
+      }
+.goods_title{
+	float: left;
+	width:300px;
+	text-align: left;
 }
-.hideInfo {
-  position: absolute;
-  z-index: 1;
-  width: 220px;
-  right: 46px;
-  top: -32px;
-  padding: 15px 20px;
-  display: none;
-  color: #666;
-  line-height: 22px;
-  background: #f7f7f7;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 2px 2px #eee;
-}
-.hideInfo div {
-  right: 39px;
-  top: -32px;
-  position: absolute;
-  right: -10px;
-  top: 32px;
-  z-index: 100;
-  width: 11px;
-  height: 20px;
-  background: #fff url(../../../assets/img/spring1.png) no-repeat -152px -117px;
-}
-.hideInfo:hover {
-  display: inline-block;
-}
-.C_trth {
-  line-height: 26px;
-  background: #e7e7e7;
-}
-.C_trbd td {
-  height: 60px;
-  padding: 14px 14px 14px 0 ;
-}
-.C_buyNow {
-  padding-right: 0 !important;
-}
-.C_buyNow a {
-  display: inline-block;
-  padding: 2px 0 3px;
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  color: #333;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  width: 76px;
-  text-align: center;
-}
-.createTime {
-  margin-right: 10px;
+.date{
+	margin-left:10px ;
 }
 </style>

@@ -41,7 +41,7 @@
             <!-- E 购物车-->
 
             <!-- S 未登陆 -->
-            <div class="opt opt_user opt_user_login_fail" id="unloginStatus" @mouseenter="enter1" :class="{loginflag:loginflag}">
+            <div class="opt opt_user opt_user_login_fail" id="unloginStatus" @mouseenter="enter1" :class="{loginflag:loginflag}" @click="gotologin">
                 <i class="icon_opt icon_user_main"></i>
                 <!--<i class="icon_atom icon_user_point_new"></i>-->
                 <span class="user_login_name">登录</span>
@@ -55,7 +55,7 @@
             <!-- E 未登陆 -->
 
             <!-- S 登陆成功-->
-            <div class="opt opt_user opt_user_login_success js_opt_user_login_success" @mouseenter="enter1" :class="{loginflag:!loginflag}">
+            <div class="opt opt_user opt_user_login_success js_opt_user_login_success" @mouseenter="enter1" :class="{loginflag:!loginflag}" @click="gotouser">
                 <!--默认头像-->
                 <i class="icon_opt icon_user_main"></i>
                 <!--实际头像-->
@@ -101,24 +101,6 @@
                 <span class="fn">我的订单</span>
             </a>
         </div>
-        <!-- <div class="row row_my_coupon">
-            <a href="https://www.midea.cn/coupon/get_coupon_list?mtag=30001.1.27" target="_blank">
-                <i class="icon_atom icon_my_coupon"></i>
-                <span class="fn">我的优惠券</span>
-            </a>
-        </div>
-        <div class="row row_my_score">
-            <a href="https://www.midea.cn/my/score_welfare?mtag=30001.1.25" target="_blank">
-                <i class="icon_atom icon_my_score"></i>
-                <span class="fn">会员福利社</span>
-            </a>
-        </div>
-        <div class="row row_my_collect">
-            <a href="https://www.midea.cn/my/collect/index?mtag=30001.1.26" target="_blank" >
-                <i class="icon_atom icon_my_collect"></i>
-                <span class="fn">我的收藏</span>
-            </a>
-        </div> -->
         <div class="row row_address">
             <a href="#/user/address" >
                 <i class="icon_atom icon_address"></i>
@@ -131,7 +113,7 @@
                 <span class="fn">账户设置</span>
             </a>
         </div>
-        <div class="row row_login_out row_last">
+        <div class="row row_login_out row_last" @click="logout">
             <i class="icon icon_login_out"></i>
             <span class="fn">退出登录</span>
         </div>
@@ -247,6 +229,37 @@
                 this.hidden1 =false;
                 this.hidden =false;
             },
+            gotologin(){
+            	this.$router.push('/login');
+            },
+             gotouser(){
+            	this.$router.push('/user');
+            },
+            logout(){
+				var _this = this;
+				   this.$Modal.confirm({
+                    title: '提示',
+                    content: '<p>确认退出吗?</p>',
+                    onOk: () => {
+		                    this.$axios({
+							    method: 'post',
+							    url:'/customer/logout',
+							}).then((res)=>{
+								     if (res.code !== 200) {
+				                 		 this.$Message.error(res.msg);
+				              		} 
+				              		else{
+										this.$store.commit('LOGOUT');  
+				    					_this.$router.push('/login');
+			    					}
+							});
+		                       
+                    },
+                    onCancel: () => {
+                        this.$Message.info('取消退出');
+                    }
+                });
+            }
     	    
         },
   		mounted(){
@@ -290,7 +303,7 @@
     font-family: "微软雅黑";
     height: 44px;
     line-height: 44px;
-    color: #a3c3e6;
+    color: #fff;
     font-size: 12px;
 }
 .header .opt_wrap {

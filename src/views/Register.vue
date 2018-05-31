@@ -77,8 +77,8 @@
 					    		  "verificationCode":this.regiForm.verificationCode
 					    	},
 					}).then((res)=>{
-						     if (res.data.code !== 200) {
-		                 		 this.$Message.error(res.data.msg);
+						     if (res.code !== 200) {
+		                 		 this.$Message.error(res.msg);
 		              		} 
 							this.loadingDx = false;
 					});
@@ -98,9 +98,9 @@
 							    data:para,
 							}).then((res)=>{
 									this.loadingDx = false;
-									      let { code, msg } = res.data;
+									      let { code, msg } = res;
 								              if (code !== 200) {
-								                this.$Message.error(res.data.msg);
+								                this.$Message.error(res.msg);
 								              } else {
 								                this.$router.push({ path: '/Login' ,params: { loginName: this.regiForm.loginName }});
 								              }

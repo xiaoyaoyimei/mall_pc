@@ -7,6 +7,11 @@ var imgfilter = (value) => {
   value = value.toString()
    return  global_.imgurl+value
 }
+var timefilter =   (value, formatString)=> {
+  formatString = formatString || 'YYYY-MM-DD';
+  // return moment(value).format(formatString); // value可以是普通日期 20170723
+  return moment.unix(value).format(formatString); // 这是时间戳转时间
+};
 //去除空格
 var trim=(value)=>{
 	if (!value) {
@@ -22,4 +27,4 @@ var pricefilter=(value)=>{
   }
    return  '￥'+parseInt(value).toFixed(2)
 }
-export { imgfilter, trim ,pricefilter}
+export { imgfilter, trim ,pricefilter,timefilter}

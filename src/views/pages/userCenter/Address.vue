@@ -1,7 +1,7 @@
 <template>
 	<div class="order">
 		<h4 class="C_deListTit">收货地址</h4>
-		<i-form ref="formCustom" :model="formCustom" :rules="ruleValidate" :label-width="100">
+		<i-form ref="formCustom" :model="formCustom" :rules="ruleValidate" class="width" :label-width="100">
         <form-item label="所在地区"  prop="selectedOptionsAddr">
         	 <Cascader  v-model="formCustom.selectedOptionsAddr" :data="addressOption"></Cascader>
         </form-item>
@@ -243,12 +243,15 @@
    }
 </script>
 
-<style scoped="scoped"  lang="scss">
+<style lang="scss">
 .order{
     width: 100%;
     max-width: 1100px;
     min-height: 900px;
     margin: 0 auto;
+}
+.width{
+    width: 920px;
 }
 .C_deListTit {
     border-bottom: 1px solid #e7e7e7;

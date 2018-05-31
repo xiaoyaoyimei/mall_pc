@@ -17,7 +17,7 @@
         </FormItem>
          <FormItem label="详细地址" prop="address">
             <Input v-model="addForm.address" placeholder="详细地址"></Input>
-        </FormItem>
+        </FormItem>	
     </Form>
 	</div>
 </template>
@@ -32,7 +32,8 @@
 		                    phone: '',
 		                    selectedOptionsAddr:[],
 		                    address:'',
-		                    tel:'',
+							tel:'',
+							sex:''
 		                },
 		            ruleValidate: {
 	                    person: [

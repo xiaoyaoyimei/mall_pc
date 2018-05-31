@@ -8,6 +8,7 @@ import store from '@/store/store'
 import iView from 'iview';
 import axios from 'axios';
 import '@/my-theme/index.less'
+import moment from 'moment/moment'
 import fang_ from '@/assets/js/user.js'
 //设置全局变量
 import global_ from '@/base/baseParam';
@@ -91,8 +92,8 @@ var app =new Vue({
   template: '<App/>'
 })
 //设置拦截器
-// axios.defaults.baseURL = 'http://10.0.0.2:8081/mall/pc/';
-axios.defaults.baseURL = 'http://test-shop.dxracer.com.cn:8084/mall/pc/';
+axios.defaults.baseURL = 'http://10.0.0.2:8081/mall/pc/';
+// axios.defaults.baseURL = 'http://test-shop.dxracer.com.cn:8084/mall/pc/';
 axios.interceptors.request.use(config => {  
 // 在发送请求之前做些什么  
 //判断是否存在token，如果存在将每个页面header都添加token  

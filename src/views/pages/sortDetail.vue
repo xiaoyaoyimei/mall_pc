@@ -28,7 +28,9 @@
                                                 <div  v-if="firstshow" class='choosesp'>
                                                     <img :src="choosesp.img |imgfilter" style="display:block">
                                                     <div>
-                                                    <span class="cx" v-if="cxshow"><strong>{{choosesp.cuxiaoprice}}</strong>
+                                                    <span class="cx" v-if="cxshow"><strong>优惠价：￥{{choosesp.cuxiaoprice}}</strong>
+                                                            商品编号:{{choosesp.itemNo}}<br>
+             	                                            <em>库存:{{choosesp.kucun}}</em> <br>
                                                         促销活动:<label>{{choosesp.activityName}}</label>
                                                         </span>
                                                     </div>
@@ -43,7 +45,6 @@
                                             </dl>
                                             <div>数量 <InputNumber  :min="1" v-model="quantity"></InputNumber></div>
                                             <div slot="footer">
-                                                <Button  size="large"  :loading="modal_loading" @click="atc" type="error"  v-if="!xiajia" class="btn-orange">立即购买</Button>
                                                 <Button  size="large"     disabled="disabled" v-if="xiajia">加入购物车</Button>
                                                 <Button  size="large"  :loading="modal_loading" @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
                                             </div>
@@ -285,6 +286,7 @@ import imgZoom from 'vue2.0-zoom'
         width:100%;
         margin: 0 auto;
         margin-bottom:50px;
+        min-height: 900px;
         position: relative;
         .ivu-carousel{
             width: 400px;

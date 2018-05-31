@@ -20,10 +20,11 @@
                                 <div data-midea_mos_id="26,145" class="search_wrap">  
                                     
                                     <form action=""> 
-                                            <input v-model="value11" @click="getList()" v-on:blur="changeCount()" placeholder="电竞椅" autocomplete="off" type="search"> 
+                                            <input v-model="value11"  v-on:blur="changeCount()" placeholder="电竞椅" autocomplete="off" type="search"> 
+                                        
                                         </form>   
                                     <input name="default_link" value="https://www.midea.cn/promote/pc/build/index/aWQwTfmdaS0x9OTcx?mtag=10022.12.1" type="hidden">  
-                                    <i class="icon_opt icon_search" @click="gosearch()"></i> 
+                                    <i class="icon_opt icon_search" @click="getList(value11)"></i>
                                 </div> 
                             </div>
                             <div class="opt opt_wx" @mouseenter="enter2" >
@@ -38,7 +39,7 @@
                             <!-- E 购物车-->
 
                             <!-- S 未登陆 -->
-                            <div class="opt opt_user opt_user_login_fail" id="unloginStatus" @mouseenter="enter1" style="display: block;">
+                            <div class="opt opt_user opt_user_login_fail" id="unloginStatus" @mouseenter="enter1" :class="{loginflag:loginflag}">
                                 <i class="icon_opt icon_user_main"></i>
                                 <!--<i class="icon_atom icon_user_point_new"></i>-->
                                 <span class="user_login_name">登录</span>
@@ -52,7 +53,7 @@
                             <!-- E 未登陆 -->
 
                             <!-- S 登陆成功-->
-                            <div class="opt opt_user opt_user_login_success js_opt_user_login_success">
+                            <div class="opt opt_user opt_user_login_success js_opt_user_login_success"  @mouseenter="enter1" :class="{loginflag:!loginflag}">
                                 <!--默认头像-->
                                 <i class="icon_opt icon_user_main"></i>
                                 <!--实际头像-->
@@ -60,17 +61,17 @@
                                 <!--<i class="icon_atom icon_user_point_new" id="dot" style="display: nonex;"></i>-->
                                 <i class="icon_atom icon_user_point_new js_act_dot" id="dot"></i>
                                 <!--用户名，优先昵称，再手机，最后是亲爱的美的用户-->
-                                <span class="user_login_name js_user_login_name"></span>
+                                <span class="user_login_name js_user_login_name">{{loginuserid}}</span>
                                 <!--下拉箭头-->
                                 <!--<i class="icon_opt icon_arrow_show"></i>-->
                                 <!--下面三角形-->
                                 <!--<i class="icon_opt icon_arrow_link"></i>-->
                             </div>
 
-                            <div class="opt opt_user opt_enterprise_user_login_success js_opt_enterprise_user_login_success">
+                            <div class="opt opt_user opt_enterprise_user_login_success js_opt_enterprise_user_login_success"  @mouseenter="enter1">
                                 <i class="icon_opt icon_user_main"></i>
                                 <img class="user_login_img js_user_login_img" src="" alt="用户头像" width="20" height="20">
-                                <span class="user_login_name js_user_login_name"></span>
+                                <span class="user_login_name js_user_login_name">{{loginuserid}}</span>
                             </div>
                             <!-- E 登陆成功-->
 
@@ -113,7 +114,7 @@
                     <!-- S 购物车顶部导航弹窗 -->
                     <div class="common_cart_wrap" :class="{hidden1:hidden1}" style="right: 86px;">
                         <!-- S 购物车未登录 -->
-                        <div class="common_cart_login" >
+                        <div class="common_cart_login" :class="{loginflag:loginflag}">
                             立即<a href="#/login">登录</a>，查看购物车商品
                         </div>
                         <!-- E 购物车未登录 -->
@@ -141,42 +142,9 @@
 
                 </div>
 	<div class="sort2">
-		<div class="cate_cells">
-			<div class="cate_cell col_10">
-					<div class="cate_cell_hd">分类：</div>
-					<div class="cate_cell_bd">
-						<ul class="cate_list">
-							<li class="" >
-								<a href="#" class="mod_word">F系列</a>
-							</li>
-							<li class="filter_cur" >
-								<a href="#" class="mod_word">O系列</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
 			<div class="content_wrap">
                 <!-- <p  style='display:none'>{{keyword1}}</p> -->
         <!--S 商品筛选 -->
-        <div class="cate_cells filter_wrap">
-            <div class="cate_cell cate_bar">
-                <div class="cate_cell_bd">
-                                        <div class="mod_filter_item filter_cur filter_all js_mod_filter_item">推荐</div>
-                    <div class="mod_filter_item filter_price js_mod_filter_item">
-                                                    <ul class="price_box">
-                                <li class="filter_price_attr filter_price_asc">价格从低到高</li>
-                                <li class="filter_price_attr filter_price_desc">价格从高到低</li>
-                            </ul>
-                                                <span class="price_tip">价格</span><i class="icon_atom icon_down_arrow"></i></div>
-                </div>
-                <div class="cate_cell_ft filter_stock js_mod_filter_item"><i class="icon_atom icon_stock"></i>仅看有货</div>
-
-            </div>
-
-        </div>
-        <!--E 商品筛选 -->
-
         <!-- S 商品筛选结果 list_wrap -->
         <ul class="search_list_wrap" id="searchListWrap">
             <input id="defaultDataNum" value="37" type="hidden">
@@ -188,12 +156,12 @@
                     <div class="price_new">
                         <span class="price"><em>{{item.sale_price}}</em></span>
                      </div>
-                    <div class="right_tip item_compare">
+                    <!-- <div class="right_tip item_compare">
                          <div class="cart js_add_to_cart" data-click="" data-sku="1000000000100511132632">
                             <i class="cart_icon common_cart_icon"></i>
                             <span>购物车</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <a  class="fn">
                                 {{item.model_name}}
@@ -257,14 +225,7 @@
             filterMethod (data, query) {
                 return data.label.indexOf(query) > -1;
             },
-			getList(){
-				this.spinShow=true;
-				 let routerParams = this.$route.query.value11;
-				  this.productList=[];
-                // 将数据放在当前组件的数据内
-                if(routerParams!=""&&routerParams!=undefined){
-                 this.value11 = routerParams;
-				}
+			getList(value11){
                 this.$axios({
 					method: 'GET',
 					url:'/product/search?keyword='+this.value11+'&startRow='+this.startRow+'&pageSize='+this.pageSize,

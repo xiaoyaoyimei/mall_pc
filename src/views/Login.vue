@@ -142,16 +142,16 @@
 	}
 	</style>
 	<style>
-		 .ivu-input{
+			.login  .ivu-input{
 			/* border:0 none; */
 			font-size: 16px;
 			height:36px;
 			border-radius:0px;
 		}
-		.ivu-form{
+		.login	.ivu-form{
 			overflow:hidden;
 		}
-		.ivu-form .ivu-form-item-label{
+		.login	.ivu-form .ivu-form-item-label{
 			font-size: 16px;
 			border: 1px solid #bdbdbd;
 			border-right:none;
@@ -159,7 +159,7 @@
 			text-align:center;
 			height:38px;
 		}
-		.ivu-form-item-content{
+			.login .ivu-form-item-content{
 			border:1px solid #bdbdbd;
 			/* height:38px; */
 		}

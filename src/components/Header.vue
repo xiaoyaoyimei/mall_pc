@@ -203,7 +203,20 @@
 			ha(){
 				alert(this.ha2)
 				this.ha2 = false;
-			},
+            },
+            getCartList(){
+        		if(localStorage.getItem('token')!=undefined){
+        			this.nologin=false;
+        			this.$axios({
+							    method: 'post',
+							    url:'/order/shopping/list',
+								}).then((res)=>{
+									if(res.code=='200'){
+										this.cartList=res.object;
+									}
+							});
+					}
+        	},
 			ha1(){
 				this.ha2 = true;
 			},
@@ -237,7 +250,8 @@
     	    
         },
   		mounted(){
-			this.isLogin();
+            this.isLogin();
+            this.getCartList();
 		}
     }
 </script>

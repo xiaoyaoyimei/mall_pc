@@ -25,17 +25,21 @@
 		   			<span class="price">￥{{productFeejun(item)|pricefilter}}</span></p>
 		   	</li>
 		   	</ul>
-		   	  <div class="sp">
-		   		<span>订单编号：{{orderdetail.shippingOrder.orderNo}}</span>
-		   		<span>下单时间：{{orderdetail.shippingOrder.createTime | formatDate}}</span>
-		   		
+		   	<div><span>快递单号{{item.expressNo}}</span><span>国内承运人{{item.logistics}}</span>
+		   		<span>{{item.deliverTime |formatDate}}</span></div>
+		   	 <div>
 		   			<span>发票类型：{{orderdetail.shippingInvoice}}</span>
 		   			<span>发票抬头：</span>
 		   			<span>发票内容：</span>
-		   		</div>
+		   	</div>
+		   	  <div class="sp">
+		   		<span>订单编号：{{orderdetail.shippingOrder.orderNo}}</span>
+		   		<span>下单时间：{{orderdetail.shippingOrder.createTime | formatDate}}</span>
+		   	</div>
+		
 		   	<ul class="sptotal">
-		   	<li>	<span class="t">商品总额</span><span class="s">￥{{orderdetail.shippingOrder.productFee|pricefilter}}</span></li>
-		   	 	<li>	<span class="t">商品优惠</span><span class="s">￥{{orderdetail.shippingOrder.discountFee|pricefilter}}</span></li>
+		     	<li>	<span class="t">商品总额</span><span class="s">￥{{orderdetail.shippingOrder.productFee|pricefilter}}</span></li>
+		   	 	<li>	<span class="t">商品优惠</span><span class="s" v-if="orderdetail.shippingOrder.discountFee!=''">￥{{orderdetail.shippingOrder.discountFee|pricefilter}}</span></li>
 		    		<li class="border"> <span class="t"></span><span>实付款：<label class="zjg">￥{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</label></span></li></ul>
 		 
 		</div>
@@ -63,7 +67,7 @@
     filters: {
     formatDate(time) {
     var date = new Date(time);
-    return formatDate(date, 'yyyy-MM-dd hh:mm');
+    return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
    }
 },
     methods: {

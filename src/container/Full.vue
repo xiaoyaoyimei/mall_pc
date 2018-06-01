@@ -3,7 +3,7 @@
         <Layout>
              <app-header></app-header>
             <Layout >
-                <Content class='layout' :style="{ minHeight: '280px',marginTop:'24px'}">
+                <Content>
                    <router-view/>
                 </Content>
             </Layout>
@@ -30,5 +30,4 @@ import AppMenu from '@/components/Menu'
 </script>
 
 <style scoped="scoped">
-
 </style>

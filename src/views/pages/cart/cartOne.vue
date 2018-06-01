@@ -1,10 +1,13 @@
 <template>
-	<div class='cart1'>
-		<div class="Mycar">
-			<h3 class="center1 ">购物车</h3>
-		</div>
-
-		<div v-if="cartList.length>0">
+	<div class='cart1 cartpage'>
+		<div class="cart_top">
+        <div class="cart_top_inner">
+            <h2 class="cart_title">
+             		   购物车
+             		  </h2>
+         </div>
+        </div>
+		<div v-if="cartList.length>0" class="cart_body">
 		<div class='carthead'>
 			<Row>
 				<Col  class='cartCol' span="24">
@@ -12,7 +15,8 @@
 					<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
 					</Col>
 					<Col span="4" >主图</Col>
-					<Col span="9"><p >商品信息</p></Col>
+					<Col span="7"><p >商品信息</p></Col>
+					<Col span="2">规格</Col>
 					<Col span="2">
 						<p >单价（元）</p>
 					</Col>
@@ -29,56 +33,66 @@
 			</Row>
 		</div>
 		<Row>
-		    <Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange">
+		    <Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange" class="item_detail clearfix">
 		 		<Col  class='cartCol' span="24" v-for="(x,index) in cartList" :key="index"> 
         			<Col class='cartcheckbok' span="2">
-        			<Checkbox  :label="index"></Checkbox></Col>
-					<Col span="4" ><img class='cartImg' :src="imageSrc+x.image"></Col>
-					<Col span="9">
-						<p class='cart_black'>{{x.productName}}</p>
-						<p class='cart_gray'>{{x.productAttr}}</p>
+        				<Checkbox  :label="index" :key="index"></Checkbox>
+        			</Col>
+					<Col span="4" class="cart_img"><img  :src="imageSrc+x.image"></Col>
+					<Col span="7" class='cart_product'>
+						<p >{{x.productName}}</p>
 						
 					</Col>
-					<Col span="2">
-						<p class='cart_price'>￥{{x.salePrice}}</p>
+					<Col span="2" class='cart_sku'><p>{{x.productAttr}}</p></Col>
+					<Col span="2" class='cart_price'>
+						<p >￥{{x.salePrice |pricefilter}}</p>
 					</Col>
-					<Col span="3">
+					<Col span="3"  class='cart_num'>
 						<p class='cart_qua'>
 							<div class="min-add">
-						    <Icon type="minus-round" @click.native="jian(x,index)" class="min"  ></Icon>
+						    <i  @click="jian(x,index)" class="min"  >-</i>
 						     <input class="text-box" name="pricenum"  type="tel" v-model="x.quantity*1" v-on:input="changeNumber($event,x,index)" placeholder="数量" data-max="50" />
-						  <Icon type="plus-round" @click.native="jia(x,index)" class="add"></Icon>
+						  <i  @click="jia(x,index)" class="add">+</i>
 						</div>
 					</Col>
 					<Col span="2">
-						<p class='cart_price'>￥{{x.salePrice}}*{{x.quantity}}</p>
+						<p class='cart_price'>￥{{itemtotal(x.salePrice,x.quantity)|pricefilter}}</p>
 					</Col>
 					<Col span="1">
-						<span  @click="edit"  class="m_header_bar_menu">删除</span>
+						<span class="operation_delete" @click="remove(x.id)">删除</span>
 					</Col>
 				</Col>
 			</Checkbox-group>
 		</Row>
-			<div class='cartfoot'>
-				<Row>
-					<Col  class='cartCol' span="24">
-						<Col  span="2" class="center">
-									<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
-						</Col>
-						<Col  span="2">
-							<P class='color-dx'>总计：￥{{totalPrice}}</P>
-						</Col>
-						<Col class='cartButton1' span="20"> 
-							<i-button class='cartButton'  @click.prevent.native="paymoney" type="error"> 
-								结算({{zslcount}})
-							</i-button>
-						</Col>
-					</Col>
-				</Row>
+			<div class='cart_bottom_wrap'>
+				<div class="cart_bottom">
+					<div class="cart_sum_left">
+						<div   class="cart_sum_choose">
+							<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
+						</div>
+						<div class="cart_sum_delete" @click="removeall()">删除</div>
+						</div>
+						<div class="cart_sum_right">
+						<div  class="cart_sum_price">
+							<div class="cart_sum_num">已选商品<span class="color_f60">{{zslcount}}</span>款</div>
+							<div class='total_price'>
+                                                                                     合计：<span class="total_price_inner">
+                            <span class="js_total_price">
+                                                                                   ￥{{totalPrice |pricefilter}}                        
+                            </span>
+                        </span>
+                        </div>
+                        </div>
+						<div class='cart_sum_to_order' @click="paymoney"> 
+							去结算
+						</div>
+						</div>
+				</div>
 			</div>
 			</div>
-				<div class="cart-empty"  v-else>
-			<div></div><img src="../../../assets/img/cartempty.png">购物车是空的
+				<div class="cart_empty"  v-else>
+			 <img src="../../../assets/img/cartempty.png">
+			 <div class="hinter">购物车是空的</div>
 			<router-link to="/index"  >去首页</router-link>
 		</div>
 	</div>
@@ -100,7 +114,9 @@ export default {
             }
 		},
         methods: {
-
+				itemtotal(p,n){
+					return Number(p)*n;
+				},
         	 addcart(x){
               		this.$axios({
 							    method: 'post',
@@ -160,6 +176,7 @@ export default {
         	getCartList(){
         		if(localStorage.getItem('token')!=undefined){
         			this.nologin=false;
+        			this.cartList=[],
         			this.$axios({
 							    method: 'post',
 							    url:'/order/shopping/list',
@@ -183,25 +200,27 @@ export default {
 				var goumai=[];
 				this.checkAllGroup.forEach((i) => {
 				  goumai.push(this.cartList[i])
-				 // this.cartList.splice(i, 1);
 				});
 				 sessionStorage.removeItem('cart'); 
 		         sessionStorage.setItem('cart', JSON.stringify(goumai)); 
 				 this.$router.push({ name:'/carttwo'});
 			},
 			
-			remove(){
+				remove(id){
+					let ids=[id];
 				  this.$Modal.confirm({
-                    title: '清空购物车提示',
-                    content: '<p>您确定清空购物车</p>',
+                    title: '删除提示',
+                    content: '<p><strong>确定要删除该商品？</strong></p>',
                     cancelText: '取消',
                      onOk: () => {
                        	this.$axios({
 							    method: 'post',
-							    url:'/order/shopping/clear',
+							    url:'/order/shopping/deleByIds',
+							    data:ids
 								}).then((res)=>{
 									if(res.code==200){
-										this.cartList=[];
+									this.$Message.info(res.object);
+									this.getCartList()
 									}
 							});
                     },
@@ -209,8 +228,38 @@ export default {
                         this.$Message.info('取消成功');
                     }
                 });
-              	
 			},
+			   removeall(){
+			   	if(this.checkAllGroup.length<1){
+					 this.$Message.warning('您尚未选择任何商品');
+					return false;
+				}
+			   	 	var ids=[];
+				 this.checkAllGroup.forEach((i) => {
+				  ids.push(this.cartList[i].id)
+				});
+                		  this.$Modal.confirm({
+                    title: '删除提示',
+                    content: '<p><strong>确定清空购物车？</strong></p>',
+                    cancelText: '取消',
+                     onOk: () => {
+                       	this.$axios({
+							    method: 'post',
+							    url:'/order/shopping/deleByIds',
+							    data:ids
+								}).then((res)=>{
+									if(res.code==200){
+									this.$Message.info(res.object);
+									this.getCartList()
+									}
+							});
+                    },
+                    onCancel: () => {
+                        this.$Message.info('取消成功');
+                    }
+                });
+               },
+              	
             handleCheckAll () {
                 if (this.indeterminate) {
                     this.checkAll = false;
@@ -261,145 +310,145 @@ export default {
 </script>
 
 <style  lang="scss" >
- 	@import '@/styles/color.scss';
- 	.min-add .min,.min-add .add{
- 		    color: #333;
-    font-weight: bold;
+	.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.cartpage{
+	.cart_top {
+		    background-color: #fff;
+		    border-bottom: 1px solid #e9e9e9;
+		    margin-bottom: 20px;
+	}
+	.cart_top .cart_top_inner {
+    width: 1200px;
+    margin: 0 auto;
+    font-weight: normal;
+	}
+	.cart_top .cart_title {
+    font-size: 32px;
+    line-height: 80px;
+    color: #333;
+    font-weight: normal;
+	}
+	.cart_body {
+    width: 1200px;
+    margin: 0 auto;
+}
+	.carthead{
+	border: 1px solid #e9e9e9;
+    background-color: #fafafa;
+    height: 40px;
+    line-height: 40px;
+    color: #aaa;
+	}
+	.cartCol{
+		    position: relative;
+    z-index: auto;
+    padding: 0 20px;
+	}
+	.item_detail{
+	     border: 1px solid #ccc;
+    margin-top: 20px;
+    background: #fff;}
+}
+.cart_img img{
+	width:90px
+}
+.cart_product{
+    padding-left: 0;
+    height: 16px;
+    overflow: hidden;
+}
+.item_detail .cartCol .ivu-col{
+	padding: 20px 0;
+}
+.text-box{
+	    height: 22px;
+    line-height: 22px;
+    width: 34px;
+    border: 1px solid #d6d6d6;
+    background: #fff;
+    border-left: 0;
+    border-right: 0;
+    text-align: center;
+    float: left;
+}
+.min,.add{
+	float: left;
+	display: inline-block;
+    position: relative;
     cursor: pointer;
-    margin-right:5px;
-    font-size: 14px;
-    margin-left:3px;
- 	}
- 	.min-add .min,.min-add .add,.min-add input{
- 		display: inline-block;
- 	}
- 	.min-add input{
- 		font-size: 14px;
- 		width:50px;
- 		text-align: center;
- 		background: #f5f5f5;border:0 none;
- 		height:26px;
- 	}
-	.m_header_bar_title{
-		font-size: 16px;
-	}
-	.cart1{
-		margin-bottom:55px;
-		max-width: 1100px;
-		margin: 0 auto;
-		min-height:700px;
-		width: 100%;
-		.center{
-			text-align: center;
-		}
-		.cartCol{
-			background-color: #fff;
-			padding-bottom:10px;
-			padding-top: 15px;
-			height: 213px;
-			border: 1px solid #eee;
-			border-bottom: none;
-			.cartcheckbok{
-				height:16px;
-				padding-left:30px;
-				.ivu-checkbox-wrapper{
-					width:16px;
-					overflow:hidden;
-					height: 16px;
-					line-height: 16px;
-				}
-			}
-			.cart_qua{
-				font-size:14px;
-			}
-			.cartImg{
-				max-width:100%;
-			}
-			.cart_black{
-				color:$color-default;
-				text-align: left;
-			    padding-left: 20px;
-			    box-sizing: border-box;
-			    font-size: 14px;
-			    text-overflow: ellipsis;
-			    white-space: nowrap;
-			    overflow: hidden;
-			}
-			.cart_gray{
-				text-align:left;
-				color:$color-gray;
-				padding-left:20px;
-				box-sizing:border-box;
-				font-size:12px;
-			}
-			.cart_price{
-				color:$color-dx;
-				padding-left:20px;
-			}
-			.color-dx{
-				color:$color-dx;
-				text-align:left;
-			}
-			.cartButton1{
-				text-align:right;
-				
-			}
-			.cartButton{
-				border-radius:0px;
-				padding:15px 25px;
-				.font-dx{
-					color:$color-white;
-					background-color: #f60;
-				}
-			}
-			.cartButton:nth-of-type(2n){
-				margin-left:-5px;
-			}
-			
-		}
-		.cartfoot{
-			    background: #fff;
-				border-top: 1px solid #eee;
-				height: 49px;
-				line-height:49px;
-				z-index: 31;
-				bottom: 0px;
-				left: 0;
-				width: 100%;
-				.ivu-row{
-					.cartCol{
-						height: 50px;
-						line-height: 50px;
-						background: #fff;
-						padding-top:0px;
-						border-bottom:1px solid #eee;
-						margin-top: 20px;
-					}
-				}
-		}
-		.carthead{
-			   margin-bottom:20px;
-			   border-bottom: 1px solid #eee;
-			p{
-				padding-left: 20px;
-			}
-			.ivu-row{
-				.cartCol{
-					height: 51px;
-					line-height: 50px;
-					padding-top:0px;
-					border-bottom:1px solid #eee;
-					padding-bottom: 0px;
-					background: #fff;
-				}
-			}
-		}
-	}
-	.cart-empty {
-		text-align: center;
-		font-size: 14px;
-		img{
-		max-width:100px;
-		}
-	}
+    width: 22px;
+    height: 22px;
+    border: 1px solid #d6d6d6;
+    text-align: center;
+    }
+    .operation_delete{
+    	font-weight: bold;
+    	cursor: pointer;
+    }
+    .cart_price{
+    	color:red
+    }
+    .cart_bottom_wrap{
+    }
+    .cart_bottom{
+    	    width: 100%;
+    height: 60px;
+    margin-top: 10px;
+    padding-left: 10px;
+    background-color: #fafafa;
+    border: 1px solid #e9e9e9;
+    position: relative;
+    line-height: 60px;
+    }
+    .cart_bottom .cart_sum_right {
+  float: right;
+}
+.cart_sum_delete{
+	 margin-left: 40px;
+	 cursor: pointer;
+}   
+.color_f60 {display: inline-block;
+    padding: 0 3px;
+    color: #f60;
+    }
+    .cart_sum_price,.cart_sum_num{
+    	    margin-right: 40px;
+    }
+        .total_price_inner{
+        	color: #f60;
+    font-size: 18px;
+    font-weight: bolder;
+        }
+        .cart_sum_to_order{
+            width: 160px;
+    text-align: center;
+    font-size: 18px;
+    background-color: #f60;
+    color: #fff;
+    cursor: pointer;
+    }
+   .cart_sum_left,.cart_sum_choose, .cart_sum_delete ,.total_price,.cart_sum_to_order,.cart_sum_price,.cart_sum_num{
+    	float: left;
+    }
+    .cart_sum_left,.cart_sum_price{
+    	line-height: 60px;
+    }
+    .cart_empty{
+    text-align: center;
+    border: 1px solid #e6e6e6;
+    padding: 60px 0;
+    background-color: #fff;
+    width: 1200px;
+    margin: 0 auto;
+    }
+    .cart_empty img{
+    	width: 90px;
+    }
+    .hinter{
+    	    font-size: 14px;
+    line-height: 14px;
+    color: #999;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    }
 </style>

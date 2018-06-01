@@ -1,5 +1,5 @@
 <template>
-    <div class='paymoney'>
+    <div class='paymoney cartpage'>
 		<div id="addressWrap" class="">
     <div class="wrap-header">
         <h3>选择收货地址</h3>
@@ -481,7 +481,6 @@
     }
 </script>
 <style lang="scss">
- @import '@/styles/color.scss';
  .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
 .clearfix { *zoom:1; }
  .paymoney{
@@ -547,10 +546,6 @@
   }
   .cart_gray span{
   	float: right;
-	   strong{ 
-	  	color:$color-dx;
-	  	font-size: 16px;
-	  }
   }
    		.cartfoot{
 			    background: #fff;
@@ -570,7 +565,6 @@
 					}
 				}
 				strong{
-					color:$color-dx;
 					font-size: 12px;
 					display:inline-block;
 					span{
@@ -737,20 +731,4 @@
 	color:red
 }
 /*地址样式-e*/
-</style>
-<style>
-	
-.P_received {
-    margin: 0px 0 60px 0;
-    font-size: 14px;
-}
-.P_received .P_rTit {
-    color: #333;
-    line-height: 36px;
-    font-size: 16px;
-}
-.fl {
-    float: left;
-}
-
 </style>

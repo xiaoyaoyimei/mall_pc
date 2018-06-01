@@ -25,8 +25,8 @@
 		   			<span class="price">￥{{productFeejun(item)|pricefilter}}</span></p>
 		   	</li>
 		   	</ul>
-		   	<div><span>快递单号{{item.expressNo}}</span><span>国内承运人{{item.logistics}}</span>
-		   		<span>{{item.deliverTime |formatDate}}</span></div>
+		   	<!--<div ><span>快递单号{{item.expressNo}}</span><span>国内承运人{{item.logistics}}</span>
+		   		<span>{{item.deliverTime |formatDate}}</span></div>-->
 		   	 <div>
 		   			<span>发票类型：{{orderdetail.shippingInvoice}}</span>
 		   			<span>发票抬头：</span>
@@ -148,7 +148,7 @@
 }
 .detail {
 		margin-bottom:1rem;
-		font-size: 1.4rem;
+		font-size: 1rem;
 		.address{ 
 			background:#fff;
 			li{

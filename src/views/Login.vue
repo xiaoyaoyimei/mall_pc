@@ -44,7 +44,7 @@
                 { required: true, trigger: 'blur', validator: validatePass }
             ]
           },
-          loading: true,
+          loading: false,
           showDialog: false
         }
       },
@@ -72,12 +72,11 @@
 				loginName: this.loginForm.loginName,  
 				passWord: this.loginForm.passWord  
 				}).then(res => {  
-					this.logining = false;
+					
 	               	let { code, object } = res;
 		              if (code !== 200) {
 		                  this.$Message.error(object);
 		              } else {
-		              	
 					        this.$Message.success('登录成功');
 					 		let data = res;  
 							//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  
@@ -85,7 +84,7 @@
 //							 ...mapMutations({
 //   							 'set_token',{token:data.object["token"]} // 将 `this.add()` 映射为 `this.$store.commit('increment')`
 // 								 })
-
+							this.logining = false;
 							if (store.state.token) {  
 							this.$router.push(this.$route.query.redirect || '/')
 							} else {  

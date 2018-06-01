@@ -2,35 +2,33 @@
     <div class="head">
 		<div class="header" @mouseleave="leave2">
     <div class="inner">
-        <a class="site_logo" href="#/index" title="美的"></a>
-
+        <a class="site_logo" href="#/index" title="首页"></a>
+       
         <!-- S 导航 -->
         <div class="nav_wrap">
             <ul class="nav" id="topNavWrap">
-                <!-- 美的商城_PC版_首页_顶部主导航 -->
+                <!-- dxracer商城_PC版_首页_顶部主导航 -->
+              <li class="item"><a class="item_tit"  href="#/index">首页</a></li>  
                 <li class="item"><a class="item_tit"  href="#/sort">商品分类</a></li>
-                <li id="navInternal" style="display:none;" class="item"><a class="item_tit" target="_blank" href="/my/internal/?mtag=40005.1.11">美的员工福利频道</a></li>
-                
             </ul>
         </div>
         <!-- E 导航 -->
         <!-- S 操作 -->
         <div class="opt_wrap" id="optWrap">
             <div class="opt opt_search" :class="{opt_search_hover:opt_search_hover}">
-                <!-- 美的商城_PC版_首页_搜索 -->
+                <!-- dxracer商城_PC版_首页_搜索 -->
                 <div data-midea_mos_id="26,145" class="search_wrap">  
                      
                     <form action=""> 
-                            <input v-model="value11" @click="goList()" v-on:blur="changeCount()" placeholder="电竞椅" autocomplete="off" type="search"> 
+                            <input v-model="keyword" v-on:blur="changeCount()" placeholder="电竞椅" autocomplete="off" type="search" @keyup.enter="gosearch()"> 
                         </form>   
-                    <input name="default_link" value="https://www.midea.cn/promote/pc/build/index/aWQwTfmdaS0x9OTcx?mtag=10022.12.1" type="hidden">  
-                    <i class="icon_opt icon_search" @click="gosearch()"></i> 
+                    <input name="default_link" value="电竞椅" type="hidden">  
+                    <i class="icon_opt icon_search" @click="showsearch()"></i> 
                 </div> 
             </div>
             <div class="opt opt_wx" @mouseenter="enter2" >
                 <i class="icon_opt icon_wx"></i>
             </div>
-
             <!-- S 购物车-->
             <div class="opt opt_cart" @mouseenter="enter" >
                 <i class="icon_opt icon_cart_small"></i>
@@ -39,7 +37,7 @@
             <!-- E 购物车-->
 
             <!-- S 未登陆 -->
-            <div class="opt opt_user opt_user_login_fail" id="unloginStatus" @mouseenter="enter1" :class="{loginflag:loginflag}" @click="gotologin">
+            <div class="opt opt_user opt_user_login_fail" id="unloginStatus" @mouseenter="enter1" :class="{loginflag:nologin}" @click="gotologin">
                 <i class="icon_opt icon_user_main"></i>
                 <!--<i class="icon_atom icon_user_point_new"></i>-->
                 <span class="user_login_name">登录</span>
@@ -53,7 +51,7 @@
             <!-- E 未登陆 -->
 
             <!-- S 登陆成功-->
-            <div class="opt opt_user opt_user_login_success js_opt_user_login_success" @mouseenter="enter1" :class="{loginflag:!loginflag}" @click="gotouser">
+            <div class="opt opt_user opt_user_login_success js_opt_user_login_success" @mouseenter="enter1" :class="{loginflag:!nologin}" @click="gotouser">
                 <!--默认头像-->
                 <i class="icon_opt icon_user_main"></i>
                 <!--实际头像-->
@@ -62,10 +60,6 @@
                 <i class="icon_atom icon_user_point_new js_act_dot" id="dot"></i>
                 <!--用户名，优先昵称，再手机，最后是亲爱的美的用户-->
                 <span class="user_login_name js_user_login_name">{{loginuserid}}</span>
-                <!--下拉箭头-->
-                <!--<i class="icon_opt icon_arrow_show"></i>-->
-                <!--下面三角形-->
-                <!--<i class="icon_opt icon_arrow_link"></i>-->
             </div>
 
             <div class="opt opt_user opt_enterprise_user_login_success js_opt_enterprise_user_login_success" @mouseenter="enter1">
@@ -75,16 +69,9 @@
             </div>
             <!-- E 登陆成功-->
 
-
         </div>
         <!-- E 操作 -->
     </div>
-
-    <!-- S 微信 -->
-    <div class="wx_wrap" style="display: none;" :class="{hidden2:hidden2}">
-        <img class="wx_qrcode" src="//img.mdcdn.cn/pc/img/mall/header_qr_app.png?t=20160105" alt="美的app下载二维码">
-    </div>
-    <!-- E 微信 -->
 
     <!-- S 用户已登陆时的hover -->
     <!-- E 用户已登陆时的hover -->
@@ -92,7 +79,6 @@
     <div class="user_wrap user_unlogin_wrap JS_user_unlogin_wrap" :class="{hidden:hidden}" style="display:none">
         <!-- S 运营活动项 -->
         
-        <!-- E 运营活动项 -->
         <div class="row row_my_order">
             <a href="#/user/orderlist">
                 <i class="icon_atom icon_my_order"></i>
@@ -121,25 +107,25 @@
     <!-- S 购物车顶部导航弹窗 -->
     <div class="common_cart_wrap" :class="{hidden1:hidden1}" style="right: 86px;">
         <!-- S 购物车未登录 -->
-        <div class="common_cart_login"  :class="{loginflag:loginflag}" >
-            立即<a href="#/login">登录</a>，查看购物车商品
+        <div class="common_cart_login"  :class="{loginflag:nologin}" >
+                  立即<a href="#/login">登录</a>，查看购物车商品
         </div>
         <!-- E 购物车未登录 -->
 
         <!-- S 购物车无商品 -->
-        <div class="common_cart_nothing cartnone" :class="{loginflag:!loginflag,cart:cart}" >
+        <div class="common_cart_nothing cartnone" :class="{loginflag:!nologin}"  v-if="!nologin&&cart">
             <div class="icon_opt icon_cart_middle"></div>
-            购物车中还没有商品，赶紧选购吧！
+                         购物车中还没有商品，赶紧选购吧！
         </div>
         <!-- E 购物车无商品 -->
 
         <!-- S 购物车有商品 -->
-        <div class="common_cart_something cartnone" :class="{loginflag:!loginflag,cart:!cart}">
+        <div class="common_cart_something cartnone" :class="{loginflag:!nologin}" v-if="!nologin&&!cart">
             <div class="icon_opt icon_cart_middle"></div>
-                商品个数：<span style="color:red">{{cartListlength}}</span>
+                              商品个数：<span style="color:red">{{cartListlength}}</span>
             <div class="common_cart_bottom">
                 <a class="to_cart" href="#/cart">
-                    查看购物车
+                       查看购物车
                 </a>
             </div>
         </div>
@@ -152,25 +138,31 @@
 </template>
 
 <script>
+		// 引入公共的bug，来做为中间传达的工具
+	import Bus from '@/assets/js/bus.js'
 	 export default {
         data () {
             return {
-                value11: '',
+                keyword: '',
 				  value12: '',
 				  ha2:false,
                   hidden:false,
                   hidden1:false,
                   hidden2:false,
                   opt_search_hover:false,
-                  loginflag:true,
+                  nologin:true,
                   loginuserid:'hello',
                   cartList:[],
                   cart:false,
                   cartListlength:''
-
-
             }
         },
+         watch: {
+//		 	 keyword(newValue, oldValue) {
+//		 	 	console.log(oldValue)
+//    			  console.log(newValue)
+//            },
+          },
 		methods:{
             isLogin(){
                 if(localStorage.getItem("token")!=undefined&&localStorage.getItem("token")!=""){
@@ -178,7 +170,7 @@
 					    method: 'post',
 					    url:'/account',
 					}).then((res)=>{
-                        this.loginflag=false;
+                        this.nologin=false;
                         this.loginuserid = localStorage.getItem("userId") ;
 					});
     	     	 }
@@ -196,7 +188,6 @@
 								}).then((res)=>{
 									if(res.code=='200'){
                                         this.cartList=res.object;
-                                        console.log(this.cartList.length)
                                         if(this.cartList.length > 0){
                                             this.cart = false
                                             this.cartListlength = this.cartList.length 
@@ -211,9 +202,12 @@
 			ha1(){
 				this.ha2 = true;
 			},
+			showsearch(){
+				  this.opt_search_hover=true;
+			},
 			gosearch(){
-                this.$router.push({path: '/sort'});  
-                this.opt_search_hover=true;
+			    Bus.$emit('val', this.keyword)
+                this.$router.push({name: '/sort',query:{keyword:this.keyword}});  
             },
             changeCount(){
                  this.opt_search_hover=false;
@@ -285,8 +279,8 @@
 }
 .header {
     background: #fff;
-    height: 44px;
-    background: #f30;
+    height: 66px;
+    background: #191919;
     position: relative;
     z-index: 50;
 }
@@ -296,14 +290,12 @@
     *zoom: 1;
     margin: 0 auto;
     position: relative;
+    padding: 11px;
 }
 .loginflag{
     display: block!important;
 }
-.cartnone{
-    display: none!important;
-}
-.hidden, .hidden1, .hidden2, .cart{
+.hidden, .hidden1{
     display: block!important;
 }
 
@@ -324,7 +316,7 @@
 }
 .header .opt_wrap {
     position: absolute;
-    top: 0;
+    top: 11px;
     right: 0;
     *right: auto;
     *float: right;
@@ -407,7 +399,7 @@
     background-position: -96px -215px;
 }
 .header .icon_opt, .header .site_logo {
-    background-image: url(../assets/img/logo-white.png);
+    background-image: url(../assets/img/logo.png);
     background-repeat: no-repeat;
     background-position: center center;
 }
@@ -418,7 +410,7 @@
     margin: 12px auto;
 }
 .header .icon_opt{
-    background: url(//img.mdcdn.cn/pc/img/mall/index_sprite.png?t=20171107) no-repeat;
+       background: url(//img.mdcdn.cn/pc/img/mall/index_sprite.png?t=20171107) no-repeat;
         background-image: url("//img.mdcdn.cn/pc/img/mall/index_sprite.png?t=20171107");
         background-repeat: no-repeat;
         background-position-x: 0%;
@@ -426,8 +418,8 @@
 }
 .header .site_logo {
     float: left;
-    width: 120px;
-    height: 44px;
+    width: 207px;
+    height: 36px;
     background-size: 100%;
 }
 .icon_search {
@@ -578,7 +570,7 @@
     display: none;
 }
 .header .user_wrap {
-    top: 44px;
+    top: 66px;
     left: auto;
     right: 0;
 }

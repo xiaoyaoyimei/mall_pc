@@ -27,41 +27,6 @@ Vue.use(iView);
 Vue.prototype.global_=global_;
 Vue.prototype.$axios = axios;
 Vue.prototype.fang_ = fang_;
-//window.setInterval(fang_.login(app),3000);
-//判断是否登录
-//let sendBtnTimer = setInterval(changeSendBtn,5000)
-function changeSendBtn() {
-	console.log(global_)
-       axios.post('customer/login', {  
-				loginName: global_.loginName,  
-				passWord: global_.passWord  
-				}).then(res => {  
-					this.logining = false;
-	               	let { code, msg } = res.data;
-		              if (code !== 200) {
-		                  this.$Message.error(msg);
-		              } else {
-					        this.$Message.success('登录成功');
-							let data = res.data;  
-							//根据store中set_token方法将token保存至localStorage/localStorage中，data["Authentication-Token"]，获取token的value值  
-							this.$store.commit('set_token',{token:data.object["token"],userId:data.object["userId"]});  
-//							 ...mapMutations({
-//   							 'set_token',{token:data.object["token"]} // 将 `this.add()` 映射为 `this.$store.commit('increment')`
-// 								 })
-							if (store.state.token) {  
-								this.$router.push('/index')  
-								console.log(store.state.token)  
-							    console.log(store.state.userId) 
-							} else {  
-								this.$router.replace('/login');  
-							}  
-		              }
-				}).catch(error => {  
-						this.loading = false  
-						this.loginBtn = "登录"  
-						  this.$Message.error('系统异常');
-				}) 
-}
 // 页面刷新时，重新赋值token  
 if (localStorage.getItem('token')) {  
 store.commit('set_token',{token: localStorage.getItem('token'),userId:localStorage.getItem('userId')})  
@@ -69,7 +34,6 @@ store.commit('set_token',{token: localStorage.getItem('token'),userId:localStora
 const router = new VueRouter({  
 routes  
 });  
-  
 router.beforeEach((to, from, next) => {  
 		if (to.matched.some(r => r.meta.requireAuth)) { 
 			if (store.state.token) {  

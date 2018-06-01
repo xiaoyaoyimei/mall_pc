@@ -3,14 +3,11 @@ import Full from '@/container/Full'
 import UFull from '@/container/UFull'
 let routes =  [
 
-
 				{
 					path: '/',
-				   redirect: '/index',
-				    name: '首页',
+				    redirect: '/index',
                     component: Full,
                     children: [{
-						name:'首页',
 						path: '/index',
 						component:resolve => require(['@/views/pages/Home.vue'], resolve),
 					},
@@ -30,11 +27,11 @@ let routes =  [
 						path: '/typesort',
 						component:resolve => require(['@/views/pages/TypeSort.vue'], resolve),
 					},
-						{
-					path: '/sort',
-					name: '/sort',
-					component:  resolve => require(['@/views/pages/Sort.vue'], resolve)
-						},
+					{
+							path: '/sort',
+							name: '/sort',
+							component:  resolve => require(['@/views/pages/Sort.vue'], resolve)
+					},
 					{
 						name:'/seckill',
 						path: '/seckill',

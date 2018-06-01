@@ -9,7 +9,7 @@
 		<div class="scan_code_wrap">
 		  <Form ref="formValidate" action='/order/' :model="formValidate" :rules="ruleValidate">
 		  	 <FormItem  prop="payType">
-		  	 	<ul class="pay_tab js_pay_tab">
+		  	 	<!--<ul class="pay_tab js_pay_tab">
                         <li class="wechat" data-target="wechat">
                 <i class="icon-wechat"></i>
                                                微信支付
@@ -18,15 +18,15 @@
                 <i class="icon-alipay"></i>
                                                      支付宝
             </li>
-                    </ul>
+                    </ul>-->
                     <div class="js_target_wrap">
                     	
                     </div>
-			  <!--<ul class="payType">
+			  <ul class="payType">
 			  	<li><img  src="../../../assets/img/wechatpay.png">
 			  	<i><input type="radio" name="zffs" v-model="formValidate.payType" value="wepay"> </i></li>
 			  	<li><img  src="../../../assets/img/zhifubao.png"><i><input type="radio" name="zffs"  v-model="formValidate.payType" value="alipay" > </i></li>
-			  </ul>-->
+			  </ul>
 		  </FormItem>
 		    <Button type="success" long  @click="handleSubmit('formValidate')">去支付</Button>
     	</Form>

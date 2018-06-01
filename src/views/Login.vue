@@ -97,7 +97,6 @@
 				})  
             } 
             else {
-              console.log('登录验证失败!');
               return false;
             }
           });

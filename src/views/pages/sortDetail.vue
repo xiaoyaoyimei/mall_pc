@@ -313,9 +313,6 @@ import imgZoom from 'vue2.0-zoom'
             display: inline-block;
         }
         .delie{
-            // position: absolute;
-            // top: 0px;
-            // left: 500px;
             display: inline-block;
             width:600px;
             margin-left: 20px;
@@ -334,38 +331,7 @@ import imgZoom from 'vue2.0-zoom'
             text-align:left;
             height:40px;
             overflow:hidden;
-            .sdh4{
-                color:$color-dx;
-                font-size:14px;
-            }
-            .sdprice{
-                padding-left:1.5em;
-            }
-            .sdyuan{
-                color:$color-gray;
-                text-decoration:line-through;
-            }
-            .sdnum{
-                color:$color-gray;
-            }
-            .sdspan{
-                float:right;
-                padding-right:20px;
-                color:$color-gray;
-            }
-            .sdShare{
-                font-size:20px;
-                color:$color-gray;
-            }
-            .sdp{
-                color:$color-primary;
-                font-size:20px;
-                padding-left:1em;
-            }
-        }
-        .sMar{
-            height:30px;
-            line-height:30px;
+           
         }
         .biaoqian{
             width:50%;
@@ -403,9 +369,7 @@ import imgZoom from 'vue2.0-zoom'
     position: relative;
     top: -15px;
 }
-.sortDetail .G_info .G_changeDetail .G_MEAS form .G_checked {
-    border: 1px solid #E50011;
-}
+
 .sortDetail .G_info .G_changeDetail .G_MEAS form p {
     position: relative;
     display: inline-block;
@@ -414,9 +378,7 @@ import imgZoom from 'vue2.0-zoom'
     text-align: center;
     line-height: 30px;
 }
-.sortDetail .G_info .G_changeDetail .G_MEAS form .G_checked input {
-    height: 40px;
-}
+
 .sortDetail .G_info .G_changeDetail .G_MEAS form p input {
     height: 40px;
     min-width: 40px;
@@ -424,28 +386,6 @@ import imgZoom from 'vue2.0-zoom'
     padding: 0 3px;
     cursor: pointer;
     border: none;
-}
-.sortDetail .G_info .G_changeDetail .G_MEAS form .G_checked s {
-    display: inline-block;
-    position: absolute;
-    top: 24px;
-    right: 0px;
-    height: 14px;
-    width: 17px;
-    background: url(../../assets/img/spring1.png) -144px -16px no-repeat;
-}
-.sortDetail .G_info .G_changeDetail .G_changeQTY #G_minus {
-    border-radius: 5px 0px 0px 5px;
-        position: relative;
-        top: 2px;
-}
-.sortDetail .G_info .G_changeDetail .G_changeQTY #G_minus, .sortDetail .G_info .G_changeDetail .G_changeQTY #G_add {
-    width: 34px;
-    height: 30px;
-    background-color: #B2B2B2;
-    color: #fff;
-    cursor: pointer;
-    line-height: 30px;
 }
 .center1{
     text-align: center;
@@ -460,18 +400,6 @@ import imgZoom from 'vue2.0-zoom'
         width: 33.33%;
         text-align: center;
     }
-}
-.sortDetail .G_info .G_changeDetail .G_changeQTY #G_QTY {
-    width: 42px;
-    height: 28px;
-    border: 1px solid #B2B2B2;
-    text-align: center;
-}
-.sortDetail .G_info .G_changeDetail .G_changeQTY #G_add {
-    border-radius: 0px 5px 5px 0px;
-    position: relative;
-    left: -4px;
-    top: 2px;
 }
 .sortDetail .G_info > a {
     display: block;

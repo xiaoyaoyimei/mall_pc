@@ -1,36 +1,49 @@
 <template>
   <div class="foot">
-    <div class="footer center clearfix ">
-        <div class="foot-left fl clearfix ">
-            <p>友情链接：</p>
-            <a href="http://i.youku.com/i/UMjU0MTI0Njg0?previewpage=1&spm=a2hzp.8244740.0.0 " target="_blank ">
-                <img src="../assets/img/link-yk.png" alt=" "></a>
-            <a href="http://tieba.baidu.com/f?kw=dxracer&ie=utf-8 " target="_blank "><img src="../assets/img/link-tb.png" alt=" "></a>
-            <a href="http://weibo.com/dxracer " target="_blank "><img src="../assets/img/link-wb.png" alt=" "></a>
-            <i class="wx"><img src="../assets/img/link-wx.png" alt=" "><img src="../assets/img/weiChat.png" alt="" class="wx-d"></i>
-            <a href="https://dxracer.tmall.com " target="_blank "><img src="../assets/img/link-tm.png" alt=" "></a>
-            <a href="http://dxracer.jd.com " target="_blank "><img src="../assets/img/link-jd.png" alt=" "></a>
-            <a href="http://www.dxraceresports.cn " target="_blank "><img src="../assets/img/link-jf.png" alt=" "></a>
-            <div class="wx-d"></div>
-        </div>
-        <div class="foot-right fr ">
-            <div class="inline-block ">
-                <img src="../assets/img/phone.png" alt=" ">
-            </div>
-            <div class="inline-block">
-                <p>售前电话：400-990-5033 <br>售后电话：400-829-6033 <br>邮箱：sales@dxracer.com.cn<br></p>
-
-            </div>
-            <p>地址：江苏省无锡惠山经济开发区智慧路19号404室</p>
-        </div>
-    </div>
-    <div class="clearfix center copy ">
-        <div style="float:left">
-            <p>版权所有 &copy; 2017 迪锐克斯DXRacer</p>
-            <p style="text-align:left;"><a href="http://www.miitbeian.gov.cn">备案号：苏ICP备17005778号-2</a></p>
-
-        </div>
-        <a style="float:right" href="http://a.dxracer.cn">售后服务中心</a>
+    <div class="footer">
+        <ul class="Ftitle clearfix">
+            <li class="footerPaddingleft"><img src="../assets/img/zp.png"></li>
+            <li><img src="../assets/img/sf.png"></li>
+            <li><img src="../assets/img/jd.png"></li>
+            <li><img src="../assets/img/qg.png"></li>
+        </ul>
+        <ol class="Ftitle1 clearfix">
+            <li class="li1">
+                <ul class="footerList">
+                    <li class="">
+                        <h4>常见问题</h4>
+                        <p>包装运输</p>
+                        <p>安装方式</p>
+                        <p>权威检测</p>
+                    </li>
+                    <li>                        
+                        <h4></h4>
+                        <p>关于保修</p>
+                        <p>关于发票</p>
+                        <p></p>
+                    </li>
+                    <li>
+                        <h4>帮助中心</h4>
+                        <p>购物指南</p>
+                        <p>支付方式</p>
+                        <p>配送方式</p>
+                    </li>
+                    <li>
+                        <h4>全球官网</h4>
+                        <p>DX美国</p>
+                        <p>DX日本</p>
+                        <p>DX韩国</p>
+                    </li>
+                </ul>
+            </li>
+             <li class="li2">
+                <h3 class="blue">4006-760-730</h3>
+                <p class="li2p">周一至周六</p>
+                <p class="li3p">9:00-17:30</p>
+                <p class="li4p"><img src="../assets/img/comments.png">联系在线客服</p>
+                <p class="li5p">©DXRACER 京ICP证110507号 京ICP备10046444号 </p>
+            </li>
+        </ol>
     </div>
   </div>
 </template>
@@ -48,87 +61,95 @@
 .fl{
     float: left;
 }
-.inline-block{
-    display:inline-block;
-}
-.center{
-    margin: 0 auto;
-    width: 1100px;
-
-}
-a { color:#555; text-decoration:none; }
-
-a:hover { text-decoration:none; }
 .foot{
-  width: 100%;
-  margin:0 auto;
-  background-color:$color-white;
-  z-index:100;
+    width: 100%;
+    background-color: rgb(25, 25, 25);
+    height: 400px;
+    max-width: 1920px;
+    padding-top: 50px;
 }
- .footer{
-    width:1100px;
-    margin: 26px auto;
+.foot .footer{
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
 }
-.foot-left{
-    width:30%;
-    position: relative;
+.foot .footer .Ftitle{
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgb(43, 43, 43);
+    padding-left: 90px;
 }
-.foot-left ul img{
-    width:86%;
-}
-.foot-right{
-     width:30%;
-     text-align:right;
-}
-.footer .foot-left ul li{
+.foot .footer .Ftitle li{
     float: left;
-    margin-right:.133rem;
+    width:25%;
+    text-align: left;
 }
-.footer .foot-left p{
-    line-height: 36px;
+.foot .footer .Ftitle1{
+    padding-left: 90px;
+    padding-top: 40px;
 }
-.copy{
-    text-align:center;
+.foot .footer .Ftitle1 li{
+    float: left;
 }
-.banner .swiper-container {
-        width: 100%;
-        height: 100%;
-         padding-top:0;
-    }
-.banner .swiper-slide {
-        background-position: center;
-        background-size:  100% 100%;
-    }
-.banner .arrow-left,.banner .arrow-right{
-        font-size:60px;
-         top: 46%;
-         color: rgba(225,225,225,.9);
-    }
-.banner .swiper-container .arrow-right{
-        right:.8rem;
-    }
-.banner .swiper-container .arrow-left{
-        left:.4rem;
-    }
-
-  .footBanner .arrow-left {
-  color: rgba(225,225,225,.9);
-  text-align: center;
+.foot .footer .Ftitle1 .li1{
+    width: 60%;
 }
-.wx img:nth-of-type(2){
-  display:none;
+.foot .footer .Ftitle1 .li1 .footerList li{
+    color: white;
+    width: 20%;
+    
 }
-.footBanner .pagination{
-  display:none;
+.foot .footer .Ftitle1 .li1 .footerList li h4{
+    width:100%;
+    min-width:140px;
+    height: 40px;
+    font-size: 16px;
+    color: rgb(255, 255, 255)
 }
- .footBanner .swiper-container {
-        width: 96%;
-        height: 1.8rem;
-        margin: 10px auto;
-    }
-   .footBanner .swiper-slide {
-        text-align: center;
-        background-repeat: no-repeat;
-    }
-
+.foot .footer .Ftitle1 .li1 .footerList li p{
+    width:100%;
+    min-width:140px;
+    height: 30px;
+    line-height:30px;
+    font-size: 12px;
+    color: rgb(153, 153, 153)
+}
+.foot .footer .Ftitle1 .li2{
+    width: 40%;
+    text-align: center;
+}
+.foot .footer .Ftitle1 .li2 .blue{
+    color: rgb(0, 153, 255);
+    font-size: 24px;
+    line-height: 24px;
+}
+.foot .footer .Ftitle1 .li2 .li2p{
+    padding: 10px 0px;
+    line-height: 12px;
+    font-size: 13px;
+    color: rgb(153, 153, 153)
+}
+.foot .footer .Ftitle1 .li2 .li3p{
+    padding-bottom: 10px;
+    line-height: 12px;
+    font-size: 13px;
+    color: rgb(153, 153, 153)
+}
+.foot .footer .Ftitle1 .li2 .li4p{
+    padding: 10px;
+    padding-top: 15px;
+    line-height: 12px;
+    font-size: 13px;
+    color: rgb(0, 153, 255);
+    border: 1px solid rgb(0, 153, 255);
+    width:150px;
+    margin: 0 auto;
+}
+.foot .footer .Ftitle1 .li2 .li4p img{
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.foot .footer .Ftitle1 .li2 .li5p{
+    margin-top: 20px;
+    font-size: 10px;
+}
 </style>

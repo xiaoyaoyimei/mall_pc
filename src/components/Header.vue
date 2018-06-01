@@ -113,19 +113,39 @@
         <!-- E 购物车未登录 -->
 
         <!-- S 购物车无商品 -->
-        <div class="common_cart_nothing cartnone" :class="{loginflag:!nologin}"  v-if="!nologin&&cart">
+        <div class="common_cart_nothing cartnone" :class="{loginflag:!nologin}"  v-if="!nologin&&cartzero">
             <div class="icon_opt icon_cart_middle"></div>
                          购物车中还没有商品，赶紧选购吧！
         </div>
         <!-- E 购物车无商品 -->
 
         <!-- S 购物车有商品 -->
-        <div class="common_cart_something cartnone" :class="{loginflag:!nologin}" v-if="!nologin&&!cart">
+        <div class="common_cart_something cartnone" :class="{loginflag:!nologin}" v-if="!nologin&&!cartzero">
             <div class="icon_opt icon_cart_middle"></div>
-                              商品个数：<span style="color:red">{{cartListlength}}</span>
+                              
+               <ul class="common_cart_list js_common_cart_list">  
+               	<li class="common_cart_item" v-for="(item,index) in cartList" :key="index">
+			    <div class="product_img">
+			      <img  :src="item.image |imgfilter">
+			    </div>
+			    <div class="product_info">
+			                <div class="product_title">
+			              {{item.productName}}         
+			                    </div>
+			        <div class="product_sku">
+			                  {{item.productAttr}}
+			        </div>
+			    </div>
+			    <div class="cart_operation">
+			        <span class="cart_price">{{item.salePrice |pricefilter}}</span>
+			        <span class="operation_delete" @click="deletepro(item.id)">删除</span>
+			    </div>
+			</li>
+			</ul>
+			
             <div class="common_cart_bottom">
                 <a class="to_cart" href="#/cart">
-                       查看购物车
+                                                    查看购物车
                 </a>
             </div>
         </div>
@@ -153,17 +173,34 @@
                   nologin:true,
                   loginuserid:'hello',
                   cartList:[],
-                  cart:false,
+                  cartzero:true,
                   cartListlength:''
             }
         },
-         watch: {
-//		 	 keyword(newValue, oldValue) {
-//		 	 	console.log(oldValue)
-//    			  console.log(newValue)
-//            },
-          },
 		methods:{
+					deletepro(id){
+					let ids=[id];
+				  this.$Modal.confirm({
+                    title: '删除提示',
+                    content: '<p><strong>确定要删除该商品？</strong></p>',
+                    cancelText: '取消',
+                     onOk: () => {
+                       	this.$axios({
+							    method: 'post',
+							    url:'/order/shopping/deleByIds',
+							    data:ids
+								}).then((res)=>{
+									if(res.code==200){
+									this.$Message.info(res.object);
+									this.getCartList()
+									}
+							});
+                    },
+                    onCancel: () => {
+                        this.$Message.info('取消成功');
+                    }
+                });
+			},
             isLogin(){
                 if(localStorage.getItem("token")!=undefined&&localStorage.getItem("token")!=""){
 	      				this.$axios({
@@ -189,11 +226,9 @@
 									if(res.code=='200'){
                                         this.cartList=res.object;
                                         if(this.cartList.length > 0){
-                                            this.cart = false
-                                            this.cartListlength = this.cartList.length 
+                                            this.cartzero = false
                                         }else{
-                                             this.cart = true
-                                             this.cartListlength = 0
+                                             this.cartzero = true
                                         }
 									}
 							});
@@ -748,17 +783,22 @@
 .header .common_cart_wrap .common_cart_login{
     display: none;
 }
-</style>
-<style>
-	.ivu-input-group-append{
-		background-color:#E50011!important;
-		padding:0px!important;
-		}
-	.ivu-input-group-prepend{
-		background-color:#fff!important;
-		border-radius:0px!important;
-		}
-	.ivu-input:nth-last-of-type(1){
-					padding:0px!important;
-		}
+/*购物车*/
+.common_cart_wrap .product_img {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #eee;
+    float: left;
+}
+ .common_cart_wrap .product_info {
+    float: left;
+    font-size: 12px;
+    line-height: 13px;
+    margin-left: 10px;
+    text-align: left;
+    width: 180px;
+}
+.cart_operation {
+    float: right;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
 
 	<div class="sort2">
-        <!-- S 商品筛选结果 list_wrap -->
+			<div class="content_wrap">
         <ul class="search_list_wrap" id="searchListWrap">
         	<div class="empty_result" style="font-size:24px" v-if="productList.length<1">
                     <div class="icon_unit icon_unit_notice"></div>
@@ -20,10 +20,10 @@
                                 {{item.model_name}}
                 </a>
                 <div class="sell_point">{{item.type_name}}</div>
-                <div v-if="item.promotionTitle !=null" class="sku_tag sku_tag_important">{{item.promotionTitle}}</div> 
+                <div v-if="item.promotionTitle !=null" class="sku_tag ">{{item.promotionTitle}}</div> 
             </li>
             </ul>
-        <!-- E 商品筛选结果 list_wrap -->
+    </div>
 		<page class="page" :current="currentPage"  @on-change="handlePage"  :total="totalSize"></page>
         </div>
 	</div>
@@ -77,7 +77,6 @@
 					method: 'GET',
 					url:'/product/search?keyword='+this.keyword+'&startRow='+this.startRow+'&pageSize='+this.pageSize,
 				}).then((res)=>{
-                    console.log(res)
 					this.productList = res.itemsList;
 					this.totalSize=res.total;
 				})
@@ -162,11 +161,46 @@
 </script>
 
 <style lang="scss" scoped="scoped">
+.search_list_wrap li{
+	padding: 0 24px 21px;
+    float: left;
+    position: relative;
+    width: 286px;
+    margin: 0 16px 10px 0;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #eee;
+	 }
+	 .fn{
+	 	display: block;
+    height: 42px;
+    font-size: 14px;
+    overflow: hidden;
+    word-break: break-all;
+    margin: 8px auto 9px;
+    color:#565656
+	 }
 .search_list_wrap {
     width: 1217px;
     overflow: hidden;
-    margin-top: 16px;
+    margin: 16px auto;
 }
+.price em{
+	color: #f60;
+	font-style: normal;
+	font-size: 16px;
+}
+.sku_tag{
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff;
+    font-size: 12px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 20px;
+        background-color: #ff6600;
+        }
 .search_list_wrap .empty_result .icon_unit_notice {
     margin: 120px 20px 0 0;
         display: inline-block;
@@ -181,5 +215,9 @@
 }
 .search_list_wrap .empty_result {
     text-align: center;
+}
+.page{
+	text-align: center;
+	margin:30px 0
 }
 </style>

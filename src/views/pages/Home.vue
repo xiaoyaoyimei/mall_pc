@@ -2,10 +2,6 @@
 <div class="index1">
 	<div class="index">
 		<div class="side_nav_wrap clear" style="">
-
-						<!-- E 类目  -->
-
-						<!-- S 轮播图 -->
 						<Carousel
 						v-model="value3"
 						:autoplay="setting.autoplay"
@@ -14,20 +10,17 @@
 						:radius-dot="setting.radiusDot"
 						:trigger="setting.trigger"
 						:arrow="setting.arrow" class="banner">
-                            <CarouselItem  v-for="(item, index) in Items"  :key="index">
-                                    <div class="demo-carousel"><img :src="imageSrc+item.phoneUrl"></div>
-                            </CarouselItem>
+                <CarouselItem  v-for="(item, index) in Items"  :key="index">
+                        <div class="demo-carousel"><img :src="imageSrc+item.phoneUrl"></div>
+                </CarouselItem>
 						</Carousel>
-                        
-						<!-- E 轮播图 -->
-
 					</div>
 					<div class="rec_wrap" >
 							<ul v-for="(item,index) in aditems"  :key="index">
 								<li >
-                                    <router-link class="url" :to="{name: '/typesort',params:{type:child.linkUrl}}" tag="span" v-for="(child,index) in item.list"  :key="index">	
-                                        <img class="photo"  :src="imageSrc+child.imgUrl"  :width="child.proportion | baifenhao" >
-                                    </router-link>
+                    <router-link class="url" :to="{name: '/typesort',params:{type:child.linkUrl}}" tag="span" v-for="(child,index) in item.list"  :key="index">	
+                        <img class="photo"  :src="imageSrc+child.imgUrl"  :width="child.proportion | baifenhao" >
+                    </router-link>
 								</li>
 							</ul>
 						</div>
@@ -44,9 +37,7 @@
 						<div class="floor_tit floor_tit_1">
 							<h2>推荐产品</h2>
 						</div>
-			
 			<div class="floor floor_2">
-        <!-- 美的商城_PC版_首页_明星单品楼层 1 -->
 						<div class="product product_1" v-for="(item,index) in proList" :key="index" v-if="(index % 5 == '0')" >
 						<router-link class="url" :title='item.model_name' :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
 						<label class="promotionTitle">{{item.promotionTitle}}</label>
@@ -70,7 +61,7 @@
 						</router-link>
 						<div class="mask"></div>
 						<div class="cover">
-							<div class="title">变频蒸立方 湿度感应 -1℃解冻</div>
+							<div class="title"></div>
 							<div class="desc"></div>
 							<div class="price_wrap">¥<span class="price">699.00</span></div>
 							<a class="btn btn_buy" href="/detail/index?itemid=1000000000100511105558&amp;mtag=30022.1485.2">立即购买</a>
@@ -176,7 +167,6 @@ export default {
       }).then(res => {
         if (res.code == "200") {
           this.proList = res.object;
-          console.log(this.proList);
         }
       });
     }

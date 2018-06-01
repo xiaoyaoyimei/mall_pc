@@ -104,7 +104,8 @@
                                         },
                                         on: {
                                             click: () => {
-                                                this.show(params.index)
+                                                this.show(params.index);
+                                                this.chooseDD();
                                                 }
                                             }
                                     }, '设为默认'),
@@ -297,7 +298,8 @@
   	position: fixed;
   	bottom:0;
   	background: #ed1844;
-  	width: 100%;color:#fff;
+  	width: 100%;
+    color:#fff;
   	padding:10px 0;
   	cursor: pointer;
   	a{

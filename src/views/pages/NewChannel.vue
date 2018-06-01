@@ -56,7 +56,6 @@
 						}).then((res)=>{
 							if(res.code=='200'){
                              this.productNew=res.object;
-                             console.log(this.productNew)
 							}
 						});
 						

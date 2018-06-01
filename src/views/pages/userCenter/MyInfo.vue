@@ -92,7 +92,6 @@
           	handleSuccess(res){
             	if(res.code == '200'){
 					this.iconUrl=this.imageSrc + res.msg;
-					console.log(iconUrl);
               	}          
           	},
           	handlePhoto(){
@@ -148,7 +147,6 @@
 						});
                 this.open = false;
 					}else{
-					console.log('1')
 					}
 
             })

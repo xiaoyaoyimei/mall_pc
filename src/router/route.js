@@ -2,8 +2,6 @@ const _import = require('./_import_' + process.env.NODE_ENV);
 import Full from '@/container/Full'
 import UFull from '@/container/UFull'
 let routes =  [
-
-
 				{
 					path: '/',
 				   redirect: '/index',
@@ -74,8 +72,9 @@ let routes =  [
 				},
 				{
 				path: '/user',
+				name:'/user',
 				component: UFull,
-				 redirect: '/user/orderlist',
+				redirect: '/user/orderlist',
 				children:[
 				            {
 				         	name:'orderlist',
@@ -88,8 +87,8 @@ let routes =  [
 				 	   		component:resolve => require(['@/views/pages/userCenter/OrderDetail.vue'], resolve),
 				      	},
 					{
-						name:'address',
-				   		path: 'address',
+						name:'/user/address',
+				   		path: '/user/address',
 			 		   	component:resolve => require(['@/views/pages/userCenter/Address.vue'],resolve)
 					},
 					{

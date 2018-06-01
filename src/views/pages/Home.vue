@@ -2,52 +2,6 @@
 <div class="index1">
 	<div class="index">
 		<div class="side_nav_wrap clear" style="">
-
-        	<!-- S 类目  -->
-			<!-- <div class="cat_menu_wrap">
-				<div class="cat_list" id="catList">
-						<dl class="cat_item J_catItem cat_item1" @mouseenter="enter2" @mouseleave="leave2" :class="{cat_item_hover:cat_item_hover}" data-categoryid="10001">
-						<dt class="cat_item_tit cat_item_tit_first J_catItemTit">
-							<i class="ico_cat"></i>
-							<a href="#/sort" target="_blank">
-								<span class="cat_name">电竞椅</span>
-							</a>
-
-							 </dt>
-							</dl>
-					<dl class="cat_item J_catItem cat_item1" @mouseenter="enter2" @mouseleave="leave2" :class="{cat_item_hover:cat_item_hover}" data-categoryid="10001">
-						<dt class="cat_item_tit cat_item_tit_first J_catItemTit">
-							<i class="ico_cat"></i>
-							<a href="#/sort" target="_blank">
-								<span class="cat_name">电竞桌</span>
-							</a>
-
-							 </dt>
-							</dl>
-					<dl class="cat_item J_catItem cat_item1" @mouseenter="enter2" @mouseleave="leave2" :class="{cat_item_hover:cat_item_hover}" data-categoryid="10001">
-						<dt class="cat_item_tit cat_item_tit_first J_catItemTit">
-							<i class="ico_cat"></i>
-							<a href="#/sort" target="_blank">
-								<span class="cat_name">定制</span>
-							</a>
-
-							 </dt>
-							</dl>
-			
-					<dl class="cat_item J_catItem cat_item1" @mouseenter="enter2" @mouseleave="leave2" :class="{cat_item_hover:cat_item_hover}" data-categoryid="10001">
-						<dt class="cat_item_tit cat_item_tit_first J_catItemTit">
-							<i class="ico_cat"></i>
-							<a href="#/sort" target="_blank">
-								<span class="cat_name">周边</span>
-							</a>
-
-							 </dt>
-							</dl>	
-						</div>
-					</div> -->
-						<!-- E 类目  -->
-
-						<!-- S 轮播图 -->
 						<Carousel
 						v-model="value3"
 						:autoplay="setting.autoplay"
@@ -56,20 +10,17 @@
 						:radius-dot="setting.radiusDot"
 						:trigger="setting.trigger"
 						:arrow="setting.arrow" class="banner">
-                            <CarouselItem  v-for="(item, index) in Items"  :key="index">
-                                    <div class="demo-carousel"><img :src="imageSrc+item.phoneUrl"></div>
-                            </CarouselItem>
+                <CarouselItem  v-for="(item, index) in Items"  :key="index">
+                        <div class="demo-carousel"><img :src="imageSrc+item.phoneUrl"></div>
+                </CarouselItem>
 						</Carousel>
-                        
-						<!-- E 轮播图 -->
-
 					</div>
 					<div class="rec_wrap" >
 							<ul v-for="(item,index) in aditems"  :key="index">
 								<li >
-                                    <router-link class="url" :to="{name: '/typesort',params:{type:child.linkUrl}}" tag="span" v-for="(child,index) in item.list"  :key="index">	
-                                        <img class="photo"  :src="imageSrc+child.imgUrl"  :width="child.proportion | baifenhao" >
-                                    </router-link>
+                    <router-link class="url" :to="{name: '/typesort',params:{type:child.linkUrl}}" tag="span" v-for="(child,index) in item.list"  :key="index">	
+                        <img class="photo"  :src="imageSrc+child.imgUrl"  :width="child.proportion | baifenhao" >
+                    </router-link>
 								</li>
 							</ul>
 						</div>
@@ -86,73 +37,7 @@
 						<div class="floor_tit floor_tit_1">
 							<h2>推荐产品</h2>
 						</div>
-				<!-- <div class="floor floor_1"  > -->
-
-					<!-- 美的商城_PC版_首页_明星单品楼层 1 -->
-
-						<!-- <div class="product product_1" v-for="(item,index) in proList" :key="index" v-if="(index % 5 == '0')" >
-						<router-link  tag="a" class="url" :title='item.model_name' :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
-							<img class="photo" :src='item.model_img |imgfilter'>
-							<span class="title">{{item.model_name}}</span>
-							<span class="price_wrap">¥<span class="price">{{item.sale_price}}</span></span>
-						</router-link>
-						<div class="mask"></div>
-						<div class="cover">
-							<div class="title"></div>
-							<div class="desc"></div>
-							<div class="price_wrap">¥<span class="price">2899.00</span></div>
-							<a class="btn btn_buy" href="/detail/index?itemid=1000000000100511155557&amp;mtag=30022.1485.1">立即购买</a>
-						</div>
-					</div>
-						<div class="product product_2" v-for="(item,index) in proList" :key="index" v-if="(index % 5 == '1')">
-						<router-link class="url" :title='item.model_name' :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
-							<label>{{item.promotionTitle}}</label>
-							<img class="photo" :src='item.model_img |imgfilter'>
-							<span class="title">{{item.model_name}}</span>
-							<span class="price_wrap">¥<span class="price">{{item.sale_price}}</span></span>
-						</router-link>
-						<div class="mask"></div>
-						<div class="cover">
-							<div class="title">变频蒸立方 湿度感应 -1℃解冻</div>
-							<div class="desc"></div>
-							<div class="price_wrap">¥<span class="price">699.00</span></div>
-							<a class="btn btn_buy" href="/detail/index?itemid=1000000000100511105558&amp;mtag=30022.1485.2">立即购买</a>
-						</div>
-					</div>
-							<div class="product product_3" v-for="(item,index) in proList" :key="index" v-if="(index % 5 == '2')">
-						<router-link class="url" :title='item.model_name' :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
-						<label>{{item.promotionTitle}}</label>
-							<img class="photo" :src='item.model_img |imgfilter'>
-							<span class="title">{{item.model_name}}</span>
-							<span class="price_wrap">¥<span class="price">{{item.sale_price}}</span></span>
-						</router-link>
-						<div class="mask"></div>
-						<div class="cover">
-							<div class="title">家用五叶静音落地扇 八档风速</div>
-							<div class="desc"></div>
-							<div class="price_wrap">¥<span class="price">269.00</span></div>
-							<a class="btn btn_buy" href="/detail/index?itemid=1000000000100511204453&amp;mtag=30022.1485.3">立即购买</a>
-						</div>
-					</div>
-							<div class="product product_4" v-for="(item,index) in proList" :key="index" v-if="(index % 5 == '3')">
-						<router-link class="url" :title='item.model_name' :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
-						<label>{{item.promotionTitle}}</label>
-							<img class="photo" :src='item.model_img |imgfilter'>
-							<span class="title">{{item.model_name}}</span>
-							<span class="price_wrap">¥<span class="price">{{item.sale_price}}</span></span>
-						</router-link>
-						<div class="mask"></div>
-						<div class="cover">
-							<div class="title">下置隐藏水桶 HEPA空滤 外置沸腾胆</div>
-							<div class="desc"></div>
-							<div class="price_wrap">¥<span class="price">1688.00</span></div>
-							<a class="btn btn_buy" href="/detail/index?itemid=1000000000100511155736&amp;mtag=30022.1485.4">立即购买</a>
-						</div>
-					</div> -->
-
-            <!-- </div> -->
 			<div class="floor floor_2">
-        <!-- 美的商城_PC版_首页_明星单品楼层 1 -->
 						<div class="product product_1" v-for="(item,index) in proList" :key="index" v-if="(index % 5 == '0')" >
 						<router-link class="url" :title='item.model_name' :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
 						<label class="promotionTitle">{{item.promotionTitle}}</label>
@@ -176,7 +61,7 @@
 						</router-link>
 						<div class="mask"></div>
 						<div class="cover">
-							<div class="title">变频蒸立方 湿度感应 -1℃解冻</div>
+							<div class="title"></div>
 							<div class="desc"></div>
 							<div class="price_wrap">¥<span class="price">699.00</span></div>
 							<a class="btn btn_buy" href="/detail/index?itemid=1000000000100511105558&amp;mtag=30022.1485.2">立即购买</a>

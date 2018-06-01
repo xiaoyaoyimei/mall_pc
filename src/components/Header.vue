@@ -2,7 +2,7 @@
     <div class="head">
 		<div class="header" @mouseleave="leave2">
     <div class="inner">
-        <a class="site_logo" href="#/index" title="美的"></a>
+        <a class="site_logo" href="#/index" title="=迪瑞克斯"></a>
 
         <!-- S 导航 -->
         <div class="nav_wrap">

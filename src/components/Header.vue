@@ -196,7 +196,6 @@
 								}).then((res)=>{
 									if(res.code=='200'){
                                         this.cartList=res.object;
-                                        console.log(this.cartList.length)
                                         if(this.cartList.length > 0){
                                             this.cart = false
                                             this.cartListlength = this.cartList.length 

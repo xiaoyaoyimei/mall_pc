@@ -2,9 +2,6 @@
 
 	<div class="sort2">
 			<div class="content_wrap">
-                <!-- <p  style='display:none'>{{keyword1}}</p> -->
-        <!--S 商品筛选 -->
-        <!-- S 商品筛选结果 list_wrap -->
         <ul class="search_list_wrap" id="searchListWrap">
             <input id="defaultDataNum" value="37" type="hidden">
             <li class="hproduct"  v-for="(item, index) in productList" :key='index'>
@@ -15,12 +12,6 @@
                     <div class="price_new">
                         <span class="price"><em>{{item.sale_price}}</em></span>
                      </div>
-                    <!-- <div class="right_tip item_compare">
-                         <div class="cart js_add_to_cart" data-click="" data-sku="1000000000100511132632">
-                            <i class="cart_icon common_cart_icon"></i>
-                            <span>购物车</span>
-                        </div>
-                    </div> -->
                 </div>
                 <a  class="fn">
                                 {{item.model_name}}
@@ -29,9 +20,7 @@
 
                 <div v-if="item.promotionTitle !=null" class="sku_tag sku_tag_important">{{item.promotionTitle}}</div> 
             </li>
-           
             </ul>
-        <!-- E 商品筛选结果 list_wrap -->
     </div>
 		<page class="page" :current="currentPage"  @on-change="handlePage"  :total="totalSize"></page>
 		<!-- <back-top :height="0" :bottom="200">
@@ -89,7 +78,6 @@
 					method: 'GET',
 					url:'/product/search?keyword='+this.value11+'&startRow='+this.startRow+'&pageSize='+this.pageSize,
 				}).then((res)=>{
-                    console.log(res)
 					this.productList = res.itemsList;
 					this.totalSize=res.total;
 				})
@@ -101,7 +89,6 @@
 				document.querySelector(".ivu-scroll-container").scrollTop = 0; 
             },
             handlePage(value) {  
-                console.log(value)
                 this.startRow = value * this.pageSize - 19;  
                 // this.$axios({
 				// 		method: 'GET',

@@ -35,7 +35,6 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="cxtime" v-if="cxshow"> 促销时间：{{choosesp.startTime}}-{{choosesp.endTime}}</div>
                                             </div>
                                             <dl v-for="(item, index) in shangp.productAttrList"  :key="index">
                                             <dt>{{item.attrKey.catalogAttrValue}}</dt>

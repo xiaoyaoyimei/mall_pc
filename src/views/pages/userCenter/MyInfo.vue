@@ -2,7 +2,7 @@
 		<div class="order">
 			<div class="C_personInfo">
 				<Form ref="userinfo" :model="userinfo" :rules="ruleValidate" :label-width="80">
-					<div class="C_deListTit"><span>更多个人信息</span><span class="fr C_xiugai">修改个人信息</span></div>
+					<div class="C_deListTit"><span>更多个人信息</span></div>
 					<FormItem label="当前头像 ：" class="iconUrl" prop="iconUrl">
 						 <Upload
 							ref="upload"
@@ -204,20 +204,7 @@ table input{
 .C_changePass {
 	margin-bottom: 30px;
 }
-.C_xiugai {
-  display: inline-block;
-  background: url(../../../assets/img/spring1.png) no-repeat -236px -17px;
-  width: 113px;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-  cursor: pointer;
-}
 .fr{
 	float:right;
-}
-.C_xiugai:hover {
-  background: url(../../../assets/img/spring1.png) no-repeat -236px -59px;
-  color: #fff;
 }
 </style>

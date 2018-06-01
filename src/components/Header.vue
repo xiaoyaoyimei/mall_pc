@@ -41,61 +41,45 @@
                 <i class="icon_opt icon_user_main"></i>
                 <!--<i class="icon_atom icon_user_point_new"></i>-->
                 <span class="user_login_name">登录</span>
-                <!--<i class="icon_atom icon_user_point_new" id="dot" style="display: nonex;"></i>-->
                 <i class="icon_atom icon_user_point_new js_act_dot" style="display: none;"></i>
-                <!--下拉箭头-->
-                <!--<i class="icon_opt icon_arrow_show"></i>-->
-                <!--下面三角形-->
-                <!--<i class="icon_opt icon_arrow_link"></i>-->
             </div>
             <!-- E 未登陆 -->
 
             <!-- S 登陆成功-->
             <div class="opt opt_user opt_user_login_success js_opt_user_login_success" @mouseenter="enter1" :class="{loginflag:!nologin}" @click="gotouser">
                 <!--默认头像-->
-                <i class="icon_opt icon_user_main"></i>
+                <i class="icon_opt icon_user_main"  v-if="account.iconUrl==''"></i>
                 <!--实际头像-->
-                <img class="user_login_img js_user_login_img" src="" alt="用户头像" width="20" height="20">
-                <!--<i class="icon_atom icon_user_point_new" id="dot" style="display: nonex;"></i>-->
+                <img class="user_login_img js_user_login_img" :src="account.iconUrl" alt="用户头像" width="20" height="20" v-else>
                 <i class="icon_atom icon_user_point_new js_act_dot" id="dot"></i>
-                <!--用户名，优先昵称，再手机，最后是亲爱的美的用户-->
-                <span class="user_login_name js_user_login_name">{{loginuserid}}</span>
+                <span class="user_login_name js_user_login_name">{{account.nickName}}</span>
             </div>
 
-            <div class="opt opt_user opt_enterprise_user_login_success js_opt_enterprise_user_login_success" @mouseenter="enter1">
-               <i class="icon_opt icon_user_main"></i>
-                <img class="user_login_img js_user_login_img" src=""  width="20" height="20">
-                <span class="user_login_name js_user_login_name" >{{loginuserid}}</span>
-            </div>
             <!-- E 登陆成功-->
 
         </div>
         <!-- E 操作 -->
     </div>
-
-    <!-- S 用户已登陆时的hover -->
-    <!-- E 用户已登陆时的hover -->
-    <!-- S 用户未登陆时的hover -->
     <div class="user_wrap user_unlogin_wrap JS_user_unlogin_wrap" :class="{hidden:hidden}" style="display:none">
         <!-- S 运营活动项 -->
         
         <div class="row row_my_order">
-            <a href="#/user/orderlist">
+            <router-link :to="{ path: '/user/orderlist'}">
                 <i class="icon_atom icon_my_order"></i>
                 <span class="fn">我的订单</span>
-            </a>
-        </div>
+            </router-link>
+           </div>
         <div class="row row_address">
-            <a href="#/user/address" >
+            <router-link :to="{ path: '/user/address' }" >
                 <i class="icon_atom icon_address"></i>
                 <span class="fn">地址管理</span>
-            </a>
+            </router-link>
         </div>
         <div class="row row_account row_last">
-            <a href="#/user/myinfo">
+            <router-link :to="{ path: '/user/myinfo' }">
                 <i class="icon icon_account"></i>
                 <span class="fn">账户设置</span>
-            </a>
+            </router-link>
         </div>
         <div class="row row_login_out row_last" @click="logout">
             <i class="icon icon_login_out"></i>
@@ -171,7 +155,10 @@
                   hidden2:false,
                   opt_search_hover:false,
                   nologin:true,
-                  loginuserid:'hello',
+                  account:{
+                  nickName:'',
+                  iconUrl:'',
+                  },
                   cartList:[],
                   cartzero:true,
                   cartListlength:''
@@ -208,7 +195,8 @@
 					    url:'/account',
 					}).then((res)=>{
                         this.nologin=false;
-                        this.loginuserid = localStorage.getItem("userId") ;
+                        console.log(res)
+                        this.account= Object.assign({},res);
 					});
     	     	 }
             },
@@ -533,9 +521,6 @@
 	display: none;
 
 }
-.opt_user_login_success .user_login_img, .opt_enterprise_user_login_success .user_login_img {
-    display: none;
-}
 .header .opt_wrap .opt_user_login_success .user_login_name, .header .opt_wrap .opt_enterprise_user_login_success .user_login_name {
     max-width: 120px;
     overflow: hidden;
@@ -801,4 +786,6 @@
 .cart_operation {
     float: right;
 }
+.user_login_img {float: left;
+    margin-top: 10px;}
 </style>

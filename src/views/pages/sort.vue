@@ -70,6 +70,9 @@
             },
 			getList(){
 				let routerParams = this.$route.query.keyword;
+				if(routerParams==undefined){
+					this.keyword = "";
+				}
 				if(routerParams!=""&&routerParams!=undefined){
                  this.keyword = routerParams;
                 }

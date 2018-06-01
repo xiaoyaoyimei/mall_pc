@@ -6,8 +6,7 @@ import App from './App'
 import routes from '@/router/route'
 import store from '@/store/store'
 import iView from 'iview';
-import axios from 'axios';
-import 'iview/dist/styles/iview.css';
+import axios from './http';
 import '@/my-theme/index.less'
 import moment from 'moment/moment'
 import fang_ from '@/assets/js/user.js'
@@ -29,7 +28,7 @@ Vue.prototype.$axios = axios;
 Vue.prototype.fang_ = fang_;
 // 页面刷新时，重新赋值token  
 if (localStorage.getItem('token')) {  
-store.commit('set_token',{token: localStorage.getItem('token'),userId:localStorage.getItem('userId')})  
+store.commit('LOGIN',{token: localStorage.getItem('token'),userId:localStorage.getItem('userId')})  
 }  
 const router = new VueRouter({  
 routes  
@@ -50,41 +49,6 @@ router.beforeEach((to, from, next) => {
 		next();  
 		}  
 }) 
-//设置拦截器
-axios.defaults.baseURL = 'http://10.0.0.2:8081/mall/pc/';
-// axios.defaults.baseURL = 'http://test-shop.dxracer.com.cn:8084/mall/pc/';
-axios.interceptors.request.use(config => {  
-// 在发送请求之前做些什么  
-//判断是否存在token，如果存在将每个页面header都添加token  
-if(store.state.token){
- 	config.headers['token'] = store.state.token;
-	config.headers['loginUserId']=store.state.userId  
-}  
-  
-return config;  
-}, error => {  
-// 对请求错误做些什么  
-return Promise.reject(error);  
-});  
-  
-// http response 拦截器  
-axios.interceptors.response.use(  
-response => {  
-return response.data;  
-},  
-error => {  
-if (error.response) {  
-		switch (error.response.status) {  
-		case 401:  
-		this.$store.commit('del_token');  
-		router.replace({  
-		path: '/login',  
-		query: {redirect: router.currentRoute.fullPath}//登录成功后跳入浏览的当前页面  
-		})  
-}  
-}  
-return Promise.reject(error.response.data)  
-}); 
 /* eslint-disable no-new */
 var app =new Vue({
   el: '#app',
@@ -93,3 +57,5 @@ var app =new Vue({
   components: { App },
   template: '<App/>'
 })
+
+

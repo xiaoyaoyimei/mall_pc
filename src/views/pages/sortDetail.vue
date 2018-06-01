@@ -70,9 +70,12 @@
 </template>
 <script>
 import imgZoom from 'vue2.0-zoom'
-    	export default {
+    	    	export default {
         data () {
             return {
+            	//库存是否为0添加购物车显示按钮
+            	kucunshow:false,
+            	videoshow:false,
             	xiajia:false,
             	firstshow:false,
             	selectedId:-1,
@@ -83,7 +86,8 @@ import imgZoom from 'vue2.0-zoom'
             		promotions:[],
             		productImageList:[],
             		productItemList:[],
-            		productAttrList:[]
+            		inventory:[],
+            		productAttrList:[],
             	},
             	productDesc:[],
             	productimg:[],
@@ -96,10 +100,12 @@ import imgZoom from 'vue2.0-zoom'
             		cuxiaoprice:'',
             		activityName:'',
             		startTime:'',
-            		endTime:''
+            		endTime:'',
+            		kucun:'',
             	},
             	productItemId:'',
             	quantity:1,
+            	max:100,
             	productId:'',
                 value3: 0,
                 setting: {
@@ -112,56 +118,71 @@ import imgZoom from 'vue2.0-zoom'
                 },
                 configs: {
                     width:650,
-                    height:300,
+                    height:350,
                     maskWidth:100,
                     maskHeight:100,
                     maskColor:'red',
                     maskOpacity:0.2
-                },
+                }
             }
         },
           methods: {
+          	        changeNumber: function(event){
+						var obj=event.target;
+						this.quantity = parseInt(obj.value);
+					},
+					//添加
+					jia:function(){
+						if(this.quantity>=this.max){
+						this.quantity=this.max
+						}else{
+						this.quantity=parseInt(this.quantity)+1; 
+						  }
+					},
+					//减
+					jian:function(){
+						if(this.quantity==1){
+						this.quantity==1
+						}else{
+						this.quantity=parseInt(this.quantity)-1; 
+						}
+					},
           	//加入购物车
-          	getshipin(){
-//        		     let youkuUrl = 'http://player.youku.com/embed/' + "XMzQ0MDIwMTAzMg=="
-//						          this.$refs.video.src = youkuUrl  
-//        		   	this.$axios({
-//							    method: 'get',
-//							    url:'http://player.youku.com/embed/XMzQ0MDIwMTAzMg==',
-//								}).then((res)=>{
-//						        if (resresponseHeader.returnCode === 0) {  
-//						          let data = res.video  
-//						          //  保存数据  
-//						          this.video = data  
-//						          let id = data.source_id  
-//						          let youkuUrl = 'http://player.youku.com/embed/' + "XMzQ0MDIwMTAzMg=="
-//						          this.$refs.video.src = youkuUrl  
-//						          }
-//     					 })
-          		},
           	   atc () {
-                this.modal_loading = true;
-                	this.$axios({
-							    method: 'post',
-							    url:'/order/shopping/add',
-							    data:{
-							    	productItemId:this.productItemId,
-							    	quantity:this.quantity
-							    }
-								}).then((res)=>{
-									if(res.code=='200'){
+                 this.modal_loading = true;
+	                if(localStorage.getItem('token')!=null&&localStorage.getItem('token')!=undefined){
+	                	this.$axios({
+								    method: 'post',
+								    url:'/order/shopping/add',
+								    data:{
+								    	productItemId:this.productItemId,
+								    	quantity:this.quantity
+								    }
+									}).then((res)=>{
 										this.modal_loading = false;
-										this.$router.push('/cart')  
-									}
-						})
+										if(res.code=='200'){
+											
+											this.$router.push('/cart')  
+										}
+										else{
+											this.$Message.error(res.msg);
+											return ;
+										}
+							})
+						}else{
+							this.$router.push({  path: '/login', query: {redirect: this.$route.fullPath} })  
+						}
             	},
+            	//选择商品
             	chooseSP(e,pa,ch){
+            		this.kucunshow=false;
             		this.cxshow=false;
             		var chooseId="",jishu=0;
        	            let  p=e.target.parentNode.children;
        	            for(let i =1;i<p.length;i++) {
        	            	p[i].className="";
 					}
+       	            //商品属性高亮
        	             e.target.className="active"; 
             		if(pa.attrKey.isColorAttr=='Y'){
             			this.choosesp.img=ch.listImg;
@@ -180,11 +201,10 @@ import imgZoom from 'vue2.0-zoom'
             		//商品详情页已选显示
             	   chooseId=(chooseId.slice(chooseId.length-1)==',')?chooseId.slice(0,-1):chooseId;
             	   this.bigchoose=(this.bigchoose.slice(this.bigchoose.length-1)==',')?this.bigchoose.slice(0,-1):this.bigchoose;
-            	   
             	   var flag= false;
+            	   //只有选择完属性才可以 读出选中商品的促销价格+促销类目
             	   if(jishu==this.shangp.productAttrList.length){
-            	   	//读出选中商品的促销价格+促销类目
-            	   
+            	   	//通过选择属性读出productItemId
             	   	    for (let chooseItem of this.shangp.productItemList) {
 							   if(chooseItem.productModelAttrs==chooseId){
 							   	this.choosesp.itemNo=chooseItem.itemNo,
@@ -206,6 +226,7 @@ import imgZoom from 'vue2.0-zoom'
 							   }else{
 							   		flag= false
 							   }
+
 							}
             	   	    if(flag == false){
             	   	    	this.choosesp.itemNo="";
@@ -217,7 +238,15 @@ import imgZoom from 'vue2.0-zoom'
             	   	    	this.firstshow=true
             	   	    }
             	   }
-            		
+            	   //计算库存
+              						for(let kucunitem of this.shangp.inventory){
+							   	      if(kucunitem.skuId==this.productItemId){
+							   	      	 this.choosesp.kucun=kucunitem.quantity-kucunitem.lockQuantity
+							   	      }
+							       }
+              						if(this.choosesp.kucun<=0){
+              							this.kucunshow=true;
+              						}
             	},
     	      	getParams () {
 	       			 // 取到路由带过来的参数 
@@ -225,6 +254,8 @@ import imgZoom from 'vue2.0-zoom'
 			        this.productId=routerParams;
 			    },
 			     getProduct(){
+			     	let _this=this;
+			     	_this.videoshow=false;
 			     		this.$axios({
 							    method: 'post',
 							    url:'/product/'+this.productId,
@@ -233,7 +264,10 @@ import imgZoom from 'vue2.0-zoom'
 										this.shangp=res.object;
 										 if(res.object.product.video!="")
 										 {
-						                 this.$refs.video.src = 'http://player.youku.com/embed/' + res.object.product.video;
+										 	_this.$refs.video.width=window.innerWidth;
+										 	_this.$refs.video.height=window.innerWidth;
+										 	_this.$refs.video.src = 'http://player.youku.com/embed/' + res.object.product.video;
+										 	_this.videoshow=true;
 						                }
 									}
 							});
@@ -252,20 +286,6 @@ import imgZoom from 'vue2.0-zoom'
 										this.productimg=res;
 							});
 			     },
-			     setdefault(){
-			     		//找出默认选中
-//										var result=this.product.productItemList[0].productModelAttrs.split(",");
-//									    let dditem=this.$refs['dditem'];
-//									     this.bigchoose="";
-//										for(let i=0;i<result.length;i++){
-//												for(let n=0;n<dditem.length;n++){
-//						            			if(dditem[n].getAttribute("title")==result[i]){
-//						            				dditem[n].setAttribute("class",'active');
-//						            				this.bigchoose +=dditem[n].innerHTML+',';
-//						            			}
-//						            		}
-//										}
-			     }
     	      	
     	     },
     	     
@@ -273,11 +293,10 @@ import imgZoom from 'vue2.0-zoom'
 				this.getParams();
 				this.getProduct();
 				this.getProductDesc();
-				this.setdefault();
-				//this.getshipin();
-		},
-        components: { imgZoom }
+        },
+         components: { imgZoom }
     }
+       
 </script>
 <style lang="scss">
  @import '@/styles/color.scss';

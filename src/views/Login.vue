@@ -34,8 +34,8 @@
         };
         return {
           loginForm: {
-            loginName: '188111996471',
-            passWord: '123'
+            loginName: '18811996471',
+            passWord: '1'
           },
           loginRules: {
             loginName: [

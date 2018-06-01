@@ -1,9 +1,6 @@
 <template>
 	<div class="typesort">
 					<div class="content_wrap">
-                <!-- <p  style='display:none'>{{keyword1}}</p> -->
-        <!--S 商品筛选 -->
-        <!-- S 商品筛选结果 list_wrap -->
         <ul class="search_list_wrap" id="searchListWrap">
             <input id="defaultDataNum" value="37" type="hidden">
             <li class="hproduct"  v-for="(item, index) in productNew" :key='index'>

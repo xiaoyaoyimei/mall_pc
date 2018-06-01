@@ -9,7 +9,7 @@
 			<Row>
 				<Col  class='cartCol' span="24">
 					<Col  span="2" class="center">
-								<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
+					<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
 					</Col>
 					<Col span="4" >主图</Col>
 					<Col span="9"><p >商品信息</p></Col>
@@ -23,7 +23,7 @@
 						<P >小计（元）</P>
 					</Col>
 					<Col  span="2">
-						<P >操作</P>
+						<P>操作</P>
 					</Col>
 				</Col>
 			</Row>
@@ -292,11 +292,8 @@ export default {
 		.center{
 			text-align: center;
 		}
-		.cartCol:nth-last-of-type(2){
-			// border-bottom: 1px solid #555;
-		}
 		.cartCol{
-			background-color: #fffceb;
+			background-color: #fff;
 			padding-bottom:10px;
 			padding-top: 15px;
 			height: 213px;

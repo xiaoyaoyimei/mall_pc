@@ -20,6 +20,6 @@ var pricefilter=(value)=>{
 		if (!value) {
     return ''
   }
-   return  '￥'+parseInt(value).toFixed(2)
+   return   Number(value).toFixed(2)
 }
 export { imgfilter, trim ,pricefilter}

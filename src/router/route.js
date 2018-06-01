@@ -1,15 +1,15 @@
 const _import = require('./_import_' + process.env.NODE_ENV);
+import Full from '@/container/Full'
+import UFull from '@/container/UFull'
 let routes =  [
-				{path: '/',redirect: '/index'},
-			    {path: '/login', name: 'login',component:  resolve => require(['@/views/Login.vue'], resolve)},
-				{path: '/register',name: '注册',component:  resolve => require(['@/views/Register.vue'], resolve)},
+
+
 				{
-					path: '/sort',
-					name: '/sort',
-					component:  resolve => require(['@/views/pages/Sort.vue'], resolve)
-				},
-       			{path: '/index',component: resolve => require(['@/container/Full.vue'], resolve),
-					children: [{
+					path: '/',
+				   redirect: '/index',
+				    name: '首页',
+                    component: Full,
+                    children: [{
 						name:'首页',
 						path: '/index',
 						component:resolve => require(['@/views/pages/Home.vue'], resolve),
@@ -31,11 +31,10 @@ let routes =  [
 						component:resolve => require(['@/views/pages/TypeSort.vue'], resolve),
 					},
 						{
-						name:'用户中心',
-						meta:{requireAuth:true},
-						path: '/user',
-						component:resolve => require(['@/views/pages/userCenter/UserCenter.vue'], resolve),
-					},
+					path: '/sort',
+					name: '/sort',
+					component:  resolve => require(['@/views/pages/Sort.vue'], resolve)
+						},
 					{
 						name:'/seckill',
 						path: '/seckill',
@@ -74,19 +73,20 @@ let routes =  [
 					]
 				},
 				{
-				path: '/user',component: resolve => require(['@/container/Full.vue'], resolve),
-				meta:{requireAuth:true},
+				path: '/user',
+				component: UFull,
+				 redirect: '/user/orderlist',
 				children:[
-				   			{
-				         	name:'home',
-				   			path: 'home',
-				 	   		component:resolve => require(['@/views/pages/userCenter/UserCenter.vue'], resolve),
-				         },
 				            {
 				         	name:'orderlist',
 				   			path: 'orderlist',
 				 	   		component:resolve => require(['@/views/pages/userCenter/OrderList.vue'], resolve),
-				         },
+				         },     
+				         { 	meta:{requireAuth:true},
+				         	name:'/order/detail',
+				   			path: '/order/detail',
+				 	   		component:resolve => require(['@/views/pages/userCenter/OrderDetail.vue'], resolve),
+				      	},
 					{
 						name:'address',
 				   		path: 'address',
@@ -143,15 +143,14 @@ let routes =  [
 		 		   	component:resolve => require(['@/views/pages/userCenter/MySetting.vue'],resolve)
 				}	
 			]
-		},
+				},
+			
+		{path: '/login', name: 'login',component:  resolve => require(['@/views/Login.vue'], resolve)},
+		{path: '/register',name: '注册',component:  resolve => require(['@/views/Register.vue'], resolve)},
+		
 		{
 			path: '/*',
-			component:resolve => require(['@/container/Full.vue'],resolve),
-			children:[{
-				name:'/*',
-				path:'/*',
-				 component:resolve => require(['@/views/errorPages/404.vue'],resolve)
-	 }]
+			 component:resolve => require(['@/views/errorPages/404.vue'],resolve)
 		},
 	]
 

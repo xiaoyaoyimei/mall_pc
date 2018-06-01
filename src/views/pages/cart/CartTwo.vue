@@ -1,10 +1,9 @@
 <template>
     <div class='paymoney'>
-		<div id="addressWrap" class=""><div class="address-wrap">
+		<div id="addressWrap" class="">
     <div class="wrap-header">
         <h3>选择收货地址</h3>
         <span class="small-text js_address_tips">地址切换可能导致价格和库存变动，请仔细确认</span>
-        
     </div>
     <div class="address-box clearfix" >
         <div class="adr js_adr_check"  :class="{checked: index == selectItem}"  v-for="(addritem,index) in addressList" :key="index" @click="chooseAddr(addritem.id,index)">
@@ -37,7 +36,6 @@
         </div>
         
     </div>
-</div>
 </div>
                 <Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading">
 				<Form :model="addForm" ref="addForm" label-position="left" :label-width="100" :rules="ruleValidate" > 
@@ -106,7 +104,8 @@
 							<label class="promotion" v-if="x.promotionTitle !=null">{{x.promotionTitle}}</label>
 						</Col>
 						<Col span="2">
-						<p class='cart_price paddingLeft'>￥{{x.salePrice |pricefilter}}
+						<p class='cart_price paddingLeft'>
+							￥{{x.salePrice |pricefilter}}
 							<span v-if="x.promotionTitle ==null&&xscoupon" class="color-coupon">
 					       	 	￥{{couponprice(x.salePrice) |pricefilter }}
 					       	 </span></p>
@@ -124,7 +123,7 @@
 				</Row>
 			</div>
 			<div class="exchange-code-inner" v-show="couponshow">
-                   优惠券:     <input type="text" class="item-box-txt js_exchange_code_txt" placeholder="请输入优惠券" v-model.trim="couponCode">
+                    优惠券:     <input type="text" class="item-box-txt js_exchange_code_txt" placeholder="请输入优惠券" v-model.trim="couponCode">
                         <span class="item-box-btn-save js_exchange_code_confirm" @click='usecoupon'>确认</span>
 			</div>
          <div class='cartfoot'>
@@ -141,7 +140,7 @@
             return {
             	loading:true,
              addressOption: [],
-             selectItem:0,
+             selectItem:null,
 			  addForm: {
 		                    person: '',
 		                    phone: '',
@@ -257,7 +256,6 @@
                 }, 2000);
        
             },
-            
             editmodal(item){
             		this.modaleditaddr=true;
             	    this.editForm.id=item.id;
@@ -413,7 +411,10 @@
 		      },
 		      //提交表单
             confirm(){
-            	
+            	if(this.selectItem==null){
+            	this.$Message.error('收货地址不能为空');
+            	return
+            	}
 	          	let para={
 						addressId:this.addressList[this.selectItem].id,
 	                    productItemIds:this.productItemIds,
@@ -425,7 +426,7 @@
 				    data:para
 				}).then((res)=>{
 					if(res.code=='200'){
-						 this.$router.push({name:'/cartthree',params: { orderNo: res.msg}});  
+						 this.$router.push({name:'/cartthree',query: { orderNo: res.msg}});  
 					}else{
 				   this.$Modal.error({
 				   	title:'失败提示',
@@ -511,7 +512,6 @@
  	
  }
  .cartCol{
-	background-color: #fffceb;
 	padding-bottom:10px;
 	padding-top: 15px;
 	height: 213px;
@@ -727,6 +727,13 @@
     display: inline-block;
 }
 .color-coupon{
+	color:red
+}
+.wrap-header{
+	margin-top:30px;
+}
+.promotion{
+	padding-left:20px;
 	color:red
 }
 /*地址样式-e*/

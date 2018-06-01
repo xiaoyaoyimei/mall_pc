@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="floor">
-				<div   class="spdetail"    v-for="(item, index) in productNew" :key='index'>
+				<!-- <div   class="spdetail"    v-for="(item, index) in productNew" :key='index'>
 							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
 								<img  :src='item.model_img |imgfilter'>
 							   <div class="right">	<p class="sP">{{item.model_name}}
@@ -14,9 +14,9 @@
 								<p class="sh6">{{item.sale_price | pricefilter}}</p>
 								</div>
 							</router-link>
-						</div>
+						</div> -->
        <ul class="search_list_wrap" id="searchListWrap">
-            <input id="defaultDataNum" value="37" type="hidden">
+            <!-- <input id="defaultDataNum" value="37" type="hidden"> -->
             <li class="hproduct"  v-for="(item, index) in productNew" :key='index'>
                <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" tag="a" class="category_cover">
                      <img :src='item.model_img |imgfilter'>
@@ -55,7 +55,8 @@
 						    url:'/index/product/new',
 						}).then((res)=>{
 							if(res.code=='200'){
-							 this.productNew=res.object;
+                             this.productNew=res.object;
+                             console.log(this.productNew)
 							}
 						});
 						

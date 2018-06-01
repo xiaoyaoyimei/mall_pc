@@ -1,8 +1,40 @@
 <template>
 	<div>
 	<div class="detail">
+		<Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots"
+            :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow">
+            <CarouselItem >
+                    <div class="demo-carousel" ><img-zoom :src="detail.productItem.listImg | imgfilter"  width="450" :bigsrc="detail.productItem.originImg | imgfilter" :configs="configs"></img-zoom></div>
+            </CarouselItem>
+    	</Carousel>
+
+		        <div class="delie">
+            <div class="G_info hidden">
+                            <h3>{{detail.product.modelName}}</h3>
+                            <p></p>
+                            <div class="G_changeDetail">
+                                <input id="product_id" name="product_id" value="173" type="hidden">
+                                <p><span class="G_left"> 零售价：&nbsp;</span> <span class="G_right" style=""><b>{{detail.productItem.salePrice | pricefilter}}</b>  </span></p>
+                                <div class="G_MEAS">
+                                <form id="attrform">
+                                    <div slot="header" >
+                          
+                                                <div  class='choosesp'>
+                                                    
+                                                    <div>
+                                                    <span class="cx"><strong>优惠价：￥{{detail.crush.salePrice | pricefilter}}</strong>
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>数量 <InputNumber  :min="1" v-model="quantity"></InputNumber></div>
+                                </form>
+                                </div>
+
+                            </div>
+                        </div>
+        </div>
 		<div class="tp">
-		<img :src="detail.productItem.listImg | imgfilter"/>
 		<p class="jg">
 		<span>{{detail.crush.salePrice | pricefilter}}</span>
 		<span class="yj">{{detail.productItem.salePrice | pricefilter}}</span>	
@@ -61,6 +93,23 @@
 	        	productimg:[],
 	        	temp:'',
 	        	addressList:{},
+				value3: 0,
+				setting: {
+                    autoplay: false,
+                    autoplaySpeed: 2000,
+                    dots: 'inside',
+                    radiusDot: false,
+                    trigger: 'click',
+                    arrow: 'hover'
+                },
+                configs: {
+                    width:650,
+                    height:350,
+                    maskWidth:100,
+                    maskHeight:100,
+                    maskColor:'red',
+                    maskOpacity:0.2
+                }
 	        }
 	      },
 	      methods:{
@@ -121,7 +170,7 @@
 	      		   else{
 	      		   	 sessionStorage.setItem('temp',this.$route.params.skuId);
 	      		   	 this.temp  =this.$route.params.skuId;
-	      		   }
+					 }
 	      			this.$axios({
 					    method: 'get',
 					    url:'/promotion/crush/'+  this.temp,

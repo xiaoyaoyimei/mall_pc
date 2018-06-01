@@ -107,9 +107,8 @@
 					method: 'post',
 					url:'/account',
 				}).then((res)=>{
-					
 					this.userinfo = Object.assign({},res);
-					this.imgSrc =this.imageSrc + this.userinfo.iconUrl ;
+					this.imgSrc = this.userinfo.iconUrl ;
 				});
 	      	},
 	      	 handleChange(date) {
@@ -126,7 +125,7 @@
 			handleSuccess(res){
             if(res.code == '200'){
 				this.userinfo.iconUrl=res.msg;
-				this.imgSrc= this.imageSrc + res.msg
+				this.imgSrc=  res.msg
               }          
           	},
             handleOk(name) {

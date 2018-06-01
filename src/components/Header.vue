@@ -2,14 +2,12 @@
     <div class="head">
 		<div class="header" @mouseleave="leave2">
     <div class="inner">
-        <a class="site_logo" href="/?mtag=40005.1.10" title="美的"></a>
+        <a class="site_logo" href="#/index" title="美的"></a>
 
         <!-- S 导航 -->
         <div class="nav_wrap">
             <ul class="nav" id="topNavWrap">
                 <!-- 美的商城_PC版_首页_顶部主导航 -->
-                
-                <li class="item"><a class="item_tit"  href="#/index">首页</a></li>
                 <li class="item"><a class="item_tit"  href="#/sort">商品分类</a></li>
                 <li id="navInternal" style="display:none;" class="item"><a class="item_tit" target="_blank" href="/my/internal/?mtag=40005.1.11">美的员工福利频道</a></li>
                 
@@ -71,7 +69,7 @@
             </div>
 
             <div class="opt opt_user opt_enterprise_user_login_success js_opt_enterprise_user_login_success" @mouseenter="enter1">
-               {{loginflag}} <i class="icon_opt icon_user_main"></i>
+               <i class="icon_opt icon_user_main"></i>
                 <img class="user_login_img js_user_login_img" src=""  width="20" height="20">
                 <span class="user_login_name js_user_login_name" >{{loginuserid}}</span>
             </div>
@@ -129,16 +127,16 @@
         <!-- E 购物车未登录 -->
 
         <!-- S 购物车无商品 -->
-        <div class="common_cart_nothing" :class="{loginflag:!loginflag}">
+        <div class="common_cart_nothing cartnone" :class="{loginflag:!loginflag,cart:cart}" >
             <div class="icon_opt icon_cart_middle"></div>
             购物车中还没有商品，赶紧选购吧！
         </div>
         <!-- E 购物车无商品 -->
 
         <!-- S 购物车有商品 -->
-        <div class="common_cart_something" :class="{loginflag:!loginflag}">
-            <ul class="common_cart_list js_common_cart_list">
-            </ul>
+        <div class="common_cart_something cartnone" :class="{loginflag:!loginflag,cart:!cart}">
+            <div class="icon_opt icon_cart_middle"></div>
+                商品个数：<span style="color:red">{{cartListlength}}</span>
             <div class="common_cart_bottom">
                 <a class="to_cart" href="#/cart">
                     查看购物车
@@ -165,7 +163,11 @@
                   hidden2:false,
                   opt_search_hover:false,
                   loginflag:true,
-                  loginuserid:'hello'
+                  loginuserid:'hello',
+                  cartList:[],
+                  cart:false,
+                  cartListlength:''
+
 
             }
         },
@@ -178,7 +180,6 @@
 					}).then((res)=>{
                         this.loginflag=false;
                         this.loginuserid = localStorage.getItem("userId") ;
-                        console.log(localStorage.getItem("token"))
 					});
     	     	 }
             },
@@ -194,7 +195,15 @@
 							    url:'/order/shopping/list',
 								}).then((res)=>{
 									if(res.code=='200'){
-										this.cartList=res.object;
+                                        this.cartList=res.object;
+                                        console.log(this.cartList.length)
+                                        if(this.cartList.length > 0){
+                                            this.cart = false
+                                            this.cartListlength = this.cartList.length 
+                                        }else{
+                                             this.cart = true
+                                             this.cartListlength = 0
+                                        }
 									}
 							});
 					}
@@ -288,9 +297,16 @@
     margin: 0 auto;
     position: relative;
 }
-.hidden, .hidden1, .hidden2{
+.loginflag{
     display: block!important;
 }
+.cartnone{
+    display: none!important;
+}
+.hidden, .hidden1, .hidden2, .cart{
+    display: block!important;
+}
+
 .header .nav_wrap {
     float: left;
 }
@@ -724,9 +740,7 @@
     position: relative;
     top: 4px;
 }
-.loginflag{
-    display: block!important;
-}
+
 .header .opt_wrap .opt_user_login_success .user_login_name, .header .opt_wrap .opt_enterprise_user_login_success .user_login_name {
     max-width: 120px;
     overflow: hidden;

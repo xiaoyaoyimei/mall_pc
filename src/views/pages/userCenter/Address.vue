@@ -22,7 +22,7 @@
             <i-button type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">重置</i-button>
         </form-item>
     </i-form>
-	<i-table width="924" border :columns="addaddressTiltle" :data="addressList"></i-table>
+	<i-table width="974" border :columns="addaddressTiltle" :data="addressList"></i-table>
 	</div>
 </template>
 
@@ -92,7 +92,7 @@
                     {
 						title: '操作',
                         key: 'action',
-                        width: 150,
+                        width: "200px",
                         align: 'center',
                         render: (h, params) => {
                             if(params.row.isDefault == "N"){
@@ -108,6 +108,17 @@
                                                 }
                                             }
                                     }, '设为默认'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'text',
+                                            size: 'small'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.edit(params.index)
+                                                }
+                                            }
+                                    }, '编辑'),
                                     h('Button', {
                                         props: {
                                             type: 'text',
@@ -160,6 +171,27 @@
                         this.$Message.info('取消删除');
                     }
                 });
+            },
+            edit(index){
+                let value = this.addressList[index].id;
+                this.$axios({
+							    method: 'post',
+							    url:'/address/delete?id='+value+'',
+							}).then((res)=>{
+                                alert(JSON.stringify(res))
+								if(res.code=='200'){
+                                    this.getAddressList();
+                                    this.formCustom.address = this.addressList[index].address;
+                                    this.formCustom.selectedOptionsAddr = [];
+                                    this.formCustom.selectedOptionsAddr.push(this.addressList[index].receiveProvince)
+                                    this.formCustom.selectedOptionsAddr.push(this.addressList[index].receiveCity)
+                                    this.formCustom.selectedOptionsAddr.push(this.addressList[index].receiveDistrict)
+                                    this.formCustom.person = this.addressList[index].person;
+                                    this.formCustom.phone = this.addressList[index].phone;
+								}else{
+                                    this.$Message.error(res.object);
+                                }
+						})
             },
             getAddressOption(){
                 this.$axios({
@@ -251,7 +283,7 @@
     margin: 0 auto;
 }
 .width{
-    width: 920px;
+    width: 970px;
 }
 .C_deListTit {
     border-bottom: 1px solid #e7e7e7;

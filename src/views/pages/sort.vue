@@ -1,182 +1,9 @@
 <template>
-	<div class="sort1">
-        		<div class="header" @mouseleave="leave2">
-                    <div class="inner">
-                        <a class="site_logo" href="/?mtag=40005.1.10" title="美的"></a>
-                        <!-- S 导航 -->
-                        <div class="nav_wrap">
-                            <ul class="nav" id="topNavWrap">
-                                <!-- 美的商城_PC版_首页_顶部主导航 -->
-                                <li class="item"><a class="item_tit"  href="#/index">首页</a></li>
-                                <li class="item"><a class="item_tit"  href="#/sort">商品分类</a></li>
-                                <li id="navInternal" style="display:none;" class="item"><a class="item_tit" target="_blank" href="/my/internal/?mtag=40005.1.11">美的员工福利频道</a></li>
-                            </ul>
-                        </div>
-                        <!-- E 导航 -->
-                        <!-- S 操作 -->
-                        <div class="opt_wrap" id="optWrap">
-                            <div class="opt opt_search opt_search_hover">
-                                <!-- 美的商城_PC版_首页_搜索 -->
-                                <div data-midea_mos_id="26,145" class="search_wrap">  
-                                    
-                                    <form action=""> 
-                                            <input v-model="value11" @click="getList()" v-on:blur="changeCount()" placeholder="电竞椅" autocomplete="off" type="search"> 
-                                        </form>   
-                                    <input name="default_link" value="https://www.midea.cn/promote/pc/build/index/aWQwTfmdaS0x9OTcx?mtag=10022.12.1" type="hidden">  
-                                    <i class="icon_opt icon_search" @click="gosearch()"></i> 
-                                </div> 
-                            </div>
-                            <div class="opt opt_wx" @mouseenter="enter2" >
-                                <i class="icon_opt icon_wx"></i>
-                            </div>
 
-                            <!-- S 购物车-->
-                            <div class="opt opt_cart" @mouseenter="enter" >
-                                <i class="icon_opt icon_cart_small"></i>
-                                <span class="header_cart_num js_header_cart_num"></span>
-                            </div>
-                            <!-- E 购物车-->
-
-                            <!-- S 未登陆 -->
-                            <div class="opt opt_user opt_user_login_fail" id="unloginStatus" @mouseenter="enter1" style="display: block;">
-                                <i class="icon_opt icon_user_main"></i>
-                                <!--<i class="icon_atom icon_user_point_new"></i>-->
-                                <span class="user_login_name">登录</span>
-                                <!--<i class="icon_atom icon_user_point_new" id="dot" style="display: nonex;"></i>-->
-                                <i class="icon_atom icon_user_point_new js_act_dot" style="display: none;"></i>
-                                <!--下拉箭头-->
-                                <!--<i class="icon_opt icon_arrow_show"></i>-->
-                                <!--下面三角形-->
-                                <!--<i class="icon_opt icon_arrow_link"></i>-->
-                            </div>
-                            <!-- E 未登陆 -->
-
-                            <!-- S 登陆成功-->
-                            <div class="opt opt_user opt_user_login_success js_opt_user_login_success">
-                                <!--默认头像-->
-                                <i class="icon_opt icon_user_main"></i>
-                                <!--实际头像-->
-                                <img class="user_login_img js_user_login_img" src="" alt="用户头像" width="20" height="20">
-                                <!--<i class="icon_atom icon_user_point_new" id="dot" style="display: nonex;"></i>-->
-                                <i class="icon_atom icon_user_point_new js_act_dot" id="dot"></i>
-                                <!--用户名，优先昵称，再手机，最后是亲爱的美的用户-->
-                                <span class="user_login_name js_user_login_name"></span>
-                                <!--下拉箭头-->
-                                <!--<i class="icon_opt icon_arrow_show"></i>-->
-                                <!--下面三角形-->
-                                <!--<i class="icon_opt icon_arrow_link"></i>-->
-                            </div>
-
-                            <div class="opt opt_user opt_enterprise_user_login_success js_opt_enterprise_user_login_success">
-                                <i class="icon_opt icon_user_main"></i>
-                                <img class="user_login_img js_user_login_img" src="" alt="用户头像" width="20" height="20">
-                                <span class="user_login_name js_user_login_name"></span>
-                            </div>
-                            <!-- E 登陆成功-->
-
-
-                        </div>
-                        <!-- E 操作 -->
-                    </div>
-
-                    <!-- S 微信 -->
-                    <div class="wx_wrap" style="display: none;" :class="{hidden2:hidden2}">
-                        <img class="wx_qrcode" src="//img.mdcdn.cn/pc/img/mall/header_qr_app.png?t=20160105" alt="美的app下载二维码">
-                    </div>
-
-                    <div class="user_wrap user_unlogin_wrap JS_user_unlogin_wrap" :class="{hidden:hidden}" style="display:none">
-                        <div class="row row_my_order">
-                            <a href="#/user/orderlist" target="_blank">
-                                <i class="icon_atom icon_my_order"></i>
-                                <span class="fn">我的订单</span>
-                            </a>
-                        </div>
-                        <div class="row row_address">
-                            <a href="#/user/address" target="_blank">
-                                <i class="icon_atom icon_address"></i>
-                                <span class="fn">地址管理</span>
-                            </a>
-                        </div>
-                        <div class="row row_account row_last">
-                            <a href="#/user/myinfo" target="_blank">
-                                <i class="icon icon_account"></i>
-                                <span class="fn">账户设置</span>
-                            </a>
-                        </div>
-                        <div class="row row_login_out row_last">
-                            <i class="icon icon_login_out"></i>
-                            <span class="fn">退出登录</span>
-                        </div>
-                    </div>
-                    <!-- E 用户未登陆时的hover -->
-
-                    <!-- S 购物车顶部导航弹窗 -->
-                    <div class="common_cart_wrap" :class="{hidden1:hidden1}" style="right: 86px;">
-                        <!-- S 购物车未登录 -->
-                        <div class="common_cart_login" >
-                            立即<a href="#/login">登录</a>，查看购物车商品
-                        </div>
-                        <!-- E 购物车未登录 -->
-
-                        <!-- S 购物车无商品 -->
-                        <div class="common_cart_nothing">
-                            <div class="icon_opt icon_cart_middle"></div>
-                            购物车中还没有商品，赶紧选购吧！
-                        </div>
-                        <!-- E 购物车无商品 -->
-
-                        <!-- S 购物车有商品 -->
-                        <div class="common_cart_something">
-                            <ul class="common_cart_list js_common_cart_list">
-                            </ul>
-                            <div class="common_cart_bottom">
-                                <a class="to_cart" href="#/cart">
-                                    查看购物车
-                                </a>
-                            </div>
-                        </div>
-                        <!-- E 购物车有商品 -->
-                    </div>
-                    <!-- E 购物车顶部导航弹窗 -->
-
-                </div>
 	<div class="sort2">
-		<div class="cate_cells">
-			<div class="cate_cell col_10">
-					<div class="cate_cell_hd">分类：</div>
-					<div class="cate_cell_bd">
-						<ul class="cate_list">
-							<li class="" >
-								<a href="#" class="mod_word">F系列</a>
-							</li>
-							<li class="filter_cur" >
-								<a href="#" class="mod_word">O系列</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
 			<div class="content_wrap">
                 <!-- <p  style='display:none'>{{keyword1}}</p> -->
         <!--S 商品筛选 -->
-        <div class="cate_cells filter_wrap">
-            <div class="cate_cell cate_bar">
-                <div class="cate_cell_bd">
-                                        <div class="mod_filter_item filter_cur filter_all js_mod_filter_item">推荐</div>
-                    <div class="mod_filter_item filter_price js_mod_filter_item">
-                                                    <ul class="price_box">
-                                <li class="filter_price_attr filter_price_asc">价格从低到高</li>
-                                <li class="filter_price_attr filter_price_desc">价格从高到低</li>
-                            </ul>
-                                                <span class="price_tip">价格</span><i class="icon_atom icon_down_arrow"></i></div>
-                </div>
-                <div class="cate_cell_ft filter_stock js_mod_filter_item"><i class="icon_atom icon_stock"></i>仅看有货</div>
-
-            </div>
-
-        </div>
-        <!--E 商品筛选 -->
-
         <!-- S 商品筛选结果 list_wrap -->
         <ul class="search_list_wrap" id="searchListWrap">
             <input id="defaultDataNum" value="37" type="hidden">
@@ -188,12 +15,12 @@
                     <div class="price_new">
                         <span class="price"><em>{{item.sale_price}}</em></span>
                      </div>
-                    <div class="right_tip item_compare">
+                    <!-- <div class="right_tip item_compare">
                          <div class="cart js_add_to_cart" data-click="" data-sku="1000000000100511132632">
                             <i class="cart_icon common_cart_icon"></i>
                             <span>购物车</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <a  class="fn">
                                 {{item.model_name}}
@@ -257,14 +84,7 @@
             filterMethod (data, query) {
                 return data.label.indexOf(query) > -1;
             },
-			getList(){
-				this.spinShow=true;
-				 let routerParams = this.$route.query.value11;
-				  this.productList=[];
-                // 将数据放在当前组件的数据内
-                if(routerParams!=""&&routerParams!=undefined){
-                 this.value11 = routerParams;
-				}
+			getList(value11){
                 this.$axios({
 					method: 'GET',
 					url:'/product/search?keyword='+this.value11+'&startRow='+this.startRow+'&pageSize='+this.pageSize,

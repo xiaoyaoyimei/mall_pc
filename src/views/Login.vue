@@ -12,13 +12,12 @@
             <Input type="password" v-model="loginForm.passWord" placeholder="passWord" @keyup.enter.native="handleLogin">
             </Input>
         </Form-item>
-             <Button type="primary" @click="handleLogin('loginForm')"  class="btn-login">登录</Button>
+             <Button type="primary" @click="handleLogin('loginForm')"  class="btn-login" :loading="loading">登录</Button>
             <router-link :to="{path: '/register'}" class="re">新用户注册</router-link>
     </Form>
 		</div>
     </div>
 </template>
-
 <script>
 	import store from '@/store/store';
 	import { mapMutations } from 'vuex';
@@ -45,7 +44,7 @@
                 { required: true, trigger: 'blur', validator: validatePass }
             ]
           },
-          loading: false,
+          loading: true,
           showDialog: false
         }
       },
@@ -64,6 +63,7 @@
         this.loginName = routerParams
      	 },
           handleLogin() {
+          	this.loading=true;
           this.$refs.loginForm.validate(valid => {
             if (valid) {
             	this.global_.loginName=this.loginForm.loginName;
@@ -93,9 +93,8 @@
 							}  
 		              }
 				}).catch(error => {  
-						this.loading = false  
-						this.loginBtn = "登录"  
 						this.$Message.error('系统异常');
+						this.loading = false  
 				})  
             } 
             else {

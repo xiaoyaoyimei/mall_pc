@@ -111,15 +111,6 @@
             },
             handlePage(value) {  
                 this.startRow = value * this.pageSize - 19;  
-                // this.$axios({
-				// 		method: 'GET',
-				// 		url:'/product/search?startRow='+this.startRow+'&pageSize='+this.pageSize,
-				// 		}).then((res)=>{
-				// 			var arr = this.productList.concat(res.itemsList);
-				// 			this.productList = arr;
-				// 			console.log(this.productList)
-							
-                // 		})
                 this.getList();
             },
 			ha(){

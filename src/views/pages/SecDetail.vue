@@ -1,18 +1,23 @@
 <template>
 	<div>
 	<div class="detail sortDetail">
-		<Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots"
-            :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow">
-            <CarouselItem >
-                    <div class="demo-carousel" ><img-zoom :src="detail.productItem.listImg | imgfilter"  width="450" :bigsrc="detail.productItem.originImg | imgfilter" :configs="configs"></img-zoom></div>
-            </CarouselItem>
-    	</Carousel>
+		<div class="goodDetails_name_img">  
+			<div style="width: 400px;height: 400px">  
+				<img :src="ImgUrl |imgfilter" style="width: 100%;height: 100%">  
+			</div>  
+			<div class="little_img" >  
+				<ul v-for="(item, index) in shangp.productImageList"  :key="index">  
+					<li @click='getIndex(item.listImg)' class="clickproduct">  
+						<img :src="item.listImg |imgfilter"  style="width: 50px; height: 50px" >  
+					</li>  
+				</ul>  
+			</div>  
+		</div> 
 
 		<div class="delie">
             <div class="G_info hidden">
 				<p>{{detail.product.modelName}}</p>
 				<div class="G_changeDetail">
-					<input id="product_id" name="product_id" value="173" type="hidden">
 					<p><span class="G_left"> 零售价：&nbsp;</span> <span class="G_right" style=""><b>{{detail.productItem.salePrice | pricefilter}}</b>  </span></p>
 					<div class="G_MEAS">
 					<form id="attrform">
@@ -46,7 +51,7 @@
                 </div>
             </div>
 			<div class="SDfoot"> 
-	    	<button :loading="loading" @click="confirm" class="miaoshagou">马上抢</button>
+	    	<button  :loading="loading" @click="confirm" class="miaoshagou">马上抢</button>
   		  </div>  
 		 </div>
 	       <Tabs class="spjs">
@@ -81,24 +86,9 @@ import imgZoom from 'vue2.0-zoom'
 	        	productDesc:[],
 	        	productimg:[],
 	        	temp:'',
-	        	addressList:{},
-				value3: 0,
-				setting: {
-                    autoplay: false,
-                    autoplaySpeed: 2000,
-                    dots: 'inside',
-                    radiusDot: false,
-                    trigger: 'click',
-                    arrow: 'hover'
-                },
-                configs: {
-                    width:650,
-                    height:350,
-                    maskWidth:100,
-                    maskHeight:100,
-                    maskColor:'red',
-                    maskOpacity:0.2
-                }
+				addressList:{},
+				ImgUrl:'',
+				choosepPrice:false,
 	        }
 	      },
 	      methods:{
@@ -417,20 +407,23 @@ import imgZoom from 'vue2.0-zoom'
  		margin-left:1rem
  	}
  }
-  dl{
+dl{
  	overflow: hidden;
- 	margin-bottom: 20px;
+ 	margin-bottom: 10px;
+	 margin-top: 10px;
  	dt{
- 	margin-bottom:20px;
-    line-height: 20px!important;
-    height: 20px!important;
+    margin-bottom: 10px;
+    line-height: 35px !important;
+    height: 40px !important;
+    float: left;
+	margin-right: 10px;
  	}
 	 dd{
 	  	border:1px solid $color-border;
 	  	float: left;
 	  	padding: 6px 10px;
 	  	margin-right: 10px;
-	  	border-radius: 10px;
+	  	border-radius: 0px;
 	  	color: #222;
 	  	cursor: pointer;
 	  	margin-bottom: 10px;
@@ -500,4 +493,8 @@ import imgZoom from 'vue2.0-zoom'
     width: 48%;
     text-align: center;
 }
+.miaoshagou {
+	padding: 15px 50px;
+}
+
 	</style>

@@ -43,8 +43,8 @@
                                             </dl>
                                             <div>数量 ：<InputNumber  :min="1" v-model="quantity"></InputNumber><span class="stock" v-if="kucunshow">库存 ：<b>{{choosesp.kucun}}</b></span></div>
                                             <div slot="footer">
-                                                <Button  size="large goCart"     disabled="disabled" v-if="xiajia">加入购物车</Button>
-                                                <Button  size="large goCart"  :loading="modal_loading" @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
+                                                <Button class="goCart"  size="large"     disabled="disabled" v-if="xiajia">加入购物车</Button>
+                                                <Button class="goCart"  size="large"  :loading="modal_loading" @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
                                             </div>
                                 </form>
                                 </div>

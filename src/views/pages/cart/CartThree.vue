@@ -7,31 +7,27 @@
 			</div>
 		</div>
 		<div class="scan_code_wrap">
-		  <Form ref="formValidate" action='/order/' :model="formValidate" :rules="ruleValidate">
-		  	 <FormItem  prop="payType">
-		  	 	<!--<ul class="pay_tab js_pay_tab">
-                        <li class="wechat" data-target="wechat">
-                <i class="icon-wechat"></i>
-                                               微信支付
-            </li>
-            <li class="alipay " data-target="alipay">
-                <i class="icon-alipay"></i>
-                                                     支付宝
-            </li>
-                    </ul>-->
-                    <div class="js_target_wrap">
-                    	
+		  	 	<ul class="pay_tab js_pay_tab">
+		  	 		 <li class="alipay " data-target="alipay" @click="toggletab(0)" :class="{checked:0 == num}">
+		                <i class="icon-alipay"></i>
+		                                             支付宝
+		            </li>
+                    <li class="wechat" data-target="wechat" @click="toggletab(1)" :class="{checked:1 == num}">
+		                <i class="icon-wechat"></i>
+		                                                            微信支付
+		            </li>
+           			 </ul>
+                    <div class="pay_content">
+                    <div v-show=" 0 == num"  class="ali">
+                    		<img src="../../../assets/img/alipay.png" @click="handleSubmit()">
+                    	</div>
+                    	<div v-show=" 1 == num" >
+                    		<img src="../../../assets/img/weiChat.png">
+                    	</div>
                     </div>
-			  <ul class="payType">
-			  	<li><img  src="../../../assets/img/wechatpay.png">
-			  	<i><input type="radio" name="zffs" v-model="formValidate.payType" value="wepay"> </i></li>
-			  	<li><img  src="../../../assets/img/zhifubao.png"><i><input type="radio" name="zffs"  v-model="formValidate.payType" value="alipay" > </i></li>
-			  </ul>
-		  </FormItem>
-		    <Button type="success" long  @click="handleSubmit('formValidate')">去支付</Button>
+		<div id="zhifu" ref="zhifu"></div>
     	</Form>
     </div>
-    	<div id="zhifu" ref="zhifu"></div>
      </div>
 </template>
 
@@ -41,17 +37,14 @@
             return {
             	payshow:false,
             	orderNo:'',
-            	formValidate:{
-            			payType:'',
-            	},
-            	ruleValidate: {
-                    payType: [
-                        { required: true, message: '请选择支付方式', trigger: 'blur' }
-                    ],
-                   }
+            	num:0,
             }
         },
         methods:{
+        	//切换num的值切换支付方式
+        	toggletab(num){
+        		this.num=num;
+        	},
         	cancelpay(){
         		this.payshow=true;
         	},
@@ -67,20 +60,15 @@
 	                // 将数据放在当前组件的数据内
 	                this.orderNo = routerParams;
 	          },
-        	 handleSubmit () {
-                this.$refs['formValidate'].validate((valid) => {
-                    if (valid) {
-                        this.$axios({
-						    method: 'post',
-						    url:'/order/'+this.formValidate.payType+'/'+this.orderNo,
-						}).then((res)=>{
-							this.$refs['zhifu'].innerHTML=res;
-							document.getElementsByName('punchout_form')[0].submit()
-						});
-                    } else {
-                        this.$Message.error('Fail!');
-                    }
-                })
+        	handleSubmit () {
+        		
+                this.$axios({
+				    method: 'post',
+				    url:'/order/alipay/'+this.orderNo,
+				}).then((res)=>{
+					this.$refs['zhifu'].innerHTML=res;
+					document.getElementsByName('punchout_form')[0].submit()
+				});
             },
         },
            mounted() {
@@ -89,7 +77,7 @@
        }
 </script>
 
-<style scoped="scoped">
+<style scoped="scoped" lang="scss">
 	ul,li{
 		margin: 0;
 		padding: 0;
@@ -148,11 +136,28 @@
     width: 24px;
     height: 24px;
 }
- .js_target_wrap{
+.pay_content{
     background-color: #fff;
     border: 1px solid #e9e9e9;
-    margin-top: -13px;
+    margin-top: -6px;
     height: 480px;
     margin-bottom: 40px;
+    	div{
+    		  display: flex;
+    justify-content: center;
+    height: 100%;
+    img{
+    	align-self: center;
     }
+    	}
+    }
+    .pay_tab .checked {
+    	height: 61px;
+    background-color: #fff;
+    border-bottom: 1px solid #fff;
+    margin-bottom: -1px;
+}
+.ali img{
+	cursor: pointer;
+}
 </style>

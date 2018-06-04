@@ -1,68 +1,61 @@
 <template>
-    <div class="head">
-		<div class="header" @mouseleave="leave2">
-    <div class="inner">
-        <a class="site_logo" href="#/index" title="首页"></a>
-       
-        <!-- S 导航 -->
+    <div class="new_header">
+    	<div >
+       <div class="inner">
+       	 <router-link  to="/index" class="logo"><img src="../assets/img/logo.png"></router-link>
         <div class="nav_wrap">
-            <ul class="nav" id="topNavWrap">
-                <!-- dxracer商城_PC版_首页_顶部主导航 -->
-              <li class="item"><a class="item_tit"  href="#/index">首页</a></li>  
-                <li class="item"><a class="item_tit"  href="#/sort">商品分类</a></li>
+            <ul class="nav" >
+               <router-link  to="/index" tag="li">首页</router-link>
+               <router-link  to="/sort" tag="li">分类页</router-link>
             </ul>
         </div>
-        <!-- E 导航 -->
-        <!-- S 操作 -->
-        <div class="opt_wrap" id="optWrap">
-            <div class="opt opt_search" :class="{opt_search_hover:opt_search_hover}">
+        <div class="opt_wrap">
+            <div class="opt_search" >
                 <!-- dxracer商城_PC版_首页_搜索 -->
-                <div data-midea_mos_id="26,145" class="search_wrap">  
-                     
-                    <form action=""> 
-                            <input v-model="keyword" v-on:blur="changeCount()" placeholder="电竞椅" autocomplete="off" type="search" @keyup.enter="gosearch()"> 
-                        </form>   
-                    <input name="default_link" value="电竞椅" type="hidden">  
-                    <i class="icon_opt icon_search" @click="showsearch()"></i> 
+                <div  class="search_wrap">  
+                    <form> 
+                            <input v-model="keyword" v-on:blur="changeCount()" placeholder="电竞椅" autocomplete="off"  type="search"  @keyup.enter="gosearch()"> 
+                      </form>   
+                    <i class="icon_search" @click="showsearch()"></i> 
                 </div> 
             </div>
-            <div class="opt opt_wx" @mouseenter="enter2" >
-                <i class="icon_opt icon_wx"></i>
+                    <!-- S 未登陆 -->
+            <div class="opt_user" >
+            	<i class="icon icon-login-gray"></i>
+            	<div class="nologin-wrap"><h3>登录</h3>
+            	<Form :model="formLogin" label-position="top">
+		        <FormItem label="用户名">
+		            <Input v-model="formLogin.loginName"></Input>
+		        </FormItem>
+		        <FormItem label="密码">
+		            <Input v-model="formLogin.passWord"></Input>
+		        </FormItem>
+		        </Form>
+                  </div>
             </div>
+            
+        </div>
+    </div>
+            </div>
+    </div>
             <!-- S 购物车-->
-            <div class="opt opt_cart" @mouseenter="enter" >
+            <!--<div class="opt opt_cart" @mouseenter="enter" >
                 <i class="icon_opt icon_cart_small"></i>
                 <span class="header_cart_num js_header_cart_num"></span>
-            </div>
+            </div>-->
             <!-- E 购物车-->
 
-            <!-- S 未登陆 -->
-            <div class="opt opt_user opt_user_login_fail" id="unloginStatus" @mouseenter="enter1" :class="{loginflag:nologin}" @click="gotologin">
-                <i class="icon_opt icon_user_main"></i>
-                <!--<i class="icon_atom icon_user_point_new"></i>-->
-                <span class="user_login_name">登录</span>
-                <i class="icon_atom icon_user_point_new js_act_dot" style="display: none;"></i>
-            </div>
-            <!-- E 未登陆 -->
+    
 
             <!-- S 登陆成功-->
-            <div class="opt opt_user opt_user_login_success js_opt_user_login_success" @mouseenter="enter1" :class="{loginflag:!nologin}" @click="gotouser">
-                <!--默认头像-->
+            <!--<div class="opt opt_user opt_user_login_success js_opt_user_login_success" @mouseenter="enter1" :class="{loginflag:!nologin}" @click="gotouser">
                 <i class="icon_opt icon_user_main"  v-if="account.iconUrl==''"></i>
-                <!--实际头像-->
-                <img class="user_login_img js_user_login_img" :src="account.iconUrl" alt="用户头像" width="20" height="20" v-else>
+                <img class="user_login_img js_user_login_img" :src="account.iconUrl|imgfilter" alt="用户头像" width="20" height="20" v-else>
                 <i class="icon_atom icon_user_point_new js_act_dot" id="dot"></i>
                 <span class="user_login_name js_user_login_name">{{account.nickName}}</span>
-            </div>
+            </div>-->
 
-            <!-- E 登陆成功-->
-
-        </div>
-        <!-- E 操作 -->
-    </div>
-    <div class="user_wrap user_unlogin_wrap JS_user_unlogin_wrap" :class="{hidden:hidden}" style="display:none">
-        <!-- S 运营活动项 -->
-        
+    <!--<div class="user_wrap user_unlogin_wrap JS_user_unlogin_wrap" :class="{hidden:hidden}" style="display:none">
         <div class="row row_my_order">
             <router-link :to="{ path: '/user/orderlist'}">
                 <i class="icon_atom icon_my_order"></i>
@@ -85,26 +78,25 @@
             <i class="icon icon_login_out"></i>
             <span class="fn">退出登录</span>
         </div>
-    </div>
+    </div>-->
     <!-- E 用户未登陆时的hover -->
 
     <!-- S 购物车顶部导航弹窗 -->
-    <div class="common_cart_wrap" :class="{hidden1:hidden1}" style="right: 86px;">
-        <!-- S 购物车未登录 -->
+    <!--<div class="common_cart_wrap" :class="{hidden1:hidden1}" style="right: 86px;">
         <div class="common_cart_login"  :class="{loginflag:nologin}" >
                   立即<a href="#/login">登录</a>，查看购物车商品
-        </div>
+        </div>-->
         <!-- E 购物车未登录 -->
 
         <!-- S 购物车无商品 -->
-        <div class="common_cart_nothing cartnone" :class="{loginflag:!nologin}"  v-if="!nologin&&cartzero">
+        <!--<div class="common_cart_nothing cartnone" :class="{loginflag:!nologin}"  v-if="!nologin&&cartzero">
             <div class="icon_opt icon_cart_middle"></div>
                          购物车中还没有商品，赶紧选购吧！
-        </div>
+        </div>-->
         <!-- E 购物车无商品 -->
 
         <!-- S 购物车有商品 -->
-        <div class="common_cart_something cartnone" :class="{loginflag:!nologin}" v-if="!nologin&&!cartzero">
+        <!--<div class="common_cart_something cartnone" :class="{loginflag:!nologin}" v-if="!nologin&&!cartzero">
             <div class="icon_opt icon_cart_middle"></div>
                               
                <ul class="common_cart_list js_common_cart_list">  
@@ -132,27 +124,22 @@
                                                     查看购物车
                 </a>
             </div>
-        </div>
+        </div>-->
         <!-- E 购物车有商品 -->
-    </div>
     <!-- E 购物车顶部导航弹窗 -->
-
-</div>
-    </div>
 </template>
 
 <script>
-		// 引入公共的bug，来做为中间传达的工具
+   // 引入公共的bug，来做为中间传达的工具
 	import Bus from '@/assets/js/bus.js'
 	 export default {
         data () {
             return {
+            	formLogin:{
+            		loginName:'',
+            		passWord:''
+            	},
                 keyword: '',
-				  value12: '',
-				  ha2:false,
-                  hidden:false,
-                  hidden1:false,
-                  hidden2:false,
                   opt_search_hover:false,
                   nologin:true,
                   account:{
@@ -160,6 +147,7 @@
                   iconUrl:'',
                   },
                   cartList:[],
+                  //购物车是否为空
                   cartzero:true,
                   cartListlength:''
             }
@@ -167,7 +155,7 @@
 		methods:{
 					deletepro(id){
 					let ids=[id];
-				  this.$Modal.confirm({
+				    this.$Modal.confirm({
                     title: '删除提示',
                     content: '<p><strong>确定要删除该商品？</strong></p>',
                     cancelText: '取消',
@@ -200,10 +188,6 @@
 					});
     	     	 }
             },
-			ha(){
-				alert(this.ha2)
-				this.ha2 = false;
-            },
             getCartList(){
         		if(localStorage.getItem('token')!=undefined){
         			this.nologin=false;
@@ -222,38 +206,12 @@
 							});
 					}
         	},
-			ha1(){
-				this.ha2 = true;
-			},
 			showsearch(){
 				  this.opt_search_hover=true;
 			},
 			gosearch(){
 			    Bus.$emit('val', this.keyword)
                 this.$router.push({name: '/sort',query:{keyword:this.keyword}});  
-            },
-            changeCount(){
-                 this.opt_search_hover=false;
-            },
-            enter(){
-                this.hidden1 =true;
-                this.hidden2 =false;
-                this.hidden =false;
-            },
-            enter1(){
-                this.hidden =true;
-                this.hidden1 =false;
-                this.hidden2 =false;
-            },
-             enter2(){
-                this.hidden2 =true;
-                this.hidden1 =false;
-                this.hidden =false;
-            },
-            leave2(){
-                this.hidden2 =false;
-                this.hidden1 =false;
-                this.hidden =false;
             },
             gotologin(){
             	this.$router.push('/login');
@@ -296,496 +254,86 @@
 </script>
 
 <style scoped="scoped"  lang="scss">
- @import '@/styles/color.scss';
-.header{
-    min-width: 1200px;
+.new_header{
+	height: 68px;
+	background: #191919;
 }
-.header {
-    background: #fff;
-    height: 66px;
-    background: #191919;
-    position: relative;
-    z-index: 50;
+.inner{
+	padding: 15px 0;
+	.logo{
+		float: left;
+	}
+	.nav_wrap{
+		float: left;
+		display: block;
+		margin-left: 100px;
+		li{
+			float: left;
+			color: #fff;
+			margin-left: 80px;
+			height: 36px;
+			line-height: 36px;;
+		}
+		
+	}
+	.opt_wrap{
+		float: left;
+		padding-top: 8px ;
+	}
 }
-.header .inner {
-    width: 100%;
-    overflow: hidden;
-    *zoom: 1;
-    margin: 0 auto;
-    position: relative;
-    padding: 11px;
+.opt_search{
+	float: left;
 }
-.loginflag{
-    display: block!important;
+.search_wrap{
+	position: relative;
+	margin-left: 700px;
 }
-.hidden, .hidden1{
-    display: block!important;
+.search_wrap input{
+	border: 1px solid #fff;
+	height: 22px;
+	width: 136px;
+	background: #191919;
+	color: #fff;
+	text-align: center;
+	font-weight: bold;
 }
-
-.header .nav_wrap {
-    float: left;
+.icon_search{
+	background:url(../assets/img/search_header.png) scroll no-repeat 0 0;
+	width:16px;
+	height: 16px;
+	display: inline-block;
+	position: absolute;
+	left: 5px;
+	top: 1px;
 }
-.header .nav .item {
-    float: left;
-}
-.header .nav .item_tit {
-    display: block;
-    padding: 0 30px;
-    font-family: "微软雅黑";
-    height: 44px;
-    line-height: 44px;
-    color: #fff;
-    font-size: 12px;
-}
-.header .opt_wrap {
-    position: absolute;
-    top: 11px;
-    right: 0;
-    *right: auto;
-    *float: right;
-    *position: static;
-}
-.header .opt_wrap .opt_search {
-    width: 45px;
-}
-.header .opt_wrap .opt_search_hover .search_wrap {
-    width: 250px;
-}
-.header .opt_wrap .search_wrap {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: #fff;
-    width: 75px;
-    background: none;
-    height: 44px;
-    -webkit-transition: width .5s;
-    -moz-transition: width .5s;
-    -ms-transition: width .5s;
-    -o-transition: width .5s;
-    transition: width .5s;
-    -webkit-user-select: none;
-}
-.header .opt_wrap .search_wrap form {
-    display: none;
-}
-.header .opt_wrap .opt_search_hover form {
-    display: block;
-}
-.header .opt_wrap .search_wrap input {
-    width: 183px;
-}
-.header .opt_wrap .search_wrap input {
-    display: block;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    -ms-border-radius: 12px;
-    font-family: 宋体;
-    width: 100%;
-    height: 44px;
-    height: 43px\9;
-    *position: relative;
-    *top: -1px;
-    line-height: 44px;
-    padding: 0 10px 0 35px;
-    border: 0 none;
-        border-bottom-width: 0px;
-        border-bottom-style: none;
-        border-bottom-color: currentcolor;
-    border-bottom: 1px solid #e0e0e0;
-    border-radius: 0;
-}
-.header .opt_wrap .opt_search_hover .icon_search {
-    top: 12px;
-    left: 10px;
-    background-position: -66px -215px;
-}
-.header .opt_wrap .search_wrap .icon_opt {
-    margin: 0;
-    position: absolute;
-    right: 30px;
-    cursor: pointer;
-}
-.header .opt_wrap .opt_search_hover .icon_search {
-    top: 12px;
-    left: 10px;
-    background-position: -66px -215px;
-}
-.header .opt_wrap .search_wrap .icon_opt {
-    margin: 0;
-    position: absolute;
-    right: 30px;
-    cursor: pointer;
-}
-.header .opt_wrap .icon_search {
-    top: 12px;
-    background-position: -96px -215px;
-}
-.header .icon_opt, .header .site_logo {
-    background-image: url(../assets/img/logo.png);
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-.header .icon_opt {
-    display: block;
-    width: 20px;
-    height: 20px;
-    margin: 12px auto;
-}
-.header .icon_opt{
-       background: url(//img.mdcdn.cn/pc/img/mall/index_sprite.png?t=20171107) no-repeat;
-        background-image: url("//img.mdcdn.cn/pc/img/mall/index_sprite.png?t=20171107");
-        background-repeat: no-repeat;
-        background-position-x: 0%;
-        background-position-y: 0%;
-}
-.header .site_logo {
-    float: left;
-    width: 207px;
-    height: 36px;
-    background-size: 100%;
-}
-.icon_search {
-    width: 20px;
-    height: 20px;
-    background-position: -40px -100px;
-}
-.header .opt_wrap .opt_wx {
-    width: 65px;
-}
-.header .opt_wrap .opt {
-    float: left;
-    position: relative;
-    background: #fff;
-    padding: 0;
-    width: 75px;
-    background: none;
-    height: 44px;
-    cursor: pointer;
-}
-.header .opt_wrap .icon_wx {
-    background-position: -120px -215px;
-
-}
-.header .opt_wrap .opt_cart {
-    width: auto;
-    padding: 0 20px;
-}
-.header .opt_wrap .icon_cart_small {
-
-    float: left;
-    background-position: -146px -215px;
-    cursor: pointer;
-
-}
-.header .opt_wrap .header_cart_num {
-    display: block;
-    float: left;
-    color: #fff;
-    margin: 11px 0 0 5px;
-}
-.opt_user_login_fail , .opt_user_login_success{
-    width: 86px;
-    display: none;
-}
-.header .opt_wrap .icon_user_main {
-    float: left;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    background-position: -35px -216px;
-    margin-left: 20px;
-    *display: inline;
-}
-.header .opt_wrap .user_login_name {
-    display: block;
-    float: left;
-    margin-left: 2px;
-    cursor: pointer;
-    line-height: 44px;
-    color: #fff;
-}
-.header .opt_wrap .icon_user_point_new {
-
-    float: left;
-    width: 8px;
-    height: 8px;
-    margin-top: 5px;
-    background-position: -30px -20px;
-    display: none !important;
-
-}
-.header .opt_wrap .opt_user_login_success, .header .opt_wrap .opt_enterprise_user_login_success {
-    width: auto;
-	padding-right: 10px;
-	display: none;
-
-}
-.header .opt_wrap .opt_user_login_success .user_login_name, .header .opt_wrap .opt_enterprise_user_login_success .user_login_name {
-    max-width: 120px;
-    overflow: hidden;
-}
-.wx_wrap {
-    display: block;
-    background: #fff;
-    position: absolute;
-    z-index: 51;
-    border-top: 0 none;
-    top: 44px;
-    left: auto;
-    right: 86px;
-    margin: 0;
-}
-.wx_wrap .wx_qrcode {
-    display: block;
-    border: 0;
-}
-.header .common_cart_wrap .common_cart_login, .header .common_cart_wrap .common_cart_nothing {
-    padding: 30px 0;
-    color: #a1a1a1;
-}
-.header .common_cart_wrap .common_cart_login a, .header .common_cart_wrap .common_cart_nothing a {
-    color: #269bdb;
-}
-.header .common_cart_wrap .common_cart_nothing {
-    text-align: center;
-}
-.header .common_cart_wrap .common_cart_nothing .icon_cart_middle {
-    width: 38px;
-    height: 32px;
-    margin: 0 auto 20px auto;
-    background-position: -150px -253px;
-}
-.header .common_cart_wrap .common_cart_bottom {
-    height: 60px;
-}
-.header .common_cart_wrap .common_cart_bottom .to_cart {
-    float: right;
-    background-color: #f60;
-    color: #fff;
-    width: 120px;
-    height: 30px;
-    line-height: 30px;
-    margin: 15px 10px 0 0;
-    cursor: pointer;
-    border: 2px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-}
-.header .common_cart_wrap {
-    width: 360px;
-    text-align: center;
-    position: absolute;
-    right: 86px;
-    border: 1px solid #e0e0e0;
-        border-top-width: 1px;
-        border-top-style: solid;
-        border-top-color: rgb(224, 224, 224);
-    border-top: none;
-    font-size: 12px;
-    line-height: 12px;
-    background-color: #fff;
-    *zoom: 1;
-    z-index: 51;
-    display: none;
-}
-.header .user_wrap {
-    top: 66px;
-    left: auto;
-    right: 0;
-}
-.user_wrap {
-    width: 291px;
-    background: #fff;
-    position: absolute;
-    top: 71px;
-    left: 50%;
-    margin-left: 302px;
-    z-index: 51;
-    border: 1px solid #d6d6d6;
-        border-top-width: 1px;
-        border-top-style: solid;
-        border-top-color: rgb(214, 214, 214);
-    border-top: 0 none;
-}
-.user_wrap .row {
-
-    height: 48px;
-    line-height: 48px;
-    border-bottom: 1px solid #eeeeee;
-    cursor: pointer;
-
-}
-.user_wrap .row_my_internal a {
-    display: block;
-    line-height: 48px;
-}
-.user_wrap a {
-    width: 100%;
-    display: inline-block;
-}
-.icon_atom {
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    width: 0;
-    height: 0;
-    background: url(//img.mdcdn.cn/pc/img/common/atom_sprite.png?t=201804271445) no-repeat 10000px 10000px;
-        background-position-x: 10000px;
-        background-position-y: 10000px;
-}
-.user_wrap .row .icon_internal {
-    width: 20px;
-    height: 20px;
-    background-position: -261px -80px;
-    margin: 0 6px 0 16px;
-    position: relative;
-    top: 4px;
-}
-.user_wrap .row .fn {
-    color: #333;
-}
-.user_wrap .row .icon_my_order {
-    width: 12px;
-    height: 12px;
-    background-position: -284px -44px;
-    margin: 0 10px 0 20px;
-    position: relative;
-    top: 2px;
-}
-.user_wrap .row .icon_my_coupon {
-
-    width: 20px;
-    height: 20px;
-    background-position: -240px -80px;
-    margin: 0 6px 0 16px;
-    position: relative;
-    top: 4px;
-
-}
-.user_wrap .row .icon_my_score {
-    width: 12px;
-    height: 14px;
-    background-position: -284px -23px;
-    margin: 0 10px 0 20px;
-    position: relative;
-    top: 2px;
-}
-.user_wrap .row .icon_my_privilege {
-
-    width: 12px;
-    height: 12px;
-    background-position: -208px -85px;
-    margin: 0 10px 0 20px;
-    position: relative;
-    top: 2px;
-
-}
-.user_wrap .row .icon_my_midea_product {
-    width: 12px;
-    height: 12px;
-    background-position: -65px -24px;
-    margin: 0 10px 0 20px;
-    position: relative;
-    top: 2px;
+.opt_user{
+	float: left;
+	margin-left: 30px;
+	position: relative;
 }
 .icon{
-
-    background: url(//img.mdcdn.cn/pc/img/mall/sprite.png?t=20160701) no-repeat;
-        background-position-x: 0%;
-        background-position-y: 0%;
-
+	cursor: pointer;
+	background-image: url(../assets/img/header_sprite.png);
+	background-repeat: no-repeat;
+	background-attachment: scroll;
+	display: inline-block;
 }
-.user_wrap .row .icon_account {
-    background-position: -235px -36px;
+.icon-login-gray{
+	width: 25px;
+	height: 25px;
+	background-position: -35px -3px;
 }
-.user_wrap .row .icon {
-    width: 12px;
-    height: 12px;
-    margin: 0 10px 0 20px;
-    position: relative;
-    top: 2px;
+.icon-login-gray:hover{
+	background-position: -3px -2px;
 }
-.icon {
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
+.nologin-wrap{
+position: absolute;
+    right: 0;
+    width: 320px;
+    top: 36px;
+    z-index: 2;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #e8e8e8;
 }
-.user_wrap .row .icon_after_sale {
-
-    width: 14px;
-    height: 13px;
-    background-position: -216px -102px;
-    position: relative;
-    top: 2px;
-    margin: 0 10px 0 20px;
-
-}
-.user_wrap .row .icon_my_bill {
-
-    width: 12px;
-    height: 13px;
-    background-position: -324px -44px;
-    margin: 0 10px 0 20px;
-    position: relative;
-    top: 2px;
-
-}
-.user_wrap .row .icon_address {
-
-    width: 12px;
-    height: 12px;
-    background-position: -301px -84px;
-    margin: 0 10px 0 20px;
-    position: relative;
-    top: 2px;
-
-}
-.user_wrap .row .icon_login_out {
-    background-position: -250px -36px;
-}
-.user_wrap .row .icon_my_collect {
-    width: 20px;
-    height: 20px;
-    background-position: -220px -80px;
-    margin: 0 6px 0 16px;
-    position: relative;
-    top: 4px;
-}
-
-.header .opt_wrap .opt_user_login_success .user_login_name, .header .opt_wrap .opt_enterprise_user_login_success .user_login_name {
-    max-width: 120px;
-    overflow: hidden;
-}
-.header .opt_wrap .user_login_name {
-    display: block;
-    float: left;
-    margin-left: 2px;
-    cursor: pointer;
-    line-height: 44px;
-    color: #fff;
-}
-.header .common_cart_wrap .common_cart_login{
-    display: none;
-}
-/*购物车*/
-.common_cart_wrap .product_img {
-    width: 50px;
-    height: 50px;
-    border: 1px solid #eee;
-    float: left;
-}
- .common_cart_wrap .product_info {
-    float: left;
-    font-size: 12px;
-    line-height: 13px;
-    margin-left: 10px;
-    text-align: left;
-    width: 180px;
-}
-.cart_operation {
-    float: right;
-}
-.user_login_img {float: left;
-    margin-top: 10px;}
 </style>

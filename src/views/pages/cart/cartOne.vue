@@ -14,9 +14,9 @@
 					<Col  span="2" class="center">
 					<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
 					</Col>
-					<Col span="4" >主图</Col>
+					<Col span="3" >主图</Col>
 					<Col span="7"><p >商品信息</p></Col>
-					<Col span="2">规格</Col>
+					<Col span="3">规格</Col>
 					<Col span="2">
 						<p >单价（元）</p>
 					</Col>
@@ -36,14 +36,14 @@
 		    <Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange" class="item_detail clearfix">
 		 		<Col  class='cartCol' span="24" v-for="(x,index) in cartList" :key="index"> 
         			<Col class='cartcheckbok' span="2">
-        				<Checkbox  :label="index" :key="index"></Checkbox>
+        					<Checkbox  :label="index" :key="index"></Checkbox>
         			</Col>
-					<Col span="4" class="cart_img"><img  :src="imageSrc+x.image"></Col>
+					<Col span="3" class="cart_img"><img  :src="imageSrc+x.image"></Col>
 					<Col span="7" class='cart_product'>
 						<p >{{x.productName}}</p>
 						
 					</Col>
-					<Col span="2" class='cart_sku'><p>{{x.productAttr}}</p></Col>
+					<Col span="3" class='cart_sku'><p>{{x.productAttr}}</p></Col>
 					<Col span="2" class='cart_price'>
 						<p >￥{{x.salePrice |pricefilter}}</p>
 					</Col>
@@ -310,7 +310,6 @@ export default {
 </script>
 
 <style  lang="scss" >
-	.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 .cartpage{
 	.cart_top {
 		    background-color: #fff;
@@ -393,7 +392,8 @@ export default {
     .cart_bottom{
     	    width: 100%;
     height: 60px;
-    margin-top: 10px;
+    margin-top: 30px;
+     margin-bottom: 60px;
     padding-left: 10px;
     background-color: #fafafa;
     border: 1px solid #e9e9e9;
@@ -423,7 +423,7 @@ export default {
             width: 160px;
     text-align: center;
     font-size: 18px;
-    background-color: #f60;
+    background-color: #0099ff;
     color: #fff;
     cursor: pointer;
     }

@@ -1,52 +1,47 @@
 <template>
 <div>
-		<div class="m_header_bar">
-			<router-link   class="m_header_bar_back" to="/user/orderlist"><Icon type="ios-arrow-back"></Icon></router-link>
-			<span class="m_header_bar_title">订单详情</span>
-			<span class="m_header_bar_menu"></span>
+	     <div class="details clearfix">
+	     	<h2 class="left">{{statusfilter(orderdetail.shippingOrder.orderStatus)}}</h2>
+	     	<div class="right"  v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">	 
+			 <button @click="cancel()"  v-show="orderdetail.shippingOrder.orderStatus=='01'">取消订单</button>
+			 <button class="btn-blue" @click="quzhifu()" >去支付</button>
+	     		</div>
+	     </div>
+	<div class="order_situation">
+		<h2>订单概况</h2>
+		   		<p>订单编号：<span>{{orderdetail.shippingOrder.orderNo}}</span></p>
+		   		<p>下单时间：<span>{{orderdetail.shippingOrder.createTime | formatDate}}</span></p>
+		   		<p>收货信息：<span>{{orderdetail.shippingAddress.receiverName}}/{{orderdetail.shippingAddress.receiverMobile}}/{{orderdetail.shippingAddress.receiverState}}
+		   			{{orderdetail.shippingAddress.receiverCity}}{{orderdetail.shippingAddress.receiverDistrict}}{{orderdetail.shippingAddress.receiverAddress}}</span></p>
+		   		</div>
+		 <div class="order_goods clearfix">
+		   	<table class="order-tb">
+		   		<thead><tr><th>主图</th><th>商品</th><th>单价</th><th>数量</th><th>优惠</th><th>总价</th></tr></thead>
+		       <tbody> 
+		       	<tr v-for="(item,index) in orderdetail.shippingOrderItems" :key="index">
+		   		<td class="goods_pic"><img :src="item.productItemImg | imgfilter"></td>
+		   		<td>	
+		   			<p class="title">{{item.productTitle}}</p>
+		   			<p>{{item.productAttrs}}</p>
+		   		    <p>{{item.productItemNo}}</p></td>
+		   			<td>￥{{productFeejun(item)|pricefilter}}</td>
+		   			<td>{{item.quantity}}</td>
+		   				<td>{{item.discountFee}}</td><td>￥{{item.productFee |pricefilter}}</td>
+		   	</tr></tbody>
+		   	</table>
+		   	<div class="order_price clearfix">
+		   <div  class="order_wrap">
+		   	<dl class="cf-wrap">
+		     	<dt>商品总额</dt><dd>￥{{orderdetail.shippingOrder.productFee|pricefilter}}</dd>
+		   	 	<dt>商品优惠</dt><dd><label  v-if="orderdetail.shippingOrder.discountFee!=''">￥{{orderdetail.shippingOrder.discountFee|pricefilter}}</label></dd>
+		    	<dt>实付款：</dt><dd><span class="font-24">￥{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</span></dd>
+		    </dl>
+		     <button  @click="quzhifu"  type="button" class="btn_pay" v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'"> 
+				立即支付
+			</button>
+		   </div>
+		   </div>
 		</div>
-		<div class="detail">
-		  	<ul class="address" >
-			<li>
-			<img src="../../../assets/img/地址.png">
-		    <div> 
-		    <p>{{orderdetail.shippingAddress.receiverName}} <b>{{orderdetail.shippingAddress.receiverMobile}}</b></p>
-		    <p>{{orderdetail.shippingAddress.receiverState}}{{orderdetail.shippingAddress.receiverCity}}{{orderdetail.shippingAddress.receiverDistrict}}{{orderdetail.shippingAddress.receiverAddress}}</p>
-			</div>
-			</li>
-		   </ul>
-		 
-		   	<ul class="spitem">
-		    <li v-for="(item,index) in orderdetail.shippingOrderItems" :key="index">
-		   		<img :src="item.productItemImg | imgfilter">
-		   		<p>
-		   			<span class="title">{{item.productTitle}}</span>
-		   			<span>{{item.productAttrs}}</span>
-		   			<span class="price">￥{{productFeejun(item)|pricefilter}}</span></p>
-		   	</li>
-		   	</ul>
-		   	<!--<div ><span>快递单号{{item.expressNo}}</span><span>国内承运人{{item.logistics}}</span>
-		   		<span>{{item.deliverTime |formatDate}}</span></div>-->
-		   	 <div>
-		   			<span>发票类型：{{orderdetail.shippingInvoice}}</span>
-		   			<span>发票抬头：</span>
-		   			<span>发票内容：</span>
-		   	</div>
-		   	  <div class="sp">
-		   		<span>订单编号：{{orderdetail.shippingOrder.orderNo}}</span>
-		   		<span>下单时间：{{orderdetail.shippingOrder.createTime | formatDate}}</span>
-		   	</div>
-		
-		   	<ul class="sptotal">
-		     	<li>	<span class="t">商品总额</span><span class="s">￥{{orderdetail.shippingOrder.productFee|pricefilter}}</span></li>
-		   	 	<li>	<span class="t">商品优惠</span><span class="s" v-if="orderdetail.shippingOrder.discountFee!=''">￥{{orderdetail.shippingOrder.discountFee|pricefilter}}</span></li>
-		    		<li class="border"> <span class="t"></span><span>实付款：<label class="zjg">￥{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</label></span></li></ul>
-		 
-		</div>
-		<div class="fixbottom" 
-			 v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">
-			 <button class="btn-white" @click="cancel()" >取消订单</button>
-			<button class="btn-red" @click="quzhifu()" v-show="orderdetail.shippingOrder.orderStatus=='01'">去支付</button></div>
 	</div>
 </template>
 
@@ -59,8 +54,9 @@
       		shippingOrder:{},
       		shippingInvoice:{},
       		shippingAddress:{},
-      		shippingOrderItems:[]
+      		shippingOrderItems:[],
       	},
+      	statusList:[],
         orderNo:'',
       }
     },
@@ -71,6 +67,24 @@
    }
 },
     methods: {
+    	  	getStatusEnum(){
+    			this.$axios({
+						    method: 'get',
+						    url:'/order/enums',
+						}).then((res)=>{
+							if(res.code=='200'){
+							this.statusList = res.object;
+							}
+						
+						});
+    	},
+    		statusfilter(value){
+    			for(var i = 0 ;i < this.statusList.length;i++){
+					if(this.statusList[i].key == value){
+						return this.statusList[i].value;
+					}
+				}
+    		},
     	     cancel(){
                 this.$Modal.confirm({
                     content: '<p>确定取消该订单？</p>',
@@ -117,109 +131,61 @@
          mounted() {
          	    this.getParams();
 				this.getOrder();
+				this.getStatusEnum();
 		}
   }
 </script>
 
 <style scoped="scoped" lang="scss">
-.fixbottom{
-	width: 100%;
-	padding: 0 0 0.9rem;
-	box-sizing:content-box;
-	height: 3.2rem;
-	background: #fff;
-	text-align: right;
-	button{
-		height: 3.2rem;
-		margin-right:1rem;
-		padding: 0  0.8rem;
-		cursor: pointer;
-	}
-	.btn-white{
-		background: #fff;
-		border: 1px solid #eee;
-	}
-	.btn-red{
-		background: red;
-		border: 1px solid red;
-		color: #fff;
-	}
-	
+.details{
+	    background-color: #fff;
+    position: relative;
+    padding: 26px 0 29px 19px;
+    border: 1px solid #e9e9e9;
 }
-.detail {
-		margin-bottom:1rem;
-		font-size: 1rem;
-		.address{ 
-			background:#fff;
-			li{
-			display: flex;
-			img{
-				width:2.4rem;
-				height:2.4rem;
-				margin-right:1rem;
-			}
-		}
-		}
+.details .right{
+	float: right;
+	margin-right: 20px;
+	button{
+		cursor: pointer;
+		    width: 90px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #c8c8c8;
+    border-radius: 2px;
+    margin-left: 10px;
+    background: #fff;
 	}
-	.spitem{
-		margin-top:1rem;
-		background: #fff;
-			li{
-			padding: 0.5rem;
-			display: flex;
-			p{
-				flex:1;
-				.title{
-					display: block;
-					overflow: hidden;
-					text-overflow:ellipsis;
-					white-space: nowrap;
-					width:270px;
-				}
-				.price{
-					color:#222;
-					display: block;
-					margin-top:1rem;
-					font-weight: bold;
-				}
-			}
-			
-		}
-		img{
-			max-width: 7rem;
-			max-height: 7rem;
-			margin-right:1rem;
-		}
+	.btn-blue{
+		background: #0099ff;
+		color: #fff;
+		border-color:  #0099ff;
 	}
-	.sp{
-		margin-top:1rem;
-		background: #fff;
-		padding: 1rem 1rem 0;
-		span{
-			display: block;
-			margin-bottom: 0.5rem;
-		}
-	}
-	.sptotal {
-		border-top:1px solid #eee;
-		background: #fff;
-		.border{
-			border-top:1px solid #eee;
-		}
-		li{
-			padding: 0.5rem 1rem;
-		display: flex;
-		.t{
-			flex: 1;
-		}
-		.s{
-			color:#222;
-			font-weight: bold;
-		}
-		.zjg{
-			color:#d32122;
-			font-size: 18px;
-		}
-	}
+}
+.order_situation{
+	margin-bottom: 20px;
+	    background-color: #fff;
+    padding: 26px 0 18px 19px;
+    border: solid #e9e9e9;
+    border-width: 0 1px 1px 1px;
+    h2{
+    	    color: #333;
+    font-size: 18px;
+    font-weight: normal;
+    margin-bottom: 22px;
+    }
+    p{
+    	margin-bottom: 9px;
+    	color:#333;
+    	span{
+    		color: #999;
+    		margin-left: 5px;
+    	}
+    }
+}
+.order_goods{
+	background: #fff;
+	margin-bottom: 50px;
 }
 </style>

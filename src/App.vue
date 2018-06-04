@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style lang="scss">
- @import '@/styles/color.scss';
+ @import '@/styles/common.scss';
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -22,11 +22,5 @@ export default {
 }
 ul,li{
 	list-style: none;
-}
-.ivu-tabs-nav .ivu-tabs-tab-active,.ivu-tabs-nav .ivu-tabs-tab:hover{
-	color:$color-dx;
-}
-.ivu-tabs-ink-bar{
-	background:$color-dx;
 }
 </style>

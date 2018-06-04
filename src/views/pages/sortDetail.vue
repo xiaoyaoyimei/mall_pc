@@ -297,7 +297,7 @@ import imgZoom from 'vue2.0-zoom'
     }
        
 </script>
-<style lang="scss">
+<style lang="scss" scoped="scoped">
  @import '@/styles/color.scss';
     .sortDetail{
         max-width: 1100px;

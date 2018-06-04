@@ -1,13 +1,13 @@
 <template>
-    <div class='paymoney cartpage'>
-		<div id="addressWrap" class="">
-    <div class="wrap-header">
+    <div class='main-wdith'>
+     <div class="wrap-header">
         <h3>选择收货地址</h3>
         <span class="small-text js_address_tips">地址切换可能导致价格和库存变动，请仔细确认</span>
     </div>
     <div class="address-box clearfix" >
-        <div class="adr js_adr_check"  :class="{checked: index == selectItem}"  v-for="(addritem,index) in addressList" :key="index" @click="chooseAddr(addritem.id,index)">
+        <div class="adr js_adr_check"  :class="{checked: index == selectItem}"  v-for="(addritem,index) in addressList" :key="index" >
             <div class="adr-inner">
+            	<div @click="chooseAddr(addritem.id,index)">
                 <i class="icon_checked"></i>
                 <div class="adr-head" >
                     <span class="adr-province">{{addritem.receiveProvince}}</span>
@@ -20,10 +20,12 @@
                     </p>
                       <span v-if="addritem.isDefault=='Y'">(默认)</span>
                 </div>
+                  </div>
                 <div class="adr-foot">
                     <a href="javascript:;" class="js_adr_edit" @click="editmodal(addritem)">编辑</a>
                     <a href="javascript:;" class="js_adr_delete" @click="handleDelete(addritem.id)">删除</a>
                 </div>
+             
             </div>
         </div>
         <div class="adr js_adr_add" ms-hover="'hover'" @click="modaladdr=true">
@@ -34,9 +36,7 @@
                 </div>
             </div>
         </div>
-        
     </div>
-</div>
                 <Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading">
 				<Form :model="addForm" ref="addForm" label-position="left" :label-width="100" :rules="ruleValidate" > 
 					<FormItem label="收货人" prop="person">
@@ -76,63 +76,61 @@
 				    </Form>
 			    </Modal>
 			        <div class="wrap-header">
-        <h3>确认订单信息</h3>
-    </div>
-            <div class="carttwo">
-<div class='carthead'>
-			<Row>
-				<Col  class='cartCol' span="24">
-					<Col span="4" ><p >主图</p></Col>
-					<Col span="11"><p >商品信息</p></Col>
-					<Col span="2">
-						<p >单价（元）</p>
-					</Col>
-					<Col span="3">
-						<p >数量</p>
-					</Col>
-					<Col  span="2">
-						<P >小计（元）</P>
-					</Col>
-				</Col>
-			</Row>
-		</div>
-			<Row  class='cartCol' span="24" v-for="(x,index) in cartList" :key="index" > 
-						<Col span="4" ><p class="paddingLeft"><img class='cartImg' :src="imageSrc+x.image"></p></Col>
-						<Col span="11">
-							<p class='cart_black paddingLeft'>{{x.productName}}</p>
-							<p class='cart_gray paddingLeft'>{{x.productAttr}}</p>
-							<label class="promotion" v-if="x.promotionTitle !=null">{{x.promotionTitle}}</label>
-						</Col>
-						<Col span="2">
-						<p class='cart_price paddingLeft'>
-							￥{{x.salePrice |pricefilter}}
-							<span v-if="x.promotionTitle ==null&&xscoupon" class="color-coupon">
-					       	 	￥{{couponprice(x.salePrice) |pricefilter }}
-					       	 </span></p>
-					</Col>
-					<Col span="3">
-						<p class='cart_qua paddingLeft'>*{{x.quantity}}</p>
-						<p class='cart_qua paddingLeft color-coupon' v-if="x.promotionTitle ==null&&xscoupon">*{{x.quantity}}</p>
-					</Col>
-					<Col span="2">
-						<p class='cart_price paddingLeft'>￥{{x.salePrice|pricefilter}} 
-							<span v-if="x.promotionTitle ==null&&xscoupon" class="color-coupon">
-					       	 	￥{{couponprice(x.salePrice) |pricefilter}}
-					       	 </span></p>
-					</Col>
-				</Row>
-			</div>
-			<div class="exchange-code-inner" v-show="couponshow">
-                    优惠券:     <input type="text" class="item-box-txt js_exchange_code_txt" placeholder="请输入优惠券" v-model.trim="couponCode">
-                        <span class="item-box-btn-save js_exchange_code_confirm" @click='usecoupon'>确认</span>
-			</div>
-         <div class='cartfoot'>
-			<strong>总价：￥<span>{{totalPrice}}</span></strong>
-           <button  @click="confirm"  type="button"> 
-				提交订单
+				        <h3>确认订单信息</h3>
+				    	</div>
+            <table class="order-tb cart2">
+				<thead>
+						<tr>
+							<th>主图</th>
+							<th>商品信息</th>
+							<th>单价(元)</th>
+							<th>数量</th>
+							<th>小计(元)</th>
+						</tr>
+				</thead>
+						<tbody>
+							<tr   span="24" v-for="(x,index) in cartList" :key="index" > 
+										<td><img  :src="imageSrc+x.image"></td>
+										<td>
+											<p class="title_name">{{x.productName}}</p>
+											<p class="title_attr">{{x.productAttr}}</p>
+											<label class="promotion" v-if="x.promotionTitle !=null">{{x.promotionTitle}}</label>
+										</td>
+										<td>
+										<p class="cart_price">￥{{x.salePrice |pricefilter}}
+											<span v-if="x.promotionTitle ==null&&xscoupon" >
+									       	 	￥{{couponprice(x.salePrice) |pricefilter }}
+									      </span></p>
+							                 </td>
+									<td>
+										<p>{{x.quantity}}</p>
+										<p v-if="x.promotionTitle ==null&&xscoupon">{{x.quantity}}</p>
+									</td>
+									<td>
+										<p class="cart_price">￥{{x.salePrice|pricefilter}} 
+											<span v-if="x.promotionTitle ==null&&xscoupon">
+									       	 	￥{{couponprice(x.salePrice) |pricefilter}}
+									       	 </span></p>
+									</td>
+								</tr>
+						</tbody>
+			</table>
+			   <div class="wrap-header" v-show="couponshow">
+				        <h3>优惠信息</h3>
+				        <div class="coupon-wrap"> <input type="text"  placeholder="请输入优惠券" v-model.trim="couponCode">
+                         <span @click='usecoupon'>确认</span>
+                        </div>
+				    	</div>
+				    	<div class="cart2_price">
+         <div  class="price_wrap">	
+         	<dl class="cf-wrap">
+         	<dt>商品数量:</dt><dd>{{total.num}}</dd><dt>金额总计:</dt><dd>￥{{total.price|pricefilter}}</dd><dt>活动优惠:</dt><dd></dd><dt>应付总额:</dt><dd >￥<span class="font-24">{{total.price|pricefilter}}</span></dd></dl>
+           <button  @click="confirm"  type="button" class="btn_pay"> 
+				确认订单
 			</button>
-		</div>
-    </div>
+			</div>
+    	</div>
+    	</div>
 </template>
 <script>
        export default {
@@ -148,7 +146,7 @@
 		                    address:'',
 		                    tel:'',
 		                },
-		                	  editForm: {
+		       editForm: {
 		                    person: '',
 		                    phone: '',
 		                    selectedOptionsAddr:[],
@@ -166,7 +164,7 @@
 	                        { required: true, message: '详细地址不能为空', trigger: 'blur' },
 	                    ]
                    },
-                 modaleditaddr:false,
+                modaleditaddr:false,
             	modaladdr:false,
             	orderfail:false,
             	xscoupon:false,
@@ -175,7 +173,6 @@
                  indeterminate: true,
                 checkAll: false,
 				checkAllGroup: [],
-				totalPrice:0,
 				cartList:[],
 				editface:true,
 				zslcount:0,
@@ -189,7 +186,11 @@
 					availableCatalog:'',
 					modeValue:'',
 					couponMode:''
-				}
+				},
+				total:{
+					price:0,
+					num:0
+				},
             }
         },
         methods: {
@@ -223,8 +224,8 @@
                 setTimeout(() => {
                     this.loading = false;
                     this.$nextTick(() => {
-                        this.loading = true;
-                                     this.$refs['addForm'].validate((valid) => {
+                    this.loading = true;
+                    this.$refs['addForm'].validate((valid) => {
 					if (valid) {
 							let temp=this.addForm;
 							temp.receiveProvince=this.addForm.selectedOptionsAddr[0];
@@ -254,7 +255,6 @@
 				});
                     });
                 }, 2000);
-       
             },
             editmodal(item){
             		this.modaleditaddr=true;
@@ -296,7 +296,6 @@
 						});
                     });
                 }, 2000);
-       
             },
             //删除地址
             handleDelete(value){
@@ -326,11 +325,15 @@
         		  //刚进入购物车页面
         		if(value==undefined){
         			  this.cartList.forEach(function(item,index) {
-					    _this.totalPrice +=item.salePrice*item.quantity;
+					    _this.total.price +=item.salePrice*item.quantity;
+					     _this.total.num+=item.quantity;
 				   });
         		}
         		//使用优惠券
         		else{
+		        		this.cartList.forEach(function(item,index) {
+							     _this.total.num+=item.quantity;
+						   });
         		  let couponmethod=value;
 	        		  if(couponmethod.availableSku==""&&couponmethod.availableCatalog==""){
 	        		      _this.totalPrice=0;
@@ -426,12 +429,14 @@
 				    data:para
 				}).then((res)=>{
 					if(res.code=='200'){
+						//						  订单提交以后清空列表
+						sessionStorage.removeItem("cart")
 						 this.$router.push({name:'/cartthree',query: { orderNo: res.msg}});  
 					}else{
-				   this.$Modal.error({
-				   	title:'失败提示',
-                    content: res.msg,
-               		 });
+					   this.$Modal.error({
+					   	title:'失败提示',
+	                    content: res.msg,
+	               		 });
 					}
 				});
            },
@@ -480,136 +485,12 @@
 		}
     }
 </script>
-<style lang="scss">
+<style lang="scss" scoped="scoped">
  .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
 .clearfix { *zoom:1; }
- .paymoney{
-	 width: 100%;
-	 max-width: 1100px;
-	 margin: 0 auto;
-	 min-height: 700px;
-	 .m_header_bar{
-		 padding-bottom: 20px;
-		.m_header_bar_title{
-		 	font-size: 16px;
-	 	}
-	}
-	.ivu-form{
-		background-color:#f5f7f9; 
-		margin-top:20px;
-		width: 400px;
-	}
-	.ivu-col{
-		height: 213px;
-	}
-
- }
- .carttwo{
- 	margin-top:15px;
- 	padding-bottom: 10px;
- 	background: #fff;
- 	
- }
- .cartCol{
-	padding-bottom:10px;
-	padding-top: 15px;
-	height: 213px;
-	border: 1px solid #eee;
-	border-bottom: none;
-	.ivu-checkbox-wrapper{
-		width:16px;
-		overflow:hidden;
-		height: 16px;
-		line-height: 16px;
-	}
-	.paddingLeft{
-		padding-left: 20px;
-	}
- 	img{
- 		max-width: 100%;
- 	}
- }
- .address li{
- 	display: flex;
- 	background:#fff;
- 	padding:10px;
- 	font-size: 1.2em;
- 	cursor: pointer;
- }
-  .address p{
-  	flex:1;
-  	strong{
-  		display: block;
-  		font-size: 1.125em;
-  		color:#222
-  	}
-  }
-  .cart_gray span{
-  	float: right;
-  }
-   		.cartfoot{
-			    background: #fff;
-				height: 49px;
-				line-height:49px;
-				width: 100%;
-				padding-left:10px;
-				border:1px solid #eee;
-				.ivu-row{
-					.cartCol{
-						height: 50px;
-						line-height: 50px;
-						background: #fff;
-						padding-top:0px;
-						border-bottom:1px solid #eee;
-						margin-top: 20px;
-					}
-				}
-				strong{
-					font-size: 12px;
-					display:inline-block;
-					span{
-						font-size: 1.125rem;
-					}
-				}
-				button{
-					float: right;
-					height: 100%;
-					background: #333;
-					color:#fff;
-					border:0 none;
-					padding-left: 15px;
-					padding-right: 15px;
-					cursor: pointer;
-				}
-		}
-		.carthead{
-			   margin-bottom:20px;
-			   border-bottom: 1px solid #eee;
-			p{
-				padding-left: 20px;
-			}
-			.ivu-row{
-				.ivu-col{
-					height: 51px;
-					line-height: 50px;
-					padding-top:0px;
-					border-bottom:1px solid #eee;
-					padding-bottom: 0px;
-					background: #fff;
-				}
-			}
-		}
-		.chooseAddress{
-			.zeroAddress{
-				background: #fff;
-				color:#fff;
-				padding:10px
-			}
-		}
 		/*地址样式-s*/
-
 .address-box .checked .adr-inner {
-    border: 2px solid #333;
+    border: 2px solid #0099ff;
     padding: 19px;
     color: #333;
     z-index: 1;
@@ -617,8 +498,8 @@
 .address-box .adr-add {
     text-align: center;
 }
-.address-wrap {
-    margin-top: 40px;
+.wrap-header {
+	margin-top:40px
 }
 .wrap-header h3 {
     font-size: 24px;
@@ -644,7 +525,15 @@
 .address-box .adr-inner:hover {
     background-color: #fafafa;
 }
-
+.icon_checked {
+	background: url(../../../assets/img/cart_sprite.png) no-repeat scroll 0 -21px;;
+    width: 16px;
+    height: 16px;
+        display: inline-block;
+        position: absolute;
+    top: -2px;
+    right: -2px;
+}
 .address-box .adr-inner {
     position: relative;
     width: 256.25px;
@@ -696,30 +585,6 @@
     margin-right: 20px;
     float: left;
 }
-.item-box-txt {
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
-    font-size: 12px;
-    height: 22px;
-    line-height: 22px;
-    padding: 0 10px;
-}
-.exchange-code-inner{
-	background: #fff;
-	padding: 10px ;
-}
- .item-box-btn-save {
-    width: 64px;
-    height: 22px;
-    line-height: 22px;
-    border: 1px solid #333;
-    border-radius: 2px;
-    background: #333;
-    text-align: center;
-    color: #fff;
-    cursor: pointer;
-    display: inline-block;
-}
 .color-coupon{
 	color:red
 }
@@ -730,5 +595,35 @@
 	padding-left:20px;
 	color:red
 }
+
 /*地址样式-e*/
+/*table cart2样式*/
+.order-tb{
+	margin-top: 20px;
+}.cart2{
+	width: 100%;
+}
+.cart2 img{
+	max-width: 100px;
+}
+.title_name,.title_attr{
+	text-align: left;
+}
+.title_name{
+	font-weight: bold;
+}
+.cart_price{
+	font-size: 16px;
+}
+.coupon-wrap{
+	margin-top:20px;
+}
+.coupon-wrap input{
+	width:200px;
+	height: 40px;
+	line-height:40px;
+	border:1px solid #0099ff;
+	text-align: center;
+}
+
 </style>

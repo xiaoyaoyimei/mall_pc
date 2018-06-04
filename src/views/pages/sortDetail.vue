@@ -5,12 +5,24 @@
 			<div style="width: 400px;height: 400px">  
 				<img :src="ImgUrl |imgfilter" style="width: 100%;height: 100%">  
 			</div>  
-			<div class="little_img" >  
-				<ul v-for="(item, index) in shangp.productImageList"  :key="index">  
-					<li @click='getIndex(item.listImg)' class="clickproduct">  
-						<img :src="item.listImg |imgfilter"  style="width: 50px; height: 50px" >  
-					</li>  
-				</ul>  
+			<div class="little_img" > 
+				<ul class='inlineBlock leftBtn' @click='relativeLeft()'>
+					<li class=''>
+						<Icon type="chevron-left" ></Icon>
+					</li>
+				</ul> 
+				<div class='imgContent'>
+					<ul  v-for="(item, index) in shangp.productImageList"  :key="index">  
+						<li @click='getIndex(item.listImg)' class="clickproduct">  
+							<img :src="item.listImg |imgfilter"  style="width: 50px; height: 50px" >  
+						</li>  
+					</ul>
+				</div>
+				<ul class='inlineBlock rightBtn' @click='relativeRight()'>
+					<li>
+						<Icon type="chevron-right" ></Icon>
+					</li>
+				</ul>   
 			</div>  
 		</div>  
         <div class="delie">
@@ -108,12 +120,27 @@ import imgZoom from 'vue2.0-zoom'
             	productId:'',
 				ImgUrl:'',
 				choosepPrice:false,
+				productImageListNew:[]
             }
         },
           methods: {
           	        changeNumber: function(event){
 						var obj=event.target;
 						this.quantity = parseInt(obj.value);
+					},
+					relativeLeft(){
+						console.log("1111")
+						if(this.productImageListNew.length > 0){
+							var arr = this.productImageListNew.pop()
+							this.shangp.productImageList.unshift(arr)
+						}
+					},
+					relativeRight(){
+						console.log("222")
+						if(this.shangp.productImageList.length > 6){
+							var arr = this.shangp.productImageList.shift()
+							this.productImageListNew.push(arr)
+						}
 					},
 					//添加
 					jia:function(){
@@ -299,6 +326,7 @@ import imgZoom from 'vue2.0-zoom'
 		.goodDetails_name_img{
             display: inline-block;
             width:400px;
+			overflow: hidden;
 			.little_img{
 				overflow: hidden;
 			}
@@ -551,5 +579,33 @@ import imgZoom from 'vue2.0-zoom'
 }
 .sortDetail .stock b{
 	color:#E50011;
+}
+.little_img{
+	position: relative;
+	padding-left:5px;
+	min-width: 400px;
+}
+.inlineBlock{
+	display: inline-block;
+	vertical-align: middle;
+	position: absolute;
+	top: 0px;
+	font-size: 16px;
+	z-index: 10;
+	width: 20px;
+	height: 50px;
+	line-height: 70px;
+}
+.imgContent{
+	min-width: 400px;
+}
+.leftBtn{
+	left: 0px;
+}
+.rightBtn{
+	right: 0px;
+}
+.rightBtn li{
+	text-align: right;
 }
 </style>

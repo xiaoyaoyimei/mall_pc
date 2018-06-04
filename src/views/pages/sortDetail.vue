@@ -1,24 +1,37 @@
 <template>
 <div>
 	<div class="sortDetail">
-        <Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots"
-            :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow">
-            <CarouselItem>
-              	  <iframe style="width:400px;height:400px" ref="video" frameborder=0 allowfullscreen></iframe>  
-            </CarouselItem> 
-            <CarouselItem v-for="(item, index) in shangp.productImageList"  :key="index">
-                    <div class="demo-carousel" ><img-zoom :src="item.listImg |imgfilter"  width="450" :bigsrc="item.originImg | imgfilter" :configs="configs"></img-zoom></div>
-            </CarouselItem>
-    	</Carousel>
+		<div class="goodDetails_name_img">  
+			<div style="width: 400px;height: 400px">  
+				<img :src="ImgUrl |imgfilter" style="width: 100%;height: 100%">  
+			</div>  
+			<div class="little_img" > 
+				<ul class='inlineBlock leftBtn' @click='relativeLeft()'>
+					<li class=''>
+						<Icon type="chevron-left" ></Icon>
+					</li>
+				</ul> 
+				<div class='imgContent'>
+					<ul  v-for="(item, index) in shangp.productImageList"  :key="index">  
+						<li @click='getIndex(item.listImg)' class="clickproduct">  
+							<img :src="item.listImg |imgfilter"  style="width: 50px; height: 50px" >  
+						</li>  
+					</ul>
+				</div>
+				<ul class='inlineBlock rightBtn' @click='relativeRight()'>
+					<li>
+						<Icon type="chevron-right" ></Icon>
+					</li>
+				</ul>   
+			</div>  
+		</div>  
         <div class="delie">
             <div class="G_info hidden">
                             <h3>{{shangp.product.modelName}}</h3>
-                            <p>迪锐克斯DXRACER R011蓝黑色单件</p>
-                            <div class="G_changeDetail">
-                                <input id="product_id" name="product_id" value="173" type="hidden">
-                                <p><span class="G_left"> 零售价：&nbsp;</span> <span class="G_right" style=""><b>{{shangp.product.salePrice | pricefilter}}</b>  </span></p>
-                                <input value="29" id="hidden_inventory" type="hidden">
-                                
+                            <p>{{shangp.product.modelNo}}</p>
+							<div class="G_changeDetail">
+                                <p class="G_right" v-if="choosesp.price == 0 "> ￥：{{shangp.product.salePrice | pricefilter}}</p>
+								 <p class="G_right" v-if="choosesp.price > 0 "> ￥：{{choosesp.price  | pricefilter}}</p>
                                 <div class="G_MEAS">
                                 <form id="attrform">
                                     <div slot="header" >
@@ -26,26 +39,24 @@
                                                 </Icon>该商品已下架
                                                 </div>
                                                 <div  v-if="firstshow" class='choosesp'>
-                                                    <img :src="choosesp.img |imgfilter" style="display:block">
-                                                    <div>
+                                                <div>
                                                     <span class="cx" v-if="cxshow"><strong>优惠价：￥{{choosesp.cuxiaoprice}}</strong>
-                                                            商品编号:{{choosesp.itemNo}}<br>
-             	                                            <em>库存:{{choosesp.kucun}}</em> <br>
+													     <em>库存:{{choosesp.kucun}}</em> <br>
                                                         促销活动:<label>{{choosesp.activityName}}</label>
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <dl v-for="(item, index) in shangp.productAttrList"  :key="index">
-                                            <dt>{{item.attrKey.catalogAttrValue}}</dt>
+                                            <dt>{{item.attrKey.catalogAttrValue}} ：</dt>
                                             <dd v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :title="child.id">
                                                 {{child.modelAttrValue}}
                                             </dd>
                                             </dl>
-                                            <div>数量 <InputNumber  :min="1" v-model="quantity"></InputNumber></div>
+                                            <div>数量 ：<InputNumber  :min="1" v-model="quantity"></InputNumber><span class="stock" v-if="kucunshow">库存 ：<b>{{choosesp.kucun}}</b></span></div>
                                             <div slot="footer">
-                                                <Button  size="large"     disabled="disabled" v-if="xiajia">加入购物车</Button>
-                                                <Button  size="large"  :loading="modal_loading" @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
+                                                <Button class="goCart"  size="large"     disabled="disabled" v-if="xiajia">加入购物车</Button>
+                                                <Button class="goCart"  size="large"  :loading="modal_loading" @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
                                             </div>
                                 </form>
                                 </div>
@@ -91,11 +102,12 @@ import imgZoom from 'vue2.0-zoom'
             	productDesc:[],
             	productimg:[],
             	bigchoose:'',
-            	cxshow:false,
+				cxshow:false,
+				stock:false,
             	choosesp:{
             		img:'',
             		itemNo:'',
-            		price:'',
+            		price:0,
             		cuxiaoprice:'',
             		activityName:'',
             		startTime:'',
@@ -106,29 +118,29 @@ import imgZoom from 'vue2.0-zoom'
             	quantity:1,
             	max:100,
             	productId:'',
-                value3: 0,
-                setting: {
-                    autoplay: false,
-                    autoplaySpeed: 2000,
-                    dots: 'inside',
-                    radiusDot: false,
-                    trigger: 'click',
-                    arrow: 'hover'
-                },
-                configs: {
-                    width:650,
-                    height:350,
-                    maskWidth:100,
-                    maskHeight:100,
-                    maskColor:'red',
-                    maskOpacity:0.2
-                }
+				ImgUrl:'',
+				choosepPrice:false,
+				productImageListNew:[]
             }
         },
           methods: {
           	        changeNumber: function(event){
 						var obj=event.target;
 						this.quantity = parseInt(obj.value);
+					},
+					relativeLeft(){
+						console.log("1111")
+						if(this.productImageListNew.length > 0){
+							var arr = this.productImageListNew.pop()
+							this.shangp.productImageList.unshift(arr)
+						}
+					},
+					relativeRight(){
+						console.log("222")
+						if(this.shangp.productImageList.length > 6){
+							var arr = this.shangp.productImageList.shift()
+							this.productImageListNew.push(arr)
+						}
 					},
 					//添加
 					jia:function(){
@@ -146,6 +158,9 @@ import imgZoom from 'vue2.0-zoom'
 						this.quantity=parseInt(this.quantity)-1; 
 						}
 					},
+					getIndex(imgUrl){  
+						this.ImgUrl = imgUrl;  
+					} ,
           	//加入购物车
           	   atc () {
                  this.modal_loading = true;
@@ -184,7 +199,7 @@ import imgZoom from 'vue2.0-zoom'
        	            //商品属性高亮
        	             e.target.className="active"; 
             		if(pa.attrKey.isColorAttr=='Y'){
-            			this.choosesp.img=ch.listImg;
+            			this.ImgUrl=ch.listImg;
             		}
             		let dditem=this.$refs['dditem'];
             		 this.bigchoose="";
@@ -205,9 +220,10 @@ import imgZoom from 'vue2.0-zoom'
             	   if(jishu==this.shangp.productAttrList.length){
             	   	//通过选择属性读出productItemId
             	   	    for (let chooseItem of this.shangp.productItemList) {
-							   if(chooseItem.productModelAttrs==chooseId){
+							if(chooseItem.productModelAttrs==chooseId){
+								this.shangp.product.modelNo = chooseItem.itemNo,
 							   	this.choosesp.itemNo=chooseItem.itemNo,
-							   	this.choosesp.price=chooseItem.salePrice,
+								this.choosesp.price=chooseItem.salePrice;
 							   	this.productItemId=chooseItem.id;
 							   	if(this.shangp.promotions.length>0){
 							   		 for (let cxitem of this.shangp.promotions) {
@@ -243,9 +259,8 @@ import imgZoom from 'vue2.0-zoom'
 							   	      	 this.choosesp.kucun=kucunitem.quantity-kucunitem.lockQuantity
 							   	      }
 							       }
-              						if(this.choosesp.kucun<=0){
               							this.kucunshow=true;
-              						}
+					console.log(JSON.stringify(this.choosesp))
             	},
     	      	getParams () {
 	       			 // 取到路由带过来的参数 
@@ -261,13 +276,14 @@ import imgZoom from 'vue2.0-zoom'
 								}).then((res)=>{
 									if(res.code=='200'){
 										this.shangp=res.object;
-										 if(res.object.product.video!="")
-										 {
-										 	_this.$refs.video.width=window.innerWidth;
-										 	_this.$refs.video.height=window.innerWidth;
-										 	_this.$refs.video.src = 'http://player.youku.com/embed/' + res.object.product.video;
-										 	_this.videoshow=true;
-						                }
+										this.ImgUrl = this.shangp.productImageList[0].listImg;
+										//  if(res.object.product.video!="")
+										//  {
+										//  	_this.$refs.video.width=window.innerWidth;
+										//  	_this.$refs.video.height=window.innerWidth;
+										//  	_this.$refs.video.src = 'http://player.youku.com/embed/' + res.object.product.video;
+										//  	_this.videoshow=true;
+						                // }
 									}
 							});
 			     },
@@ -306,6 +322,21 @@ import imgZoom from 'vue2.0-zoom'
         margin-bottom:50px;
         min-height: 900px;
         position: relative;
+		margin-top: 30px;
+		.goodDetails_name_img{
+            display: inline-block;
+            width:400px;
+			overflow: hidden;
+			.little_img{
+				overflow: hidden;
+			}
+			.clickproduct{
+				float: left;
+				width:50px;
+				height:50px;
+				margin:10px 7.5px;
+			}
+		}
         .ivu-carousel{
             width: 400px;
             height: 400px;
@@ -314,7 +345,7 @@ import imgZoom from 'vue2.0-zoom'
         .delie{
             display: inline-block;
             width:600px;
-            margin-left: 20px;
+            margin-left: 40px;
             vertical-align: top;
             overflow: hidden;
         }
@@ -346,6 +377,7 @@ import imgZoom from 'vue2.0-zoom'
 
 .sortDetail .G_info > h3 {
     font: 24px/42px "å¾®è½¯éé»";
+	color: black;
 }
 .sortDetail .G_info > p {
     font-size: 16px;
@@ -422,7 +454,7 @@ import imgZoom from 'vue2.0-zoom'
     }
  }
  .choosesp{
- 	display: flex;
+ 	margin: 10px 0px;
  	.cx{
  		margin-top:1rem;
  		label{
@@ -491,18 +523,21 @@ import imgZoom from 'vue2.0-zoom'
  }
   dl{
  	overflow: hidden;
- 	margin-bottom: 20px;
+ 	margin-bottom: 10px;
+	 margin-top: 10px;
  	dt{
- 	margin-bottom:20px;
-    line-height: 20px!important;
-    height: 20px!important;
+    margin-bottom: 10px;
+    line-height: 35px !important;
+    height: 40px !important;
+    float: left;
+	margin-right: 10px;
  	}
 	 dd{
 	  	border:1px solid $color-border;
 	  	float: left;
 	  	padding: 6px 10px;
 	  	margin-right: 10px;
-	  	border-radius: 10px;
+	  	border-radius: 0px;
 	  	color: #222;
 	  	cursor: pointer;
 	  	margin-bottom: 10px;
@@ -522,11 +557,55 @@ import imgZoom from 'vue2.0-zoom'
     border-radius: 10px;
     padding:10px;
  }
-.demo-carousel img{
-	max-width: 100%;
-}
 .cxtime{
 	color:#999;
 	margin-top: 1rem;
+}
+.sortDetail .G_info .G_right{
+	font-size: 24px;
+	height: 60px;
+	line-height: 60px!important;
+	width:100%;
+	border-bottom: 1px solid #e7e7e7;
+	color: black;
+
+}
+.goCart  span{
+	padding: 15px 50px;
+}
+.sortDetail .stock{
+	padding-left: 20px;
+	color: black;
+}
+.sortDetail .stock b{
+	color:#E50011;
+}
+.little_img{
+	position: relative;
+	padding-left:5px;
+	min-width: 400px;
+}
+.inlineBlock{
+	display: inline-block;
+	vertical-align: middle;
+	position: absolute;
+	top: 0px;
+	font-size: 16px;
+	z-index: 10;
+	width: 20px;
+	height: 50px;
+	line-height: 70px;
+}
+.imgContent{
+	min-width: 400px;
+}
+.leftBtn{
+	left: 0px;
+}
+.rightBtn{
+	right: 0px;
+}
+.rightBtn li{
+	text-align: right;
 }
 </style>

@@ -1,7 +1,13 @@
 <template>
 
-	<div class="sort2">
-			<div class="content_wrap">
+<div class="sort2">
+	<div class="content_wrap">
+        <ol class='importantword'>
+            <li><p>分类：</p></li>
+            <li class="collection-item" v-for="gameName in gameNames" :class="{active: activeName == gameName}" @click="selected(gameName)">
+                <p>{{gameName}}</p>
+             </li>
+        </ol>
         <ul class="search_list_wrap" id="searchListWrap">
         	<div class="empty_result" style="font-size:24px" v-if="productList.length<1">
                     <div class="icon_unit icon_unit_notice"></div>
@@ -57,11 +63,25 @@
                 hidden1:false,
                 hidden2:false,
                 opt_search_hover:false,
+                gameNames: ['所有', '电竞椅', '电竞桌', '定制', '配件及周边'],
+                activeName: '所有'
 			}
-			
         },
          
 		methods:{
+            selected: function(gameName) {
+                this.activeName = gameName;
+                if(gameName == "所有"){
+                    gameName =''
+                }
+                this.$axios({
+					method: 'GET',
+					url:'/product/search?keyword='+gameName+'&startRow='+this.startRow+'&pageSize='+this.pageSize,
+				}).then((res)=>{
+					this.productList = res.itemsList;
+					this.totalSize=res.total;
+				})
+            },
             handleChange2 (newTargetKeys) {
                 this.targetKeys2 = newTargetKeys;
             },
@@ -91,15 +111,6 @@
             },
             handlePage(value) {  
                 this.startRow = value * this.pageSize - 19;  
-                // this.$axios({
-				// 		method: 'GET',
-				// 		url:'/product/search?startRow='+this.startRow+'&pageSize='+this.pageSize,
-				// 		}).then((res)=>{
-				// 			var arr = this.productList.concat(res.itemsList);
-				// 			this.productList = arr;
-				// 			console.log(this.productList)
-							
-                // 		})
                 this.getList();
             },
 			ha(){
@@ -222,5 +233,29 @@
 .page{
 	text-align: center;
 	margin:30px 0
+}
+.importantword{
+    max-width: 1190px;
+    width:100%;
+    margin:20px auto;
+    overflow: hidden;
+    background: #fcfcfc;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 20px;
+    position: relative;
+left: -10px;
+}
+.importantword li{
+    float: left;
+    width:50px;
+}
+.importantword .active {
+  color: red;
+}
+.importantword .collection-item {
+    width: 100px;
+    cursor: pointer;
+
 }
 </style>

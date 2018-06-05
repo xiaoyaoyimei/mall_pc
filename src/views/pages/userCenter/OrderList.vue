@@ -6,10 +6,10 @@
                   	<th width='100'>主图</th>
                   	<th >商品</th>
                   	<th width='100'>单价</th>
-                  	<th  width='100'>数量</th>
+                  	<th  width='50'>数量</th>
                   	<th width='100'>总价</th>
                   	<th width='100'>状态</th>
-                   <th  width='100'>操作</th></tr>
+                   <th  width='150'>操作</th></tr>
               </thead>
               </table>
               <table class="order-tb orderitem-tb" v-for="(x,index) in cartList" :key="index">
@@ -32,12 +32,12 @@
                               
                         </td>
                         <td  width='100'>￥{{unitprice(child.orderFee,child.quantity) | pricefilter}}</td>
-                          <td  width='100'> {{child.quantity}}</td>
+                          <td  width='50'> {{child.quantity}}</td>
                           <td  width='100'> ￥{{child.orderFee| pricefilter}}</td>
                            <td  width='100'> 
                           	<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}" v-if="i==0">订单详情</router-link>
                           </td>
-                          <td    width='100'>
+                          <td    width='150'>
                           	<div v-if="i==0">
                             <div  v-if="x.order.orderStatus=='01'">
                             <a   @click="quzhifu(x.order.orderNo)">立即支付</a>

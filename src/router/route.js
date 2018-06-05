@@ -6,15 +6,10 @@ let routes =  [
 					path: '/',
 				    redirect: '/index',
                     component: Full,
-                    children: [{
+                    children: [
+                    {
 						path: '/index',
 						component:resolve => require(['@/views/pages/Home.vue'], resolve),
-					},
-
-					{
-						name:'购物车',
-						path: '/cart',
-						component:resolve => require(['@/views/pages/cart/CartOne.vue'], resolve),
 					},
 					{
 						name:'新品频道',
@@ -46,7 +41,11 @@ let routes =  [
 						name:'详情',
 						component:resolve=>require(['@/views/pages/SortDetail.vue'], resolve),
 					},
-
+					{
+						name:'购物车',
+						path: '/cart',
+						component:resolve => require(['@/views/pages/cart/CartOne.vue'], resolve),
+					},
 					{
 						name:'/carttwo',
 						path: '/carttwo',
@@ -119,7 +118,6 @@ let routes =  [
 			
 		{path: '/login', name: 'login',component:  resolve => require(['@/views/Login.vue'], resolve)},
 		{path: '/register',name: '注册',component:  resolve => require(['@/views/Register.vue'], resolve)},
-		
 		{
 			path: '/*',
 			 component:resolve => require(['@/views/errorPages/404.vue'],resolve)

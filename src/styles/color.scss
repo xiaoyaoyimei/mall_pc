@@ -4,6 +4,22 @@ $color-dx:#ed1844;
 $color-default:#333;
 $color-white:#fff;
 $color-gray:#999;
+.color-blue{
+    color:#0099FF
+}
+.mb30{
+    margin-bottom: 30px;
+}
+.mr15{
+    margin-right: 15px;
+}
+.mr20{
+    margin-right: 20px;
+}
+
+.font-15{
+    font-size: 15px;
+}
   .demo-spin-icon-load{
         animation: ani-demo-spin 1s linear infinite;
     }
@@ -29,6 +45,8 @@ input, textarea{
 .user-con-wrap{
     margin:1rem;
 }
+
+
 //登录注册头部
 .ding{
     padding-top:2.5rem;

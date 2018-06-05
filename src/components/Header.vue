@@ -5,9 +5,11 @@
        	 <router-link  to="/index" class="logo"><img src="../assets/img/logo.png"></router-link>
         <div class="nav_wrap">
             <ul class="nav" >
-               <router-link  to="/index" tag="li">首页</router-link>
-               <router-link  to="/sort" tag="li">分类页</router-link>
-            </ul>
+               <router-link  class='navItem' to="/index" tag="li">首页</router-link>
+               <router-link  class='navItem' to="/sort" tag="li">分类页</router-link>
+                <router-link class='navItem'  to="/newchannel" tag="li">新品推荐</router-link>
+               <router-link  class='navItem' to="/seckill" tag="li">限时秒杀</router-link>
+            </ul> 
         </div>
         <div class="opt_wrap">
             <div class="opt_search" >
@@ -335,5 +337,8 @@ position: absolute;
     background: #fff;
     padding: 20px;
     border: 1px solid #e8e8e8;
+}
+.nav .navItem{
+    cursor: pointer;
 }
 </style>

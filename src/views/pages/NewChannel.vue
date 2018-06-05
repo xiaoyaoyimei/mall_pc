@@ -69,7 +69,7 @@
 <style>
 .floor{
 	max-width: 1098px;
-border: 1px solid #e0e0e0;
+/* border: 1px solid #e0e0e0; */
 min-height: 900px;
 position: relative;
 margin-bottom: -1px;
@@ -134,6 +134,7 @@ margin:  0  auto;
     font-size: 14px;
     overflow: hidden;
     word-break: break-all;
+    color: #999;
     margin: 8px auto 9px;
 }
 .search_list_wrap .hproduct .sell_point {

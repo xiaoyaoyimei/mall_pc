@@ -2,8 +2,13 @@
 <div>
 	<div class="sortDetail">
 		<div class="goodDetails_name_img">  
-			<div style="width: 400px;height: 400px">  
-				<img :src="ImgUrl |imgfilter" style="width: 100%;height: 100%">  
+			<div class="videoContent" style="width: 400px;height: 400px;">
+				<div v-show="videoshow"  style="width: 400px;height: 400px;">
+            			<span class="guanbi"  @click="close()">x</span>
+        				<div class="youku" :id="shangp.product.video" style="width:100%;height:95%;"></div>
+        		</div>   
+				<img v-show="!videoshow" :src="ImgUrl |imgfilter" style="width: 100%;height: 100%">  
+				<img class="videoIcon"  v-show="!videoshow"  @click='getVideo(shangp.product.video)'  src="../../assets/img/video.png">
 			</div>  
 			<div class="little_img" > 
 				<ul class='inlineBlock leftBtn' @click='relativeLeft()'>
@@ -64,7 +69,7 @@
                             </div>
                         </div>
         </div>
-       <Tabs class="spjs">
+       <Tabs>
         <TabPane label="商品介绍">
         	<ul><li class="center1" v-for="(item, index) in productimg"  :key="index"><img :src="item.imgUrl |imgfilter"></li></ul>
         </TabPane>
@@ -79,8 +84,7 @@
 </div>
 </template>
 <script>
-import imgZoom from 'vue2.0-zoom'
-    	    	export default {
+export default {
         data () {
             return {
             	//库存是否为0添加购物车显示按钮
@@ -129,14 +133,15 @@ import imgZoom from 'vue2.0-zoom'
 						this.quantity = parseInt(obj.value);
 					},
 					relativeLeft(){
-						console.log("1111")
 						if(this.productImageListNew.length > 0){
 							var arr = this.productImageListNew.pop()
 							this.shangp.productImageList.unshift(arr)
+						}else{
+
 						}
+
 					},
 					relativeRight(){
-						console.log("222")
 						if(this.shangp.productImageList.length > 6){
 							var arr = this.shangp.productImageList.shift()
 							this.productImageListNew.push(arr)
@@ -158,9 +163,28 @@ import imgZoom from 'vue2.0-zoom'
 						this.quantity=parseInt(this.quantity)-1; 
 						}
 					},
-					getIndex(imgUrl){  
+					getIndex(imgUrl){ 
+						this.videoshow=false; 
 						this.ImgUrl = imgUrl;  
 					} ,
+					close(){
+						this.videoshow=false;
+					},
+					getVideo(imgVideo){
+						let _this=this;
+						if(imgVideo!="")
+							{
+							_this.videoshow=true;
+							let player = new YKU.Player(imgVideo, {
+							styleid: '0',
+							client_id: '0996850d68cf40fe',
+							vid: imgVideo,
+							newPlayer: true,
+							isAutoPlay:true,
+							});
+
+						}
+					},
           	//加入购物车
           	   atc () {
                  this.modal_loading = true;
@@ -260,7 +284,6 @@ import imgZoom from 'vue2.0-zoom'
 							   	      }
 							       }
               							this.kucunshow=true;
-					console.log(JSON.stringify(this.choosesp))
             	},
     	      	getParams () {
 	       			 // 取到路由带过来的参数 
@@ -276,14 +299,10 @@ import imgZoom from 'vue2.0-zoom'
 								}).then((res)=>{
 									if(res.code=='200'){
 										this.shangp=res.object;
-										this.ImgUrl = this.shangp.productImageList[0].listImg;
-										//  if(res.object.product.video!="")
-										//  {
-										//  	_this.$refs.video.width=window.innerWidth;
-										//  	_this.$refs.video.height=window.innerWidth;
-										//  	_this.$refs.video.src = 'http://player.youku.com/embed/' + res.object.product.video;
-										//  	_this.videoshow=true;
-						                // }
+
+										if(this.shangp.productImageList.length >0){
+											this.ImgUrl = this.shangp.productImageList[0].listImg;
+										}
 									}
 							});
 			     },
@@ -309,7 +328,6 @@ import imgZoom from 'vue2.0-zoom'
 				this.getProduct();
 				this.getProductDesc();
         },
-         components: { imgZoom }
     }
        
 </script>
@@ -366,15 +384,8 @@ import imgZoom from 'vue2.0-zoom'
         .biaoqian{
             width:50%;
         }
-        .ivu-tabs-nav {
-            width:100%;
-        }
-        .ivu-tabs-nav .ivu-tabs-tab{
-            width:48%;
-            text-align:center;
-        }
-    }
 
+    }
 .sortDetail .G_info > h3 {
     font: 24px/42px "å¾®è½¯éé»";
 	color: black;
@@ -584,6 +595,7 @@ import imgZoom from 'vue2.0-zoom'
 	position: relative;
 	padding-left:5px;
 	min-width: 400px;
+	height: 70px;
 }
 .inlineBlock{
 	display: inline-block;
@@ -595,6 +607,7 @@ import imgZoom from 'vue2.0-zoom'
 	width: 20px;
 	height: 50px;
 	line-height: 70px;
+	cursor: pointer;
 }
 .imgContent{
 	min-width: 400px;
@@ -607,5 +620,39 @@ import imgZoom from 'vue2.0-zoom'
 }
 .rightBtn li{
 	text-align: right;
+}
+.videoContent{
+	width:400px;
+	height: 400px;
+	position: relative;
+}
+.videoIcon{
+	width:50px;
+	height:50px;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+}
+.youku{
+	width:100%;
+	height: 95%;
+}
+.guanbi{
+	position: absolute;
+	top:10px;
+	right: 0px;
+	font-size: 16px;
+	height: 30px;
+	width: 30px;
+	cursor: pointer;
+}
+</style>
+<style>
+	.sortDetail  .ivu-tabs-nav {
+    width:100%;
+}
+.sortDetail   .ivu-tabs-nav .ivu-tabs-tab{
+    width:48%;
+    text-align:center;
 }
 </style>

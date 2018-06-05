@@ -163,7 +163,8 @@
 	}
 	
 </style>
-<style>
+<style lang="scss">
+	.login2{
 		 .ivu-input{
 			/* border:0 none; */
 			font-size: 16px;
@@ -180,5 +181,6 @@
 			background:#f6f6f6;
 			text-align:center;
 			height:38px;
+		}
 		}
 </style>

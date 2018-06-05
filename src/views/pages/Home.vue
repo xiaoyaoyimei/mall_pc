@@ -134,6 +134,7 @@ export default {
       }).then(res => {
         if (res.code == "200") {
           this.proList = res.object;
+          console.log(this.proList)
         }
       });
     }
@@ -170,6 +171,7 @@ export default {
     li:hover{
     	 background: rgba(0, 0, 0, 0.6);
     }
+
 }
 .homepage{
 	background: #fff;
@@ -189,4 +191,5 @@ export default {
 .floor .search_list_wrap{
 border: 1px solid #ccc;
     padding-top: 30px;}
+
 </style>

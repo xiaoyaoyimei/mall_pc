@@ -74,6 +74,7 @@ let routes =  [
 				redirect: '/user/orderlist',
 				children:[
 				            {
+				            meta:{requireAuth:true},
 				         	name:'orderlist',
 				   			path: 'orderlist',
 				 	   		component:resolve => require(['@/views/pages/userCenter/OrderList.vue'], resolve),

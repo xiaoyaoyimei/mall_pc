@@ -2,29 +2,29 @@
 	<div class='zhifu' >
 		<div class="pay_info_wrap">
 			<div class="scan_code_wrap ">
-				<p class="tips_info">订单提交成功，请尽快付款！</p>
+				<p class="tips_info">订单提交成功，请在半小时以内完成付款！</p>
 				<p>订单号：{{orderNo}}<router-link  :to="{name:'/order/detail',query:{orderNo:this.orderNo}}"> 订单详情</router-link></p>
 			</div>
 		</div>
 		<div class="scan_code_wrap">
 		  	 	<ul class="pay_tab js_pay_tab">
 		  	 		 <li class="alipay " data-target="alipay" @click="toggletab(0)" :class="{checked:0 == num}">
-		                <i class="icon-alipay"></i>
+		                <i class="icon icon-alipay"></i>
 		                                     支付宝
 		            </li>
-                    <li class="wechat" data-target="wechat" @click="toggletab(1)" :class="{checked:1 == num}">
-		                <i class="icon-wechat"></i>
-		                                    微信支付
+                    <li class="wechat" data-target="wechat" @click="toggletab(1)" :class="{checked:1 == num}"  >
+		                <i class="icon icon-wechat"></i>
+		                                    微信支付  
 		            </li>
            			 </ul>
                     <div class="pay_content">
                     <div v-show=" 0 == num"  class="ali">
                     	<form :action="pay" method="post" ref="payfang" id="myForm">
-                    		<img src="../../../assets/img/alipay.png" @click="handleSubmit()">
+                    		<img src="../../../assets/img/alipay.png" @click="handleSubmit('alipay')">
 						</form>
                     	</div>
                     	<div v-show=" 1 == num" >
-                    		<img src="../../../assets/img/weiChat.png">
+                    		<img :src="verimg"/>
                     	</div>
                     </div>
 		 <div id="zhifu" ref="zhifu"></div>
@@ -40,13 +40,32 @@
             	payshow:false,
             	orderNo:this.$route.query.orderNo,
             	num:0,
-            	pay:this.$axios.defaults.baseURL+'order/alipay/'+this.$route.query.orderNo
+            	verimg:'',
+            	pay:this.$axios.defaults.baseURL+'order/alipay/'+this.$route.query.orderNo,
+            	t:'',
             }
         },
         methods:{
         	//切换num的值切换支付方式
         	toggletab(num){
         		this.num=num;
+        		if(num==1){
+        			this.verimg=this.$axios.defaults.baseURL+'order/weixin/'+this.$route.query.orderNo;
+        			this.wexinpaycheck();
+        		}
+        	},
+        	wexinpaycheck(){
+        		var _this=this;
+        		   	this.$axios({
+						    method: 'post',
+							    url:'/order/weixin/payment/check/'+this.$route.query.orderNo,
+							}).then((res)=>{
+								if(res.msg=='yes'){
+									clearTimeout( _this.t );
+									_this.$router.push({ name:'/order/detail',query:{orderNo:this.$route.query.orderNo}});
+								}
+							});
+							 _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
         	},
         	cancelpay(){
         		this.payshow=true;
@@ -63,11 +82,11 @@
 	                // 将数据放在当前组件的数据内
 	                this.orderNo = routerParams;
 	          },
-        	handleSubmit () {
+        	handleSubmit (name) {
         		//  document.getElementById("myForm").submit()
                 this.$axios({
 				    method: 'post',
-				    url:'/order/alipay/'+this.$route.query.orderNo,
+				    url:'/order/'+name+'/'+this.$route.query.orderNo,
 				}).then((res)=>{
 					console.log(res)
 					//this.$refs['zhifu'].innerHTML=res;
@@ -124,19 +143,17 @@
     color: #666;
 }
 .pay_tab .icon-wechat {
-    background-position: -277px -275px;
+    background-position: -68px -37px;
     width: 27px;
     height: 24px;
 }
 .pay_tab i {
-	background:url(../../../assets/img/payway.png) no-repeat scroll 0 0;
     position: relative;
     top: 6px;
     margin-right: 6px;
-    display: inline-block;
 }
 .pay_tab .icon-alipay {
-    background-position: -368px -275px;
+    background-position: -104px -38px;
     width: 24px;
     height: 24px;
 }
@@ -146,10 +163,12 @@
     margin-top: -6px;
     height: 480px;
     margin-bottom: 40px;
+    
     	div{
     		  display: flex;
     justify-content: center;
     height: 100%;
+    align-items: center;
     img{
     	align-self: center;
     }

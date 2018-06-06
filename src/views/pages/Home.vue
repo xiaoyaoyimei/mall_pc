@@ -20,16 +20,6 @@
 		                </CarouselItem>
 			</Carousel>
 					
-					
-					<!--<div class="rec_wrap" >
-							<ul v-for="(item,index) in aditems"  :key="index">
-								<li >
-				                    <router-link class="url" :to="{name: '/typesort',params:{type:child.linkUrl}}" tag="span" v-for="(child,index) in item.list"  :key="index">	
-				                        <img class="photo"  :src="imageSrc+child.imgUrl"  :width="child.proportion | baifenhao" >
-				                    </router-link>
-								</li>
-							</ul>
-						</div>-->
 						<div class="floor" v-if="productNew.length>0">
 							<h2><p>新品专区</p></h2>
 						 <ul class="search_list_wrap clearfix">
@@ -189,7 +179,7 @@ export default {
 	line-height: 180px;
 }
 .floor .search_list_wrap{
-border: 1px solid #ccc;
+border-top: 1px solid #ccc;
     padding-top: 30px;}
 
 </style>

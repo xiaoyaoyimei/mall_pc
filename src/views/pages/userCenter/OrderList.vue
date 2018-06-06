@@ -1,5 +1,5 @@
  <template>
-        <div>
+        <div class="mb30">
             <table class="order-tb" >
               <thead>
                   <tr>
@@ -12,7 +12,7 @@
                    <th  width='150'>操作</th></tr>
               </thead>
               </table>
-              <table class="order-tb orderitem-tb" v-for="(x,index) in cartList" :key="index">
+              <table class="order-tb orderitem-tb" v-for="(x,index) in cartList" :key="index" v-if="cartList.length>0">
                 <tbody >
                   <tr class="title">
                   	<td  colspan="7">
@@ -38,16 +38,17 @@
                           	<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}" v-if="i==0">订单详情</router-link>
                           </td>
                           <td    width='150'>
-                          	<div v-if="i==0">
-                            <div  v-if="x.order.orderStatus=='01'">
-                            <a   @click="quzhifu(x.order.orderNo)">立即支付</a>
-                            <a  id="${result.order_no}" href="javascript:void(0);" >取消订单</a>  
-                            </div>
-                           </div>
+                         <div class="cz" >
+                         	<button   class="btn"  @click="cancel(x.order.orderNo)" v-if="x.order.orderStatus=='01'||x.order.orderStatus=='02'||x.order.orderStatus=='05'">取消订单</button>
+                         	<button   class="btn btn-dx"  @click="quzhifu(x.order.orderNo)" v-if="x.order.orderStatus=='01'">去支付</button></div>
                           </td> 
                           </tr>
                 </tbody>
             </table>
+             <div  class="flex-center" v-else>
+						<img src="../../../assets/img/order_empty.png">
+					<p>没有订单哦,<router-link :to="{path: '/index'}" >去首页看看</router-link></p>
+				</div>
         </div>
 </template>
 
@@ -55,7 +56,6 @@
 	import { formatDate } from '@/assets/js/date.js'
 export default {
     data() {
-    	 const temp=[] ;
       return {
         cartList:[],
        statusList:[]
@@ -95,6 +95,28 @@ export default {
 						
 						});
     	},
+    	  cancel(value){
+                this.$Modal.confirm({
+                    content: '<p>确定取消该订单？</p>',
+                    onOk: () => {
+                         		this.$axios({
+					    method: 'post',
+					    url:'/order/cancel/'+value,
+					}).then((res)=>{
+						if(res.code=='200'){
+							  this.$Message.info(res.msg);
+							  this.getOrder();
+						}
+						else{
+							  this.$Message.info(res.msg);
+						}
+					});
+                    },
+                    onCancel: () => {
+                        this.$Message.info('放弃取消');
+                    }
+                });
+            },
 	      getOrder(){
 	      			this.$axios({
 						    method: 'get',
@@ -135,4 +157,17 @@ export default {
 .orderitem-tb .title{
 	background:#efefef
 }
+.btn{
+background:#fff;
+    border: 1px solid #333;
+    padding: 2px;
+    cursor: pointer;
+    }
+    .btn:hover{
+    	background: #f3f3f3;
+    }
+    .btn-dx{
+    	border-color:#0099ff;
+    	color:#0099ff;
+    }
 </style>

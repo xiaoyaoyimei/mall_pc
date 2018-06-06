@@ -50,7 +50,7 @@
             </div>
             <div class="opt_search" >
                 <div  class="search_wrap">  
-                     <input v-model="keyword"  placeholder="电竞椅" autocomplete="off"  type="search"  @keyup.enter.native="gosearch()"> 
+                     <input v-model="keyword"  placeholder="电竞椅" autocomplete="off"  type="search"  @keyup.enter="gosearch()"> 
                     <i class="icon_search" @click="showsearch()"></i> 
                 </div> 
             </div>
@@ -211,17 +211,12 @@
 .opt_user{
 	padding-left: 30px;
 	padding-bottom: 15px;
+	padding-right: 20px;
 	a{
 		color:#fff;
 	}
 }
-.icon{
-	cursor: pointer;
-	background-image: url(../assets/img/header_sprite.png);
-	background-repeat: no-repeat;
-	background-attachment: scroll;
-	display: inline-block;
-}
+
 .icon-login-gray,.icon-login-blue{
 		width: 25px;
 	height: 25px;
@@ -238,7 +233,7 @@
 .common-wrap{
 	display: none;
      position: absolute;
-    right: -49px;
+    right: -33px;
     width: 320px;
     top: 45px;
     z-index: 2;
@@ -299,6 +294,7 @@ background-position: -36px -37px;
 	.total{
 		float: right;
 		font-size: 16px;
+		color:#0099ff
 		}
  p{
 	color:#111;
@@ -337,7 +333,6 @@ background-position: -36px -37px;
 	 .ivu-input{
     	height: 40px;
     	line-height:40px;
-    	width:267px;
     	border-radius: 0;
     }
     .ivu-form .ivu-form-item-label{

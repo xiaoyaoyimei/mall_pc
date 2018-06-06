@@ -21,6 +21,13 @@ export default {
   height:100vh;
   background: #f6f6f6;
 }
+.icon{
+    cursor: pointer;
+    background-image:url(assets/img/header_sprite.png);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    display: inline-block;
+}
 ul,li{
 	list-style: none;
 }

@@ -89,9 +89,9 @@
 				</div>
 			</div>
 			</div>
-				<div class="cart_empty"  v-else>
+				<div class="cart_empty flex-center main-wdith"  v-else>
 			 <img src="../../../assets/img/cartempty.png">
-			 <div class="hinter">购物车是空的</div>
+			 <div>购物车是空的</div>
 			<router-link to="/index"  >去首页</router-link>
 		</div>
 	</div>
@@ -429,19 +429,14 @@ export default {
     .cart_empty{
     text-align: center;
     border: 1px solid #e6e6e6;
-    padding: 60px 0;
     background-color: #fff;
-    width: 1200px;
-    margin: 0 auto;
+    img{
+    	width:90px
     }
-    .cart_empty img{
-    	width: 90px;
+    a{
+    	font-size: 14px;
+    	margin-top: 10px;
     }
-    .hinter{
-    	    font-size: 14px;
-    line-height: 14px;
-    color: #999;
-    margin-top: 40px;
-    margin-bottom: 20px;
     }
+ 
 </style>

@@ -20,6 +20,7 @@
 </template>
 <script>
 	import store from '@/store/store';
+	 import { validatePHONE } from '@/assets/js/validate';
 	import { mapMutations } from 'vuex';
     export default {
       name: 'login',

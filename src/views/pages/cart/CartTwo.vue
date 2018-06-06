@@ -8,7 +8,7 @@
         <div class="adr js_adr_check"  :class="{checked: index == selectItem}"  v-for="(addritem,index) in addressList" :key="index" >
             <div class="adr-inner">
             	<div @click="chooseAddr(addritem.id,index)">
-                <i class="icon_checked"></i>
+                <i class="icon icon_checked"></i>
                 <div class="adr-head" >
                     <span class="adr-province">{{addritem.receiveProvince}}</span>
                     <span class="adr-city">{{addritem.receiveCity}}</span>
@@ -22,8 +22,8 @@
                 </div>
                   </div>
                 <div class="adr-foot">
-                    <a href="javascript:;" class="js_adr_edit" @click="editmodal(addritem)">编辑</a>
-                    <a href="javascript:;" class="js_adr_delete" @click="handleDelete(addritem.id)">删除</a>
+                    <a href="javascript:void(0);" @click="editmodal(addritem)">编辑</a>
+                    <a href="javascript:void(0);"  @click="handleDelete(addritem.id)">删除</a>
                 </div>
              
             </div>
@@ -31,14 +31,14 @@
         <div class="adr js_adr_add" ms-hover="'hover'" @click="modaladdr=true">
             <div class="adr-inner">
                 <div class="adr-add">
-                    <p class="adr-add-icon"><i class="icon_add">+</i></p>
+                    <p class="adr-add-icon"><i class="icon icon_add_address"></i></p>
                     <p class="adr-add-text">添加地址</p>
                 </div>
             </div>
         </div>
     </div>
                 <Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading">
-				<Form :model="addForm" ref="addForm" label-position="left" :label-width="100" :rules="ruleValidate" > 
+				<Form :model="addForm" ref="addForm" label-position="left" :label-width="110" :rules="ruleValidate" style="padding: 15px;"> 
 					<FormItem label="收货人" prop="person">
 						<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
 					</FormItem>
@@ -56,8 +56,8 @@
 					</FormItem>
 				</Form>
 				  </Modal>
-				   <Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading">
-					  	<Form :model="editForm" ref="editForm" label-position="left" :label-width="100" :rules="ruleValidate"  > 
+				   <Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading"  >
+					  	<Form :model="editForm" ref="editForm" label-position="left" :label-width="110" :rules="ruleValidate" style="padding: 15px;" > 
 				        <FormItem label="收货人" prop="person">
 				            <Input v-model="editForm.person" placeholder="收货人"></Input>
 				        </FormItem>
@@ -526,11 +526,10 @@
     background-color: #fafafa;
 }
 .icon_checked {
-	background: url(../../../assets/img/cart_sprite.png) no-repeat scroll 0 -21px;;
-    width: 16px;
-    height: 16px;
-        display: inline-block;
-        position: absolute;
+	    background-position: -5px -71px;
+    width: 18px;
+    height: 18px;
+    position: absolute;
     top: -2px;
     right: -2px;
 }
@@ -545,12 +544,7 @@
 .address-box .adr-body {
     margin-top: 10px;
 }
-.address-box .adr-inner .icon_checked {
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    display: none;
-}
+
 .address-box .adr-head {
     font-size: 0;
 }
@@ -570,11 +564,11 @@
     bottom: 10px;
     left: 20px;
 }
-.address-box .checked .icon_checked {
-    display: inline-block;
+.address-box:hover .adr-foot{
+	display: inline-block;
 }
-.address-box .adr-inner:hover  .adr-foot {
-    display: block;
+.adr-foot a{
+	margin-right: 10px;
 }
 .address-box .adr-add .adr-add-icon {
     margin-top: 8px;
@@ -628,5 +622,10 @@
 .coupon-wrap span{
 	cursor: pointer;
 	color:#0099ff;
+}
+.icon_add_address{
+	background-position:-3px -94px ;
+	width:45px;
+	height: 45px;
 }
 </style>

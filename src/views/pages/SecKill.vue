@@ -1,6 +1,6 @@
 <template>
 	<div class="sort">
-		<div  class="center" v-if="show">
+		<div  class="flex-center" v-if="show">
 			<img src="../../assets/img/lightning.png">
 			<p>暂无秒杀活动 敬请期待</p>
 		</div>
@@ -126,7 +126,7 @@ export default {
 							    _this.startpro=[];
 							    _this.nostartpro=[];
 							    this.pro.map(function (item) {
-										if(item.switch=='0'){
+										if(item.switch=='1'){
 											_this.startpro.push(item)
 										}else{
 											_this.nostartpro.push(item)
@@ -174,16 +174,5 @@ export default {
 }
 .nostart h6{
 	color:#000;
-}
-.center{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 480px;
-    flex-wrap: wrap;
-    flex-direction: column;
-	p{
-		font-size: 14px;
-	}
 }
 </style>

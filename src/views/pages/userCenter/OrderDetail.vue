@@ -9,9 +9,9 @@
 	     </div>
 	<div class="order_situation">
 		<h2>订单概况</h2>
-		   		<p>订单编号：<span>{{orderdetail.shippingOrder.orderNo}}</span></p>
-		   		<p>下单时间：<span>{{orderdetail.shippingOrder.createTime | formatDate}}</span></p>
-		   		<p>收货信息：<span>{{orderdetail.shippingAddress.receiverName}}/{{orderdetail.shippingAddress.receiverMobile}}/{{orderdetail.shippingAddress.receiverState}}
+		   		<p>订单编号:<span>{{orderdetail.shippingOrder.orderNo}}</span></p>
+		   		<p>下单时间:<span>{{orderdetail.shippingOrder.createTime | formatDate}}</span></p>
+		   		<p>收货信息:<span>{{orderdetail.shippingAddress.receiverName}}/{{orderdetail.shippingAddress.receiverMobile}}/{{orderdetail.shippingAddress.receiverState}}
 		   			{{orderdetail.shippingAddress.receiverCity}}{{orderdetail.shippingAddress.receiverDistrict}}{{orderdetail.shippingAddress.receiverAddress}}</span></p>
 		   		</div>
 		 <div class="order_goods clearfix">
@@ -32,9 +32,9 @@
 		   	<div class="order_price clearfix">
 		   <div  class="order_wrap">
 		   	<dl class="cf-wrap">
-		     	<dt>商品总额</dt><dd>￥{{orderdetail.shippingOrder.productFee|pricefilter}}</dd>
-		   	 	<dt>商品优惠</dt><dd><label  v-if="orderdetail.shippingOrder.discountFee!=''">￥{{orderdetail.shippingOrder.discountFee|pricefilter}}</label></dd>
-		    	<dt>实付款：</dt><dd><span class="font-24">￥{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</span></dd>
+		     	<dt>商品总额:</dt><dd>￥{{orderdetail.shippingOrder.productFee|pricefilter}}</dd>
+		   	 	<dt>商品优惠:</dt><dd><label  v-if="orderdetail.shippingOrder.discountFee!=''">￥{{orderdetail.shippingOrder.discountFee|pricefilter}}</label></dd>
+		    	<dt>实付款:</dt><dd><span class="font-24">￥{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</span></dd>
 		    </dl>
 		     <button  @click="quzhifu"  type="button" class="btn_pay" v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'"> 
 				立即支付

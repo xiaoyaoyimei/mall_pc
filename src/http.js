@@ -5,7 +5,7 @@ import router from '@/router/route'
 // axios 配置
 axios.defaults.timeout = 5000;
 //设置拦截器
-//axios.defaults.baseURL = 'http://10.0.0.2:8081/mall/pc/';
+// axios.defaults.baseURL = 'http://10.0.0.2:8081/mall/pc/';
 axios.defaults.baseURL = 'http://test-shop.dxracer.com.cn:8084/mall/pc/';
 // http request 拦截器
 axios.interceptors.request.use(

@@ -1,6 +1,7 @@
 const _import = require('./_import_' + process.env.NODE_ENV);
 import Full from '@/container/Full'
 import UFull from '@/container/UFull'
+import registerContent from "@/container/RegisterContent"
 let routes =  [
 				{
 					path: '/',
@@ -116,8 +117,24 @@ let routes =  [
 			]
 				},
 			
-		{path: '/login', name: 'login',component:  resolve => require(['@/views/Login.vue'], resolve)},
-		{path: '/register',name: '注册',component:  resolve => require(['@/views/Register.vue'], resolve)},
+		{
+			path: '/login', 
+			name: 'login',
+			component:  registerContent,
+			children:[
+				{
+					path: '/login',
+					name: '/login',
+					component:  resolve => require(['@/views/Login.vue'], resolve)
+				},
+				{
+					path: '/register',
+					name: '注册',
+					component:  resolve => require(['@/views/Register.vue'], resolve)
+				},
+			]
+		},
+		
 		{
 			path: '/*',
 			 component:resolve => require(['@/views/errorPages/404.vue'],resolve)

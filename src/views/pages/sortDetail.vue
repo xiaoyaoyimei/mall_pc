@@ -8,7 +8,7 @@
         				<div class="youku" :id="shangp.product.video" style="width:100%;height:95%;"></div>
         		</div>   
 				<img v-show="!videoshow" :src="ImgUrl |imgfilter" style="width: 100%;height: 100%">  
-				<img class="videoIcon"  v-show="!videoshow"  @click='getVideo(shangp.product.video)'  src="../../assets/img/video.png">
+				<img class="videoIcon" v-if='videoIcon'  v-show="!videoshow"  @click='getVideo(shangp.product.video)'  src="../../assets/img/video.png">
 			</div>  
 			<div class="little_img" > 
 				<ul class='inlineBlock leftBtn' @click='relativeLeft()'>
@@ -18,8 +18,8 @@
 				</ul> 
 				<div class='imgContent'>
 					<ul  v-for="(item, index) in shangp.productImageList"  :key="index">  
-						<li @click='getIndex(item.listImg)' class="clickproduct">  
-							<img :src="item.listImg |imgfilter"  style="width: 50px; height: 50px" >  
+						<li @click='getIndex(item.listImg,index)' class="clickproduct">  
+							<img :src="item.listImg |imgfilter" :class="{clickItem:item.clickItem}"  style="width: 50px; height: 50px" >  
 						</li>  
 					</ul>
 				</div>
@@ -32,40 +32,35 @@
 		</div>  
         <div class="delie">
             <div class="G_info hidden">
-                            <h3>{{shangp.product.modelName}}</h3>
-                            <p>{{shangp.product.modelNo}}</p>
+                            <h3>{{shangp.product.modelNo}}</h3>
+                            <p>{{shangp.product.modelName}}</p>
 							<div class="G_changeDetail">
-                                <p class="G_right" v-if="choosesp.price == 0 "> ￥：{{shangp.product.salePrice | pricefilter}}</p>
-								 <p class="G_right" v-if="choosesp.price > 0 "> ￥：{{choosesp.price  | pricefilter}}</p>
+                                <p class="G_right"	 v-if="choosesp.price == 0 "><strong v-if="cxshow">￥{{choosesp.cuxiaoprice  | pricefilter}} </strong> <span :class='{chooseSPPrice:cxshow}'> ￥{{shangp.product.salePrice | pricefilter}}</span></p>
+								<p class="G_right"  v-if="choosesp.price > 0 "> <strong v-if="cxshow">￥{{choosesp.cuxiaoprice  | pricefilter}} </strong> <span :class='{chooseSPPrice:cxshow}'> ￥{{choosesp.price  | pricefilter}}</span></p>
+								
                                 <div class="G_MEAS">
-                                <form id="attrform">
-                                    <div slot="header" >
-                                                <div v-if="xiajia" class="xiajia"><Icon type="information-circled">
-                                                </Icon>该商品已下架
-                                                </div>
-                                                <div  v-if="firstshow" class='choosesp'>
-                                                <div>
-                                                    <span class="cx" v-if="cxshow"><strong>优惠价：￥{{choosesp.cuxiaoprice}}</strong>
-													     <em>库存:{{choosesp.kucun}}</em> <br>
-                                                        促销活动:<label>{{choosesp.activityName}}</label>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <dl v-for="(item, index) in shangp.productAttrList"  :key="index">
-                                            <dt>{{item.attrKey.catalogAttrValue}} ：</dt>
-                                            <dd v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :title="child.id">
-                                                {{child.modelAttrValue}}
-                                            </dd>
-                                            </dl>
-                                            <div>数量 ：<InputNumber  :min="1" v-model="quantity"></InputNumber><span class="stock" v-if="kucunshow">库存 ：<b>{{choosesp.kucun}}</b></span></div>
-                                            <div slot="footer">
-                                                <Button class="goCart"  size="large"     disabled="disabled" v-if="xiajia">加入购物车</Button>
-                                                <Button class="goCart"  size="large"  :loading="modal_loading" @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
-                                            </div>
-                                </form>
+									<form id="attrform">
+										<div slot="header" >
+												<div v-if="xiajia" class="xiajia"><Icon type="information-circled">
+												</Icon>该商品已下架
+												</div>
+												<div  v-if="firstshow" class='choosesp'>
+												</div>
+												</div>
+												<dl v-for="(item, index) in shangp.productAttrList"  :key="index">
+												<dt>{{item.attrKey.catalogAttrValue}} :</dt>
+												<dd v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :title="child.id">
+													{{child.modelAttrValue}}
+												</dd>
+												</dl>
+												<div class="sNumber">数量 : <InputNumber  :min="1" v-model="quantity"></InputNumber><span class="stock" v-if="kucunshow"><label v-if="cxshow">促销活动:{{choosesp.activityName}} </label> 库存: <b> {{choosesp.kucun}}</b></span></div>
+												<div slot="footer">
+													<Button v-if="wuhuotongzhi" size="large"  disabled="disabled">暂时无货，到货通知</Button>
+													<Button v-show="!wuhuotongzhi" class="goCart"  size="large"     disabled="disabled" v-if="xiajia">加入购物车</Button>
+													<Button v-show="!wuhuotongzhi" class="goCart"  size="large"  :loading="modal_loading" @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
+												</div>
+									</form>
                                 </div>
-
                             </div>
                         </div>
         </div>
@@ -90,10 +85,12 @@ export default {
             	//库存是否为0添加购物车显示按钮
             	kucunshow:false,
             	videoshow:false,
-            	xiajia:false,
+				xiajia:false,
+				wuhuotongzhi:false,
             	firstshow:false,
             	selectedId:-1,
-            	modal2: false,
+				modal2: false,
+				videoIcon:false,
             	modal_loading:false,
             	shangp:{
             		product:{},
@@ -124,7 +121,7 @@ export default {
             	productId:'',
 				ImgUrl:'',
 				choosepPrice:false,
-				productImageListNew:[]
+				productImageListNew:[],
             }
         },
           methods: {
@@ -163,9 +160,18 @@ export default {
 						this.quantity=parseInt(this.quantity)-1; 
 						}
 					},
-					getIndex(imgUrl){ 
+					getIndex(imgUrl,index){ 
 						this.videoshow=false; 
 						this.ImgUrl = imgUrl;  
+						for (let i = 0; i < this.shangp.productImageList.length; i++) {
+							if(index == i){
+								this.shangp.productImageList[i].clickItem = true;
+							}else{
+								this.shangp.productImageList[i].clickItem = false;
+							}
+							
+						}
+						console.log(this.shangp.productImageList)
 					} ,
 					close(){
 						this.videoshow=false;
@@ -278,12 +284,17 @@ export default {
             	   	    }
             	   }
             	   //计算库存
-              						for(let kucunitem of this.shangp.inventory){
-							   	      if(kucunitem.skuId==this.productItemId){
-							   	      	 this.choosesp.kucun=kucunitem.quantity-kucunitem.lockQuantity
-							   	      }
-							       }
-              							this.kucunshow=true;
+					for(let kucunitem of this.shangp.inventory){
+						if(kucunitem.skuId==this.productItemId){
+							this.choosesp.kucun=kucunitem.quantity-kucunitem.lockQuantity
+						}
+					}
+					this.kucunshow=true;
+					if(this.choosesp.kucun < 1){
+						this.wuhuotongzhi = true;
+					}else{
+						this.wuhuotongzhi = false;
+					}
             	},
     	      	getParams () {
 	       			 // 取到路由带过来的参数 
@@ -299,9 +310,15 @@ export default {
 								}).then((res)=>{
 									if(res.code=='200'){
 										this.shangp=res.object;
-
+										for (let a = 0; a < this.shangp.productImageList.length; a++) {
+											this.shangp.productImageList[a].clickItem = false;
+										}
 										if(this.shangp.productImageList.length >0){
 											this.ImgUrl = this.shangp.productImageList[0].listImg;
+											this.shangp.productImageList[0].clickItem = true;
+										}
+										if(this.shangp.product.video != ''){
+											this.videoIcon = true;
 										}
 									}
 							});
@@ -353,6 +370,7 @@ export default {
 				width:50px;
 				height:50px;
 				margin:10px 7.5px;
+				cursor: pointer;
 			}
 		}
         .ivu-carousel{
@@ -387,11 +405,11 @@ export default {
 
     }
 .sortDetail .G_info > h3 {
-    font: 24px/42px "å¾®è½¯éé»";
+	font-size: 32px;;
 	color: black;
 }
 .sortDetail .G_info > p {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 36px;
     border-bottom: 1px solid #e7e7e7;
 }
@@ -479,12 +497,11 @@ export default {
   	display: block;
     line-height: 25px!important;
   }
-  strong{
-  	margin-bottom: 0.5rem;
-  	color:$color-dx;
-  	display: block;
-  	font-size: 1.4rem;
-      font-size: 20px;
+.sortDetail  strong{
+  	color:black;
+  	display: inline;
+    font-size: 32px;
+	font-weight: normal;
   }
  .back{
  	    background: rgba(64, 64, 64, 0.6);
@@ -511,7 +528,7 @@ export default {
  		color: #333;
  	}
  	strong{
- 		color:$color-dx;
+ 		color:black;
  		font-size: 1.1rem;
  	}
  }
@@ -535,13 +552,15 @@ export default {
   dl{
  	overflow: hidden;
  	margin-bottom: 10px;
-	 margin-top: 10px;
+	 margin-top: 20px;
+	 font-size: 15px;
  	dt{
     margin-bottom: 10px;
     line-height: 35px !important;
     height: 40px !important;
     float: left;
 	margin-right: 10px;
+	 font-size: 15px;
  	}
 	 dd{
 	  	border:1px solid $color-border;
@@ -555,8 +574,8 @@ export default {
         line-height: 20px!important;
 	  }
 	  dd.active{
-	  	color:$color-dx;
-	  	border-color:$color-dx;
+	  	color:#57a3f3;
+	  	border-color:#57a3f3;
 	  }
  }
  .choosesp img{
@@ -572,24 +591,31 @@ export default {
 	color:#999;
 	margin-top: 1rem;
 }
+.sortDetail .chooseSPPrice{
+	text-decoration: line-through;
+	font-size: 20px;
+	color: #999;
+}
 .sortDetail .G_info .G_right{
-	font-size: 24px;
-	height: 60px;
-	line-height: 60px!important;
+	font-size: 32px;
+	height: 95px;
+	line-height: 95px!important;
 	width:100%;
 	border-bottom: 1px solid #e7e7e7;
 	color: black;
 
 }
-.goCart  span{
-	padding: 15px 50px;
+.goCart {
+	background-color: #57a3f3;
+	border: 1px solid #57a3f3;
 }
+
 .sortDetail .stock{
 	padding-left: 20px;
 	color: black;
 }
 .sortDetail .stock b{
-	color:#E50011;
+	color:#57a3f3;
 }
 .little_img{
 	position: relative;
@@ -646,13 +672,30 @@ export default {
 	width: 30px;
 	cursor: pointer;
 }
+.sortDetail .neirong, .sortDetail .title{
+	font-size: 15px;
+	line-height: 35px;
+}
+.sortDetail .sNumber {
+	border-bottom: 1px solid #e7e7e7;
+	padding-bottom: 10px;
+	margin-bottom: 15px;
+
+}
+.sortDetail .clickItem{
+	border:  1px solid #999;
+}
 </style>
 <style>
-	.sortDetail  .ivu-tabs-nav {
+.sortDetail  .ivu-tabs-nav {
     width:100%;
 }
 .sortDetail   .ivu-tabs-nav .ivu-tabs-tab{
     width:48%;
     text-align:center;
+	font-size: 20px;
+}
+.sortDetail  .goCart  {
+	padding: 15px 50px;
 }
 </style>

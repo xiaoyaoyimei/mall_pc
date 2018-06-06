@@ -44,7 +44,7 @@
 		
 		
     <ul class="address-list ">
-    	<li v-for="(item,index) in addressList" :key="index" class="clearfix">
+    	<li v-for="(item,index) in addressList" :key="index" @click="getIndexAddress()" class="clearfix">
     		<Icon type="close" class="icon-delete" @click.native="deleteAddr(item.id)"></Icon>
     	<p><span>收货人:</span>{{item.person}} <span class="default" v-if="item.isDefault=='Y'">默认地址</span></p>
          <p><span>所在地区:</span>{{item.receiveProvince}}{{item.receiveCity}}{{item.receiveDistrict}}</p>
@@ -115,7 +115,7 @@
 						    method: 'post',
 						    url:'/address/updateDefault?id='+value+'&isDefault=Y',
 						}).then((res)=>{
-								this.getAddressList();
+								this.getAddress();
 						})
        	   },
        	add(){
@@ -235,7 +235,7 @@
 						    method: 'post',
 						    url:'/address/updateDefault?id='+value+'&isDefault=Y',
 						}).then((res)=>{
-								this.getAddressList();
+								this.getAddress();
 						})
               },
 			handleSubmit (name) {
@@ -255,7 +255,7 @@
 									if(res.code=='200'){
 							        this.$Message.success('提交成功');
 									this.$refs['formCustom'].resetFields();
-									this.getAddressList();
+									this.getAddress();
 									}else if(res.code=='401'){
 										this.$Message.error(res.msg);
 										return ;

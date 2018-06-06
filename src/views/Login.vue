@@ -1,20 +1,46 @@
 <template>
-    <div class="login">
-			<div class="login2">
-    			<h3>账号登录</h3>
-    <div id="canvascontainer" ref='can'></div>
-    <Form ref="loginForm" autoComplete="on" :model="loginForm" :rules="loginRules"   label-position="left" :label-width="100">
-        <Form-item prop="loginName" label="账号">
-            <Input type="text" v-model="loginForm.loginName" placeholder="loginName" autoComplete="on">
-            </Input>
-        </Form-item>
-        <Form-item prop="passWord" label="密码">
-            <Input type="password" v-model="loginForm.passWord" placeholder="passWord" @keyup.enter.native="handleLogin">
-            </Input>
-        </Form-item>
-             <Button type="primary" @click="handleLogin('loginForm')"  class="btn-login" :loading="loading">登录</Button>
-            <router-link :to="{path: '/register'}" class="re">新用户注册</router-link>
-    </Form>
+    <div class="login lLogin">
+						<div class="login_wrap_main">
+				<router-link :to='{}' class="loginA" tag='a'>
+					<img class="aImg" src="../assets/img/3.jpg" alt="">
+				</router-link>
+			<div class="login_wrap">
+    			<div class="div">
+						<h3 class="lTitle">使用合作号登录</h3>
+						<ul class="ul">
+							<li class="li">
+								<router-link :to="{  }" tag="a">
+									<img src="../assets/img/link-qq.png" alt="">
+								</router-link>
+							</li>
+							<li class="li">
+								<router-link :to="{  }" tag="a">
+									<img src="../assets/img/link-wx.png" alt="">
+								</router-link>
+							</li>
+						</ul>
+						<h3 class="lTitle">账号密码登录</h3>
+						<Form ref="loginForm" :model="loginForm" :rules="ruleInline" inline>
+								<FormItem prop="loginName">
+										<Input type="text" class="loginInput" v-model="loginForm.loginName" autoComplete="on" placeholder="手机号">
+											
+										</Input>
+								</FormItem>
+								<FormItem prop="passWord">
+										<Input type="password" class="loginInput" @keyup.enter.native="handleLogin" v-model="loginForm.passWord" placeholder="密码">
+												
+										</Input>
+								</FormItem>
+								<FormItem>
+										<Button type="primary" :loading="loading" class='loginBtn' @click="handleLogin('loginForm')">登录</Button>
+								</FormItem>
+						</Form>
+						<div class="login-link">
+							<router-link :to='{path:"/register"}' tag="a">注册</router-link>
+							<!-- <router-link :to='{}' class='resetPassword' tag="a">找回密码</router-link> -->
+						</div>
+					</div>
+		</div>
 		</div>
     </div>
 </template>
@@ -33,17 +59,18 @@
         };
         return {
           loginForm: {
-            loginName: '18811996471',
-            passWord: '1'
-          },
-          loginRules: {
-            loginName: [
-                   { required: true, message: '用户名不能为空', trigger: 'blur' }
-            ],
-            passWord: [
-                { required: true, trigger: 'blur', validator: validatePass }
-            ]
-          },
+							user: '',
+							password: ''
+					},
+					ruleInline: {
+							user: [
+									{ required: true, message: '请填写手机号', trigger: 'blur' }
+							],
+							password: [
+									{ required: true, message: '请输入密码', trigger: 'blur' },
+									// { type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
+							]
+					},
           loading: false,
           showDialog: false
         }
@@ -106,58 +133,100 @@
 </script>
 <style scoped="scoped" lang="scss">
  @import '@/styles/color.scss';
-	.login{
-		max-width:600px;
-		margin: 0px auto;
-		padding:30px 15px;
-		background: #f6f6f6;
-		overflow: hidden;
-		width:100%;
-		padding-top: 300px;
-		text-align:center;
-		.login2{
-			background: #fff;
-			padding: 30px 15px;
+	.login_wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    float: right;
+    width: 380px;
+    padding: 9px 38px 38px;
+    margin: 66px 100px 0px 0px;
+    background-color: #fff;
+    border: 1px solid #d6d6d6;
+    box-shadow: 0px 0px 4px 0px #d6d6d6;
+    border-radius: 2px;
+    min-height: 412px;
+		.div{
+			.lTitle{
+				margin-bottom: 15px;
+				font-size: 20px;
+				color: #666;	
+				margin-top: 20px;
+			}
+			.ul{
+				overflow: hidden;
+				border-bottom: 1px solid #eeeeee;
+				.li{
+					float: left;
+					width: 60px;
+					height: 65px;
+					img{
+						width: 49px;
+						height: 49px;
+					}
+				}
+			}
+			.loginInput{
+				width: 300px;
+			}
+			.loginBtn{
+					display: block;
+					width: 300px;
+					height: 40px;
+					line-height: 40px;
+					text-align: center;
+					background-color: #0092d8;
+					color: #fff;
+					margin: 20px 0px 17px 0px;
+					border: 0px;
+					cursor: pointer;
+					border-radius: 2px;
+					-webkit-transition: all .2s ease-in-out;
+					-moz-transition: all .2s ease-in-out;
+					-ms-transition: all .2s ease-in-out;
+					-o-transition: all .2s ease-in-out;
+					transition: all .2s ease-in-out;
+			}
+			.login-link{
+				a{
+					color:#999;
+				}
+				a:hover{
+					color:#0092d8;
+				}
+				.resetPassword{
+					float: right;
+				}
+			}
 		}
-		h3{
-			margin-bottom: 40px;
-			color:$color-dx;
-			font-size:20px;
+}
+		.login_wrap_main {
+			width: 1190px;
+			margin: 0 auto;
+			position: relative;
+			height: 620px;
+			.loginA{
+				position: absolute;
+				right: 520px;
+				top: 66px;
+				width: 560px;
+				height: 485px;
+				
+				display: table-cell;
+				.aImg{
+					margin: auto;
+					vertical-align: middle;
+					height: 485px;
+					border-radius: 50%;
+				}
+			}
 		}
-		.btn-login{
-			width: 100%;
-			border-radius: 0px;
-			padding:10px 0;
-			font-size:20px;
-		}
-		.re{
-			float: right;
-			margin-top:40px;
-			color:#333;
-			font-size:16px;
-		}
-	}
 	</style>
 	<style>
-			.login  .ivu-input{
-			/* border:0 none; */
-			font-size: 16px;
-			height:36px;
-			border-radius:0px;
-		}
-		.login	.ivu-form{
-			overflow:hidden;
-		}
-		.login	.ivu-form .ivu-form-item-label{
-			font-size: 16px;
-			border: 1px solid #bdbdbd;
-			border-right:none;
-			background:#f6f6f6;
-			text-align:center;
-			height:38px;
-		}
-			.login .ivu-form-item-content{
-			border:1px solid #bdbdbd;
-			/* height:38px; */
-		}
+.lLogin	.login_wrap .ivu-input{
+		width: 300px;
+	}
+.lLogin	.login_wrap .ivu-btn{
+		padding: 0px;
+	}
 </style>

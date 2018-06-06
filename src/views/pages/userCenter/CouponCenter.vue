@@ -94,7 +94,7 @@
 <script>
 </script>
 
-<style>
+<style scoped="scoped">
 	.C_deListTit {
     border-bottom: 1px solid #e7e7e7;
     line-height: 36px;

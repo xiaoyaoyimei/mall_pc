@@ -3,7 +3,7 @@
         <Layout>
              <app-header></app-header>
             <Layout >
-                <Content style="min-height: 520px;">
+                <Content style="min-height: 640px;">
                    <router-view/>
                 </Content>
             </Layout>

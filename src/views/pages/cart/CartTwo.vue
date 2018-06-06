@@ -625,5 +625,8 @@
 	border:1px solid #0099ff;
 	text-align: center;
 }
-
+.coupon-wrap span{
+	cursor: pointer;
+	color:#0099ff;
+}
 </style>

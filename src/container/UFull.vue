@@ -3,7 +3,7 @@
         <Layout>
              <app-header></app-header>
             <Layout >
-                <Content class='layout' :style="{ minHeight: '280px'}">
+                <Content class='layout' :style="{ minHeight: '700px'}">
 				<div class="inner_wrap">
 					<user-left></user-left>
 					 

@@ -10,22 +10,24 @@
 		  	 	<ul class="pay_tab js_pay_tab">
 		  	 		 <li class="alipay " data-target="alipay" @click="toggletab(0)" :class="{checked:0 == num}">
 		                <i class="icon-alipay"></i>
-		                                             支付宝
+		                                     支付宝
 		            </li>
                     <li class="wechat" data-target="wechat" @click="toggletab(1)" :class="{checked:1 == num}">
 		                <i class="icon-wechat"></i>
-		                                                            微信支付
+		                                    微信支付
 		            </li>
            			 </ul>
                     <div class="pay_content">
                     <div v-show=" 0 == num"  class="ali">
+                    	<form :action="pay" method="post" ref="payfang" id="myForm">
                     		<img src="../../../assets/img/alipay.png" @click="handleSubmit()">
+						</form>
                     	</div>
                     	<div v-show=" 1 == num" >
                     		<img src="../../../assets/img/weiChat.png">
                     	</div>
                     </div>
-		<div id="zhifu" ref="zhifu"></div>
+		 <div id="zhifu" ref="zhifu"></div>
     	</Form>
     </div>
      </div>
@@ -36,8 +38,9 @@
         data () {
             return {
             	payshow:false,
-            	orderNo:'',
+            	orderNo:this.$route.query.orderNo,
             	num:0,
+            	pay:this.$axios.defaults.baseURL+'order/alipay/'+this.$route.query.orderNo
             }
         },
         methods:{
@@ -61,14 +64,15 @@
 	                this.orderNo = routerParams;
 	          },
         	handleSubmit () {
-        		
+        		//  document.getElementById("myForm").submit()
                 this.$axios({
 				    method: 'post',
-				    url:'/order/alipay/'+this.orderNo,
+				    url:'/order/alipay/'+this.$route.query.orderNo,
 				}).then((res)=>{
-					this.$refs['zhifu'].innerHTML=res;
-					document.getElementsByName('punchout_form')[0].submit()
-				});
+					console.log(res)
+					//this.$refs['zhifu'].innerHTML=res;
+////					document.getElementsByName('punchout_form')[0].submit()
+			});
             },
         },
            mounted() {

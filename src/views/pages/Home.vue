@@ -30,7 +30,7 @@
 								</li>
 							</ul>
 						</div>-->
-						<div class="floor">
+						<div class="floor" v-if="productNew.length>0">
 							<h2><p>新品专区</p></h2>
 						 <ul class="search_list_wrap clearfix">
 			             <li  v-for="(item, index) in productNew" :key='index'>

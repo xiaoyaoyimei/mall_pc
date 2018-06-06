@@ -11,6 +11,19 @@
             </ul>
         </div>
         <div class="opt_wrap">
+        	   <div class="opt_user" >
+                 	<div v-if="nologin"><!--<i class="icon icon-login-gray"  ></i>--><router-link  to="/login" >登录</router-link></div>
+                 <i class="icon icon-login-blue" v-if="!nologin"></i>
+                 <div class="common-wrap login-wrap" v-if="!nologin">
+            		<i class="icon-arrow"></i>
+            		<h3>WELCOME !<i class="icon icon-wel"></i></h3>
+            		<p class="color-blue">用户ID</p>
+            		<p class="mb30">欢迎来到DXRACER旗下ZERO官网
+                                                              现在就开始您的购物之旅吧！</p>
+                    <router-link  to="/user" class="btn-blue btn-normol btn-40 mr15" tag="button">个人中心</router-link>
+                    <button class="btn-dark btn-normol btn-40" @click="logout">退出登录</button>
+                  </div>
+            </div>
         	  <div class="opt_cart">
             	<i class="icon icon-cart-gray" v-if="nologin"></i>
             	<i class="icon icon-cart-blue" v-else></i>
@@ -35,39 +48,9 @@
             		</div>
             	   </div>
             </div>
-                 <div class="opt_user" >
-            	<i class="icon icon-login-gray"  v-if="nologin"></i>
-            	<i class="icon icon-login-blue" v-else></i>
-            	<!-- 未登陆 -->
-            	<div class="common-wrap" v-if="nologin">
-            		<i class="icon-arrow"></i>
-            		<h3>登录</h3>
-            	<Form :model="loginForm" label-position="top" ref="loginForm" :rules="loginRules" autoComplete="on" >
-		        <FormItem label="用户名" prop="loginName"> 
-		            <Input v-model="loginForm.loginName" type="text"></Input>
-		        </FormItem>
-		        <FormItem label="密码" prop="passWord">
-		            <Input v-model="loginForm.passWord" type="text"></Input>
-		        </FormItem>
-		        <button class="btn-long btn-blue btn-40 mb30" @click="login">登录</button>
-		         <router-link to="/register" class="btn-long btn-dark btn-40" tag="button" >注册</router-link>
-		        </Form>
-                  </div>
-                 <div class="common-wrap login-wrap" v-else>
-            		<i class="icon-arrow"></i>
-            		<h3>WELCOME !<i class="icon icon-wel"></i></h3>
-            		<p class="color-blue">用户ID</p>
-            		<p class="mb30">欢迎来到DXRACER旗下ZERO官网
-                                                              现在就开始您的购物之旅吧！</p>
-                    <router-link  to="/user" class="btn-blue btn-normol btn-40 mr15" tag="button">个人中心</router-link>
-                    <button class="btn-dark btn-normol btn-40" @click="logout">退出登录</button>
-                  </div>
-            </div>
             <div class="opt_search" >
                 <div  class="search_wrap">  
-                    <form> 
-                            <input v-model="keyword"  placeholder="电竞椅" autocomplete="off"  type="search"  @keyup.enter="gosearch()"> 
-                      </form>   
+                     <input v-model="keyword"  placeholder="电竞椅" autocomplete="off"  type="search"  @keyup.enter.native="gosearch()"> 
                     <i class="icon_search" @click="showsearch()"></i> 
                 </div> 
             </div>
@@ -83,18 +66,6 @@
 	 export default {
         data () {
             return {
-            	loginForm:{
-            		loginName:'',
-            		passWord:''
-            	},
-		         loginRules: {
-		         loginName: [
-		                   { required: true, message: '用户名不能为空', trigger: 'blur' }
-		            ],
-		            passWord: [
-		                { required: true, message: '密码不能为空', trigger: 'blur' }
-		            ]
-		          },
               keyword: '',
               opt_search_hover:false,
               nologin:true,
@@ -109,29 +80,6 @@
             }
         },
 		methods:{
-					deletepro(id){
-					let ids=[id];
-				    this.$Modal.confirm({
-                    title: '删除提示',
-                    content: '<p><strong>确定要删除该商品？</strong></p>',
-                    cancelText: '取消',
-                     onOk: () => {
-                       	this.$axios({
-							    method: 'post',
-							    url:'/order/shopping/deleByIds',
-							    data:ids
-								}).then((res)=>{
-									if(res.code==200){
-									this.$Message.info(res.object);
-									this.getCartList()
-									}
-							});
-                    },
-                    onCancel: () => {
-                        this.$Message.info('取消成功');
-                    }
-                });
-			},
             isLogin(){
                 if(localStorage.getItem("token")!=undefined&&localStorage.getItem("token")!=""){
 	      				this.$axios({
@@ -160,49 +108,15 @@
 							});
 					}
         	},
-			showsearch(){
-				  this.opt_search_hover=true;
-			},
 			gosearch(){
 			    Bus.$emit('val', this.keyword)
-                this.$router.push({name: '/sort',query:{keyword:this.keyword}});  
+                this.$router.push({path: '/sort',query:{keyword:this.keyword}});  
             },
             gotologin(){
             	this.$router.push('/login');
             },
              gotouser(){
             	this.$router.push('/user');
-            },
-            login(){
-             this.$refs.loginForm.validate(valid => {
-            	if (valid) {
-				this.$axios.post('customer/login', {  
-				loginName: this.loginForm.loginName,  
-				passWord: this.loginForm.passWord  
-				}).then(res => {  
-	               	let { code, object } = res;
-		              if (code !== 200) {
-		                  this.$Message.error(object);
-		              } else {
-					        this.$Message.success('登录成功');
-					 		let data = res;  
-							this.$store.commit('LOGIN',{token:data.object["token"],userId:data.object["userId"]});  
-							this.logining = false;
-							if (store.state.token) {  
-							this.$router.push(this.$route.query.redirect || '/')
-							} else {  
-								this.$router.replace('/login');  
-							}  
-		              }
-				}).catch(error => {  
-						this.$Message.error('系统异常');
-						this.loading = false  
-				})  
-            } 
-            else {
-              return false;
-            }
-          });
             },
             logout(){
 				var _this = this;
@@ -229,7 +143,6 @@
                     }
                 });
             }
-    	    
         },
   		mounted(){
             this.isLogin();
@@ -285,17 +198,22 @@
 		float: right;
 		padding-top: 8px ;
 		position: relative;
-		right:10px
+		right:0
 	}
 .opt_cart,.opt_user,.opt_search{
 		position: relative;
 	float: right;
 	
 }
+.opt_cart{
+	margin-left:30px;
+}
 .opt_user{
 	padding-left: 30px;
-	padding-right: 30px;
 	padding-bottom: 15px;
+	a{
+		color:#fff;
+	}
 }
 .icon{
 	cursor: pointer;
@@ -337,8 +255,7 @@
     	display: inline-block;
     	position: absolute;
     	top:-15px;
-    	right: 80px;
-    	
+    	right: 48px;
     }
     h3{
     	font-weight: bold;
@@ -346,9 +263,6 @@
     	margin-bottom: 20px;
     	font-size: 15px;
     }
-}
-.cart-wrap{
-	right:-81px
 }
 .login-wrap p{
 	font-size: 15px;

@@ -5,10 +5,10 @@
 		<li class="side_bar_nav_line"></li>
 		<li><span>我的交易</span></li>
 						<li ><router-link :to="{path: '/user/orderlist'}" >我的订单  </router-link></li>
-						<li class="side_bar_nav_line"></li>
+						<!--<li class="side_bar_nav_line"></li>
 						<li><span>会员中心</span></li>
 						<li>我的优惠券  </li>
-						<li>我的收藏  </li>
+						<li>我的收藏  </li>-->
 						<li class="side_bar_nav_line"></li>
 						<li><span>账户管理</span></li>
 						<li ><router-link :to="{path: '/user/address'}">收货地址  </router-link> </li>

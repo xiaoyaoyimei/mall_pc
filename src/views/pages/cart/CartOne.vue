@@ -15,19 +15,19 @@
 					<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
 					</Col>
 					<Col span="3" >主图</Col>
-					<Col span="7"><p >商品信息</p></Col>
+					<Col span="7">商品信息</Col>
 					<Col span="3">规格</Col>
 					<Col span="2">
-						<p >单价（元）</p>
+						单价（元）
 					</Col>
 					<Col span="3">
-						<p >数量</p>
+						数量
 					</Col>
 					<Col  span="2">
-						<P >小计（元）</P>
+						小计（元）
 					</Col>
 					<Col  span="2">
-						<P>操作</P>
+						操作
 					</Col>
 				</Col>
 			</Row>
@@ -38,10 +38,9 @@
         			<Col class='cartcheckbok' span="2">
         					<Checkbox  :label="index" :key="index"></Checkbox>
         			</Col>
-					<Col span="3" class="cart_img"><img  :src="imageSrc+x.image"></Col>
+					<Col span="3" class="cart_img"><img  :src="x.image |imgfilter"></Col>
 					<Col span="7" class='cart_product'>
 						<p >{{x.productName}}</p>
-						
 					</Col>
 					<Col span="3" class='cart_sku'><p>{{x.productAttr}}</p></Col>
 					<Col span="2" class='cart_price'>
@@ -90,9 +89,9 @@
 				</div>
 			</div>
 			</div>
-				<div class="cart_empty"  v-else>
+				<div class="cart_empty flex-center main-wdith"  v-else>
 			 <img src="../../../assets/img/cartempty.png">
-			 <div class="hinter">购物车是空的</div>
+			 <div>购物车是空的</div>
 			<router-link to="/index"  >去首页</router-link>
 		</div>
 	</div>
@@ -102,12 +101,11 @@
 export default {
         data () {
             return {
-            	imageSrc:this.global_.imgurl,
                 indeterminate: true,
                 checkAll: false,
 				checkAllGroup: [],
 				totalPrice:0,
-				cartList:[{"image":"modelcolor/430X4308f5a50e83ca84c429ea1c464a0a3ac1120180518103520.jpg","quantity":"1","salePrice":0.02,"id":"80145d072aae4d61a13e4e632f7127f6","productName":"迪瑞克斯DXRacer FA01简约时尚电脑椅子家用可躺办公座椅电竞游戏","productAttr":"【炫红】"},{"image":"modelcolor/430X430587d734323864fb8a8857be2faf7146820180518104728.jpg","quantity":"1","salePrice":0.01,"id":"b3898073d0634e1cb6d4fcb3721d0042","productName":"迪瑞克斯DXRacer FE0电脑椅时尚LPL吃鸡游戏办公椅家用转椅电竞椅","productAttr":"【缤纷橙】"}],
+				cartList:[],
 				editface:true,
 				zslcount:0,
 				temp:[],
@@ -187,11 +185,6 @@ export default {
 							});
 					}
         	},
-			edit(){
-				this.editface=!this.editface;
-			},
-			edit1(){
-			},
 			paymoney(){
 				if(this.checkAllGroup.length<1){
 					 this.$Message.warning('您尚未选择任何商品');
@@ -381,13 +374,12 @@ export default {
     text-align: center;
     }
     .operation_delete{
+    	color:#333;
     	font-weight: bold;
     	cursor: pointer;
     }
     .cart_price{
-    	color:red
-    }
-    .cart_bottom_wrap{
+    	color:#0099ff
     }
     .cart_bottom{
     	    width: 100%;
@@ -407,15 +399,16 @@ export default {
 	 margin-left: 40px;
 	 cursor: pointer;
 }   
-.color_f60 {display: inline-block;
+.color_f60 {
+	display: inline-block;
     padding: 0 3px;
-    color: #f60;
+    color: #0099ff;
     }
     .cart_sum_price,.cart_sum_num{
     	    margin-right: 40px;
     }
         .total_price_inner{
-        	color: #f60;
+        	color: #0099ff;
     font-size: 18px;
     font-weight: bolder;
         }
@@ -436,19 +429,14 @@ export default {
     .cart_empty{
     text-align: center;
     border: 1px solid #e6e6e6;
-    padding: 60px 0;
     background-color: #fff;
-    width: 1200px;
-    margin: 0 auto;
+    img{
+    	width:90px
     }
-    .cart_empty img{
-    	width: 90px;
+    a{
+    	font-size: 14px;
+    	margin-top: 10px;
     }
-    .hinter{
-    	    font-size: 14px;
-    line-height: 14px;
-    color: #999;
-    margin-top: 40px;
-    margin-bottom: 20px;
     }
+ 
 </style>

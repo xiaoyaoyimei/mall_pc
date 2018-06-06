@@ -6,6 +6,11 @@ export function isWscnEmail(str) {
   const reg = /^[a-z0-9](?:[-_.+]?[a-z0-9]+)*@wz\.com$/i;
   return reg.test(str.trim());
 }
+/* 手机号*/
+export function validatePHONE(str) {
+   const reg = /^[a-z]+$/;
+  return reg.test(str);
+}
 
 /* 合法uri*/
 export function validateURL(textval) {

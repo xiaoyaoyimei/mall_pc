@@ -8,9 +8,9 @@
              </dd>
         </dl>
         <ul class="search_list_wrap clearfix" >
-        	<div class="empty_result font-24"  v-if="productList.length<1">
-                    <div class=" icon_unit_notice"></div>
-                    <span class="desc">该区域没有符合条件的产品哦~</span>
+        	<div class="empty_result flex-center font-24"  v-if="productList.length<1">
+                    <div class="icon icon_unit_notice"></div>
+                    <span >该区域没有符合条件的产品哦~</span>
              </div>
             <li  v-for="(item, index) in productList" :key='index' v-else>
                <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" tag="a" >
@@ -92,19 +92,10 @@
 
 <style lang="scss" scoped="scoped">
  .empty_result .icon_unit_notice {
-    margin: 120px 20px 0 0;
         display: inline-block;
     width: 64px;
     height: 64px;
-    background:url(../../assets/img/unit_sprite.png) no-repeat -100px -100px;
-}
-.empty_result .desc {
-    display: inline-block;
-    position: relative;
-    bottom: 23px;
-}
-.empty_result {
-    text-align: center;
+    background-position:  -104px -248px;
 }
 .page{
 	margin-top:40px;

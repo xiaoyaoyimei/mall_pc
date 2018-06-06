@@ -23,8 +23,6 @@ var pricefilter=(num)=>{
         var sumtotalStr = sumFol;
         var sumEndStr = sumtotalStr.slice(sumtotalStr.indexOf("."));
         var sumStr = sumtotalStr.slice(0,sumtotalStr.indexOf("."));
-        if(num.toString().length <= 3) return num;
-        if(sumStr.toString().length > 3){
             var count=0;
             if (sumStr.toString().length % 3 == 0) {
                 count = sumStr.toString().length/3;
@@ -41,7 +39,6 @@ var pricefilter=(num)=>{
             }
             SUM = sumStr.slice(0,sumStr.toString().length % 3)+text+sumEndStr;
             return SUM; 
-        }
         return sumFol ;
 }
 export { imgfilter, trim ,pricefilter}

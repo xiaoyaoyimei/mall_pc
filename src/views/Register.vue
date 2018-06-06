@@ -99,7 +99,7 @@
           	},
           	getTx(){
           			this.txv++;
-          			this.verimg=this.$axios.defaults.baseURL+'customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+          			this.verimg=this.$axios.defaults.baseURL+'/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
           	},
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {

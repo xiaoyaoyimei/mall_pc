@@ -12,8 +12,8 @@
         </div>
         <div class="opt_wrap">
         	   <div class="opt_user" >
-                 	<div v-if="nologin"><router-link  to="/login" >登录</router-link></div>
-                 <i class="icon icon-login-blue" v-if="!nologin"></i>
+                <div v-if="nologin"><router-link  to="/login" >登录</router-link></div>
+                <router-link  to="/user" > <i class="icon icon-login-blue" v-if="!nologin"></i></router-link>
                  <div class="common-wrap login-wrap" v-if="!nologin">
             		<i class="icon-arrow"></i>
             		<h3>WELCOME !<i class="icon icon-wel"></i></h3>
@@ -176,7 +176,9 @@
 			cursor: pointer;
 			font-size: 14px;
 		}
-		
+		li:hover,.router-link-active{
+			color:#0099ff
+		}
 	}
 }
 .search_wrap input{
@@ -222,7 +224,7 @@
 }
 
 .icon-login-gray,.icon-login-blue{
-		width: 25px;
+	width: 25px;
 	height: 25px;
 }
 .icon-login-gray{

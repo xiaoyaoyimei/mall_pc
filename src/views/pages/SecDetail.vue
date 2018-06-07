@@ -11,23 +11,14 @@
 					<img class="videoIcon" v-if='videoIcon'  v-show="!videoshow"  @click='getVideo(detail.product.video)'  src="../../assets/img/video.png">
 				</div>  
 				<div class="little_img" > 
-					<ul class='inlineBlock leftBtn' @click='relativeLeft()'>
-						<li class=''>
-							<Icon type="chevron-left" ></Icon>
-						</li>
-					</ul> 
 					<div class='imgContent'>
 						<ul>  
-							<li @click='getIndex(item.listImg)' class="clickproduct">  
+							<li  class="clickproduct">  
 								<img :src="detail.productItem.listImg |imgfilter" :class="{clickItem:detail.productItem.clickItem}" style="width: 50px; height: 50px" >  
 							</li>  
 						</ul>
 					</div>
-					<ul class='inlineBlock rightBtn' @click='relativeRight()'>
-						<li>
-							<Icon type="chevron-right" ></Icon>
-						</li>
-					</ul>   
+
 				</div>  
 			</div> 
 			<div class="delie">

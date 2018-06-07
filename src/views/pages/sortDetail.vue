@@ -18,7 +18,7 @@
 				</ul> 
 				<div class='imgContent'>
 					<ul  v-for="(item, index) in shangp.productImageList"  :key="index">  
-						<li @click='getIndex(item.listImg,index)' class="clickproduct">  
+						<li @mouseenter='getIndex(item.listImg,index)' class="clickproduct">  
 							<img :src="item.listImg |imgfilter" :class="{clickItem:item.clickItem}"  style="width: 50px; height: 50px" >  
 						</li>  
 					</ul>
@@ -35,8 +35,8 @@
                             <h3>{{shangp.product.modelNo}}</h3>
                             <p style="padding-bottom:65px;">{{shangp.product.modelName}}</p>
 							<div class="G_changeDetail">
-                                <p class="G_right"	 v-if="choosesp.price == 0 "><strong v-if="cxshow">￥{{choosesp.cuxiaoprice  | pricefilter}} </strong> <span :class='{chooseSPPrice:cxshow}'> ￥{{shangp.product.salePrice | pricefilter}}</span></p>
-								<p class="G_right"  v-if="choosesp.price > 0 "> <strong v-if="cxshow">￥{{choosesp.cuxiaoprice  | pricefilter}} </strong> <span :class='{chooseSPPrice:cxshow}'> ￥{{choosesp.price  | pricefilter}}</span></p>
+                                <p class="G_right"	 v-if="choosesp.price == 0 "><span > ￥{{shangp.product.salePrice | pricefilter}}</span></p>
+								<p class="G_right"  v-if="choosesp.price > 0 ">  <span > ￥{{choosesp.price  | pricefilter}}</span></p>
 								
                                 <div class="G_MEAS">
 									<form id="attrform">
@@ -84,7 +84,8 @@ export default {
             return {
             	//库存是否为0添加购物车显示按钮
             	kucunshow:false,
-            	videoshow:false,
+				videoshow:false,
+				mousehidden:true,
 				xiajia:false,
 				wuhuotongzhi:false,
             	firstshow:false,
@@ -134,7 +135,7 @@ export default {
 							var arr = this.productImageListNew.pop()
 							this.shangp.productImageList.unshift(arr)
 						}else{
-
+							this.mousehidden = false
 						}
 
 					},
@@ -142,6 +143,8 @@ export default {
 						if(this.shangp.productImageList.length > 6){
 							var arr = this.shangp.productImageList.shift()
 							this.productImageListNew.push(arr)
+						}else{
+							this.mousehidden = false
 						}
 					},
 					//添加
@@ -171,7 +174,6 @@ export default {
 							}
 							
 						}
-						console.log(this.shangp.productImageList)
 					} ,
 					close(){
 						this.videoshow=false;
@@ -310,7 +312,7 @@ export default {
 								}).then((res)=>{
 									if(res.code=='200'){
 										this.shangp=res.object;
-										console.log(JSON.stringify(res.object))
+										console.log(JSON.stringify(this.shangp.productImageList))
 										for (let a = 0; a < this.shangp.productImageList.length; a++) {
 											this.shangp.productImageList[a].clickItem = false;
 										}

@@ -124,7 +124,6 @@ export default {
       }).then(res => {
         if (res.code == "200") {
           this.proList = res.object;
-          console.log(this.proList)
         }
       });
     }

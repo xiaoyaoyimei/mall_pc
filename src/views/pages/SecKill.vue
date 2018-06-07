@@ -17,7 +17,7 @@
 		                </div>
 		                <div class="name">{{item.product.modelName}}</div>
 		                	<div  class="fn">
-									{{item.djs}}	
+									距离结束:    {{item.djs}}	
 							</div>
 		                <div  class="sku_tag" v-if="item.promotionTitle !=null">{{item.promotionTitle}}</div> 
 		                  <div class="price">

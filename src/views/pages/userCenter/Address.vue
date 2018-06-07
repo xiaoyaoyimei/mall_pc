@@ -44,15 +44,16 @@
 		
 		
     <ul class="address-list ">
-    	<li v-for="(item,index) in addressList" :key="index" @click="getIndexAddress()" class="clearfix">
+    	<li v-for="(item,index) in addressList" :key="index" class="clearfix">
     		<Icon type="close" class="icon-delete" @click.native="deleteAddr(item.id)"></Icon>
     	<p><span>收货人:</span>{{item.person}} <span class="default" v-if="item.isDefault=='Y'">默认地址</span></p>
          <p><span>所在地区:</span>{{item.receiveProvince}}{{item.receiveCity}}{{item.receiveDistrict}}</p>
     	<p><span>地址:</span>{{item.address}}</p>
     	<p><span>手机:</span>{{item.person}}</p>
     	<p><span>固定电话:</span>{{item.tel}}</p>
-    	<div class="opt"><button v-if="item.isDefault=='N'"   @click="updateDefault(item.id)">设为默认</button> <button  @click="editmodal(item)">编辑</button></div>
-      </li></ul>
+    	<div class="opt"><button @click="secAdd(item)" class="sec" v-if="secShow">选择该地址</button><button v-if="item.isDefault=='N'"   @click="updateDefault(item.id)">设为默认</button> <button  @click="editmodal(item)">编辑</button></div>
+      </li>
+    </ul>
 	</div>
 </template>
 
@@ -60,6 +61,7 @@
 	export default {
     data () {
         return {
+        	secShow:false,
         	modaleditaddr:false,
         	modaladdr:false,
         	loading:false,
@@ -118,6 +120,7 @@
 								this.getAddress();
 						})
        	   },
+       	   //新增地址
        	add(){
        		       setTimeout(() => {
                     this.loading = false;
@@ -154,6 +157,7 @@
                     });
                 }, 2000);
        	},
+       	//删除地址
             deleteAddr(value) {
                 this.$Modal.confirm({
                     title: '确认删除',
@@ -164,7 +168,7 @@
 							    url:'/address/delete?id='+value+'',
 							}).then((res)=>{
 								if(res.code=='200'){
-									this.getAddress();
+									this.getAddressList();
 								}
 						})
                     },
@@ -173,6 +177,7 @@
                     }
                 });
             },
+            //显示编辑地址
                  editmodal(item){
             		this.modaleditaddr=true;
             	    this.editForm.id=item.id;
@@ -181,9 +186,8 @@
 			        this.editForm.tel=item.tel;
 			        this.editForm.selectedOptionsAddr=[item.receiveProvince,item.receiveCity,item.receiveDistrict];
 			        this.editForm.address=item.address;
-			        
             },
-                   	editaddr () {
+                editaddr () {
                    setTimeout(() => {
                     this.loading = false;
                     this.$nextTick(() => {
@@ -222,6 +226,11 @@
                 });
     	    },
        	    getAddress(){
+       	    	if(this.$route.query.fromc=='secdetail'){
+       	    		this.secShow=true;
+       	    	}else{
+       	    		this.secShow=false;
+       	    	}
        	    	      	this.$axios({
 						    method: 'post',
 						    url:'/address',
@@ -229,49 +238,12 @@
                              this.addressList=res;
 						});
               },
-              show(index){
-                    let value = this.addressList[index].id;
-                  this.$axios({
-						    method: 'post',
-						    url:'/address/updateDefault?id='+value+'&isDefault=Y',
-						}).then((res)=>{
-								this.getAddress();
-						})
-              },
-			handleSubmit (name) {
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                       let temp=this.formCustom;
-							temp.receiveProvince=this.formCustom.selectedOptionsAddr[0];
-							temp.receiveCity=this.formCustom.selectedOptionsAddr[1];
-							temp.receiveDistrict=this.formCustom.selectedOptionsAddr[2];
-							delete temp['selectedOptionsAddr']
-                            let para = Object.assign({}, temp);
-								this.$axios({
-							    method: 'post',
-							    url:'/address/insert',
-							    data:para,
-								}).then((res)=>{
-									if(res.code=='200'){
-							        this.$Message.success('提交成功');
-									this.$refs['formCustom'].resetFields();
-									this.getAddress();
-									}else if(res.code=='401'){
-										this.$Message.error(res.msg);
-										return ;
-									}else{
-										this.$Message.error(res.msg);
-										return ;
-									}
-							});
-                    } else {
-                        this.$Message.error('Fail!');
-                    }
-                })
-            },
             handleReset (name) {
                 this.$refs[name].resetFields();
             },
+            secAdd(item){
+            	 this.$router.push({name: '/secdetail',query:{skuId:this.$route.query.skuId,address:item}}) ;
+            }
 	      },
 	      mounted(){
               this.getAddress();
@@ -305,9 +277,10 @@
 }
 .address-list{
 	li{
-	    border: 2px solid #e6e6e6;
-    margin: 0 0 10px;
-    padding: 10px;
+		border: 2px solid #e6e6e6;
+	    margin: 0 0 10px;
+	    padding: 10px;
+	    cursor: pointer;
 	    p{
 	    	line-height: 22px;
 	    	color:#333;
@@ -330,11 +303,15 @@
 		}
 	    }
 	}
+	li:hover{
+		background:#f9f9f9
+	}
 }
 
 .opt{
-	float: right;
+	
 	button{
+		float: right;
 		color:#0099ff;
 	background: 0 none;
 	border:0 none;
@@ -342,5 +319,8 @@
 	margin-right: 10px;
 	}
 }
-
+.opt .sec{
+	float: left;
+	border:1px solid #0099ff;
+}
 </style>

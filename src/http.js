@@ -23,6 +23,12 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
     response => {
+    	if(response.data.code=='401'){
+    		router.replace({
+                        path: 'login',
+                       query: {redirect: router.currentRoute.fullPath}
+                    })
+    	}
         return response.data;
     },
     error => {

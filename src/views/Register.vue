@@ -10,7 +10,7 @@
 							<Form :model="regiForm" label-position="left" :label-width="0" :rules="ruleValidate" ref="regiForm">
 								<FormItem label="" class="Rform" prop="loginName">
 									<Input class="Rphone" v-model.trim="regiForm.loginName" placeholder="手机号"></Input>
-									<Button type="" class='R-check' :loading="loadingtx"  @click="getTx">
+									<Button  class='R-check' :loading="loadingtx"  @click="getTx">
 										<span v-if="!loadingtx">获取图形码</span>
 										<span v-else>Loading...</span>
 									</Button>
@@ -19,7 +19,7 @@
 	
 								<FormItem label="" class="Rform" prop="verificationCode">
 									<Input  class="Rphone" v-model="regiForm.verificationCode" placeholder="图形验证码"></Input>
-									<Button type="" class='R-check' :loading="loadingDx"   @click="getDx">
+									<Button  class='R-check' :loading="loadingDx"   @click="getDx">
 										<span v-if="!loadingDx">获取短信验证码</span>
 										<span v-else>Loading...</span>
 									</Button>
@@ -32,10 +32,9 @@
 								<FormItem label="" prop="passWord">
 									<Input v-model="regiForm.passWord" placeholder="密码"></Input>
 								</FormItem>
-								<Button type="" class='login_btn' @click="handleSubmit('regiForm')">注册</Button>
+								<Button  class='login_btn' @click="handleSubmit('regiForm')">注册</Button>
 							</Form>
 							<div class="login-link">
-								
 								<router-link :to='{path:"/login"}' class='resetPassword' tag="a">已有账号，请登录</router-link>
 							</div>
 					</div>
@@ -99,7 +98,7 @@
           	},
           	getTx(){
           			this.txv++;
-          			this.verimg=this.$axios.defaults.baseURL+'/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+          			this.verimg=this.$axios.defaults.baseURL+'customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
           	},
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {

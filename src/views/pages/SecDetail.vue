@@ -1,8 +1,6 @@
 <template>
-	<div>
-
-	<div class="detail sortDetail">
-		<div class="tp">
+	<div class="detail sortDetail ">
+		<div class="tp main-wdith">
 			<div class="goodDetails_name_img">  
 				<div class="videoContent" style="width: 400px;height: 400px;">
 					<div v-show="videoshow"  style="width: 400px;height: 400px;">
@@ -33,45 +31,36 @@
 				</div>  
 			</div> 
 			<div class="delie">
-				
-				<div class="G_info hidden">
+				<div class="G_info">
 					 <h3>{{detail.product.modelNo}}</h3>
 					<p>{{detail.product.modelName}}</p> 
+					<!--<div>距离结束</div>-->
 					<div class="G_changeDetail">
 						<p class="G_right"><strong class="strong">￥{{detail.crush.salePrice | pricefilter}} </strong> <span class='chooseSPPrice'>￥{{detail.productItem.salePrice | pricefilter}}</span></p>
-						<div class="chooseAddress">
+						<div class="sNumber">数量 : <InputNumber  :min="1" v-model="quantity" :max="detail.crush.unitQuantity*1"></InputNumber></div>
+					</div>
+					<div class="chooseAddress">
 							<ul class="address" v-if="youdizhi">
 							<li>
 								<p class="addressP">
 									<strong class="addressStrong">{{addressList.person}} <label>{{addressList.phone}}</label></strong>
 									<span>{{addressList.receiveProvince}}{{addressList.receiveCity}}{{addressList.receiveDistrict}}{{addressList.address}}</span>
+								<button @click="addAdd" class="changeadd" type="button">更换地址</button>
 								</p>
-									<Icon type="chevron-right" class="addAddress"  @click.native="addAdd"></Icon>
 							</li>
 						</ul>
-							<div  class="zeroAddress" v-else >
-								<div @click="addAdd">
+							<div  class="zeroAddress" v-else @click="addAdd">
 									请选择收货地址
-								<Icon class='float float1' type="ios-arrow-right"></Icon>
-							</div>
 							</div>
 						</div>
-						<div class="G_MEAS">
-							<form id="attrform">
-								<div class="sNumber">数量 : <InputNumber  :min="1" v-model="quantity" :max="detail.crush.unitQuantity*1"></InputNumber></div>
-								<div slot="footer">
-									<div class="foot"> 
-										<button :loading="loading" @click="confirm" class="miaoshagou goCart">马上抢</button>
+								<div class="foot"> 
+										<button :loading="loading" @click="confirm" class="miaoshagou">马上抢</button>
 									</div> 
-								</div>
-							</form>
-						</div>
-					</div>
 				</div>
         	</div> 
 		</div>
 	
-				<Tabs class="spjs">
+				<Tabs class="spjs main-wdith">
 				<TabPane label="商品介绍">
 					<ul><li v-for="(item, index) in productimg" class="center1"  :key="index"><img :src="item.imgUrl |imgfilter"></li></ul>
 				</TabPane>
@@ -82,7 +71,6 @@
 				</TabPane>
 			</Tabs>
 		</div>
-	</div>
 </template>
 <script>
 		export default {
@@ -132,15 +120,15 @@
 			},
 	      	//获取address中传来的数据
 	      	getDD(){
-                let routerParams = this.$route.params.address;
+                let routerParams = this.$route.query.address;
                 if(routerParams!=undefined){
                 	this.addressList=routerParams;
                 	this.youdizhi=true
                 }
         	},
+        	//去往个人中心页面选择地址
 	       addAdd(){
-	       	     localStorage.setItem('fromc','miaosha')
-        		 this.$router.push({name: '/user/address'}) ;
+        		 this.$router.push({name: '/user/address',query:{skuId:this.$route.query.skuId,fromc:'secdetail'}}) ;
         	},
 		    getAddress(){
 		      	var _this=this;
@@ -148,7 +136,6 @@
 						    method: 'post',
 						    url:'/address',
 						}).then((res)=>{
-							console.log(JSON.stringify(res))
 							 if(res.length>0){
 							 	res.map(function (i) {
 							 		if(i.isDefault=='Y'&&JSON.stringify(_this.addressList) == "{}"){
@@ -161,10 +148,14 @@
 						});
 		      },
 		      confirm(){
+		          if(this.addressList.id==undefined){
+		          	this.$Message.error('收货地址不能为空');
+		          	return;
+		          }
 	          	let para={
 						addressId:this.addressList.id,
 						quantity:this.quantity,
-	                    skuId:this.temp
+	                    skuId:this.$route.query.skuId
 	          	};
     	   	  	this.$axios({
 				    method: 'post',
@@ -172,7 +163,7 @@
 				    data:para
 				}).then((res)=>{
 					if(res.code=='200'){
-						 this.$router.push({name:'/cartthree',query: { orderNo: res.msg}});  
+						this.$router.push({name:'/cartthree',query: { orderNo: res.msg}});  
 					}else{
 						 this.$Message.error(res.object);
 						 return;
@@ -180,33 +171,21 @@
 				});
            },
 	      	getDetail(){
-	      		if(this.$route.query.skuId!=null&&this.$route.query.skuId!=undefined){
-	      			  sessionStorage.setItem('temp',this.$route.query.skuId);
-	      		}
-	      		   if(sessionStorage.getItem('temp')!="undefined"&&sessionStorage.getItem('temp')!=null){
-	      		   	this.temp=sessionStorage.getItem('temp');
-	      		   }
-	      		   else{
-	      		   	 sessionStorage.setItem('temp',this.$route.query.skuId);
-	      		   	 this.temp  =this.$route.query.skuId;
-	      		   }
 	      			this.$axios({
 					    method: 'get',
-					    url:'/promotion/crush/'+  this.temp,
+					    url:'/promotion/crush/'+  this.$route.query.skuId,
 					}).then((res)=>{
 						if(res.code=='200'){
 						this.detail = res.object;
-						detail.productItem.clickItem =true;
+						this.detail.productItem.clickItem =true;
 						if(this.detail.product.video != ''){
 							this.videoIcon = true;
 						}
-						
 						this.proId=res.object.productItem.productId;
 								this.$axios({
 							    method: 'post',
 							    url:'/product/desc/'+this.proId,
 								}).then((res)=>{
-									console.log(JSON.stringify(res))
 								this.productDesc=res;
 							});
 								this.$axios({
@@ -221,19 +200,17 @@
 					}
 			 },
 	      mounted(){
-	      	this.getAddress();
 			  this.getDetail()
 			  this.getDD();
+			  this.getAddress();
 	      }
     }
 </script>
 
 <style scoped="scoped" lang="scss">
 	.detail {
-		max-width: 1100px;
-		width: 100%;
-		margin: 0 auto;
-		margin-top: 20px;
+		padding-top: 50px;
+		background: #fff;
 		.goodDetails_name_img{
             display: inline-block;
             width:400px;
@@ -268,12 +245,6 @@
             text-align:left;
             text-indent:1.5em;
             height:40px;
-        }
-        p{
-            text-align:left;
-            height:40px;
-            overflow:hidden;
-           
         }
         .biaoqian{
             width:50%;
@@ -316,35 +287,30 @@
 	margin-top: 10px;;
 }
 .sortDetail .addressStrong{
-	color: black;
-	display: block;
-	font-size: 20px;
-	font-weight: bolder;
+	color: #333;
+	font-size: 18px;
 }
 .sortDetail .addressP{
 	height: 60px;
 	margin-bottom: 10px;
 }
 .sortDetail .G_info > h3 {
-	font-size: 32px;;
+	font-size: 28px;
 	color: black;
 }
 .sortDetail  .strong{
-  	color:black;
+  	color:#0099ff;
   	display: inline;
-    font-size: 32px;
+    font-size: 28px;
 	font-weight: normal;
 }
 .sortDetail .G_info > p {
     font-size: 15px;
-    line-height: 36px;
-    border-bottom: 1px solid #e7e7e7;
+    line-height: 50px;
+    border-bottom: 1px solid #ccc;
 }
 .sortDetail .G_info .G_changeDetail {
     font-size: 12px;
-}
-.sortDetail .G_info .G_changeDetail > p {
-    line-height: 34px;
 }
 .sortDetail .chooseSPPrice{
 	text-decoration: line-through;
@@ -352,17 +318,21 @@
 	color: #999;
 }
 .sortDetail .G_info .G_right{
+	padding-top: 20px;
 	font-size: 32px;
-	height: 95px;
-	line-height: 95px!important;
 	width:100%;
-	border-bottom: 1px solid #e7e7e7;
 	color: black;
-
+	padding-bottom: 20px;
+	border-bottom: 1px solid #ccc;
 }
-.goCart {
-	background-color: #57a3f3;
-	border: 1px solid #57a3f3;
+.miaoshagou {
+	background-color: #0099ff;
+	border: 1px solid #0099ff;
+	cursor: pointer;
+	height:50px;
+	width: 155px;
+	color:#fff;
+	font-size: 16px;
 }
 .little_img{
 	position: relative;
@@ -432,14 +402,11 @@
 	line-height: 35px;
 }
 .sortDetail .sNumber {
-	border-bottom: 1px solid #e7e7e7;
-	padding-bottom: 10px;
-	margin-bottom: 15px;
-
-}
-.goCart {
-	background-color: #57a3f3;
-	border: 1px solid #57a3f3;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 20px;
+	padding-top:20px;
+	margin-bottom: 20px;
+	font-size: 14px;
 }
 .center1{
     text-align: center;
@@ -451,27 +418,35 @@
     overflow: hidden;
     li{
         float: left;
-        width: 33.33%;
-        text-align: center;
+        width: 25%;
     }
 }
 .sortDetail .neirong, .sortDetail .title{
 	font-size: 15px;
 	line-height: 35px;
 }
-.sortDetail .zeroAddress{
-	height: 60px;
-	line-height:60px;
-	font-size: 20px;
-	
+ .zeroAddress{
+	height: 30px;
+	font-size: 14px;
+	color:#0099ff;
+	text-decoration: underline;
+	cursor: pointer;
 }
 .sortDetail .float{
 	float: right;
 	height: 60px;
 	line-height:60px;
+	cursor: pointer;
 }
 .sortDetail .clickItem{
 	border:  1px solid #999;
+}
+.changeadd{
+	border:1px solid #0099ff;
+	color:#0099ff;
+	padding: 2px;
+	cursor: pointer;
+	background: #fff;
 }
 </style>
 <style>
@@ -483,8 +458,4 @@
 		width:50%;
 		text-align: center;
 	}
-	.sortDetail  .goCart {
-	padding: 15px 50px;
-	color: #ffffff;
-}
 	</style>

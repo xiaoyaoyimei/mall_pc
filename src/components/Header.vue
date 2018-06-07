@@ -26,7 +26,9 @@
             </div>
         	  <div class="opt_cart">
             	<i class="icon icon-cart-gray" v-if="nologin"></i>
-            	<i class="icon icon-cart-blue" v-else></i>
+            	<span class="cart-num-wrap clearfix" v-else>
+            		<i class="icon icon-cart-blue" ></i>
+            		<span>({{cartList.length}})</span></span>
             	<div class="common-wrap cart-wrap" v-if="nologin">
             		<i class="icon-arrow"></i>
             		您还未登录  ? <router-link  to="/login">请登录</router-link>
@@ -275,8 +277,8 @@
 }
 .icon-cart-gray,.icon-cart-blue{
 	width: 30px;
-height: 30px;
-display: inline-block;
+	height: 30px;
+	display: inline-block;
 }
 .icon-cart-gray{
 background-position: -36px -37px;
@@ -327,7 +329,12 @@ background-position: -36px -37px;
 	margin-right: 20px;
 	}
 }
-
+.cart-num-wrap{
+	color:#fff
+}
+.cart-num-wrap span{
+	float: right;
+}
 </style>
 <style> 
 	 .ivu-input{

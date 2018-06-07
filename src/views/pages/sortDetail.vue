@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="background-color:#fff;position:relative;top:-0px;padding-top:20px;">
 	<div class="sortDetail">
 		<div class="goodDetails_name_img">  
 			<div class="videoContent" style="width: 400px;height: 400px;">
@@ -33,7 +33,7 @@
         <div class="delie">
             <div class="G_info hidden">
                             <h3>{{shangp.product.modelNo}}</h3>
-                            <p>{{shangp.product.modelName}}</p>
+                            <p style="padding-bottom:65px;">{{shangp.product.modelName}}</p>
 							<div class="G_changeDetail">
                                 <p class="G_right"	 v-if="choosesp.price == 0 "><strong v-if="cxshow">￥{{choosesp.cuxiaoprice  | pricefilter}} </strong> <span :class='{chooseSPPrice:cxshow}'> ￥{{shangp.product.salePrice | pricefilter}}</span></p>
 								<p class="G_right"  v-if="choosesp.price > 0 "> <strong v-if="cxshow">￥{{choosesp.cuxiaoprice  | pricefilter}} </strong> <span :class='{chooseSPPrice:cxshow}'> ￥{{choosesp.price  | pricefilter}}</span></p>
@@ -47,15 +47,15 @@
 												<div  v-if="firstshow" class='choosesp'>
 												</div>
 												</div>
-												<dl v-for="(item, index) in shangp.productAttrList"  :key="index">
+												<dl v-for="(item, i) in shangp.productAttrList"  :key="i">
 												<dt>{{item.attrKey.catalogAttrValue}} :</dt>
 												<dd v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :title="child.id">
-													{{child.modelAttrValue}}
+													<img class="attrImg" v-if="item.attrKey.isColorAttr == 'Y'" :src="child.listImg |imgfilter">{{child.modelAttrValue}}
 												</dd>
 												</dl>
 												<div class="sNumber">数量 : <InputNumber  :min="1" v-model="quantity"></InputNumber><span class="stock" v-if="kucunshow"><label v-if="cxshow">促销活动:{{choosesp.activityName}} </label> 库存: <b> {{choosesp.kucun}}</b></span></div>
 												<div slot="footer">
-													<Button v-if="wuhuotongzhi" size="large"  disabled="disabled">暂时无货，到货通知</Button>
+													<Button v-if="wuhuotongzhi" size="large" class="goBtn"  disabled="disabled">暂时无货，到货通知</Button>
 													<Button v-show="!wuhuotongzhi" class="goCart"  size="large"     disabled="disabled" v-if="xiajia">加入购物车</Button>
 													<Button v-show="!wuhuotongzhi" class="goCart"  size="large"  :loading="modal_loading" @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
 												</div>
@@ -310,11 +310,13 @@ export default {
 								}).then((res)=>{
 									if(res.code=='200'){
 										this.shangp=res.object;
+										console.log(JSON.stringify(res.object))
 										for (let a = 0; a < this.shangp.productImageList.length; a++) {
 											this.shangp.productImageList[a].clickItem = false;
 										}
+										this.ImgUrl = this.shangp.product.modelImg;
 										if(this.shangp.productImageList.length >0){
-											this.ImgUrl = this.shangp.productImageList[0].listImg;
+											
 											this.shangp.productImageList[0].clickItem = true;
 										}
 										if(this.shangp.product.video != ''){
@@ -381,7 +383,8 @@ export default {
         .delie{
             display: inline-block;
             width:600px;
-            margin-left: 40px;
+            margin-left: 60px;
+			margin-bottom: 100px;
             vertical-align: top;
             overflow: hidden;
         }
@@ -504,7 +507,7 @@ export default {
 	font-weight: normal;
   }
  .back{
- 	    background: rgba(64, 64, 64, 0.6);
+	background: rgba(64, 64, 64, 0.6);
     width: 3.2rem;
     height: 3.2rem;
     line-height:2.2rem;
@@ -551,8 +554,8 @@ export default {
  }
   dl{
  	overflow: hidden;
- 	margin-bottom: 10px;
-	 margin-top: 20px;
+ 	margin-bottom: 15px;
+	 margin-top: 33px;
 	 font-size: 15px;
  	dt{
     margin-bottom: 10px;
@@ -572,6 +575,10 @@ export default {
 	  	cursor: pointer;
 	  	margin-bottom: 10px;
         line-height: 20px!important;
+		img{
+			width: 20px;
+			vertical-align: middle;
+		}
 	  }
 	  dd.active{
 	  	color:#57a3f3;
@@ -678,12 +685,19 @@ export default {
 }
 .sortDetail .sNumber {
 	border-bottom: 1px solid #e7e7e7;
-	padding-bottom: 10px;
-	margin-bottom: 15px;
+	padding-bottom: 30px;
+	margin-bottom: 80px;
 
+}
+.sortDetail .G_MEAS .ative img{
+	width:20px;
 }
 .sortDetail .clickItem{
 	border:  1px solid #999;
+}
+.sortDetail .attrImg{
+	width:20px;
+	vertical-align: middle;
 }
 </style>
 <style>
@@ -696,6 +710,9 @@ export default {
 	font-size: 20px;
 }
 .sortDetail  .goCart  {
+	padding: 15px 50px;
+}
+.sortDetail .goBtn{
 	padding: 15px 50px;
 }
 </style>

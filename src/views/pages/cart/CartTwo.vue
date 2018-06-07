@@ -18,7 +18,7 @@
                     <p class="adr-text">
                         <span class="adr-detail">{{addritem.address}}</span>
                     </p>
-                      <span v-if="addritem.isDefault=='Y'">(默认)</span>
+                      <span v-if="addritem.isDefault=='Y'" class="color-blue">(默认)</span>
                 </div>
                   </div>
                 <div class="adr-foot">
@@ -94,7 +94,7 @@
 										<td>
 											<p class="title_name">{{x.productName}}</p>
 											<p class="title_attr">{{x.productAttr}}</p>
-											<label class="promotion" v-if="x.promotionTitle !=null">{{x.promotionTitle}}</label>
+											<label class="color-blue" v-if="x.promotionTitle !=null">{{x.promotionTitle}}</label>
 										</td>
 										<td>
 										<p class="cart_price">￥{{x.salePrice |pricefilter}}
@@ -108,7 +108,7 @@
 									</td>
 									<td>
 										<p class="cart_price">￥{{x.salePrice|pricefilter}} 
-											<span v-if="x.promotionTitle ==null&&xscoupon">
+											<span v-if="x.promotionTitle ==null&&xscoupon" >
 									       	 	￥{{couponprice(x.salePrice) |pricefilter}}
 									       	 </span></p>
 									</td>
@@ -532,6 +532,10 @@
     position: absolute;
     top: -2px;
     right: -2px;
+    display: none;
+}
+.checked .icon_checked{
+	display: block;
 }
 .address-box .adr-inner {
     position: relative;
@@ -586,7 +590,6 @@
 	margin-top:30px;
 }
 .promotion{
-	padding-left:20px;
 	color:red
 }
 
@@ -627,5 +630,8 @@
 	background-position:-3px -94px ;
 	width:45px;
 	height: 45px;
+}
+.color-45{
+	color: #454545;
 }
 </style>

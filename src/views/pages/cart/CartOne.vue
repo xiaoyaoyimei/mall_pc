@@ -41,6 +41,7 @@
 					<Col span="3" class="cart_img"><img  :src="x.image |imgfilter"></Col>
 					<Col span="7" class='cart_product'>
 						<p >{{x.productName}}</p>
+						<p class="color-blue">{{x.promotionTitle}}</p>
 					</Col>
 					<Col span="3" class='cart_sku'><p>{{x.productAttr}}</p></Col>
 					<Col span="2" class='cart_price'>
@@ -344,11 +345,7 @@ export default {
 .cart_img img{
 	width:90px
 }
-.cart_product{
-    padding-left: 0;
-    height: 16px;
-    overflow: hidden;
-}
+
 .item_detail .cartCol .ivu-col{
 	padding: 20px 0;
 }
@@ -439,4 +436,9 @@ export default {
     }
     }
  
+</style>
+<style>
+	.ivu-checkbox-wrapper span:nth-child(2){
+		display: none;
+	}
 </style>

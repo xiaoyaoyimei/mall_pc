@@ -12,7 +12,7 @@
         </div>
         <div class="opt_wrap">
         	   <div class="opt_user" >
-                 	<div v-if="nologin"><!--<i class="icon icon-login-gray"  ></i>--><router-link  to="/login" >登录</router-link></div>
+                 	<div v-if="nologin"><router-link  to="/login" >登录</router-link></div>
                  <i class="icon icon-login-blue" v-if="!nologin"></i>
                  <div class="common-wrap login-wrap" v-if="!nologin">
             		<i class="icon-arrow"></i>
@@ -26,9 +26,10 @@
             </div>
         	  <div class="opt_cart">
             	<i class="icon icon-cart-gray" v-if="nologin"></i>
-            	<span class="cart-num-wrap clearfix" v-else>
+            	<router-link class="cart-num-wrap clearfix" to="/cart" v-else>
             		<i class="icon icon-cart-blue" ></i>
-            		<span>({{cartList.length}})</span></span>
+            		<span>({{cartList.length}})</span>
+            	</router-link >
             	<div class="common-wrap cart-wrap" v-if="nologin">
             		<i class="icon-arrow"></i>
             		您还未登录  ? <router-link  to="/login">请登录</router-link>
@@ -53,7 +54,7 @@
             <div class="opt_search" >
                 <div  class="search_wrap">  
                      <input v-model="keyword"  placeholder="电竞椅" autocomplete="off"  type="search"  @keyup.enter="gosearch()"> 
-                    <i class="icon_search" @click="showsearch()"></i> 
+                    <i class="icon_search" @click="gosearch()"></i> 
                 </div> 
             </div>
         </div>
@@ -193,8 +194,9 @@
 	height: 16px;
 	display: inline-block;
 	position: absolute;
-	left: 5px;
+	right: 5px;
 	top: 1px;
+	cursor: pointer;
 }
 .opt_wrap{
 		float: right;
@@ -334,6 +336,7 @@ background-position: -36px -37px;
 }
 .cart-num-wrap span{
 	float: right;
+	cursor: pointer;
 }
 </style>
 <style> 

@@ -52,10 +52,10 @@
 							<div  class="zeroAddress" v-else @click="addAdd">
 									请选择收货地址
 							</div>
-						</div>
-								<div class="foot"> 
-										<button :loading="loading" @click="confirm" class="miaoshagou">马上抢</button>
-									</div> 
+					</div>
+						<div class="foot"> 
+								<button :loading="loading" @click="confirm" class="miaoshagou">马上抢</button>
+							</div> 
 				</div>
         	</div> 
 		</div>
@@ -102,17 +102,15 @@
 			} ,
 			getVideo(imgVideo){
 				let _this=this;
-				if(imgVideo!="")
-					{
-					_this.videoshow=true;
-					let player = new YKU.Player(imgVideo, {
-					styleid: '0',
-					client_id: '0996850d68cf40fe',
-					vid: imgVideo,
-					newPlayer: true,
-					isAutoPlay:true,
-					});
-
+				if(imgVideo!=""){
+						_this.videoshow=true;
+						let player = new YKU.Player(imgVideo, {
+						styleid: '0',
+						client_id: '0996850d68cf40fe',
+						vid: imgVideo,
+						newPlayer: true,
+						isAutoPlay:true,
+						});
 				}
 			},
 			close(){

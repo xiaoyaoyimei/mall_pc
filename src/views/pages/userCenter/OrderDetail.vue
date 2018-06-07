@@ -24,9 +24,12 @@
 		   			<p class="title">{{item.productTitle}}</p>
 		   			<p>{{item.productAttrs}}</p>
 		   		    <p>{{item.productItemNo}}</p></td>
-		   			<td>￥{{productFeejun(item)|pricefilter}}</td>
+		   			<td>
+		   				<span class="color-blue">￥{{orderFeejun(item)|pricefilter}}</span>
+		   				<span class="color-origin">￥{{productFeejun(item)|pricefilter}}</span>
+		   			</td>
 		   			<td>{{item.quantity}}</td>
-		   				<td>{{item.discountFee}}</td><td>￥{{item.productFee |pricefilter}}</td>
+		   			<td>￥{{item.discountFee |pricefilter}}</td><td>￥{{item.productFee |pricefilter}}</td>
 		   	</tr></tbody>
 		   	</table>
 		   	<div class="order_price clearfix">
@@ -112,6 +115,9 @@
     	},
     	productFeejun(item){
     		return item.productFee/item.quantity
+    	},
+    	orderFeejun(item){
+    		return item.orderFee/item.quantity
     	},
     	  getParams () {
                 // 取到路由带过来的参数 

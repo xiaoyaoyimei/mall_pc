@@ -83,14 +83,12 @@
 	                this.orderNo = routerParams;
 	          },
         	handleSubmit (name) {
-        		//  document.getElementById("myForm").submit()
                 this.$axios({
 				    method: 'post',
 				    url:'/order/'+name+'/'+this.$route.query.orderNo,
 				}).then((res)=>{
-					console.log(res)
-					//this.$refs['zhifu'].innerHTML=res;
-////					document.getElementsByName('punchout_form')[0].submit()
+				this.$refs['zhifu'].innerHTML=res;
+				document.getElementsByName('punchout_form')[0].submit()
 			});
             },
         },

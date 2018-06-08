@@ -33,7 +33,8 @@
 		</div>  
         <div class="delie">
             <div class="G_info hidden">
-                <h3>{{shangp.product.modelNo}} <span v-if="cxshow" class="color-blue">
+                <h3>{{shangp.product.modelNo}} 
+                	<span v-if="cxshow" class="color-blue">
                     	{{choosesp.activityName}} 
                     </span></h3>
                 <p>
@@ -327,7 +328,7 @@ export default {
             	   	    }
             	   }
             	   //计算库存（库存需大于0才显示）
-            	   if(this.shangp.inventory.lenth>0){
+            	   if(this.shangp.inventory.length>0){
 					for(let kucunitem of this.shangp.inventory){
 						if(kucunitem.skuId==this.productItemId){
 							this.choosesp.kucun=kucunitem.quantity-kucunitem.lockQuantity
@@ -588,7 +589,7 @@ export default {
  }
   .attr_wrap{
  	 overflow: hidden;
-	 margin-top: 20px;
+	 margin-top: 15px;
  	.dt{
     float: left;
     width: 85px;
@@ -605,6 +606,7 @@ export default {
 			width: 38px;
 			height: 38px;
 			vertical-align: middle;
+			float: left;
 		}
 		span{
 			display: inline-block;
@@ -613,6 +615,7 @@ export default {
 			margin-right: 10px;
 			padding: 0 5px;
 			margin-bottom: 10px;
+			line-height: 40px;
 		}
 		span.active{
 			color:#0099ff;

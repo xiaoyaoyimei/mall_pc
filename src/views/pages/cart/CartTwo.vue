@@ -124,7 +124,8 @@
 				    	<div class="cart2_price">
          <div  class="price_wrap">	
          	<dl class="cf-wrap">
-         	<dt>商品数量:</dt><dd>{{total.num}}</dd><dt>金额总计:</dt><dd>￥{{total.price|pricefilter}}</dd><dt>活动优惠:</dt><dd></dd><dt>应付总额:</dt><dd >￥<span class="font-24">{{total.price|pricefilter}}</span></dd></dl>
+         	<dt>商品数量:</dt><dd>{{total.num}}</dd><dt>金额总计:</dt><dd>￥{{total.price|pricefilter}}</dd>
+         	<dt>活动优惠:</dt><dd></dd><dt>应付总额:</dt><dd >￥<span class="font-24">{{total.price|pricefilter}}</span></dd></dl>
            <button  @click="confirm"  type="button" class="btn_pay"> 
 				确认订单
 			</button>
@@ -521,6 +522,7 @@
     margin-left: -1px;
     background-color: #fff;
     cursor:pointer;
+    width: 25%;
 }
 .address-box .adr-inner:hover {
     background-color: #fafafa;
@@ -539,9 +541,8 @@
 }
 .address-box .adr-inner {
     position: relative;
-    width: 256.25px;
-    height: 117px;
-    padding: 20px;
+    height: 125px;
+    padding: 20px 15px 15px 20px;
     border: 1px solid #e9e9e9;
     color: #999;
 }
@@ -565,7 +566,7 @@
 .address-box .adr-foot {
     display: none;
     position: absolute;
-    bottom: 10px;
+    bottom: 7px;
     left: 20px;
 }
 .address-box:hover .adr-foot{

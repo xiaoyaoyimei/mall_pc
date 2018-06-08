@@ -2,7 +2,7 @@
 	<div class='zhifu' >
 		<div class="pay_info_wrap">
 			<div class="scan_code_wrap ">
-				<p class="tips_info">订单提交成功，请在半小时以内完成付款！</p>
+				<p class="tips_info">订单提交成功，请在<b class="color-blue">半小时</b>以内完成付款！</p>
 				<p>订单号：{{orderNo}}<router-link  :to="{name:'/order/detail',query:{orderNo:this.orderNo}}"> 订单详情</router-link></p>
 			</div>
 		</div>
@@ -48,6 +48,9 @@
         methods:{
         	//切换num的值切换支付方式
         	toggletab(num){
+        		if(num==0){
+        				clearTimeout( this.t );
+        		}
         		this.num=num;
         		if(num==1){
         			this.verimg=this.$axios.defaults.baseURL+'order/weixin/'+this.$route.query.orderNo;
@@ -83,12 +86,19 @@
 	                this.orderNo = routerParams;
 	          },
         	handleSubmit (name) {
+        		//var urlhref="http://test-shop.dxracer.com.cn:8084/mall/pc/order/alipay/"+this.$route.query.orderNo;
+        	//	window.open(urlhref);
                 this.$axios({
 				    method: 'post',
 				    url:'/order/'+name+'/'+this.$route.query.orderNo,
 				}).then((res)=>{
-				this.$refs['zhifu'].innerHTML=res;
-				document.getElementsByName('punchout_form')[0].submit()
+					//console.log(res)
+					//this.$router.push({name:'/paysuccess',query:{alipay:res}});
+					localStorage.setItem('alipay',res)
+					let routeData = this.$router.resolve({ name: '/gopay'});
+ 			     	window.open(routeData.href, '_blank');
+//				this.$refs['zhifu'].innerHTML=res;
+//				document.getElementsByName('punchout_form')[0].submit()
 			});
             },
         },
@@ -118,6 +128,7 @@
     font-size: 16px;
     font-weight: 700;
     color: #333;
+    margin-bottom: 5px;
     }
     .pay_tab{
     	border-width: 1px 1px 1px 0;

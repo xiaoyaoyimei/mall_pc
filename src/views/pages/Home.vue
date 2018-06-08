@@ -136,7 +136,7 @@ export default {
 
 <style lang="scss"  scoped="scoped">
 .cat_nav{
-	    position: absolute;
+	position: absolute;
     background: rgba(0, 0, 0, 0.6);
     border-top: none;
     z-index: 2;
@@ -164,6 +164,9 @@ export default {
     li:hover{
     	 background: rgba(0, 0, 0, 0.6);
     }
+     li:hover a{
+     	color:#0099ff;
+     }
 
 }
 .homepage{

@@ -57,19 +57,25 @@ const routes =  [
 						meta:{requireAuth:true},
 						component:resolve => require(['@/views/pages/cart/CartTwo.vue'], resolve)
 					},
-						{
-							name:'/cartthree',
-							path: '/cartthree',
-							meta:{requireAuth:true},
-							component:resolve => require(['@/views/pages/cart/CartThree.vue'], resolve),
-						},
-							{
-							name:'/paysuccess',
-							path: '/paysuccess',
-							meta:{requireAuth:true},
-							component:resolve => require(['@/views/pages/cart/CartFour.vue'], resolve),
-						},
-	
+					{
+						name:'/cartthree',
+						path: '/cartthree',
+						meta:{requireAuth:true},
+						component:resolve => require(['@/views/pages/cart/CartThree.vue'], resolve),
+					},
+					{
+						name:'/gopay',
+						path: '/gopay',
+						meta:{requireAuth:true},
+						component:resolve => require(['@/views/pages/cart/CartFour.vue'], resolve),
+					},
+					{
+						name:'/paysuccess',
+						path: '/paysuccess',
+						meta:{requireAuth:true},
+						component:resolve => require(['@/views/pages/cart/PaySuccess.vue'], resolve),
+					},
+
 					]
 				},
 				{

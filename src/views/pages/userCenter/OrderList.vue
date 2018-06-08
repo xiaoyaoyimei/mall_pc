@@ -38,7 +38,7 @@
                           	<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}" v-if="i==0">订单详情</router-link>
                           </td>
                           <td    width='150'>
-                         <div class="cz" >
+                         <div class="cz"  v-if="i==0">
                          	<button   class="btn"  @click="cancel(x.order.orderNo)" v-if="x.order.orderStatus=='01'||x.order.orderStatus=='02'||x.order.orderStatus=='05'">取消订单</button>
                          	<button   class="btn btn-dx"  @click="quzhifu(x.order.orderNo)" v-if="x.order.orderStatus=='01'">去支付</button></div>
                           </td> 

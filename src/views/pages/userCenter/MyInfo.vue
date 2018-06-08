@@ -52,8 +52,8 @@
 						<i-button type="primary" @click="handleOk('userinfo')" :loading="loading">提交</i-button>
 					</FormItem>
 				</Form>
-				    <modal title="View Image" v-model="visible">
-       				 <img :src="bigimg" v-if="visible" style="width: 100%">
+				    <modal title="查看 头像大图" v-model="visible">
+       				 <img :src="bigimg | imgfilter" v-if="visible" style="width: 100%">
    			 </modal>
 		</div>
 </template>

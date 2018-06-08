@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div ref='alipayform'>
 	</div>
 </template>
 
@@ -7,29 +7,18 @@
 	 export default {
     data () {
       return {
+      	alipayform:'',
       }
     },
     methods: {
-      getParams () {
-        // 取到路由带过来的参数 
-        let routerParams = this.$route.fullPath
-        console.log(this.$route);
-        let n= routerParams.indexOf('?')
-        // 将数据放在当前组件的数据内
-         let payparams = routerParams.substring(n,this.$route.fullPath.length)
-         console.log('参数：'+payparams)
-          	this.$axios({
-							    method: 'post',
-							    url:'/order/alipay/check'+payparams,
-								}).then((res)=>{
-									if(res.code=='200'){
-										 this.$router.push({ name:'/order/detail',query:{orderNo:res.msg}});
-									}
-							});
-      },
+    	getalipay(){
+    		this.aipayform=localStorage.getItem('alipay')
+    		this.$refs['alipayform'].innerHTML=this.aipayform;
+    		document.getElementsByName('punchout_form')[0].submit()
+    	},
     },
     mounted() {
-			this.getParams();
+  	  	 	this.getalipay();
 		}
   }
 </script>

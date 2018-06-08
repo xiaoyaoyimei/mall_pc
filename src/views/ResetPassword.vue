@@ -121,12 +121,6 @@
 							}
                       })
             },
-            handleReset () {
-                this.$refs[regiForm].resetFields();
-            }
-        },
-        mounted(){
-            this.handleReset()
         }
        }
 </script>

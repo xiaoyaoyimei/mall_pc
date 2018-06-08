@@ -23,12 +23,10 @@
 						<Form ref="loginForm" :model="loginForm" :rules="ruleInline" inline>
 								<FormItem prop="loginName">
 										<Input type="text" class="loginInput" v-model="loginForm.loginName" autoComplete="on" placeholder="手机号">
-											
 										</Input>
 								</FormItem>
 								<FormItem prop="passWord">
 										<Input type="password" class="loginInput" @keyup.enter.native="handleLogin" v-model="loginForm.passWord" placeholder="密码">
-												
 										</Input>
 								</FormItem>
 								<FormItem>
@@ -37,7 +35,7 @@
 						</Form>
 						<div class="login-link">
 							<router-link :to='{path:"/register"}' tag="a">注册</router-link>
-							<!-- <router-link :to='{}' class='resetPassword' tag="a">找回密码</router-link> -->
+							 <router-link :to='{}' class='resetPassword' tag="a">找回密码</router-link> 
 						</div>
 					</div>
 		</div>
@@ -51,25 +49,29 @@
     export default {
       name: 'login',
       data() {
-        const validatePass = (rule, value, callback) => {
-          if (value.length < 1) {
-            callback(new Error('密码不能为空'));
+      	 const validatePhone = (rule, value, callback) => {
+      	 	if(value.length<0){
+      	 		 callback(new Error('手机号不能为空'));
+      	 	}
+          else if (!validatePHONE(value)) {
+            callback(new Error('请输入正确的手机号'));
           } else {
             callback();
           }
         };
+
         return {
           loginForm: {
-							user: '',
-							password: ''
+							loginName: '',
+							passWord: ''
 					},
 					ruleInline: {
-							user: [
-									{ required: true, message: '请填写手机号', trigger: 'blur' }
+							loginName: [
+									{ required: true,  trigger: 'blur',  validator: validatePhone }
 							],
-							password: [
+							passWord: [
 									{ required: true, message: '请输入密码', trigger: 'blur' },
-									// { type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
+									{ type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
 							]
 					},
           loading: false,
@@ -94,13 +96,11 @@
           	this.loading=true;
           this.$refs.loginForm.validate(valid => {
             if (valid) {
-            	this.global_.loginName=this.loginForm.loginName;
-            	this.global_.passWord=this.loginForm.passWord;
+            	this.loading = false;
 				this.$axios.post('customer/login', {  
 				loginName: this.loginForm.loginName,  
 				passWord: this.loginForm.passWord  
 				}).then(res => {  
-					
 	               	let { code, object } = res;
 		              if (code !== 200) {
 		                  this.$Message.error(object);
@@ -112,7 +112,6 @@
 //							 ...mapMutations({
 //   							 'set_token',{token:data.object["token"]} // 将 `this.add()` 映射为 `this.$store.commit('increment')`
 // 								 })
-							this.loading = false;
 							if (store.state.token) {  
 							this.$router.push(this.$route.query.redirect || '/')
 							} else {  
@@ -125,6 +124,7 @@
 				})  
             } 
             else {
+            	this.loading = false  
               return false;
             }
           });
@@ -133,7 +133,6 @@
     }
 </script>
 <style scoped="scoped" lang="scss">
- @import '@/styles/color.scss';
 	.login_wrap {
     position: absolute;
     top: 0;

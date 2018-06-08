@@ -65,8 +65,9 @@
 						<div v-for="(item, i) in shangp.productAttrList"  :key="i" class="attr_wrap">
 							<div class="dt">{{item.attrKey.catalogAttrValue}} :</div>
 							<div  class="dd">
-								<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" >
-									<img  class="attrImg" v-if="item.attrKey.isColorAttr == 'Y'" :src="child.listImg |imgfilter">
+								<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" 
+								v-bind:style="{backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? 'http://test-shop-img.dxracer.com.cn/'+child.listImg : '')+')'}"
+								>
 									{{child.modelAttrValue}}
 								</span>
 							</div>
@@ -613,10 +614,14 @@ export default {
 			border:1px solid #ccc;
 			height: 40px;
 			margin-right: 10px;
+			line-height: 40px;
 			padding: 0 5px;
 			margin-bottom: 10px;
-			line-height: 40px;
-		}
+			background-size: contain;
+			background-repeat: no-repeat;
+			padding-left: 35px;
+			vertical-align: middle;
+}
 		span.active{
 			color:#0099ff;
 	  	    border-color:#0099ff;

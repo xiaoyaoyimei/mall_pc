@@ -59,6 +59,7 @@
 						</div>
 						</div>
 						</div>
+						 <Spin size="large" fix v-if="spinShow"></Spin>
 		</div>	
 </template>
 
@@ -66,6 +67,7 @@
 export default {
   data() {
     return {
+    	spinShow:true,
       value3: 0,
       loginflag: true,
       setting: {
@@ -101,6 +103,7 @@ export default {
         if (res.code == "200") {
           this.Items = res.object;
         }
+        this.spinShow=false
       });
      this.$axios({
 					method: 'GET',

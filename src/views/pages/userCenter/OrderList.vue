@@ -49,6 +49,7 @@
 						<img src="../../../assets/img/order_empty.png">
 					<p>没有订单哦,<router-link :to="{path: '/index'}" >去首页看看</router-link></p>
 				</div>
+				 <Spin size="large" fix v-if="spinShow"></Spin>
         </div>
 </template>
 
@@ -57,6 +58,7 @@
 export default {
     data() {
       return {
+      	spinShow:true,
         cartList:[],
        statusList:[]
     	}
@@ -125,8 +127,9 @@ export default {
 							if(res.code=='200'){
 								this.cartList= res.object;
 							}
-							
+							this.spinShow=false;
 						});
+						
 	     	 }
 	    },
          mounted() {

@@ -50,6 +50,7 @@
             </ul>
             <Page :total="totalSize" size="small" show-elevator class="page" :page-size='this.pageSize' @on-change="handlePage" v-if="productList.length>0"></Page>
         </div>
+          <Spin size="large" fix v-if="spinShow"></Spin>
        </div>
 </template>
 <script>
@@ -58,6 +59,7 @@
     export default {
         data () {
             return {
+            	spinShow:true,
 				productList:[],
 				startRow:0,
                 pageSize:8,
@@ -112,6 +114,7 @@
 				}).then((res)=>{
 					this.type = res;
 				})
+				this.spinShow=false
             },
 			getList(type,value,index){
 				if(type=='catalog'){

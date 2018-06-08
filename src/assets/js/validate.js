@@ -8,7 +8,7 @@ export function isWscnEmail(str) {
 }
 /* 手机号*/
 export function validatePHONE(str) {
-   const reg = /^[a-z]+$/;
+   const reg =  /^(1[3-9])\d{9}$/;
   return reg.test(str);
 }
 

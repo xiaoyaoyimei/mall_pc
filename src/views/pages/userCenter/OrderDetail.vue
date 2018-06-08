@@ -13,11 +13,12 @@
 		   		<p>下单时间:<span>{{orderdetail.shippingOrder.createTime | formatDate}}</span></p>
 		   		<p>收货信息:<span>{{orderdetail.shippingAddress.receiverName}}/{{orderdetail.shippingAddress.receiverMobile}}/{{orderdetail.shippingAddress.receiverState}}
 		   			{{orderdetail.shippingAddress.receiverCity}}{{orderdetail.shippingAddress.receiverDistrict}}{{orderdetail.shippingAddress.receiverAddress}}</span></p>
-		   		<p class="clearfix">发票信息:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.receivePerson}}/{{orderdetail.shippingInvoice.receivePhone}}/{{orderdetail.shippingInvoice.receiveProvince}} {{orderdetail.shippingInvoice.receiveCity}} {{orderdetail.shippingInvoice.receiveDistrict}} {{orderdetail.shippingInvoice.receiveAddress}}/
-					   {{orderdetail.shippingInvoice.invoiceType}}/{{orderdetail.shippingInvoice.invoiceTitle}}/{{orderdetail.shippingInvoice.invoiceCode}}</span>
-					   	<button v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit">新增</button>
-						<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit">编辑</button>  
-						   </p>
+		   		<p class="clearfix">发票人信息:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.receivePerson}}/{{orderdetail.shippingInvoice.receivePhone}}/{{orderdetail.shippingInvoice.receiveProvince}} {{orderdetail.shippingInvoice.receiveCity}} {{orderdetail.shippingInvoice.receiveDistrict}} {{orderdetail.shippingInvoice.receiveAddress}}</span>
+				</p>
+				<p class="clearfix">发票详情信息:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceType}}/{{orderdetail.shippingInvoice.invoiceTitle}}/{{orderdetail.shippingInvoice.bankName}}/{{orderdetail.shippingInvoice.bankNo}}/{{orderdetail.shippingInvoice.invoiceCode}}/{{orderdetail.shippingInvoice.registerAddress}}
+				</span>
+					   	<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit">新增</button>
+						<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit">编辑</button> 				</p>
 				   </div>
 		 <div class="order_goods clearfix">
 		   	<table class="order-tb">
@@ -64,13 +65,13 @@
 					<Input v-model="addInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
 				</FormItem>
 				<FormItem label="发票抬头" prop="invoiceTitle">
-					<Select v-model="addInvoice.invoiceTitle">
+					<Input v-model="addInvoice.invoiceTitle" placeholder="发票类型" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="发票类型" prop="invoiceType">
+					<Select v-model="addInvoice.invoiceType">
 						<Option value="增值税普通发票">增值税普通发票</Option>
 						<Option value="增值税专用发票 ">增值税专用发票 </Option>
 					</Select>
-				</FormItem>
-				<FormItem label="发票类型" prop="invoiceType">
-					<Input v-model="addInvoice.invoiceType" placeholder="发票类型" autocomplete="off"></Input>
 				</FormItem>
 				<FormItem label="订单编号" prop="orderNo">
 					<Input v-model="addInvoice.orderNo" placeholder="订单编号" autocomplete="off"></Input>
@@ -136,6 +137,7 @@
 				</FormItem>
 			</Form>
 		</Modal> 
+		 <Spin size="large" fix v-if="spinShow"></Spin>
 	</div>
 </template>
 
@@ -144,6 +146,7 @@
 	export default {
     data () {
       return {
+      	spinShow:true,
       	orderdetail:{
       		shippingOrder:{},
       		shippingInvoice:{},
@@ -234,6 +237,9 @@
 			});
 		},
 		addinvoice(){
+		this.loading = false;
+		this.$nextTick(() => {
+		this.loading = true;
 		this.$refs['addInvoice'].validate((valid) => {
 		if (valid) {
 			let temp = this.addInvoice;
@@ -249,13 +255,18 @@
 					data:params
 				}).then((res)=>{
 					if(res.code=='200'){
+					this.modaladdorderNo = false;
 					this.statusList = res.object;
 					this.getOrder();
+					this.$Message.success(res.object);
+					}else{
+					this.$Message.error(res.msg);
 					}
 				
 				});
 				}
 			})
+		},2000)
 		},
 		geteditInvoice(){
 			this.modaleditorderNo=true;
@@ -272,7 +283,11 @@
 			this.editInvoice.receivePhone= this.orderdetail.shippingInvoice.receivePhone
 		},
 		editinvoice(){
-					this.$refs['editInvoice'].validate((valid) => {
+		setTimeout(() => {
+		this.loading = false;
+		this.$nextTick(() => {
+		this.loading = true;
+		this.$refs['editInvoice'].validate((valid) => {
 		if (valid) {
 			let temp = this.editInvoice;
 			temp.receiveProvince=this.editInvoice.selectedOptionsAddr[0];
@@ -286,13 +301,19 @@
 					data:params
 				}).then((res)=>{
 					if(res.code=='200'){
+					this.modaleditorderNo = false;
 					this.statusList = res.object;
 					this.getOrder();
+					this.$Message.success(res.object);
+					}else{
+						this.$Message.error(res.msg);
 					}
 				
 				});
 				}
 			})
+		})
+		},2000)
 		},
     	  	getStatusEnum(){
     			this.$axios({
@@ -357,7 +378,9 @@
 						this.orderdetail = res;
 						this.addInvoice.orderNo=this.orderdetail.shippingOrder.orderNo
 						this.editInvoice.orderNo=this.orderdetail.shippingOrder.orderNo
+						this.spinShow=false;
 					});
+					
      	 },
     },
          mounted() {

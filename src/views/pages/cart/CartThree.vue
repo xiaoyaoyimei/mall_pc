@@ -27,7 +27,6 @@
                     		<img :src="verimg"/>
                     	</div>
                     </div>
-		 <div id="zhifu" ref="zhifu"></div>
     	</Form>
     </div>
      </div>
@@ -61,7 +60,7 @@
         		var _this=this;
         		   	this.$axios({
 						    method: 'post',
-							    url:'/order/weixin/payment/check/'+this.$route.query.orderNo,
+							    url:'/order/payment/check/'+this.$route.query.orderNo,
 							}).then((res)=>{
 								if(res.msg=='yes'){
 									clearTimeout( _this.t );
@@ -86,19 +85,13 @@
 	                this.orderNo = routerParams;
 	          },
         	handleSubmit (name) {
-        		//var urlhref="http://test-shop.dxracer.com.cn:8084/mall/pc/order/alipay/"+this.$route.query.orderNo;
-        	//	window.open(urlhref);
                 this.$axios({
 				    method: 'post',
 				    url:'/order/'+name+'/'+this.$route.query.orderNo,
 				}).then((res)=>{
-					//console.log(res)
-					//this.$router.push({name:'/paysuccess',query:{alipay:res}});
 					localStorage.setItem('alipay',res)
 					let routeData = this.$router.resolve({ name: '/gopay'});
  			     	window.open(routeData.href, '_blank');
-//				this.$refs['zhifu'].innerHTML=res;
-//				document.getElementsByName('punchout_form')[0].submit()
 			});
             },
         },

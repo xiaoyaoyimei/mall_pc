@@ -1,9 +1,6 @@
 <template>
 		<div class="login">
 			<div class="login_wrap_main">
-				<router-link :to='{}' class="loginA" tag='a'>
-					<img class="aImg" src="../assets/img/3.jpg" alt="">
-				</router-link>
 				<div class="login_wrap">
 					<div class="div">
 						<h3 class="lTitle">找回密码</h3>
@@ -30,7 +27,7 @@
 									<Input v-model="regiForm.shortMessage" type="text" placeholder="短信验证码"></Input>
 								</FormItem>
 								<FormItem label="" prop="password">
-									<Input v-model="regiForm.password" type='password' placeholder="密码"></Input>
+									<Input v-model="regiForm.password" type='password' placeholder="新的密码"></Input>
 								</FormItem>
 								<Button  class='login_btn' @click="handleSubmit('regiForm')">立即找回</Button>
 							</Form>
@@ -46,6 +43,16 @@
 <script>
 	  export default {
         data () {
+		 const validatePhone = (rule, value, callback) => {
+      	 	if(value.length<0){
+      	 		 callback(new Error('手机号不能为空'));
+      	 	}
+          else if (!validatePHONE(value)) {
+            callback(new Error('请输入正确的手机号'));
+          } else {
+            callback();
+          }
+        };
             return {
             	loadingDx:false,
             	loadingtx:false,
@@ -59,16 +66,17 @@
                 },
                 ruleValidate: {
                     password:[
-                      { required: true, message: '密码不能为空', trigger: 'blur' }
+					  { required: true, message: '密码不能为空', trigger: 'blur' },
+					  { type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
                     ],
                     mobile:[
-                      { required: true, message: '手机号不能为空', trigger: 'blur' }
+                      { required: true, validator: validatePhone, trigger: 'blur' }
                     ],
                     verificationCode:[
                      { required: true, message: '图形验证不能为空', trigger: 'blur' }
                     ],
                     shortMessage:[
-                     { required: true, message: '短信息不能为空', trigger: 'blur' }
+                     { required: true, message: '短信验证码不能为空', trigger: 'blur' }
                     ]
                },
           }
@@ -129,13 +137,10 @@
 @import '@/styles/color.scss';
 
 .login_wrap {
-    position: absolute;
-    top: 0;
-    right: 0;
-    float: right;
+
     width: 380px;
     padding: 9px 38px 38px;
-    margin: 66px 100px 0px 0px;
+    margin: 116px auto;
     background-color: #fff;
     border: 1px solid #d6d6d6;
     box-shadow: 0px 0px 4px 0px #d6d6d6;

@@ -19,7 +19,7 @@
 				</ul> 
 				<div class='imgContent'>
 					<ul  v-for="(item, index) in shangp.productImageList"  :key="index">  
-						<li @mouseenter='getIndex(item.listImg,index)' class="clickproduct">  
+						<li @click='getIndex(item.listImg,index)' class="clickproduct">  
 							<img :src="item.listImg |imgfilter" :class="{clickItem:item.clickItem}"  style="width: 50px; height: 50px" >  
 						</li>  
 					</ul>
@@ -65,11 +65,8 @@
 						<div v-for="(item, i) in shangp.productAttrList"  :key="i" class="attr_wrap">
 							<div class="dt">{{item.attrKey.catalogAttrValue}} :</div>
 							<div  class="dd">
-								<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" 
-									:class="item.attrKey.isColorAttr == 'Y' ? 'pl35':''"
-								v-bind:style="{backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? 'http://test-shop-img.dxracer.com.cn/'+child.listImg : '')+')'}"
-								>
-									{{child.modelAttrValue}}
+								<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" >
+									<img  class="attrImg" v-if="item.attrKey.isColorAttr == 'Y'" :src="child.listImg |imgfilter">{{child.modelAttrValue}}
 								</span>
 							</div>
 						</div>
@@ -621,9 +618,7 @@ export default {
 			background-size: contain;
 			background-repeat: no-repeat;
 			vertical-align: middle;
-}       .pl35{
-		padding-left: 35px;
-		}
+		}       
 		span.active{
 			color:#0099ff;
 	  	    border-color:#0099ff;

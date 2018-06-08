@@ -40,10 +40,10 @@
 </template>
 
 <script>
-		 import { validatePHONE } from '@/assets/js/validate';
+			 import { validatePHONE } from '@/assets/js/validate';
 	  export default {
         data () {
-        		 const validatePhone = (rule, value, callback) => {
+            	 const validatePhone = (rule, value, callback) => {
       	 	if(value.length<0){
       	 		 callback(new Error('手机号不能为空'));
       	 	}
@@ -70,7 +70,7 @@
                        { type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
                     ],
                     mobile:[
-                      { required: true,  validator: validatePhone, trigger: 'blur', }
+                     	{ required: true,  trigger: 'blur',  validator: validatePhone }
                     ],
                     verificationCode:[
                      { required: true, message: '图形验证不能为空', trigger: 'blur' }
@@ -135,6 +135,10 @@
 
 <style scoped="scoped" lang="scss">
 .login_wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    float: right;
     width: 380px;
     padding: 9px 38px 38px;
     margin: 66px 100px 0px 0px;

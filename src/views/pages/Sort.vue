@@ -142,6 +142,9 @@
 				})
 			},
 			getTopList(searchdata){
+				if(this.$route.query.typeid!=undefined){
+					return ;
+				}
 				  this.$axios({
 					method: 'GET',
 					url:'/product/search?keyWord='+searchdata+'&startRow='+this.startRow+'&pageSize='+this.pageSize,

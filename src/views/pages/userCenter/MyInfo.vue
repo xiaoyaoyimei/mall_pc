@@ -81,6 +81,9 @@
                 this.bigimg = item.url;
                 this.visible = true;
             },
+          handleChange(date) {
+                this.userinfo.birthday = date;
+            },
 			handleFormatError (file) {
                 this.$Notice.warning({
                     title: '文件格式不符要求',

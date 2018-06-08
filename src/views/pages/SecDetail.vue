@@ -152,7 +152,7 @@
 				    data:para
 				}).then((res)=>{
 					if(res.code=='200'){
-						this.$router.push({name:'/cartthree',query: { orderNo: res.msg}});  
+						this.$router.push({path:'/cartthree',query: { orderNo: res.object}});  
 					}else{
 						 this.$Message.error(res.object);
 						 return;

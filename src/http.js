@@ -5,8 +5,12 @@ import router from '@/router/route'
 // axios 配置
 axios.defaults.timeout = 9000;
 //设置拦截器
+//const host = process.env.NODE_ENV === 'development' ? '/pc/' : 'http://test-shop.dxracer.com.cn:8084/mall/pc/' // 根据 process.env.NODE_ENV 的值判断当前是什么环境
+//const instance = axios.create({
+//baseURL: host
+//})
 //axios.defaults.baseURL = 'http://10.0.0.2:8081/mall/pc/';
-axios.defaults.baseURL = '/pc/';
+axios.defaults.baseURL = process.env.API_HOST+'/pc/';
 // http request 拦截器
 axios.interceptors.request.use(
     config => {

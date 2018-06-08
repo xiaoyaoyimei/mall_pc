@@ -47,9 +47,6 @@
         methods:{
         	//切换num的值切换支付方式
         	toggletab(num){
-        		if(num==0){
-        				clearTimeout( this.t );
-        		}
         		this.num=num;
         		if(num==1){
         			this.verimg=this.$axios.defaults.baseURL+'order/weixin/'+this.$route.query.orderNo;

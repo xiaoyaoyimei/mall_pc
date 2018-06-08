@@ -64,7 +64,7 @@
         	secShow:false,
         	modaleditaddr:false,
         	modaladdr:false,
-        	loading:false,
+        	loading:true,
             addressOption: [],
 		  	addForm: {
                     person: '',

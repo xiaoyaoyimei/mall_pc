@@ -54,7 +54,7 @@
 
 		<!-- 新增发票 -->
 		 <Modal v-model="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" >
-			<Form :model="addInvoice" ref="addInvoice" label-position="left" :label-width="120" :rules="ruleValidate" > 
+			<Form :model="addInvoice" ref="addInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" > 
 				<FormItem label="开户行名称" prop="bankName">
 					<Input v-model="addInvoice.bankName" placeholder="开户行名称" autocomplete="off"></Input>
 				</FormItem>
@@ -96,8 +96,8 @@
 			</Form>
 		</Modal> 
 				<!-- 编辑发票 -->
-		 <Modal v-model="modaleditorderNo" title="编辑发票信息" @on-ok="editinvoice()" :loading="loading" >
-			<Form :model="editInvoice" ref="editInvoice" label-position="left" :label-width="120" :rules="ruleValidate" > 
+		 <Modal v-model="modaleditorderNo" ref='modaleditorderNo' title="编辑发票信息" @on-ok="editinvoice" :loading="loading" >
+			<Form :model="editInvoice" ref="editInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" > 
 				<FormItem label="开户行名称" prop="bankName">
 					<Input v-model="editInvoice.bankName" placeholder="开户行名称" autocomplete="off"></Input>
 				</FormItem>
@@ -157,7 +157,7 @@
 		addressOption: [],
       	statusList:[],
 		orderNo:'',
-		loading:false,
+		loading:true,
 		modaladdorderNo:false,
 		modaleditorderNo:false,
 		addInvoice:{
@@ -206,9 +206,7 @@
                     receiveAddress: [
                         { required: true, message: '详细地址不能为空', trigger: 'blur' }
 					],
-					selectedOptionsAddr: [
-                        { required: true, type: 'array',message: '请选择省市区', trigger: 'blur' }
-                    ],
+				
                     receivePerson: [
                         { required: true, message: '收票人姓名不能为空', trigger: 'blur' }
                     ],
@@ -258,6 +256,7 @@
 					this.modaladdorderNo = false;
 					this.statusList = res.object;
 					this.getOrder();
+
 					this.$Message.success(res.object);
 					}else{
 					this.$Message.error(res.msg);

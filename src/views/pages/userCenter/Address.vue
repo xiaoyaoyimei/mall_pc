@@ -8,7 +8,7 @@
 						<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
 					</FormItem>
 					<FormItem label="手机号" prop="phone">
-						<Input v-model="addForm.phone" placeholder="联系电话" autocomplete="off"></Input>
+						<Input v-model="addForm.phone" placeholder="手机号" autocomplete="off"></Input>
 					</FormItem>
 					<FormItem label="固定电话" >
 						<Input v-model="addForm.tel" placeholder="固定电话" autocomplete="off"></Input>
@@ -28,7 +28,7 @@
 				            <Input v-model="editForm.person" placeholder="收货人"></Input>
 				        </FormItem>
 				        <FormItem label="手机号" prop="phone">
-				            <Input v-model="editForm.phone" placeholder="联系电话"></Input>
+				            <Input v-model="editForm.phone" placeholder="手机号"></Input>
 				        </FormItem>
 				        <FormItem label="固定电话" >
 				            <Input v-model="editForm.tel" placeholder="固定电话"></Input>
@@ -51,7 +51,8 @@
     	<p><span>地址:</span>{{item.address}}</p>
     	<p><span>手机:</span>{{item.person}}</p>
     	<p><span>固定电话:</span>{{item.tel}}</p>
-    	<div class="opt"><button @click="secAdd(item)" class="sec" v-if="secShow">选择该地址</button><button v-if="item.isDefault=='N'"   @click="updateDefault(item.id)">设为默认</button> <button  @click="editmodal(item)">编辑</button></div>
+    	<div class="opt"><button @click="secAdd(item)" class="sec" v-if="secShow">选择该地址</button>
+    		<button  @click="editmodal(item)">编辑</button><button v-if="item.isDefault=='N'"   @click="updateDefault(item.id)">设为默认</button> </div>
       </li>
     </ul>
 	</div>
@@ -60,11 +61,21 @@
 <script>
 	export default {
     data () {
+    		 const validatePhone = (rule, value, callback) => {
+	      	 	if(value.length<0){
+	      	 		 callback(new Error('手机号不能为空'));
+	      	 	}
+	          else if (!validatePHONE(value)) {
+	            callback(new Error('请输入正确的手机号'));
+	          } else {
+	            callback();
+	          }
+        	};
         return {
         	secShow:false,
         	modaleditaddr:false,
         	modaladdr:false,
-        	loading:false,
+        	loading:true,
             addressOption: [],
 		  	addForm: {
                     person: '',
@@ -90,9 +101,8 @@
                     person: [
                         { required: true, message: '姓名不能为空', trigger: 'blur' }
                     ],
-
                     phone: [
-                       { required: true, message: '电话不能为空', trigger: 'blur' },
+                       { required: true, validator: validatePhone, trigger: 'blur' },
                     ],
 
                 },
@@ -122,7 +132,7 @@
        	   },
        	   //新增地址
        	add(){
-       		       setTimeout(() => {
+       		    setTimeout(() => {
                     this.loading = false;
                     this.$nextTick(() => {
                     this.loading = true;
@@ -309,14 +319,14 @@
 }
 
 .opt{
-	
 	button{
 		float: right;
 		color:#0099ff;
 	background: 0 none;
 	border:0 none;
 	cursor: pointer;
-	margin-right: 10px;
+	margin-right: 15px;
+	font-size: 14px;
 	}
 }
 .opt .sec{

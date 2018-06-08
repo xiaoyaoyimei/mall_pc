@@ -61,18 +61,18 @@
         };
 
         return {
-          loginForm: {
-							loginName: '',
-							passWord: ''
+          loginForm:{
+						loginName: '',
+						passWord: ''
 					},
 					ruleInline: {
-							loginName: [
-									{ required: true,  trigger: 'blur',  validator: validatePhone }
-							],
-							passWord: [
-									{ required: true, message: '请输入密码', trigger: 'blur' },
-									{ type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
-							]
+						loginName: [
+							{ required: true,  trigger: 'blur',  validator: validatePhone }
+						],
+						passWord: [
+							{ required: true, message: '请输入密码', trigger: 'blur' },
+							//{ type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
+						]
 					},
           loading: false,
           showDialog: false
@@ -87,19 +87,19 @@
 		},
       methods: {
       	     getParams () {
-        // 取到路由带过来的参数 
-        let routerParams = this.$route.params.loginName
-        // 将数据放在当前组件的数据内
-        this.loginName = routerParams
-     	 },
+		        // 取到路由带过来的参数 
+		        let routerParams = this.$route.params.loginName
+		        // 将数据放在当前组件的数据内
+		        this.loginName = routerParams
+     	 	},
           handleLogin() {
           	this.loading=true;
-          this.$refs.loginForm.validate(valid => {
+         	this.$refs.loginForm.validate(valid => {
             if (valid) {
             	this.loading = false;
 				this.$axios.post('customer/login', {  
-				loginName: this.loginForm.loginName,  
-				passWord: this.loginForm.passWord  
+					loginName: this.loginForm.loginName,  
+					passWord: this.loginForm.passWord  
 				}).then(res => {  
 	               	let { code, object } = res;
 		              if (code !== 200) {
@@ -211,7 +211,6 @@
 				top: 66px;
 				width: 560px;
 				height: 485px;
-				
 				display: table-cell;
 				.aImg{
 					margin: auto;

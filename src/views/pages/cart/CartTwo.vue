@@ -135,7 +135,18 @@
 </template>
 <script>
        export default {
+       	
         data () {
+        		 const validatePhone = (rule, value, callback) => {
+	      	 	if(value.length<0){
+	      	 		 callback(new Error('手机号不能为空'));
+	      	 	}
+	          else if (!validatePHONE(value)) {
+	            callback(new Error('请输入正确的手机号'));
+	          } else {
+	            callback();
+	          }
+        	};
             return {
             	loading:true,
              addressOption: [],
@@ -159,7 +170,7 @@
 	                        { required: true, message: '收货人不能为空', trigger: 'blur' }
 	                    ],
 	                    phone: [
-	                        { required: true, message: '手机号不能为空', trigger: 'blur' },
+	                        { required: true, validator: validatePhone ,trigger: 'blur' },
 	                    ],
                     	address:[
 	                        { required: true, message: '详细地址不能为空', trigger: 'blur' },
@@ -258,16 +269,15 @@
                 }, 2000);
             },
             editmodal(item){
-            		this.modaleditaddr=true;
-            	    this.editForm.id=item.id;
-			        this.editForm.person=item.person;
-			        this.editForm.phone=item.phone;
-			        this.editForm.tel=item.tel;
-			        this.editForm.selectedOptionsAddr=[item.receiveProvince,item.receiveCity,item.receiveDistrict];
-			        this.editForm.address=item.address;
-			        
+        		this.modaleditaddr=true;
+        	    this.editForm.id=item.id;
+		        this.editForm.person=item.person;
+		        this.editForm.phone=item.phone;
+		        this.editForm.tel=item.tel;
+		        this.editForm.selectedOptionsAddr=[item.receiveProvince,item.receiveCity,item.receiveDistrict];
+		        this.editForm.address=item.address;
             },
-                    	//编辑地址
+            //编辑地址
         	editaddr () {
                 setTimeout(() => {
                     this.loading = false;

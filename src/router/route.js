@@ -111,9 +111,9 @@ const routes =  [
 		 		   	component:resolve => require(['@/views/pages/userCenter/CouponCenter.vue'],resolve)
 				},
 					{
-					name:'mylove',
-			   		path:'mylove',
-		 		   	component:resolve => require(['@/views/pages/userCenter/MyLove.vue'],resolve)
+					name:'changePwd',
+			   		path:'changePwd',
+		 		   	component:resolve => require(['@/views/pages/userCenter/ChangePwd.vue'],resolve)
 				},
 					{
 					name:'myinfo',

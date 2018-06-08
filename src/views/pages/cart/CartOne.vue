@@ -4,7 +4,7 @@
         <div class="cart_top_inner">
             <h2 class="cart_title">
              		   购物车
-             		  </h2>
+             </h2>
          </div>
         </div>
 		<div v-if="cartList.length>0" class="cart_body">

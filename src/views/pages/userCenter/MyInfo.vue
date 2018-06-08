@@ -1,5 +1,5 @@
 <template>
-		<div class="order">
+		<div class="order page-myinfo">
 			<div class="order_h2">个人信息</div>
 				<Form ref="userinfo" :model="userinfo"  :label-width="150">
 					<FormItem label="当前头像 :">
@@ -34,7 +34,7 @@
 						</div>
 					</FormItem>
 					<FormItem label="用户名:" prop="nickName">
-						<i-input v-model="userinfo.nickName" style="max-width:200px;" placeholder="请输入用户名"></i-input>
+						<i-input v-model="userinfo.nickName"  placeholder="请输入用户名"></i-input>
 					</FormItem>
 					<FormItem label="性别:" prop="sex">
 						<radio-group v-model="userinfo.sex">
@@ -45,7 +45,7 @@
 					</FormItem>					
 					<FormItem label="出生日期:">
 								<FormItem prop="birthday">
-										<DatePicker type="date" placeholder="Select date" style="width: 200px" :value="userinfo.birthday" formate="yyyy-MM-dd"   @on-change="handleChange"></DatePicker>
+										<DatePicker type="date" placeholder="Select date"  :value="userinfo.birthday" formate="yyyy-MM-dd"   @on-change="handleChange"></DatePicker>
 								</FormItem>
 					</FormItem>
 					<FormItem>
@@ -62,8 +62,8 @@
 		export default {
 	    data () {
 	        return {
+	        	visible:false,
 	        	loading:false,
-	        	visible: false,
 	        	uploadList: [
 	        	 {'url':''}
 	        	 ],
@@ -103,9 +103,6 @@
 					this.uploadList[0].url = this.userinfo.iconUrl;
 				});
 	      	},
-	      	 handleChange(date) {
-                this.userinfo.birthday = date;
-            },
             //上传图片
 			handleSuccess(res){
             if(res.code == '200'){
@@ -183,4 +180,12 @@ margin-bottom: 20px;
         cursor: pointer;
         margin: 0 2px;
     }
+</style>
+<style>
+	.page-myinfo .ivu-form .ivu-form-item-label{
+		padding-right: 25px;
+	}
+		.page-myinfo .ivu-input{
+		width:250px
+	}
 </style>

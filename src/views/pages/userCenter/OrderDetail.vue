@@ -243,7 +243,6 @@
 		this.$refs['addInvoice'].validate((valid) => {
 		if (valid) {
 			let temp = this.addInvoice;
-			
 			temp.receiveProvince=this.addInvoice.selectedOptionsAddr[0];
 			temp.receiveCity=this.addInvoice.selectedOptionsAddr[1];
 			temp.receiveDistrict=this.addInvoice.selectedOptionsAddr[2];

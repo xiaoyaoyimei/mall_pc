@@ -66,6 +66,7 @@
 							<div class="dt">{{item.attrKey.catalogAttrValue}} :</div>
 							<div  class="dd">
 								<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" 
+									:class="item.attrKey.isColorAttr == 'Y' ? 'pl35':''"
 								v-bind:style="{backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? 'http://test-shop-img.dxracer.com.cn/'+child.listImg : '')+')'}"
 								>
 									{{child.modelAttrValue}}
@@ -619,9 +620,10 @@ export default {
 			margin-bottom: 10px;
 			background-size: contain;
 			background-repeat: no-repeat;
-			padding-left: 35px;
 			vertical-align: middle;
-}
+}       .pl35{
+		padding-left: 35px;
+		}
 		span.active{
 			color:#0099ff;
 	  	    border-color:#0099ff;
@@ -738,6 +740,9 @@ export default {
 }
 .sortDetail .G_MEAS .ative img{
 	width:20px;
+}
+.clickproduct img{
+	border:1px solid #fff;
 }
 .sortDetail .clickItem{
 	border:  1px solid #999;

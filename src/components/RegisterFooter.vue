@@ -19,6 +19,7 @@
     height: 12px;
     font-family: '\5FAE\8F6F\96C5\9ED1';
     text-align: center;
+    margin-top:50px
 }
 
 </style>

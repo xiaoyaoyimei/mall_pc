@@ -134,8 +134,8 @@
     	</div>
 </template>
 <script>
+	 import { validatePHONE } from '@/assets/js/validate';
        export default {
-       	
         data () {
         		 const validatePhone = (rule, value, callback) => {
 	      	 	if(value.length<0){

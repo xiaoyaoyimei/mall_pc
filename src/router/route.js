@@ -143,6 +143,11 @@ const routes =  [
 					name: '注册',
 					component:  resolve => require(['@/views/Register.vue'], resolve)
 				},
+				{
+					path:'/resetPassword',
+					name:'/resetPassword',
+					component:resolve => require(['@/views/ResetPassword.vue'], resolve)
+				}
 			]
 		},
 		

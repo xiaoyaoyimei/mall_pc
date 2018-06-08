@@ -35,7 +35,7 @@
 						</Form>
 						<div class="login-link">
 							<router-link :to='{path:"/register"}' tag="a">注册</router-link>
-							 <router-link :to='{}' class='resetPassword' tag="a">找回密码</router-link> 
+							 <router-link :to='{path:"/resetPassword"}' class='resetPassword' tag="a">找回密码</router-link> 
 						</div>
 					</div>
 		</div>
@@ -59,20 +59,19 @@
             callback();
           }
         };
-
         return {
           loginForm:{
 						loginName: '',
 						passWord: ''
 					},
 					ruleInline: {
-						loginName: [
-							{ required: true,  trigger: 'blur',  validator: validatePhone }
-						],
-						passWord: [
-							{ required: true, message: '请输入密码', trigger: 'blur' },
-							//{ type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
-						]
+							loginName: [
+									{ required: true,  trigger: 'blur',  validator: validatePhone }
+							],
+							passWord: [
+									{ required: true, message: '请输入密码', trigger: 'blur' },
+									 { type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
+							]
 					},
           loading: false,
           showDialog: false
@@ -220,10 +219,16 @@
 				}
 			}
 		}
+		.login-link{
+			font-size: 14px;
+		}
 	</style>
 	<style>
 .lLogin	.login_wrap .ivu-input{
 		width: 300px;
+		height: 40px;
+		line-height: 40px;
+		border-radius: 0;
 	}
 .lLogin	.login_wrap .ivu-btn{
 		padding: 0px;

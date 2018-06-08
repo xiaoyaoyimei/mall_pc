@@ -1,41 +1,37 @@
 <template>
-		<div class="page-reg">
+		<div class="login">
 			<div class="login_wrap_main">
-				<router-link :to='{}' class="loginA" tag='a'>
-					<img class="aImg" src="../assets/img/3.jpg" alt="">
-				</router-link>
 				<div class="login_wrap">
 					<div class="div">
-						<h3 class="lTitle">使用手机号注册</h3>
+						<h3 class="lTitle">找回密码</h3>
 							<Form :model="regiForm" label-position="left" :label-width="0" :rules="ruleValidate" ref="regiForm">
-								<FormItem label="" class="Rform" prop="loginName">
-									<Input class="Rphone" v-model.trim="regiForm.loginName" placeholder="手机号"></Input>
+								<FormItem label="" class="Rform" prop="mobile">
+									<Input class="Rphone" v-model.trim="regiForm.mobile" type="text" placeholder="手机号"></Input>
 									<Button  class='R-check' :loading="loadingtx"  @click="getTx">
 										<span v-if="!loadingtx">获取图形码</span>
 										<span v-else>Loading...</span>
 									</Button>
-									<img style='float:right;margin-top:24px;'  :src="verimg"  @click="getTx"/>
+									<img style='float:right;'  :src="verimg"  @click="getTx"/>
 								</FormItem>
 	
 								<FormItem label="" class="Rform" prop="verificationCode">
-									<Input  class="Rphone" v-model="regiForm.verificationCode" placeholder="图形验证码"></Input>
+									<Input  class="Rphone" v-model="regiForm.verificationCode" type="text" placeholder="图形验证码"></Input>
 									<Button  class='R-check' :loading="loadingDx"   @click="getDx">
 										<span v-if="!loadingDx">获取短信验证码</span>
 										<span v-else>Loading...</span>
 									</Button>
 									
 								</FormItem> 
-
 								<FormItem label="" prop="shortMessage">
-									<Input v-model="regiForm.shortMessage" placeholder="短信验证码"></Input>
+									<Input v-model="regiForm.shortMessage" type="text" placeholder="短信验证码"></Input>
 								</FormItem>
-								<FormItem label="" prop="passWord">
-									<Input v-model="regiForm.passWord" placeholder="密码"></Input>
+								<FormItem label="" prop="password">
+									<Input v-model="regiForm.password" type='password' placeholder="请输入新的密码"></Input>
 								</FormItem>
-								<Button  class='login_btn' @click="handleSubmit('regiForm')">注册</Button>
+								<Button  class='login_btn' @click="handleSubmit('regiForm')">立即找回</Button>
 							</Form>
 							<div class="login-link">
-								<router-link :to='{path:"/login"}' class='resetPassword' tag="a">已有账号，请登录</router-link>
+								<router-link :to='{path:"/login"}' class='resetPassword' tag="a">账号密码登录</router-link>
 							</div>
 					</div>
 				</div>
@@ -44,9 +40,10 @@
 </template>
 
 <script>
+		 import { validatePHONE } from '@/assets/js/validate';
 	  export default {
         data () {
-        	 	 const validatePhone = (rule, value, callback) => {
+        		 const validatePhone = (rule, value, callback) => {
       	 	if(value.length<0){
       	 		 callback(new Error('手机号不能为空'));
       	 	}
@@ -62,20 +59,21 @@
             	txv:1,
             	verimg:'',
                 regiForm: {
-                    passWord: '',
-                    loginName:'',
+                    password: '',
+                    mobile:'',
                     shortMessage: '',
                     verificationCode:''
                 },
                 ruleValidate: {
-                    passWord:[
-                      { required: true, message: '密码不能为空', trigger: 'blur' }
+                    password:[
+                      { required: true, message: '密码不能为空', trigger: 'blur' },
+                       { type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
                     ],
-                    loginName:[
-                      { required: true, validator:validatePhone, trigger: 'blur' }
+                    mobile:[
+                      { required: true,  validator: validatePhone, trigger: 'blur', }
                     ],
                     verificationCode:[
-                     { required: true, message: '图形码不能为空', trigger: 'blur' }
+                     { required: true, message: '图形验证不能为空', trigger: 'blur' }
                     ],
                     shortMessage:[
                      { required: true, message: '短信验证码不能为空', trigger: 'blur' }
@@ -86,8 +84,8 @@
           methods:{
           	getDx(){
           		this.loadingDx = true;
-          		let loginName=this.regiForm.loginName;
-          		if(loginName==null||loginName==''){
+          		let mobile=this.regiForm.mobile;
+          		if(mobile==null||mobile==''){
           			this.$Message.error('手机号不能为空!');
           			this.loadingDx = false;
           		}else{
@@ -95,28 +93,29 @@
 					    method: 'post',
 					    url:'/customer/register/shortmessage',
 					    data:{
-					    		 "mobile":loginName,
+					    		 "mobile":mobile,
 					    		  "verificationCode":this.regiForm.verificationCode
 					    	},
 					}).then((res)=>{
 						     if (res.code !== 200) {
 		                 		 this.$Message.error(res.msg);
 		              		} 
-							this.loadingDx = false;
+                            this.loadingDx = false;
 					});
 					}
           	},
           	getTx(){
           			this.txv++;
-          			this.verimg=this.$axios.defaults.baseURL+'customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+          			this.verimg=this.$axios.defaults.baseURL+'customer/'+this.regiForm.mobile+'/verification.png?v='+this.txv;
           	},
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                    	let para = Object.assign({}, this.regiForm);
+                        let para = Object.assign({}, this.regiForm);
+                        delete para['verificationCode']
 		                    	this.$axios({
 							    method: 'post',
-							    url:'/customer/register',
+							    url:'/customer/reset/password',
 							    data:para,
 							}).then((res)=>{
 									this.loadingDx = false;
@@ -124,26 +123,17 @@
 								              if (code !== 200) {
 								                this.$Message.error(res.msg);
 								              } else {
-								                this.$router.push({ path: '/Login' ,params: { loginName: this.regiForm.loginName }});
+								                this.$router.push({ path: '/Login' ,params: { mobile: this.regiForm.mobile }});
 								              }
 							});
 							}
                       })
             },
-            handleReset (name) {
-                this.$refs[name].resetFields();
-            }
         }
        }
 </script>
 
 <style scoped="scoped" lang="scss">
-.page-reg .login_wrap{
-	    position: absolute;
-	top: 0;
-    right: 0;
-    float: right;
-}
 .login_wrap {
     width: 380px;
     padding: 9px 38px 38px;
@@ -172,7 +162,7 @@
 						top: 0px;
 						background-color: #fff;
 						height: 40px;
-						border-radius: 0;
+                        border-radius: 0;
 					}
 				}
 			}
@@ -189,6 +179,10 @@
 				border: 0px;
 				cursor: pointer;
 				border-radius: 2px;
+				-webkit-transition: all .2s ease-in-out;
+				-moz-transition: all .2s ease-in-out;
+				-ms-transition: all .2s ease-in-out;
+				-o-transition: all .2s ease-in-out;
 				transition: all .2s ease-in-out;
 			}
 			.login-link{
@@ -220,6 +214,10 @@
 				font-size:16px;
 			}
 		}
+		h3{
+			margin-bottom: 40px;
+			font-size:20px;
+		}
 		.btn-login{
 			width: 100%;
 			border-radius: 0px;
@@ -240,30 +238,13 @@
 		}
 	
 	}
-			.login_wrap_main {
-			width: 1200px;
-			margin: 0 auto;
-			position: relative;
-			height: 620px;
-			.loginA{
-				position: absolute;
-				right: 520px;
-				top: 66px;
-				width: 560px;
-				height: 485px;
-				
-				display: table-cell;
-				.aImg{
-					margin: auto;
-					vertical-align: middle;
-					height: 485px;
-					border-radius: 50%;
-				}
-			}
-		}
+	.login_wrap_main{
+		display: flex;
+		justify-content: center;
+	}
 </style>
 <style lang="scss">
-	.page-reg{
+	.login{
 		 .ivu-input{
 			/* border:0 none; */
 			font-size: 16px;
@@ -291,6 +272,8 @@
 		.ivu-form-item-error .ivu-input:focus, .ivu-input:focus,.ivu-btn:focus{
 			box-shadow: 0 0 0 2px rgba(153, 153, 153, 0.2);
 		}
-
+		.login_btn{
+			padding:0px;
+			}
 		}
 </style>

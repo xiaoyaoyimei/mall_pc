@@ -32,13 +32,13 @@
 }
 </style>
 <style> 
-	 .ivu-input{
+.new_header	 .ivu-input{
     	height: 40px;
     	line-height:40px;
     	width:267px;
     	border-radius: 0;
     }
-    .ivu-form .ivu-form-item-label{
+ .new_header   .ivu-form .ivu-form-item-label{
     		font-size: 15px;
     	color:#999
     }

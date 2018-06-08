@@ -3,8 +3,8 @@
 			<div class="order_h2">个人信息</div>
 				<Form ref="userinfo" :model="userinfo"  :label-width="150">
 					<FormItem label="当前头像 :">
-								<div class="user-con-wrap">
-						         <div class="demo-upload-list" v-for="item in uploadList">
+						<div class="user-con-wrap">
+						    <div class="demo-upload-list" v-for="item in uploadList">
 						        <template v-if="item.status === 'finished'">
 						            <img :src="item.url|imgfilter"  class="origin_tx"/>
 						            <div class="demo-upload-list-cover">
@@ -14,8 +14,8 @@
 						        <template v-else>
 						            <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 						        </template>
-						       </div>
-						        <Upload
+						    </div>
+						    <Upload
 						        ref="upload"
 						         :default-file-list="uploadList"
 						        :show-upload-list="false"
@@ -30,8 +30,8 @@
 						        <div style="width:5.8rem;height:5.8rem;line-height:5.8rem;">
 						            <Icon type="camera" size="20"></Icon>
 						        </div>
-						       </Upload> 
-							</div>
+						    </Upload> 
+						</div>
 					</FormItem>
 					<FormItem label="用户名:" prop="nickName">
 						<i-input v-model="userinfo.nickName" style="max-width:200px;" placeholder="请输入用户名"></i-input>
@@ -128,7 +128,7 @@
 						});
 					}
                 })
-		  },
+		 	 },
 		},
 	      mounted(){
 	      	this.getUser()

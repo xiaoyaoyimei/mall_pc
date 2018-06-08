@@ -3,9 +3,11 @@
 		<div class="side_nav_wrap clear" style="">
 			<div class="main-wdith">
 			<div class="cat_nav">
-				<ul><li>
-					<img src="../../assets/img/desk.png">电竞桌
-					</li><li><img src="../../assets/img/chair.png">电竞椅</li><li><img src="../../assets/img/custom.png">定制</li><li><img src="../../assets/img/other.png">配件及周边</li></ul>
+				<ul>
+					<li v-for="(item,index) in type" :key="index" >
+					 <router-link :to="{ path: '/sort',query:{typeid:item.id,typeindex:index} }"  >{{item.typeName}}</router-link>
+					</li>
+				</ul>
 			</div>
 			<Carousel
 						v-model="value3"
@@ -19,12 +21,11 @@
 		                        <div class="demo-carousel"><img :src="item.imgUrl |imgfilter"></div>
 		                </CarouselItem>
 			</Carousel>
-					
 						<div class="floor" v-if="productNew.length>0">
 							<h2><p>新品专区</p></h2>
 						 <ul class="search_list_wrap clearfix">
 			             <li  v-for="(item, index) in productNew" :key='index'>
-			               <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" tag="a" >
+			               <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" >
 			                     <img :src=' item.model_img |imgfilter'>
 			                </router-link>
 			                <div  class="title">
@@ -33,7 +34,7 @@
 			                <div class="name">{{item.model_name}}</div>
 			                <div v-if="item.promotionTitle !=null" class="sku_tag ">{{item.promotionTitle}}</div> 
 			                  <div class="price">
-			                           ￥{{item.sale_price|pricefilter}}
+			                                     ￥{{item.sale_price|pricefilter}}
 			                   </div>
 			               </li>
 			            </ul>
@@ -78,7 +79,8 @@ export default {
       Items: [],
       aditems: [],
       productNew: [],
-      proList: []
+      proList: [],
+      type:[],
     };
   },
   filters: {
@@ -100,14 +102,12 @@ export default {
           this.Items = res.object;
         }
       });
-      this.$axios({
-        method: "GET",
-        url: "/index/advert"
-      }).then(res => {
-        if (res.code == "200") {
-          this.aditems = res.object;
-        }
-      });
+     this.$axios({
+					method: 'GET',
+					url:'/product/type',
+				}).then((res)=>{
+					this.type = res;
+				})
       //新品专区
     	     	this.$axios({
 						    method: 'GET',
@@ -139,15 +139,19 @@ export default {
 	    position: absolute;
     background: rgba(0, 0, 0, 0.6);
     border-top: none;
-    padding: 16px 0;
     z-index: 2;
     width: 220px;
     color: #fff;
     height: 480px;
     li{
-    	height: 56px;
-    	line-height: 56px;
+    	height: 48px;
+    	line-height: 48px;
     	cursor:pointer;
+    	text-indent: 40px;
+    	a{
+    		display: block;
+    		color: #fff;
+    	}
     	img{
     		width: 24px;
 		    height: 24px;

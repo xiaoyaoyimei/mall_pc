@@ -1,30 +1,38 @@
 <template>
 <div class="sort">
-	<div class="main-wdith mt20 selector">
+	<div class="main-wdith mt20 ">
+		<div class="selector mt20">
 		   <div class="wrap">
 	            <div class="dt">类型:</div>
-	            <div class="dd"><span v-for="item in catalog" >{{item.catalogName}}</span></div>
+	            <div class="dd">
+	            	<span @click="getList('catalog','',-1)" :class="{active: '-1' == catalogindex}">全部</span>
+	            	<span v-for="(item,index) in catalog" @click="getList('catalog',item.id,index)" :class="{active: index ==catalogindex}">{{item.catalogName}}</span>
+	            </div>
             </div>
             <div class="wrap">
 	            <div class="dt">分类:</div>
-	           	<div class="dd"> <span v-for="item in type">{{item.typeName}}</span></div>
+	           	<div class="dd">
+	           		<span @click="getList('type','',-1)" :class="{active: '-1' == typeindex}">全部</span>
+	           		<span v-for="(item,index) in type" @click="getList('type',item.id,index)" :class="{active: index ==typeindex}">{{item.typeName}}</span>
+	           	</div>
             </div>
             <div class="wrap">
 	            <div class="dt">系列:</div>
-	            <div class="dd"><span v-for="item in series">{{item.seriesName}}</span></div>
+	            <div class="dd">
+	            	<span @click="getList('series','',-1)" :class="{active: '-1' == seriesindex}">全部</span>
+	            	<span v-for="(item,index) in series" @click="getList('series',item.id,index)" :class="{active: index == seriesindex}">{{item.seriesName}}</span></div>
              </div>
             <div class="wrap">
             <div class="dt">品牌:</div>
-          	 <div class="dd"><span v-for="item in brand">{{item.brandName}}</span></div> 
+          	 <div class="dd">
+          	 	<span @click="getList('brand','',-1)" :class="{active: '-1' == brandindex}">全部</span>
+          	 	<span v-for="(item,index) in brand"  @click="getList('brand',item.id,index)" :class="{active: index == brandindex}">{{item.brandName}}</span></div> 
         	</div>
-            <!--<dd v-for="gameName in gameNames" :class="{active: activeName == gameName}" @click="selected(gameName)">
-                {{gameName}}
-             </dd>-->
-        </dl>
+        </div>
         <ul class="search_list_wrap clearfix" >
-        	<div class="empty_result flex-center font-24"  v-if="productList.length<1">
+        	<div class="empty_result flex-center"  v-if="productList.length<1">
                     <div class="icon icon_unit_notice"></div>
-                    <span >该区域没有符合条件的产品哦~</span>
+                    <span >该区域没有符合搜索条件的产品哦~</span>
              </div>
             <li  v-for="(item, index) in productList" :key='index' v-else>
                <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" tag="a" >
@@ -50,50 +58,47 @@
     export default {
         data () {
             return {
-				theme1: 'light',
 				productList:[],
 				startRow:0,
                 pageSize:8,
 				title:'',
-				keyword:'',
-                value12: '',
                 totalSize:0,
-                opt_search_hover:false,
-                brand:[],
                 catalog:[],
-                series:[],
                 type:[],
-                gameNames: ['所有', '电竞椅', '电竞桌', '定制', '配件及周边'],
-                activeName: '所有'
+                series:[],
+                brand:[],
+                catalogindex:-1,
+                typeindex:-1,
+                seriesindex:-1,
+                brandindex:-1,
+                //顶部筛选条件
+                searchfilter:{
+                	catalog:'',
+                	type:'',
+               		series:'',
+                	brand:'',
+                },
 			}
         },
 		methods:{
-//          selected: function(gameName) {
-//              this.activeName = gameName;
-//              if(gameName == "所有"){
-//                  gameName =''
-//              }
-//              this.$axios({
-//					method: 'GET',
-//					url:'/product/search?keyword='+gameName+'&startRow='+this.startRow+'&pageSize='+this.pageSize,
-//				}).then((res)=>{
-//					this.productList = res.itemsList;
-//					this.totalSize=res.total;
-//				})
-//          },
 			//获取顶部筛选
+			  getParams () {
+			  	if(this.$route.query.typeid!=undefined){
+			        this.getList('type',this.$route.query.typeid,this.$route.query.typeindex)
+			       }
+		      },
             getTop(){
+            	this.$axios({
+					method: 'GET',
+					url:'/product/catalog',
+				}).then((res)=>{
+					this.catalog = res;
+				})
             	   this.$axios({
 					method: 'GET',
 					url:'/product/brand',
 				}).then((res)=>{
 					this.brand = res;
-				})
-				   this.$axios({
-					method: 'GET',
-					url:'/product/catalog',
-				}).then((res)=>{
-					this.catalog = res;
 				})
 				  this.$axios({
 					method: 'GET',
@@ -108,10 +113,35 @@
 					this.type = res;
 				})
             },
-			getList(){
+			getList(type,value,index){
+				if(type=='catalog'){
+					this.catalogindex=index;
+					this.searchfilter.catalog=value
+				}
+				if(type=='type'){
+					this.typeindex=index;
+					this.searchfilter.type=value
+				}
+				if(type=='series'){
+					this.seriesindex=index;
+					this.searchfilter.series=value
+				}
+				if(type=='brand'){
+					this.brandindex=index;
+					this.searchfilter.brand=value
+				}
                 this.$axios({
 					method: 'GET',
-					url:'/product/search?keyword='+this.keyword+'&startRow='+this.startRow+'&pageSize='+this.pageSize,
+					url:'/product/search?catalog='+this.searchfilter.catalog+'&series='+this.searchfilter.series+'&type='+this.searchfilter.type+'&brand='+this.searchfilter.brand+'&startRow='+this.startRow+'&pageSize='+this.pageSize,
+				}).then((res)=>{
+					this.productList = res.itemsList;
+					this.totalSize=res.total;
+				})
+			},
+			getTopList(searchdata){
+				  this.$axios({
+					method: 'GET',
+					url:'/product/search?keyWord='+searchdata+'&startRow='+this.startRow+'&pageSize='+this.pageSize,
 				}).then((res)=>{
 					this.productList = res.itemsList;
 					this.totalSize=res.total;
@@ -126,12 +156,13 @@
 		 	var vm = this
            // 用$on事件来接收参数
 		      Bus.$on('val', (data) => {
-		        vm.keyword = data
-		           this.selected(data);
+		           this.getTopList(data);
 		      });
-		      this.getList();
+		      this.getTopList('');
 		      //得到顶部分类
 		      this.getTop();
+		      //首页点击左侧分类
+		      this.getParams();
           },
     }
 </script>
@@ -143,6 +174,10 @@
     height: 64px;
     background-position:  -104px -248px;
 }
+ .empty_result span{
+ 	margin-top: 20px;
+ 	font-size: 16px;
+ }
 .page{
 	margin-top:40px;
 	text-align: center;
@@ -163,6 +198,7 @@
     border-color:#ddd;
 }
 .selector .dt{
+	font-weight: bold;
 	float: left;
     width: 100px;
     padding-left: 10px;
@@ -190,7 +226,7 @@
   font-weight: bold;
 }
 .search_list_wrap{
-	margin-top: 20px;
+	margin-top: 30px;
 }
 .wrap{
 	border-bottom: 1px solid #ddd;

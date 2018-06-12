@@ -116,6 +116,7 @@
 				})
 				this.spinShow=false
             },
+            //点击顶部筛选
 			getList(type,value,index){
 				if(type=='catalog'){
 					this.catalogindex=index;
@@ -141,7 +142,9 @@
 					this.totalSize=res.total;
 				})
 			},
+			//点击header的搜索
 			getTopList(searchdata){
+				//首页若传typeid,则跳出。走getParams
 				if(this.$route.query.typeid!=undefined){
 					return ;
 				}

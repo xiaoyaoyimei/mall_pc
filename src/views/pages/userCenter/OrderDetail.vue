@@ -65,7 +65,7 @@
 					<Input v-model="addInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
 				</FormItem>
 				<FormItem label="发票抬头" prop="invoiceTitle">
-					<Input v-model="addInvoice.invoiceTitle" placeholder="发票类型" autocomplete="off"></Input>
+					<Input v-model="addInvoice.invoiceTitle" placeholder="发票抬头" autocomplete="off"></Input>
 				</FormItem>
 				<FormItem label="发票类型" prop="invoiceType">
 					<Select v-model="addInvoice.invoiceType">
@@ -152,7 +152,6 @@
       		shippingInvoice:{},
       		shippingAddress:{},
 			shippingOrderItems:[],
-			  
 		  },
 		addressOption: [],
       	statusList:[],

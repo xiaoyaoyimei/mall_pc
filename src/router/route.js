@@ -95,27 +95,30 @@ const routes =  [
 				   			path: '/order/detail',
 				 	   		component:resolve => require(['@/views/pages/userCenter/OrderDetail.vue'], resolve),
 				      	},
+						{
+							meta:{requireAuth:true},
+							name:'/user/address',
+					   		path: '/user/address',
+				 		   	component:resolve => require(['@/views/pages/userCenter/Address.vue'],resolve)
+						},
+						{
+						name:'mycoupon',
+				   		path:'mycoupon',
+			 		   	component:resolve => require(['@/views/pages/userCenter/MyCoupon.vue'],resolve)
+						},
+						{
+						name:'couponcenter',
+				   		path:'couponcenter',
+			 		   	component:resolve => require(['@/views/pages/userCenter/CouponCenter.vue'],resolve)
+						},
 					{
-						name:'/user/address',
-				   		path: '/user/address',
-			 		   	component:resolve => require(['@/views/pages/userCenter/Address.vue'],resolve)
-					},
-					{
-					name:'mycoupon',
-			   		path:'mycoupon',
-		 		   	component:resolve => require(['@/views/pages/userCenter/MyCoupon.vue'],resolve)
-				},
-				{
-					name:'couponcenter',
-			   		path:'couponcenter',
-		 		   	component:resolve => require(['@/views/pages/userCenter/CouponCenter.vue'],resolve)
-				},
-					{
+						meta:{requireAuth:true},
 					name:'changePwd',
 			   		path:'changePwd',
 		 		   	component:resolve => require(['@/views/pages/userCenter/ChangePwd.vue'],resolve)
 				},
 					{
+						meta:{requireAuth:true},
 					name:'myinfo',
 			   		path:'myinfo',
 		 		   	component:resolve => require(['@/views/pages/userCenter/MyInfo.vue'],resolve)

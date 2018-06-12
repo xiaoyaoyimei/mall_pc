@@ -65,8 +65,14 @@
 						<div v-for="(item, i) in shangp.productAttrList"  :key="i" class="attr_wrap">
 							<div class="dt">{{item.attrKey.catalogAttrValue}} :</div>
 							<div  class="dd">
-								<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" >
-									<img  class="attrImg" v-if="item.attrKey.isColorAttr == 'Y'" :src="child.listImg |imgfilter">{{child.modelAttrValue}}
+								<!--<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" >
+									<img  class="attrImg" v-if="item.attrKey.isColorAttr == 'Y'" :src="child.listImg |imgfilter">
+									{{child.modelAttrValue}}
+								</span>-->
+									<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" 
+								v-bind:style="{paddingLeft:item.attrKey.isColorAttr == 'Y' ? '35px':0,backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? 'http://test-shop-img.dxracer.com.cn/'+child.listImg : '')+')'}"
+								>
+									{{child.modelAttrValue}}
 								</span>
 							</div>
 						</div>
@@ -258,18 +264,18 @@ export default {
             		var chooseId="",jishu=0;
        	            let p=e.target.parentNode.children;
        	            //商品属性高亮
-       	             if(e.target.tagName=='IMG'){
-            			p=e.target.parentNode.parentNode.children;
-            		    for(let i =0;i<p.length;i++) {
-       	            	p[i].className="";
-						}
-            			e.target.parentNode.className="active";
-            		}else{
+//     	             if(e.target.tagName=='IMG'){
+//          			p=e.target.parentNode.parentNode.children;
+//          		    for(let i =0;i<p.length;i++) {
+//     	            	p[i].className="";
+//						}
+//          			e.target.parentNode.className="active";
+//          		}else{
 	            			   for(let i =0;i<p.length;i++) {
 	       	            	p[i].className="";
 						}
             			   e.target.className="active"; 
-            		}
+            		//}
        	         
             		if(pa.attrKey.isColorAttr=='Y'){
             			this.ImgUrl=ch.listImg;
@@ -494,8 +500,7 @@ export default {
     overflow: hidden;
     li{
         float: left;
-        width: 33.33%;
-        text-align: center;
+        width: 33.33333%;
     }
 }
 .sortDetail .G_info > a {
@@ -722,6 +727,10 @@ export default {
 .sortDetail .neirong, .sortDetail .title{
 	font-size: 15px;
 	line-height: 35px;
+}
+.sortDetail .title{
+	width:150px;
+	display: inline-block;
 }
 .sortDetail .sNumber {
 	border-bottom: 1px solid #e7e7e7;

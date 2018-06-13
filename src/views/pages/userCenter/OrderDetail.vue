@@ -3,6 +3,7 @@
 	     <div class="details clearfix">
 	     	<h2 class="left">{{statusfilter(orderdetail.shippingOrder.orderStatus)}}</h2>
 	     	<div class="right"  v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">	 
+			 <span v-if='timerShow'>剩余支付时间{{protime}}</span>
 			 <button @click="cancel()"  v-show="orderdetail.shippingOrder.orderStatus=='01'">取消订单</button>
 			 <button class="btn-blue" @click="quzhifu()" >去支付</button>
 	     		</div>
@@ -13,12 +14,12 @@
 		   		<p>下单时间:<span>{{orderdetail.shippingOrder.createTime | formatDate}}</span></p>
 		   		<p>收货信息:<span>{{orderdetail.shippingAddress.receiverName}}/{{orderdetail.shippingAddress.receiverMobile}}/{{orderdetail.shippingAddress.receiverState}}
 		   			{{orderdetail.shippingAddress.receiverCity}}{{orderdetail.shippingAddress.receiverDistrict}}{{orderdetail.shippingAddress.receiverAddress}}</span></p>
-		   		<p class="clearfix">发票人信息:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.receivePerson}}/{{orderdetail.shippingInvoice.receivePhone}}/{{orderdetail.shippingInvoice.receiveProvince}} {{orderdetail.shippingInvoice.receiveCity}} {{orderdetail.shippingInvoice.receiveDistrict}} {{orderdetail.shippingInvoice.receiveAddress}}</span>
+		   		<p class="clearfix" v-show="orderdetail.shippingOrder.orderStatus!='04'">发票人信息:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.receivePerson}}/{{orderdetail.shippingInvoice.receivePhone}}/{{orderdetail.shippingInvoice.receiveProvince}} {{orderdetail.shippingInvoice.receiveCity}} {{orderdetail.shippingInvoice.receiveDistrict}} {{orderdetail.shippingInvoice.receiveAddress}}</span>
 				</p>
-				<p class="clearfix">发票详情信息:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceType}}/{{orderdetail.shippingInvoice.invoiceTitle}}/{{orderdetail.shippingInvoice.bankName}}/{{orderdetail.shippingInvoice.bankNo}}/{{orderdetail.shippingInvoice.invoiceCode}}/{{orderdetail.shippingInvoice.registerAddress}}
+				<p class="clearfix" v-show="orderdetail.shippingOrder.orderStatus!='04'">发票详情信息:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceType}}/{{orderdetail.shippingInvoice.invoiceTitle}}/{{orderdetail.shippingInvoice.bankName}}/{{orderdetail.shippingInvoice.bankNo}}/{{orderdetail.shippingInvoice.invoiceCode}}/{{orderdetail.shippingInvoice.registerAddress}}
 				</span>
 					   	<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit">新增</button>
-						<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit">编辑</button> 				</p>
+				 		<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit">编辑</button> 				</p>
 				   </div>
 		 <div class="order_goods clearfix">
 		   	<table class="order-tb">
@@ -55,6 +56,9 @@
 		<!-- 新增发票 -->
 		 <Modal v-model="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" >
 			<Form :model="addInvoice" ref="addInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" > 
+				<FormItem label="订单编号" prop="orderNo">
+					<Input v-model="addInvoice.orderNo" placeholder="订单编号" disabled  autocomplete="off"></Input>
+				</FormItem>
 				<FormItem label="开户行名称" prop="bankName">
 					<Input v-model="addInvoice.bankName" placeholder="开户行名称" autocomplete="off"></Input>
 				</FormItem>
@@ -73,11 +77,9 @@
 						<Option value="增值税专用发票 ">增值税专用发票 </Option>
 					</Select>
 				</FormItem>
-				<FormItem label="订单编号" prop="orderNo">
-					<Input v-model="addInvoice.orderNo" placeholder="订单编号" autocomplete="off"></Input>
-				</FormItem>
+
 				<FormItem label="所在地区"  prop="selectedOptionsAddr">
-				        	 <Cascader  v-model="addInvoice.selectedOptionsAddr" placeholder="选择所在区域"  :data="addressOption"></Cascader>
+				        	 <Cascader  v-model="addInvoice.selectedOptionsAddr" 	  placeholder="选择所在区域"  :data="addressOption"></Cascader>
 				</FormItem>
 				<FormItem label="详细地址" prop='receiveAddress'>
 					<Input v-model="addInvoice.receiveAddress" placeholder="详细地址" autocomplete="off"></Input>
@@ -98,6 +100,9 @@
 				<!-- 编辑发票 -->
 		 <Modal v-model="modaleditorderNo" ref='modaleditorderNo' title="编辑发票信息" @on-ok="editinvoice" :loading="loading" >
 			<Form :model="editInvoice" ref="editInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" > 
+				<FormItem label="订单编号" prop="orderNo">
+					<Input v-model="editInvoice.orderNo" placeholder="订单编号" disabled  autocomplete="off"></Input>
+				</FormItem>
 				<FormItem label="开户行名称" prop="bankName">
 					<Input v-model="editInvoice.bankName" placeholder="开户行名称" autocomplete="off"></Input>
 				</FormItem>
@@ -117,17 +122,15 @@
 					</Select>
 				</FormItem>
 
-				 <FormItem label="订单编号" prop="orderNo">
-					<Input v-model="editInvoice.orderNo" placeholder="订单编号" autocomplete="off"></Input>
-				</FormItem>
+
 				<FormItem label="收票人姓名" prop="receivePerson">
 					<Input v-model="editInvoice.receivePerson" placeholder="收票人姓名" autocomplete="off"></Input>
 				</FormItem>
 				<FormItem label="收票人手机" prop="receivePhone">
 					<Input v-model="editInvoice.receivePhone" placeholder="收票人手机" autocomplete="off"></Input>
 				</FormItem>
-				<FormItem label="所在地区"  prop="selectedOptionsAddr">
-				        	 <Cascader  v-model="editInvoice.selectedOptionsAddr" :data="addressOption"></Cascader>
+				<FormItem label="省市区"  prop="selectedOptionsAddr">
+				    <Cascader  v-model="editInvoice.selectedOptionsAddr"   :data="addressOption"></Cascader>
 				</FormItem>
 				<FormItem label="详细地址" prop='receiveAddress'>
 					<Input v-model="editInvoice.receiveAddress" placeholder="详细地址" autocomplete="off"></Input>
@@ -142,11 +145,26 @@
 </template>
 
 <script>
+ import { validatePHONE } from '@/assets/js/validate';
 	import { formatDate } from '@/assets/js/date.js'
 	export default {
     data () {
+		 const validatePhone = (rule, value, callback) => {
+      	 	if(value.length<0){
+      	 		 callback(new Error('手机号不能为空'));
+      	 	}
+          else if (!validatePHONE(value)) {
+            callback(new Error('请输入正确的手机号'));
+          } else {
+            callback();
+          }
+        };
       return {
-      	spinShow:true,
+		  spinShow:true,
+		  endTime:'',
+		  timerShow:false,
+		  pro:{},
+		  protime:'',
       	orderdetail:{
       		shippingOrder:{},
       		shippingInvoice:{},
@@ -200,17 +218,16 @@
                        { required: true, message: '发票抬头不能为空', trigger: 'blur' },
 					],
 					invoiceType: [
-                        { required: true,message: '发票类型不能为空', trigger: 'blur' }
+                        { required: true,message: '发票类型不能为空', trigger: 'change' }
                     ],
-                    receiveAddress: [
+				    receiveAddress: [
                         { required: true, message: '详细地址不能为空', trigger: 'blur' }
 					],
-				
                     receivePerson: [
                         { required: true, message: '收票人姓名不能为空', trigger: 'blur' }
                     ],
                     receivePhone: [
-                        { required: true, message: '收票人手机不能为空', trigger: 'blur' }
+                        { required: true,  validator: validatePhone, trigger: 'blur' }
                     ],
                     registerAddress: [
                        { required: true, message: '注册地址不能为空', trigger: 'blur' },
@@ -235,14 +252,20 @@
 		},
 		addinvoice(){
 		this.loading = false;
+
 		this.$nextTick(() => {
 		this.loading = true;
 		this.$refs['addInvoice'].validate((valid) => {
 		if (valid) {
 			let temp = this.addInvoice;
+			if(temp['selectedOptionsAddr'] == '' ||temp['selectedOptionsAddr'] == undefined){
+						this.$Message.error("请选择省市区");
+						return
+			}
 			temp.receiveProvince=this.addInvoice.selectedOptionsAddr[0];
 			temp.receiveCity=this.addInvoice.selectedOptionsAddr[1];
 			temp.receiveDistrict=this.addInvoice.selectedOptionsAddr[2];
+
 			delete temp['selectedOptionsAddr']
 			let params =  Object.assign({}, temp);
 					this.$axios({
@@ -254,7 +277,6 @@
 					this.modaladdorderNo = false;
 					this.statusList = res.object;
 					this.getOrder();
-
 					this.$Message.success(res.object);
 					}else{
 					this.$Message.error(res.msg);
@@ -366,26 +388,48 @@
                 let routerParams = this.$route.query.orderNo;
                 // 将数据放在当前组件的数据内
                 this.orderNo = routerParams;
-          },
+		  },
       getOrder(){
-      			this.$axios({
-					    method: 'get',
-					    url:'/order/'+this.orderNo,
-					}).then((res)=>{
-						this.orderdetail = res;
-						this.addInvoice.orderNo=this.orderdetail.shippingOrder.orderNo
-						this.editInvoice.orderNo=this.orderdetail.shippingOrder.orderNo
-						this.spinShow=false;
-					});
-					
-     	 },
-    },
-         mounted() {
-         	    this.getParams();
-				this.getOrder();
-				this.getStatusEnum();
-				this.getAddressOption();
+		this.$axios({
+				method: 'get',
+				url:'/order/'+this.orderNo,
+			}).then((res)=>{
+				this.orderdetail = res;
+				this.addInvoice.orderNo=this.orderdetail.shippingOrder.orderNo
+				this.editInvoice.orderNo=this.orderdetail.shippingOrder.orderNo
+				this.spinShow=false;
+				var ssss = this.orderdetail;
+				this.pro = ssss;
+				this.getTimeout(ssss.shippingOrder.createTime);
+			});
+		},
+		getTimeout(inittime){
+			var timer=()=>{
+				setTimeout(() => {
+					var mm,ss = null;
+					var time = new Date((inittime)).getTime()  - new Date().getTime();
+					time = time + 30*60*1000;
+					if(time<=0){
+						this.timerShow= false;
+						return '结束'
+					}else{
+						mm = Math.floor((time/1000 / 60) % 60);
+						ss = Math.floor(time /1000 % 60);
+						this.protime = mm+"分"+ss+"秒";
+						this.timerShow = true;
+						timer()
+					}
+					}, 1000)
+				}
+			timer()
 		}
+	},
+	mounted() {
+			this.getParams();
+			this.getOrder();
+			this.getStatusEnum();
+			this.getAddressOption();
+	}
   }
 </script>
 

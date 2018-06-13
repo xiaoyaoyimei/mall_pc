@@ -117,6 +117,7 @@ export default {
 							if(res.code=='200'){
 							 this.pro=res.object;
 							  var ssss=this.pro;
+							  debugger
 						        ssss.map( (obj,index)=>{
 						         this.$set(  
 						                obj,"djs",InitTime(obj.crush["endTime"])  

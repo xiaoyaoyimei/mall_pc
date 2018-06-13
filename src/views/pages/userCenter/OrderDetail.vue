@@ -400,7 +400,9 @@
 				this.spinShow=false;
 				var ssss = this.orderdetail;
 				this.pro = ssss;
-				this.getTimeout(ssss.shippingOrder.createTime);
+				if(ssss.shippingOrder.cancelTime == "" || ssss.shippingOrder.cancelTime == undefined){
+					this.getTimeout(ssss.shippingOrder.createTime);
+				}
 			});
 		},
 		getTimeout(inittime){

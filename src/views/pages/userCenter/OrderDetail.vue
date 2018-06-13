@@ -411,6 +411,7 @@
 					time = time + 30*60*1000;
 					if(time<=0){
 						this.timerShow= false;
+						this.$router.go(0);
 						return '结束'
 					}else{
 						mm = Math.floor((time/1000 / 60) % 60);

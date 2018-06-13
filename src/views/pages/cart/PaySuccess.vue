@@ -24,7 +24,7 @@
 								}).then((res)=>{
 									if(res.code=='200'){
 										localStorage.removeItem('alipay');
-										 this.$router.push({ name:'/order/detail',params:{orderNo:res.msg}});
+										 this.$router.push({ name:'/order/detail',query:{orderNo:res.msg}});
 									}
 							});
       },

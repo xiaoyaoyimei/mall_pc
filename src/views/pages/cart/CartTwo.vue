@@ -7,7 +7,7 @@
     <div class="address-box clearfix" >
         <div class="adr js_adr_check"  :class="{checked: index == selectItem}"  v-for="(addritem,index) in addressList" :key="index" >
             <div class="adr-inner">
-            	<div @click="chooseAddr(addritem.id,index)">
+            	<div @click="chooseAddr(addritem.id,index)" class="P20">
                 <i class="icon icon_checked"></i>
                 <div class="adr-head" >
                     <span class="adr-province">{{addritem.receiveProvince}}</span>
@@ -18,19 +18,18 @@
                     <p class="adr-text">
                         <span class="adr-detail">{{addritem.address}}</span>
                     </p>
-                      <span v-if="addritem.isDefault=='Y'" class="color-blue">(默认)</span>
+                      <span v-if="addritem.isDefault=='Y'">(默认)</span>
                 </div>
                   </div>
                 <div class="adr-foot">
                     <a href="javascript:void(0);" @click="editmodal(addritem)">编辑</a>
                     <a href="javascript:void(0);"  @click="handleDelete(addritem.id)">删除</a>
                 </div>
-             
             </div>
         </div>
         <div class="adr js_adr_add" ms-hover="'hover'" @click="modaladdr=true">
             <div class="adr-inner">
-                <div class="adr-add">
+                <div class="adr-add P20">
                     <p class="adr-add-icon"><i class="icon icon_add_address"></i></p>
                     <p class="adr-add-text">添加地址</p>
                 </div>
@@ -89,29 +88,24 @@
 						</tr>
 				</thead>
 						<tbody>
-							<tr   span="24" v-for="(x,index) in cartList" :key="index" > 
+							<tr   v-for="(x,index) in cartList" :key="index" > 
 										<td><img  :src="imageSrc+x.image"></td>
-										<td>
+										<td class="title">
 											<p class="title_name">{{x.productName}}</p>
 											<p class="title_attr">{{x.productAttr}}</p>
 											<label class="color-blue" v-if="x.promotionTitle !=null">{{x.promotionTitle}}</label>
 										</td>
 										<td>
-										<p class="cart_price">￥{{x.salePrice |pricefilter}}
-											<span v-if="x.promotionTitle ==null&&xscoupon" >
-									       	 	￥{{couponprice(x.salePrice) |pricefilter }}
-									      </span></p>
-							                 </td>
-									<td>
-										<p>{{x.quantity}}</p>
-										<p v-if="x.promotionTitle ==null&&xscoupon">{{x.quantity}}</p>
-									</td>
-									<td>
-										<p class="cart_price">￥{{x.salePrice|pricefilter}} 
-											<span v-if="x.promotionTitle ==null&&xscoupon" >
-									       	 	￥{{couponprice(x.salePrice) |pricefilter}}
-									       	 </span></p>
-									</td>
+											<p v-if="x.promotionTitle ==null&&xscoupon" >￥{{x.salePrice|pricefilter }}</p>
+											<p v-else>￥{{x.salePrice |pricefilter}}</p>
+							            </td>
+									   	<td>
+											<p>{{x.quantity}}</p>
+										</td>
+										<td>
+											<p v-if="x.promotionTitle ==null&&xscoupon"   class="cart_price">￥{{x.salePrice|pricefilter}}</p>
+											<p v-else>￥{{itemtotal(x.salePrice,x.quantity)|pricefilter}} </p>
+										</td>
 								</tr>
 						</tbody>
 			</table>
@@ -119,13 +113,14 @@
 				        <h3>优惠信息</h3>
 				        <div class="coupon-wrap"> <input type="text"  placeholder="请输入优惠券" v-model.trim="couponCode">
                          <span @click='usecoupon'>确认</span>
+                       <!--  <span>取消用券</span>-->
                         </div>
 				    	</div>
 				    	<div class="cart2_price">
          <div  class="price_wrap">	
          	<dl class="cf-wrap">
-         	<dt>商品数量:</dt><dd>{{total.num}}</dd><dt>金额总计:</dt><dd>￥{{total.price|pricefilter}}</dd>
-         	<dt>活动优惠:</dt><dd></dd><dt>应付总额:</dt><dd >￥<span class="font-24">{{total.price|pricefilter}}</span></dd></dl>
+         	<dt>商品数量:</dt><dd>{{total.num}}</dd><dt>金额总计:</dt><dd>￥{{origintotal.price|pricefilter}}</dd>
+         	<dt>活动优惠:</dt><dd>￥{{(origintotal.price -total.price)|pricefilter}}</dd><dt>应付总额:</dt><dd >￥<span class="font-24">{{total.price|pricefilter}}</span></dd></dl>
            <button  @click="confirm"  type="button" class="btn_pay"> 
 				确认订单
 			</button>
@@ -134,6 +129,7 @@
     	</div>
 </template>
 <script>
+	import Bus from '@/assets/js/bus.js'
 	 import { validatePHONE } from '@/assets/js/validate';
        export default {
         data () {
@@ -174,7 +170,10 @@
 	                    ],
                     	address:[
 	                        { required: true, message: '详细地址不能为空', trigger: 'blur' },
-	                    ]
+	                    ],
+	                     selectedOptionsAddr: [
+                        { required: true, type: 'array',message: '请选择省市区', trigger: 'change' }
+                   		 ],
                    },
                 modaleditaddr:false,
             	modaladdr:false,
@@ -199,6 +198,11 @@
 					modeValue:'',
 					couponMode:''
 				},
+				//商品原总价
+				origintotal:{
+					price:0,
+				},
+				//使用优惠券以后的总价
 				total:{
 					price:0,
 					num:0
@@ -206,6 +210,9 @@
             }
         },
         methods: {
+        		itemtotal(p,n){
+					return Number(p)*n;
+				},
         	chooseAddr(id,index){
         		this.addressId=id;
         		this.selectItem=index
@@ -336,7 +343,8 @@
         		  //刚进入购物车页面
         		if(value==undefined){
         			  this.cartList.forEach(function(item,index) {
-					    _this.total.price +=item.salePrice*item.quantity;
+					    _this.origintotal.price +=item.salePrice*item.quantity;
+					     _this.total.price+=item.salePrice*item.quantity;
 					     _this.total.num+=item.quantity;
 				   });
         		}
@@ -347,59 +355,66 @@
 						   });
         		  let couponmethod=value;
 	        		  if(couponmethod.availableSku==""&&couponmethod.availableCatalog==""){
-	        		      _this.totalPrice=0;
+	        		      _this.total.price=0;
 		        	      if(couponmethod.couponMode=='rate'){
 		        		  	    this.cartList.forEach(function(item,index) {
 		        		  	    	if(item.promotionTitle!=''&&item.promotionTitle!=null&&item.promotionTitle!=undefined){
-		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    		_this.total.price +=item.salePrice*item.quantity;
 		        		  	    	}else{
-		        		  	    		_this.totalPrice +=item.salePrice*(1-couponmethod.modeValue)*item.quantity
+		        		  	    		item.salePrice=item.salePrice*(1-couponmethod.modeValue);
+		        		  	    		_this.total.price +=item.salePrice*item.quantity;
 		        		  	    	}
 						   });
 		        		  }else{
 		        		  	    this.cartList.forEach(function(item,index) {
 		        		  	    	if(item.promotionTitle!=''&&item.promotionTitle!=null&&item.promotionTitle!=undefined){
-		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    		_this.total.price +=item.salePrice*item.quantity;
 		        		  	    	}else{
-		        		  	    		_this.totalPrice +=(item.salePrice-couponmethod.modeValue)*item.quantity
+		        		  	    		item.salePrice=item.salePrice-couponmethod.modeValue;
+		        		  	    		_this.total.price +=item.salePrice*item.quantity;
 		        		  	    	}
 						   });
 		        		  }
 	        		  }else if(couponmethod.availableSku!=""){
-	        		  	   _this.totalPrice=0;
+	        		  	  _this.total.price=0;
 		        	      if(couponmethod.couponMode=='rate'){
 		        		  	    this.cartList.forEach(function(item,index) {
-		        		  	    	if(item.id==couponmethod.availableCatalog){
-		        		  	    		_this.totalPrice +=item.salePrice*(1-couponmethod.modeValue)*item.quantity
+		        		  	    	if(item.id==couponmethod.availableSku){
+		        		  	    		item.salePrice=item.salePrice*(1-couponmethod.modeValue);
+		        		  	    		_this.total.price+=item.salePrice*item.quantity
 		        		  	    	}else{
-		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    		_this.total.price +=item.salePrice*item.quantity;
 		        		  	    	}
 						   		});
 		        		  }else{
 		        		  	    this.cartList.forEach(function(item,index) {
-		        		  	    	if(item.id==couponmethod.availableCatalog){
-		        		  	    		_this.totalPrice +=(item.salePrice-couponmethod.modeValue)*item.quantity
+		        		  	    	if(item.id==couponmethod.availableSku){
+		        		  	    		item.salePrice=item.salePrice-couponmethod.modeValue
+		        		  	    		_this.total.price +=item.salePrice*item.quantity
 		        		  	    	}else{
-		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    		_this.total.price +=item.salePrice*item.quantity;
 		        		  	    	}
+		        		  	    	
 						   });
 	        		  	}
 	        		  }else{
-	        		  	 _this.totalPrice=0;
+	        		  	 _this.total.price=0;
 		        	      if(couponmethod.couponMode=='rate'){
 		        		  	    this.cartList.forEach(function(item,index) {
-		        		  	    	if(item.productType==couponmethod.availableSku){
-		        		  	    		_this.totalPrice +=item.salePrice*(1-couponmethod.modeValue)*item.quantity
+		        		  	    	if(item.productType==couponmethod.availableCatalog){
+		        		  	    		item.salePrice=item.salePrice*(1-couponmethod.modeValue);
+		        		  	    		_this.total.price +=item.salePrice*item.quantity
 		        		  	    	}else{
-		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    		_this.total.price+=item.salePrice*item.quantity;
 		        		  	    	}
 						   		});
 		        		  }else{
 		        		  	    this.cartList.forEach(function(item,index) {
-		        		  	    	if(item.productType==couponmethod.availableSku){
-		        		  	    		_this.totalPrice +=(item.salePrice-couponmethod.modeValue)*item.quantity
+		        		  	    	if(item.productType==couponmethod.availableCatalog){
+		        		  	    		item.salePrice=item.salePrice-couponmethod.modeValue;
+		        		  	    		_this.total.price +=item.salePrice*item.quantity
 		        		  	    	}else{
-		        		  	    		_this.totalPrice +=item.salePrice*item.quantity;
+		        		  	    		_this.total.price +=item.salePrice*item.quantity;
 		        		  	    	}
 						   });
 	        		  	}
@@ -440,8 +455,10 @@
 				    data:para
 				}).then((res)=>{
 					if(res.code=='200'){
+						
 						//						  订单提交以后清空列表
 						sessionStorage.removeItem("cart")
+						   Bus.$emit('cartmsg', "again");
 						 this.$router.push({name:'/cartthree',query: { orderNo: res.msg}});  
 					}else{
 					   this.$Modal.error({
@@ -478,15 +495,6 @@
 					}
 				});
           },
-          couponprice(value){
-          	let couponmsg=this.couponmsg;
-          	if(couponmsg.couponMode=='rate'){
-          		return value*(1-couponmsg.modeValue)
-          	}
-          	else{
-          		return value-couponmsg.modeValue
-          	}
-          }
         },
          mounted() {
          	this.getAddress();
@@ -502,7 +510,6 @@
 		/*地址样式-s*/
 .address-box .checked .adr-inner {
     border: 2px solid #0099ff;
-    padding: 19px;
     color: #333;
     z-index: 1;
 }
@@ -552,7 +559,6 @@
 .address-box .adr-inner {
     position: relative;
     height: 125px;
-    padding: 20px 15px 15px 20px;
     border: 1px solid #e9e9e9;
     color: #999;
 }
@@ -608,14 +614,16 @@
 /*table cart2样式*/
 .order-tb{
 	margin-top: 20px;
-}.cart2{
-	width: 100%;
 }
 .cart2 img{
-	max-width: 100px;
+	max-width: 80px;
 }
-.title_name,.title_attr{
+.title{
 	text-align: left;
+	.color-blue{
+		font-size: 14px;
+		font-weight: 600;
+	}
 }
 .title_name{
 	font-weight: bold;
@@ -644,5 +652,11 @@
 }
 .color-45{
 	color: #454545;
+}
+.P20{
+	padding: 20px;
+}
+.checked .P20{
+	padding: 19px;
 }
 </style>

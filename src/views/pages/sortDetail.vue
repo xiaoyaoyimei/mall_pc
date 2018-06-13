@@ -1,6 +1,6 @@
 <template>
 <div style="background-color:#fff;position:relative;top:-0px;padding-top:20px;">
-	<div class="sortDetail">
+	<div class="sortDetail main-wdith">
 		<div class="goodDetails_name_img">  
 			<div class="videoContent" style="width: 400px;height: 400px;">
 				<div v-show="videoshow"  style="width: 400px;height: 400px;">
@@ -42,14 +42,10 @@
                 </p>
 				<div class="G_changeDetail">
                     <p class="detail_price">
-                    	<span v-if="choosesp.price==0">
-                    		￥{{shangp.product.salePrice | pricefilter}}
-                    	</span>
+                    	<span v-if="choosesp.price==0">￥{{shangp.product.salePrice | pricefilter}}</span>
                     	<span v-else> 
                     		<span v-if="cxshow">
-                    		<label class="color-blue">
-                    			￥{{choosesp.cuxiaoprice | pricefilter}} 
-                    		</label>
+                    		<span class="color-blue">￥{{choosesp.cuxiaoprice | pricefilter}} </span>
                     		 <label class="color-origin">￥{{choosesp.price | pricefilter}}</label>
                     		 </span>
                     		 <span v-else>￥{{choosesp.price | pricefilter}}</span>
@@ -65,13 +61,8 @@
 						<div v-for="(item, i) in shangp.productAttrList"  :key="i" class="attr_wrap">
 							<div class="dt">{{item.attrKey.catalogAttrValue}} :</div>
 							<div  class="dd">
-								<!--<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" >
-									<img  class="attrImg" v-if="item.attrKey.isColorAttr == 'Y'" :src="child.listImg |imgfilter">
-									{{child.modelAttrValue}}
-								</span>-->
-									<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" 
-								v-bind:style="{paddingLeft:item.attrKey.isColorAttr == 'Y' ? '35px':0,backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? 'http://test-shop-img.dxracer.com.cn/'+child.listImg : '')+')'}"
-								>
+								<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" 
+								v-bind:style="{paddingLeft:item.attrKey.isColorAttr == 'Y' ? '35px':'5px',backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? 'http://test-shop-img.dxracer.com.cn/'+child.listImg : '')+')'}">
 									{{child.modelAttrValue}}
 								</span>
 							</div>
@@ -80,7 +71,7 @@
 							<span class="title">数量:</span>
 							<InputNumber  :min="1" v-model="quantity"></InputNumber>
 							<span class="stock" >
-							 库存: <b v-if="kucunshow">{{choosesp.kucun}}</b><b v-else>0</b>
+							 <b v-if="kucunshow"> 库存: {{choosesp.kucun}}</b>
 							</span>
 						</div>
 						<div>
@@ -102,11 +93,11 @@
         			<span class="title">{{item.attrCode}}:</span> <span class="neirong">{{item.attrValue}}</span></li></ul>
         </TabPane>
     </Tabs>
-        
     </div>
 </div>
 </template>
 <script>
+import Bus from '@/assets/js/bus.js'
 export default {
         data () {
             return {
@@ -233,7 +224,7 @@ export default {
 					},
           	//加入购物车
           	   atc () {
-                 this.modal_loading = true;
+                    this.modal_loading = true;
 	                if(localStorage.getItem('token')!=null&&localStorage.getItem('token')!=undefined){
 	                	this.$axios({
 								    method: 'post',
@@ -245,12 +236,13 @@ export default {
 									}).then((res)=>{
 										this.modal_loading = false;
 										if(res.code=='200'){
-											
-											this.$router.push('/cart')  
+										    Bus.$emit('cartmsg', "again");
+											this.$router.push('/cart');
 										}
 										else{
 											this.$Message.error(res.msg);
-											return ;
+											//token过期
+											this.$router.push({  path: '/login', query: {redirect: this.$route.fullPath} })  
 										}
 							})
 						}else{
@@ -263,23 +255,10 @@ export default {
             		this.cxshow=false;
             		var chooseId="",jishu=0;
        	            let p=e.target.parentNode.children;
-       	            //商品属性高亮
-//     	             if(e.target.tagName=='IMG'){
-//          			p=e.target.parentNode.parentNode.children;
-//          		    for(let i =0;i<p.length;i++) {
-//     	            	p[i].className="";
-//						}
-//          			e.target.parentNode.className="active";
-//          		}else{
-	            			   for(let i =0;i<p.length;i++) {
+	            	for(let i =0;i<p.length;i++) {
 	       	            	p[i].className="";
 						}
-            			   e.target.className="active"; 
-            		//}
-       	         
-            		if(pa.attrKey.isColorAttr=='Y'){
-            			this.ImgUrl=ch.listImg;
-            		}
+            	 	e.target.className="active"; 
             		let dditem=this.$refs['dditem'];
             		this.bigchoose="";
             		for(let n=0;n<dditem.length;n++){
@@ -361,6 +340,7 @@ export default {
 							    url:'/product/'+this.productId,
 								}).then((res)=>{
 									if(res.code=='200'){
+										//原始数据用于合并求得的数据=>新数据
 										this.shangp= Object.assign({},this.oldshangp,res.object);
 										for (let a = 0; a < this.shangp.productImageList.length; a++) {
 											this.shangp.productImageList[a].clickItem = false;
@@ -390,9 +370,7 @@ export default {
 										this.productimg=res;
 							});
 			     },
-    	      	
     	     },
-    	     
     	 mounted() {
 				this.getParams();
 				this.getProduct();
@@ -404,9 +382,6 @@ export default {
 <style lang="scss" scoped="scoped">
  @import '@/styles/color.scss';
     .sortDetail{
-        max-width: 1100px;
-        width:100%;
-        margin: 0 auto;
         margin-bottom:50px;
         min-height: 900px;
         position: relative;
@@ -767,14 +742,14 @@ export default {
 }
 .sortDetail  .goCart  {
 	padding: 15px 50px;
+	border-radius: 0;
 }
 .sortDetail .goBtn{
 	padding: 15px 50px;
+	border-radius: 0;
 }
 .sNumber .ivu-input-number{
 	border-color:#ccc;
 	border-radius: 0px;
-	height: 40px;
-	line-height: 40px;
 }
 </style>

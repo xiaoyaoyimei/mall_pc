@@ -14,7 +14,7 @@
               </table>
               <table class="order-tb orderitem-tb" v-for="(x,index) in cartList" :key="index" v-if="cartList.length>0">
                 <tbody >
-                  <tr class="title">
+                  <tr class="toptitle">
                   	<td  colspan="7">
                   		<span>订单号：{{x.order.orderNo}}</span>
                   		<span class="date">{{x.order.createTime | formatDate}}</span>  
@@ -111,6 +111,7 @@ export default {
 						}
 						else{
 							  this.$Message.info(res.msg);
+							    this.getOrder();
 						}
 					});
                     },
@@ -157,8 +158,11 @@ export default {
 .orderitem-tb{
 	margin-top: 20px;
 }
-.orderitem-tb .title{
-	background:#efefef
+.orderitem-tb .toptitle{
+	background:#efefef;
+}
+.toptitle td{
+	text-align: left;
 }
 .btn{
 background:#fff;

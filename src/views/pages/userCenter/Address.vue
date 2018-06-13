@@ -2,8 +2,8 @@
 	<div class="account_address_wrap">
 		<button class="btn-add" @click="modaladdr=true">新增收货地址</button>
 		
-         <Modal v-model="modaladdr" title="新增收货地址" @on-ok="add" :loading="loading" >
-				<Form :model="addForm" ref="addForm" label-position="left" :label-width="100" :rules="ruleValidate" > 
+         <Modal v-model="modaladdr" title="新增收货地址" @on-ok="add" :loading="loading"   :mask-closable='false'>
+				<Form :model="addForm" ref="addForm" label-position="left" :label-width="100" :rules="ruleValidate"  class="P15"> 
 					<FormItem label="收货人" prop="person">
 						<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
 					</FormItem>
@@ -22,8 +22,8 @@
 				</Form>
 		</Modal>
 		
-		   <Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading">
-					  	<Form :model="editForm" ref="editForm" label-position="left" :label-width="100" :rules="ruleValidate"  > 
+		   <Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading" :mask-closable='false'>
+					  	<Form :model="editForm" ref="editForm" label-position="left" :label-width="100" :rules="ruleValidate"  class="P15" > 
 				        <FormItem label="收货人" prop="person">
 				            <Input v-model="editForm.person" placeholder="收货人"></Input>
 				        </FormItem>
@@ -49,7 +49,7 @@
     	<p><span>收货人:</span>{{item.person}} <span class="default" v-if="item.isDefault=='Y'">默认地址</span></p>
          <p><span>所在地区:</span>{{item.receiveProvince}}{{item.receiveCity}}{{item.receiveDistrict}}</p>
     	<p><span>地址:</span>{{item.address}}</p>
-    	<p><span>手机:</span>{{item.person}}</p>
+    	<p><span>手机:</span>{{item.phone}}</p>
     	<p><span>固定电话:</span>{{item.tel}}</p>
     	<div class="opt"><button @click="secAdd(item)" class="sec" v-if="secShow">选择该地址</button>
     		<button  @click="editmodal(item)">编辑</button><button v-if="item.isDefault=='N'"   @click="updateDefault(item.id)">设为默认</button> </div>
@@ -94,7 +94,7 @@
 		                },
 			ruleValidate: {
                     selectedOptionsAddr: [
-                        { required: true, type: 'array',message: '请选择省市区', trigger: 'blur' }
+                        { required: true, type: 'array',message: '请选择省市区', trigger: 'change' }
                     ],
                     address: [
                         { required: true, message: '详细地址不能为空', trigger: 'blur' }
@@ -179,7 +179,7 @@
 							    url:'/address/delete?id='+value+'',
 							}).then((res)=>{
 								if(res.code=='200'){
-									this.getAddressList();
+									this.getAddress();
 								}
 						})
                     },

@@ -28,14 +28,10 @@
 			               <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" >
 			                     <img :src=' item.model_img |imgfilter'>
 			                </router-link>
-			                <div  class="title">
-			                      {{item.model_no}}
-			                </div>
+			                <div  class="title">{{item.model_no}}</div>
 			                <div class="name">{{item.model_name}}</div>
 			                <div v-if="item.promotionTitle !=null" class="sku_tag ">{{item.promotionTitle}}</div> 
-			                  <div class="price">
-			                                     ￥{{item.sale_price|pricefilter}}
-			                   </div>
+			                <div class="price">￥{{item.sale_price|pricefilter}}</div>
 			               </li>
 			            </ul>
 						</div>
@@ -92,6 +88,7 @@ export default {
   },
   methods: {
     getBanner() {
+    	console.log(this)
       //判断是否已经登录
       if (localStorage.getItem("token") != undefined &&localStorage.getItem("token") != "") {
         this.loginflag = false;

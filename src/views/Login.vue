@@ -1,7 +1,6 @@
 <template>
-    <div class="login lLogin">
-						<div class="login_wrap_main">
-				<router-link :to='{}' class="loginA" tag='a'>
+			<div class="login_wrap_main  flex-center-h">
+				<router-link :to="{ path: '/index'}" class="loginA">
 					<img class="aImg" src="../assets/img/3.jpg" alt="">
 				</router-link>
 			<div class="login_wrap">
@@ -9,13 +8,13 @@
 						<h3 class="lTitle">使用合作号登录</h3>
 						<ul class="ul">
 							<li class="li">
-								<router-link :to="{  }" tag="a">
-									<img src="../assets/img/link-qq.png" alt="">
+								<router-link :to="{  }">
+									<img src="../assets/img/link-qq.png" alt="QQ登录">
 								</router-link>
 							</li>
 							<li class="li">
-								<router-link :to="{  }" tag="a">
-									<img src="../assets/img/link-wx.png" alt="">
+								<router-link :to="{  }" >
+									<img src="../assets/img/link-wx.png" alt="微信登录">
 								</router-link>
 							</li>
 						</ul>
@@ -30,7 +29,7 @@
 										</Input>
 								</FormItem>
 								<FormItem>
-										<Button type="primary" :loading="loading" class='loginBtn' @click="handleLogin('loginForm')">登录</Button>
+										<Button  :loading="loading" class='btn btn-40 btn-blue w-bai' @click.native="handleLogin('loginForm')">登录</Button>
 								</FormItem>
 						</Form>
 						<div class="login-link">
@@ -40,7 +39,6 @@
 					</div>
 		</div>
 		</div>
-    </div>
 </template>
 <script>
 	import store from '@/store/store';
@@ -131,106 +129,3 @@
       },
     }
 </script>
-<style scoped="scoped" lang="scss">
-	.login_wrap {
-    position: absolute;
-    top: 0;
-    right: 0;
-    float: right;
-    width: 380px;
-    padding: 9px 38px 38px;
-    margin: 66px 100px 0px 0px;
-    background-color: #fff;
-    border: 1px solid #d6d6d6;
-    box-shadow: 0px 0px 4px 0px #d6d6d6;
-    border-radius: 2px;
-    min-height: 412px;
-		.div{
-			.lTitle{
-				margin-bottom: 15px;
-				font-size: 20px;
-				color: #666;	
-				margin-top: 20px;
-			}
-			.ul{
-				overflow: hidden;
-				border-bottom: 1px solid #eeeeee;
-				.li{
-					float: left;
-					width: 60px;
-					height: 65px;
-					img{
-						width: 49px;
-						height: 49px;
-					}
-				}
-			}
-			.loginInput{
-				width: 300px;
-			}
-			.loginBtn{
-					display: block;
-					width: 300px;
-					height: 40px;
-					line-height: 40px;
-					text-align: center;
-					background-color: #0092d8;
-					color: #fff;
-					margin: 20px 0px 17px 0px;
-					border: 0px;
-					cursor: pointer;
-					border-radius: 2px;
-					-webkit-transition: all .2s ease-in-out;
-					-moz-transition: all .2s ease-in-out;
-					-ms-transition: all .2s ease-in-out;
-					-o-transition: all .2s ease-in-out;
-					transition: all .2s ease-in-out;
-			}
-			.login-link{
-				a{
-					color:#999;
-				}
-				a:hover{
-					color:#0092d8;
-				}
-				.resetPassword{
-					float: right;
-				}
-			}
-		}
-}
-		.login_wrap_main {
-			width: 1190px;
-			margin: 0 auto;
-			position: relative;
-			height: 620px;
-			.loginA{
-				position: absolute;
-				right: 520px;
-				top: 66px;
-				width: 560px;
-				height: 485px;
-				display: table-cell;
-				.aImg{
-					margin: auto;
-					vertical-align: middle;
-					height: 485px;
-					border-radius: 50%;
-				}
-			}
-		}
-		.login-link{
-			font-size: 14px;
-		}
-	</style>
-	<style>
-.lLogin	.login_wrap .ivu-input{
-		width: 300px;
-		height: 40px;
-		line-height: 40px;
-		border-radius: 0;
-	}
-.lLogin	.login_wrap .ivu-btn{
-		padding: 0px;
-	}
-</style>

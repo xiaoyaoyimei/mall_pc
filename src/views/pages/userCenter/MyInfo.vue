@@ -6,7 +6,7 @@
 						<div class="user-con-wrap">
 						    <div class="demo-upload-list" v-for="item in uploadList">
 						        <template v-if="item.status === 'finished'">
-						            <img :src="item.url|imgfilter"  class="origin_tx"/>
+						            <img :src="item.url"  class="origin_tx"/>
 						            <div class="demo-upload-list-cover">
 						                <Icon type="ios-eye-outline" @click.native="handleView(item)"></Icon>
 						            </div>
@@ -49,7 +49,7 @@
 								</FormItem>
 					</FormItem>
 					<FormItem>
-						<i-button type="primary" @click="handleOk('userinfo')" :loading="loading">提交</i-button>
+						<i-button type="primary" @click="handleOk('userinfo')" :loading="loading" class="btn btn-40">提交</i-button>
 					</FormItem>
 				</Form>
 				    <modal title="查看 头像大图" v-model="visible">
@@ -67,7 +67,7 @@
 	        	uploadList: [
 	        	 {'url':''}
 	        	 ],
-				uploadUrl:this.$axios.defaults.baseURL+'upload/upload?path=accout',
+				uploadUrl:this.$axios.defaults.baseURL+'upload/upload?path=account',
 				imgSrc:'',
 				userinfo: {
                     birthday: '',
@@ -109,7 +109,7 @@
             //上传图片
 			handleSuccess(res){
             if(res.code == '200'){
-				this.uploadList[0].url=res.msg
+				this.uploadList[0].url=this.global_.imgurl+res.msg
               }          
           	},
             handleOk(name) {

@@ -1,6 +1,6 @@
 <template>
   <div class="foot">
-    <div class="footer">
+    <div class="footer main-wdith">
         <ul class="Ftitle clearfix">
             <li class="footerPaddingleft"><img src="../assets/img/zp.png"></li>
             <li><img src="../assets/img/sf.png"></li>
@@ -10,7 +10,7 @@
         <ol class="Ftitle1 clearfix">
             <li class="li1">
                 <ul class="footerList">
-                    <li class="">
+                    <li >
                         <h4>常见问题</h4>
                         <p>包装运输</p>
                         <p>安装方式</p>
@@ -52,9 +52,7 @@
 </script>
 
 <style scoped="scoped"  lang="scss">
- @import '@/styles/color.scss';
  .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
-.clearfix { *zoom:1; }
 .fr{
     float: right;
 }
@@ -67,11 +65,6 @@
     height: 400px;
     max-width: 1920px;
     padding-top: 50px;
-}
-.foot .footer{
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
 }
 .foot .footer .Ftitle{
     padding-bottom: 30px;

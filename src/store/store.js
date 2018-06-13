@@ -5,7 +5,7 @@ import * as getters from './getters'
 Vue.use(Vuex)  
 const state = {
     token: null,
-    userId:null
+    userId:null,
 }
 const mutations = {
     LOGIN(state, payload) {
@@ -19,7 +19,7 @@ const mutations = {
 		  state.userId = null
 			localStorage.removeItem('token')  
 			localStorage.removeItem('userId') 
-    }
+    },
 }
 // 创建 store 实例
 export default new Vuex.Store({

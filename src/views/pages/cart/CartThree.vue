@@ -50,7 +50,6 @@
         		this.num=num;
         		if(num==1){
         			this.verimg=this.$axios.defaults.baseURL+'order/weixin/'+this.$route.query.orderNo;
-        			this.wexinpaycheck();
         		}
         	},
         	wexinpaycheck(){
@@ -86,6 +85,7 @@
 				    method: 'post',
 				    url:'/order/'+name+'/'+this.$route.query.orderNo,
 				}).then((res)=>{
+					//获取得到alipay信息
 					localStorage.setItem('alipay',res)
 					let routeData = this.$router.resolve({ name: '/gopay'});
  			     	window.open(routeData.href, '_blank');
@@ -93,8 +93,13 @@
             },
         },
            mounted() {
+           	this.wexinpaycheck();
                this.getParams();
-          }
+          },
+          //离开页面时，清空检验支付的计时器
+        destroyed: function () {
+          	clearTimeout( this.t );
+		},
        }
 </script>
 

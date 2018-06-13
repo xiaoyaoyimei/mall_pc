@@ -5,3 +5,6 @@ export const getToken = state => {
 export const getuserId = state => {
     return state.userId
 }
+export const getgoddsNumber=state=>{
+	 return state.goodsList.length
+}

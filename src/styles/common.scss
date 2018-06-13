@@ -1,3 +1,6 @@
+.P15{
+    padding: 15px;
+}
 .color-origin{
     color:#999;
     text-decoration: line-through;
@@ -122,6 +125,10 @@ table {
 }
  .order-tb tbody  td{
     padding:  8px;
+    text-align: center;
+ }
+ .order-tb thead  th{
+     padding:0  8px;
  }
   .order-tb tbody .hidden_border{
     height: 40px;

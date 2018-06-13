@@ -1,5 +1,7 @@
 <template>
+	
     <div class="new_header">
+    	{{token}}
        <div class="inner clearfix">
        	<div class="main-wdith">
        	 <router-link  to="/index" class="logo"><img src="../assets/img/logo.png"></router-link>
@@ -18,8 +20,7 @@
             		<i class="icon-arrow"></i>
             		<h3>WELCOME !<i class="icon icon-wel"></i></h3>
             		<p class="color-blue">用户ID</p>
-            		<p class="mb30">欢迎来到DXRACER旗下ZERO官网
-                                                              现在就开始您的购物之旅吧！</p>
+            		<p class="mb30">欢迎来到DXRACER官方商城  现在就开始您的购物之旅吧！</p>
                     <router-link  to="/user" class="btn-blue btn-normol btn-40 mr15" tag="button">个人中心</router-link>
                     <button class="btn-dark btn-normol btn-40" @click="logout">退出登录</button>
                   </div>
@@ -28,7 +29,7 @@
             	<i class="icon icon-cart-gray" v-if="nologin"></i>
             	<router-link class="cart-num-wrap clearfix" to="/cart" v-else>
             		<i class="icon icon-cart-blue" ></i>
-            		<span>({{cartList.length}})</span>
+            		<span>({{cartListlength}})</span>
             	</router-link >
             	<div class="common-wrap cart-wrap" v-if="nologin">
             		<i class="icon-arrow"></i>
@@ -65,6 +66,7 @@
 </template>
 <script>
    // 引入公共的bug，来做为中间传达的工具
+   import store from '@/store/store'
 	import Bus from '@/assets/js/bus.js'
 	 export default {
         data () {
@@ -79,12 +81,18 @@
                   cartList:[],
                   totalPrice:0,
                   //购物车是否为空
-                  cartListlength:''
+                  cartListlength:0
+            }
+        },
+         computed: {
+            token() {
+            	//获取store里面的token
+                return this.$store.state.token;
             }
         },
 		methods:{
             isLogin(){
-                if(localStorage.getItem("token")!=undefined&&localStorage.getItem("token")!=""){
+                if(this.token!=null){
 	      				this.$axios({
 					    method: 'post',
 					    url:'/account',
@@ -97,7 +105,8 @@
             getCartList(){
             	var _this=this;
             	this.totalPrice=0;
-        		if(localStorage.getItem('token')!=undefined){
+            	this.cartListlength=0;
+        		if(this.token!=null){
         			this.$axios({
 							    method: 'post',
 							    url:'/order/shopping/list',
@@ -106,6 +115,7 @@
                                         this.cartList=res.object;
                                         	  this.cartList.forEach(function(item,index) {
 												    _this.totalPrice +=item.salePrice*item.quantity;
+												    _this.cartListlength+=item.quantity;
 											   });
 									}
 							});
@@ -148,6 +158,11 @@
             }
         },
   		mounted(){
+  		    Bus.$on('cartmsg', (data) => {
+  				  	if(data=="again"){
+		          	 this.getCartList();
+		         	 }
+		      });
             this.isLogin();
             this.getCartList();
 		}
@@ -155,6 +170,7 @@
 </script>
 
 <style scoped="scoped"  lang="scss">
+
 .new_header{
 	background: #191919;
 }
@@ -239,10 +255,10 @@
 .common-wrap{
 	display: none;
      position: absolute;
-    right: -33px;
+    right: -50px;
     width: 320px;
     top: 45px;
-    z-index: 2;
+    z-index: 11;
     background: #fff;
     border: 1px solid #ccc;
     padding-left: 27px;
@@ -256,7 +272,7 @@
     	display: inline-block;
     	position: absolute;
     	top:-15px;
-    	right: 48px;
+    	right: 63px;
     }
     h3{
     	font-weight: bold;
@@ -344,7 +360,6 @@ background-position: -36px -37px;
 <style> 
 	 .ivu-input{
     	height: 40px;
-    	line-height:40px;
     	border-radius: 0;
     }
     .ivu-form .ivu-form-item-label{

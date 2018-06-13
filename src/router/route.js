@@ -22,11 +22,6 @@ const routes =  [
 						component:resolve => require(['@/views/pages/NewChannel.vue'], resolve),
 					},
 					{
-						name:'/typesort',
-						path: '/typesort',
-						component:resolve => require(['@/views/pages/TypeSort.vue'], resolve),
-					},
-					{
 							path: '/sort',
 							name: '/sort',
 							component:  resolve => require(['@/views/pages/Sort.vue'], resolve)

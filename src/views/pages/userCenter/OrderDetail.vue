@@ -13,10 +13,8 @@
 		   		<p>下单时间:<span>{{orderdetail.shippingOrder.createTime | formatDate}}</span></p>
 		   		<p>收货信息:<span>{{orderdetail.shippingAddress.receiverName}}/{{orderdetail.shippingAddress.receiverMobile}}/{{orderdetail.shippingAddress.receiverState}}
 		   			{{orderdetail.shippingAddress.receiverCity}}{{orderdetail.shippingAddress.receiverDistrict}}{{orderdetail.shippingAddress.receiverAddress}}</span></p>
-		   		<p class="clearfix">发票人信息:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.receivePerson}}/{{orderdetail.shippingInvoice.receivePhone}}/{{orderdetail.shippingInvoice.receiveProvince}} {{orderdetail.shippingInvoice.receiveCity}} {{orderdetail.shippingInvoice.receiveDistrict}} {{orderdetail.shippingInvoice.receiveAddress}}</span>
-				</p>
-				<p class="clearfix">发票详情信息:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceType}}/{{orderdetail.shippingInvoice.invoiceTitle}}/{{orderdetail.shippingInvoice.bankName}}/{{orderdetail.shippingInvoice.bankNo}}/{{orderdetail.shippingInvoice.invoiceCode}}/{{orderdetail.shippingInvoice.registerAddress}}
-				</span>
+		   		<p>发票抬头:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceTitle}} </span></p>
+				<p>发票类型<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceType}}</span>
 					   	<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit">新增</button>
 						<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit">编辑</button> 				</p>
 				   </div>
@@ -26,16 +24,17 @@
 		       <tbody> 
 		       	<tr v-for="(item,index) in orderdetail.shippingOrderItems" :key="index">
 		   		<td class="goods_pic"><img :src="item.productItemImg | imgfilter"></td>
-		   		<td>	
-		   			<p class="title">{{item.productTitle}}</p>
+		   		<td class="title">	
+		   			<p >{{item.productTitle}}</p>
 		   			<p>{{item.productAttrs}}</p>
 		   		    <p>{{item.productItemNo}}</p></td>
 		   			<td>
-		   				<span class="color-blue">￥{{orderFeejun(item)|pricefilter}}</span>
+		   				<span class="color-blue font-14">￥{{orderFeejun(item)|pricefilter}}</span>
 		   				<span class="color-origin">￥{{productFeejun(item)|pricefilter}}</span>
 		   			</td>
 		   			<td>{{item.quantity}}</td>
-		   			<td>￥{{item.discountFee |pricefilter}}</td><td>￥{{item.productFee |pricefilter}}</td>
+		   			<td>￥{{discountFeejun(item)|pricefilter}}</td>
+		   			<td>￥{{item.productFee |pricefilter}}</td>
 		   	</tr></tbody>
 		   	</table>
 		   	<div class="order_price clearfix">
@@ -53,28 +52,19 @@
 		</div>
 
 		<!-- 新增发票 -->
-		 <Modal v-model="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" >
+		 <Modal v-model="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" :mask-closable='false'>
 			<Form :model="addInvoice" ref="addInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" > 
-				<FormItem label="开户行名称" prop="bankName">
-					<Input v-model="addInvoice.bankName" placeholder="开户行名称" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="银行账号" prop="bankNo">
-					<Input v-model="addInvoice.bankNo" placeholder="银行账号" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="纳税人识别码" prop='invoiceCode'>
-					<Input v-model="addInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="发票抬头" prop="invoiceTitle">
-					<Input v-model="addInvoice.invoiceTitle" placeholder="发票抬头" autocomplete="off"></Input>
+					<FormItem label="订单编号" prop="orderNo">
+					<Input v-model="addInvoice.orderNo" placeholder="订单编号" autocomplete="off" disabled ></Input>
 				</FormItem>
 				<FormItem label="发票类型" prop="invoiceType">
-					<Select v-model="addInvoice.invoiceType">
-						<Option value="增值税普通发票">增值税普通发票</Option>
-						<Option value="增值税专用发票 ">增值税专用发票 </Option>
-					</Select>
+					  <RadioGroup v-model="addInvoice.invoiceType" >
+				        <Radio label="增值税普通发票">增值税普通发票</Radio>
+				        <Radio label="增值税专用发票" >增值税专用发票</Radio>
+   					 </RadioGroup>
 				</FormItem>
-				<FormItem label="订单编号" prop="orderNo">
-					<Input v-model="addInvoice.orderNo" placeholder="订单编号" autocomplete="off"></Input>
+					<FormItem label="发票抬头" prop="invoiceTitle">
+					<Input v-model="addInvoice.invoiceTitle" placeholder="发票抬头" autocomplete="off"></Input>
 				</FormItem>
 				<FormItem label="所在地区"  prop="selectedOptionsAddr">
 				        	 <Cascader  v-model="addInvoice.selectedOptionsAddr" placeholder="选择所在区域"  :data="addressOption"></Cascader>
@@ -88,16 +78,52 @@
 				<FormItem label="收票人手机" prop="receivePhone">
 					<Input v-model="addInvoice.receivePhone" placeholder="收票人手机" autocomplete="off"></Input>
 				</FormItem>
-
-
+				<div v-if="addInvoice.invoiceType=='增值税专用发票'">
+					<h6 class="color-blue">专用发票必填信息:</h6>
+				<FormItem label="开户行名称" prop="bankName">
+					<Input v-model="addInvoice.bankName" placeholder="开户行名称" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="银行账号" prop="bankNo">
+					<Input v-model="addInvoice.bankNo" placeholder="银行账号" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="纳税人识别码" prop='invoiceCode'>
+					<Input v-model="addInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
+				</FormItem>
 				<FormItem label="注册地址" prop="registerAddress">
 					<Input v-model="addInvoice.registerAddress" placeholder="注册地址"></Input>
 				</FormItem>
+				</div>
 			</Form>
 		</Modal> 
 				<!-- 编辑发票 -->
-		 <Modal v-model="modaleditorderNo" ref='modaleditorderNo' title="编辑发票信息" @on-ok="editinvoice" :loading="loading" >
+		 <Modal v-model="modaleditorderNo" ref='modaleditorderNo' title="编辑发票信息" @on-ok="editinvoice" :loading="loading" :mask-closable='false'>
 			<Form :model="editInvoice" ref="editInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" > 
+				 <FormItem label="订单编号" prop="orderNo">
+					<Input v-model="editInvoice.orderNo" placeholder="订单编号" autocomplete="off" disabled ></Input>
+				</FormItem>
+				<FormItem label="发票抬头" prop="invoiceTitle">
+					<Input v-model="editInvoice.invoiceTitle" placeholder="发票抬头"></Input>
+				</FormItem>
+				<FormItem label="发票类型" prop="invoiceType">
+					<RadioGroup v-model="editInvoice.invoiceType" >
+				        <Radio label="增值税普通发票">增值税普通发票</Radio>
+				        <Radio label="增值税专用发票" >增值税专用发票</Radio>
+   					 </RadioGroup>
+				</FormItem>
+				<FormItem label="收票人姓名" prop="receivePerson">
+					<Input v-model="editInvoice.receivePerson" placeholder="收票人姓名" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="收票人手机" prop="receivePhone">
+					<Input v-model="editInvoice.receivePhone" placeholder="收票人手机" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="所在地区"  prop="selectedOptionsAddr">
+				       <Cascader  v-model="editInvoice.selectedOptionsAddr" :data="addressOption"></Cascader>
+				</FormItem>
+				<FormItem label="详细地址" prop='receiveAddress'>
+					<Input v-model="editInvoice.receiveAddress" placeholder="详细地址" autocomplete="off"></Input>
+				</FormItem>
+				<div v-if="editInvoice.invoiceType=='增值税专用发票'">
+					<h6 class="color-blue">专用发票必填信息:</h6>
 				<FormItem label="开户行名称" prop="bankName">
 					<Input v-model="editInvoice.bankName" placeholder="开户行名称" autocomplete="off"></Input>
 				</FormItem>
@@ -107,34 +133,10 @@
 				<FormItem label="纳税人识别码" prop='invoiceCode'>
 					<Input v-model="editInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
 				</FormItem>
-				<FormItem label="发票抬头" prop="invoiceTitle">
-					<Input v-model="editInvoice.invoiceTitle" placeholder="发票抬头"></Input>
-				</FormItem>
-				<FormItem label="发票类型" prop="invoiceType">
-					<Select v-model="editInvoice.invoiceType" placeholder="发票类型">
-						<Option value="增值税普通发票">增值税普通发票</Option>
-						<Option value="增值税专用发票 ">增值税专用发票 </Option>
-					</Select>
-				</FormItem>
-
-				 <FormItem label="订单编号" prop="orderNo">
-					<Input v-model="editInvoice.orderNo" placeholder="订单编号" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="收票人姓名" prop="receivePerson">
-					<Input v-model="editInvoice.receivePerson" placeholder="收票人姓名" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="收票人手机" prop="receivePhone">
-					<Input v-model="editInvoice.receivePhone" placeholder="收票人手机" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="所在地区"  prop="selectedOptionsAddr">
-				        	 <Cascader  v-model="editInvoice.selectedOptionsAddr" :data="addressOption"></Cascader>
-				</FormItem>
-				<FormItem label="详细地址" prop='receiveAddress'>
-					<Input v-model="editInvoice.receiveAddress" placeholder="详细地址" autocomplete="off"></Input>
-				</FormItem>
 				<FormItem label="注册地址" prop="registerAddress">
 					<Input v-model="editInvoice.registerAddress" placeholder="注册地址"></Input>
 				</FormItem>
+				</div>
 			</Form>
 		</Modal> 
 		 <Spin size="large" fix v-if="spinShow"></Spin>
@@ -142,10 +144,22 @@
 </template>
 
 <script>
-	import { formatDate } from '@/assets/js/date.js'
+	import { formatDate } from '@/assets/js/date.js';
+   import { validatePHONE } from '@/assets/js/validate';
 	export default {
     data () {
+    		 const validatePhone = (rule, value, callback) => {
+	      	 	if(value.length<0){
+	      	 		 callback(new Error('手机号不能为空'));
+	      	 	}
+	          else if (!validatePHONE(value)) {
+	            callback(new Error('请输入正确的手机号'));
+	          } else {
+	            callback();
+	          }
+        	};
       return {
+      	//专用发票
       	spinShow:true,
       	orderdetail:{
       		shippingOrder:{},
@@ -164,7 +178,7 @@
 			bankNo:'',
 			invoiceCode:'',
 			invoiceTitle:'',
-			invoiceType:'',
+			invoiceType:'增值税普通发票',
 			orderNo:'',
 			receiveAddress:'',
 			receivePerson:'',
@@ -186,6 +200,9 @@
 			
 		},
 		ruleValidate:{
+			 selectedOptionsAddr: [
+                        { required: true, type: 'array',message: '请选择省市区', trigger: 'change' }
+                    ],
 			     	bankName: [
                         { required: true,message: '开户行名称不能为空', trigger: 'blur' }
                     ],
@@ -205,12 +222,11 @@
                     receiveAddress: [
                         { required: true, message: '详细地址不能为空', trigger: 'blur' }
 					],
-				
                     receivePerson: [
                         { required: true, message: '收票人姓名不能为空', trigger: 'blur' }
                     ],
                     receivePhone: [
-                        { required: true, message: '收票人手机不能为空', trigger: 'blur' }
+                        { required: true, trigger: 'blur' ,validator: validatePhone, }
                     ],
                     registerAddress: [
                        { required: true, message: '注册地址不能为空', trigger: 'blur' },
@@ -219,10 +235,10 @@
       }
     },
     filters: {
-    formatDate(time) {
-    var date = new Date(time);
-    return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
-   }
+	    formatDate(time) {
+	    var date = new Date(time);
+	    return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
+	   }
 },
     methods: {
 		getAddressOption(){
@@ -254,7 +270,6 @@
 					this.modaladdorderNo = false;
 					this.statusList = res.object;
 					this.getOrder();
-
 					this.$Message.success(res.object);
 					}else{
 					this.$Message.error(res.msg);
@@ -280,37 +295,37 @@
 			this.editInvoice.receivePhone= this.orderdetail.shippingInvoice.receivePhone
 		},
 		editinvoice(){
-		setTimeout(() => {
-		this.loading = false;
-		this.$nextTick(() => {
-		this.loading = true;
-		this.$refs['editInvoice'].validate((valid) => {
-		if (valid) {
-			let temp = this.editInvoice;
-			temp.receiveProvince=this.editInvoice.selectedOptionsAddr[0];
-			temp.receiveCity=this.editInvoice.selectedOptionsAddr[1];
-			temp.receiveDistrict=this.editInvoice.selectedOptionsAddr[2];
-			delete temp['selectedOptionsAddr']
-			let params =  Object.assign({}, temp);
-					this.$axios({
-					method: 'post',
-					url:'/order/invoice/save',
-					data:params
-				}).then((res)=>{
-					if(res.code=='200'){
-					this.modaleditorderNo = false;
-					this.statusList = res.object;
-					this.getOrder();
-					this.$Message.success(res.object);
-					}else{
-						this.$Message.error(res.msg);
+			setTimeout(() => {
+			this.loading = false;
+			this.$nextTick(() => {
+			this.loading = true;
+			this.$refs['editInvoice'].validate((valid) => {
+			if (valid) {
+				let temp = this.editInvoice;
+				temp.receiveProvince=this.editInvoice.selectedOptionsAddr[0];
+				temp.receiveCity=this.editInvoice.selectedOptionsAddr[1];
+				temp.receiveDistrict=this.editInvoice.selectedOptionsAddr[2];
+				delete temp['selectedOptionsAddr']
+				let params =  Object.assign({}, temp);
+						this.$axios({
+						method: 'post',
+						url:'/order/invoice/save',
+						data:params
+					}).then((res)=>{
+						if(res.code=='200'){
+						this.modaleditorderNo = false;
+						this.statusList = res.object;
+						this.getOrder();
+						this.$Message.success(res.object);
+						}else{
+							this.$Message.error(res.msg);
+						}
+					
+					});
 					}
-				
-				});
-				}
+				})
 			})
-		})
-		},2000)
+			},2000)
 		},
     	  	getStatusEnum(){
     			this.$axios({
@@ -320,7 +335,6 @@
 							if(res.code=='200'){
 							this.statusList = res.object;
 							}
-						
 						});
     	},
     		statusfilter(value){
@@ -348,12 +362,16 @@
 					});
                     },
                     onCancel: () => {
-                        this.$Message.info('放弃取消');
+                        this.$Message.info('放弃');
                     }
                 });
             },
     	quzhifu(){
     		this.$router.push({name:'/cartthree',query:{orderNo: this.orderNo}});  
+    	},
+    	//详情页均值
+    	discountFeejun(item){
+    		return item.discountFee/item.quantity
     	},
     	productFeejun(item){
     		return item.productFee/item.quantity
@@ -367,18 +385,18 @@
                 // 将数据放在当前组件的数据内
                 this.orderNo = routerParams;
           },
-      getOrder(){
-      			this.$axios({
-					    method: 'get',
-					    url:'/order/'+this.orderNo,
-					}).then((res)=>{
-						this.orderdetail = res;
-						this.addInvoice.orderNo=this.orderdetail.shippingOrder.orderNo
-						this.editInvoice.orderNo=this.orderdetail.shippingOrder.orderNo
-						this.spinShow=false;
-					});
-					
-     	 },
+	      getOrder(){
+	      			this.$axios({
+						    method: 'get',
+						    url:'/order/'+this.orderNo,
+						}).then((res)=>{
+							this.orderdetail = res;
+							this.addInvoice.orderNo=this.orderdetail.shippingOrder.orderNo
+							this.editInvoice.orderNo=this.orderdetail.shippingOrder.orderNo
+							this.spinShow=false;
+						});
+						
+	     	 },
     },
          mounted() {
          	    this.getParams();
@@ -390,6 +408,9 @@
 </script>
 
 <style scoped="scoped" lang="scss">
+.title{
+	text-align: left;
+}
 .details{
 	    background-color: #fff;
     position: relative;

@@ -15,8 +15,7 @@
 					<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
 					</Col>
 					<Col span="3" >主图</Col>
-					<Col span="7">商品信息</Col>
-					<Col span="3">规格</Col>
+					<Col span="10">商品信息</Col>
 					<Col span="2">
 						单价（元）
 					</Col>
@@ -39,11 +38,11 @@
         					<Checkbox  :label="index" :key="index"></Checkbox>
         			</Col>
 					<Col span="3" class="cart_img"><img  :src="x.image |imgfilter"></Col>
-					<Col span="7" class='cart_product'>
+					<Col span="10" class='cart_product'>
 						<p >{{x.productName}}</p>
 						<p class="color-blue">{{x.promotionTitle}}</p>
+						<p>{{x.productAttr}}</p>
 					</Col>
-					<Col span="3" class='cart_sku'><p>{{x.productAttr}}</p></Col>
 					<Col span="2" class='cart_price'>
 						<p >￥{{x.salePrice |pricefilter}}</p>
 					</Col>
@@ -99,6 +98,8 @@
 </template>
 
 <script>
+// 引入公共的bug，来做为中间传达的工具
+import Bus from '@/assets/js/bus.js'
 export default {
         data () {
             return {
@@ -126,7 +127,7 @@ export default {
 							   	 }
 								}).then((res)=>{
 									if(res.code=='200'){
-										this.getCartList();
+									Bus.$emit('cartmsg', "again");
 									}else{
 										 this.$Message.warning(res.object);
 									}
@@ -147,16 +148,15 @@ export default {
 						if(x.quantity>=x.max){
 						x.quantity=x.max
 						}else{
-						x.quantity=parseInt(x.quantity)+1; 
+							x.quantity=parseInt(x.quantity)+1; 
 							 if(this.temp.indexOf(index)<0){
 					     		this.temp.push(index)
 					     	}
 					        this.checkAllGroup=this.temp;
 							this.checkAllGroupChange(this.temp);
-						  }
+					    }
 						this.addcart(x)
 					},
-					
 					//减
 					jian:function(x,index){
                            //删除的时候库存最小为1。所以无需删去选中的index
@@ -214,7 +214,8 @@ export default {
 								}).then((res)=>{
 									if(res.code==200){
 									this.$Message.info(res.object);
-									this.getCartList()
+									Bus.$emit('cartmsg', "again");
+ 									this.getCartList()
 									}
 							});
                     },
@@ -244,7 +245,8 @@ export default {
 								}).then((res)=>{
 									if(res.code==200){
 									this.$Message.info(res.object);
-									this.getCartList()
+									Bus.$emit('cartmsg', "again");
+								//	this.getCartList()
 									}
 							});
                     },

@@ -38,14 +38,10 @@
                <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" tag="a" >
                      <img :src='item.model_img |imgfilter'>
                 </router-link>
-                <div  class="title">
-                      {{item.model_no}}
-                </div>
+                <div  class="title">{{item.model_no}}</div>
                 <div class="name">{{item.model_name}}</div>
                 <div  class="sku_tag"v-if="item.promotionTitle !=null">{{item.promotionTitle}}</div> 
-                  <div class="price">
-                        {{item.sale_price}}
-                   </div>
+                <div class="price">{{item.sale_price}}</div>
             </li>
             </ul>
             <Page :total="totalSize" size="small" show-elevator class="page" :page-size='this.pageSize' @on-change="handlePage" v-if="productList.length>0"></Page>

@@ -400,7 +400,7 @@
 				this.spinShow=false;
 				var ssss = this.orderdetail;
 				this.pro = ssss;
-				if(ssss.shippingOrder.cancelTime == "" || ssss.shippingOrder.cancelTime == undefined){
+				if(ssss.shippingOrder.orderStatus == "01"){
 					this.getTimeout(ssss.shippingOrder.createTime);
 				}
 			});
@@ -413,8 +413,7 @@
 					time = time + 30*60*1000;
 					if(time<=0){
 						this.timerShow= false;
-						this.$router.go(0);
-						return '结束'
+						this.getOrder();
 					}else{
 						mm = Math.floor((time/1000 / 60) % 60);
 						ss = Math.floor(time /1000 % 60);

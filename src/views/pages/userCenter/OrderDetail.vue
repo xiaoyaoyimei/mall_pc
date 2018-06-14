@@ -2,7 +2,7 @@
 <div>
 	     <div class="details clearfix">
 	     	<h2 class="left">{{statusfilter(orderdetail.shippingOrder.orderStatus)}}</h2>
-	     	<div class="right"  v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">	 
+	     	<div class="right"  v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">
 		 <span v-if='timerShow'>剩余支付时间{{protime}}</span>
 			 <button @click="cancel()">取消订单</button>
 			 <button class="btn-blue" @click="quzhifu()"   v-show="orderdetail.shippingOrder.orderStatus=='01'">去支付</button>
@@ -22,10 +22,10 @@
 		 <div class="order_goods clearfix">
 		   	<table class="order-tb">
 		   		<thead><tr><th>主图</th><th>商品</th><th>单价</th><th>数量</th><th>优惠</th><th>总价</th></tr></thead>
-		       <tbody> 
+		       <tbody>
 		       	<tr v-for="(item,index) in orderdetail.shippingOrderItems" :key="index">
 		   		<td class="goods_pic"><img :src="item.productItemImg | imgfilter"></td>
-		   		<td class="title">	
+		   		<td class="title">
 		   			<p >{{item.productTitle}}</p>
 		   			<p>{{item.productAttrs}}</p>
 		   		    <p>{{item.productItemNo}}</p></td>
@@ -45,7 +45,7 @@
 		   	 	<dt>商品优惠:</dt><dd><label  v-if="orderdetail.shippingOrder.discountFee!=''">￥{{orderdetail.shippingOrder.discountFee|pricefilter}}</label></dd>
 		    	<dt>实付款:</dt><dd><span class="font-24">￥{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</span></dd>
 		    </dl>
-		     <button  @click="quzhifu"  type="button" class="btn_pay" v-show="orderdetail.shippingOrder.orderStatus=='01'"> 
+		     <button  @click="quzhifu"  type="button" class="btn_pay" v-show="orderdetail.shippingOrder.orderStatus=='01'">
 				立即支付
 			</button>
 		   </div>
@@ -53,7 +53,7 @@
 		</div>
 		<!-- 新增发票 -->
 		 <Modal v-model="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" :mask-closable='false'>
-			<Form :model="addInvoice" ref="addInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" > 
+			<Form :model="addInvoice" ref="addInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" >
 					<FormItem label="订单编号" prop="orderNo">
 					<Input v-model="addInvoice.orderNo" placeholder="订单编号" autocomplete="off" disabled ></Input>
 					</FormItem>
@@ -94,10 +94,10 @@
 				</FormItem>
 				</div>
 			</Form>
-		</Modal> 
+		</Modal>
 				<!-- 编辑发票 -->
 		 <Modal v-model="modaleditorderNo" ref='modaleditorderNo' title="编辑发票信息" @on-ok="editinvoice" :loading="loading" :mask-closable='false'>
-			<Form :model="editInvoice" ref="editInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" > 
+			<Form :model="editInvoice" ref="editInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" >
 				 <FormItem label="订单编号" prop="orderNo">
 					<Input v-model="editInvoice.orderNo" placeholder="订单编号" autocomplete="off" disabled ></Input>
 					</FormItem>
@@ -138,7 +138,7 @@
 				</FormItem>
 				</div>
 			</Form>
-		</Modal> 
+		</Modal>
 		 <Spin size="large" fix v-if="spinShow"></Spin>
 	</div>
 </template>
@@ -198,7 +198,7 @@
 			receivePhone:'',
 			registerAddress:'',
 			selectedOptionsAddr:[],
-			
+
 		},
 		ruleValidate:{
 			 selectedOptionsAddr: [
@@ -274,7 +274,7 @@
 					}else{
 					this.$Message.error(res.msg);
 					}
-				
+
 				});
 				}
 			})
@@ -320,7 +320,7 @@
 						}else{
 							this.$Message.error(res.msg);
 						}
-					
+
 					});
 					}
 				})
@@ -367,7 +367,7 @@
                 });
             },
     	quzhifu(){
-    		this.$router.push({name:'/cartthree',query:{orderNo: this.orderNo}});  
+    		this.$router.push({name:'/cartthree',query:{orderNo: this.orderNo}});
     	},
     	//详情页均值
     	discountFeejun(item){
@@ -380,7 +380,7 @@
     		return item.orderFee/item.quantity
     	},
     	  getParams () {
-                // 取到路由带过来的参数 
+                // 取到路由带过来的参数
                 let routerParams = this.$route.query.orderNo;
                 // 将数据放在当前组件的数据内
                 this.orderNo = routerParams;
@@ -396,7 +396,9 @@
 				this.spinShow=false;
 				var ssss = this.orderdetail;
 				this.pro = ssss;
+				if(ssss.shippingOrder.orderStatus == "01"){
 					this.getTimeout(ssss.shippingOrder.createTime);
+				}
 			});
 		},
 		getTimeout(inittime){
@@ -407,6 +409,7 @@
 					time = time + 30*60*1000;
 					if(time<0){
 						this.timerShow= false;
+						this.getOrder();
 					}else{
 						mm = Math.floor((time/1000 / 60) % 60);
 						ss = Math.floor(time /1000 % 60);

@@ -1,7 +1,5 @@
 <template>
-	
     <div class="new_header">
-    	{{token}}
        <div class="inner clearfix">
        	<div class="main-wdith">
        	 <router-link  to="/index" class="logo"><img src="../assets/img/logo.png"></router-link>
@@ -67,7 +65,7 @@
 <script>
    // 引入公共的bug，来做为中间传达的工具
    import store from '@/store/store'
-	import Bus from '@/assets/js/bus.js'
+   import Bus from '@/assets/js/bus.js'
 	 export default {
         data () {
             return {
@@ -78,10 +76,10 @@
               nickName:'',
               iconUrl:'',
               },
-                  cartList:[],
-                  totalPrice:0,
-                  //购物车是否为空
-                  cartListlength:0
+              cartList:[],
+              totalPrice:0,
+              //购物车是否为空
+              cartListlength:0
             }
         },
          computed: {

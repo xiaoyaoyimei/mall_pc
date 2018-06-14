@@ -81,6 +81,12 @@ export default {
       type:[],
     };
   },
+ computed: {
+    token() {
+    	//获取store里面的token
+        return this.$store.state.token;
+    }
+},
   filters: {
     baifenhao(val) {
       return val + "%";
@@ -88,9 +94,8 @@ export default {
   },
   methods: {
     getBanner() {
-    	console.log(this)
       //判断是否已经登录
-      if (localStorage.getItem("token") != undefined &&localStorage.getItem("token") != "") {
+       if(this.token!=null){
         this.loginflag = false;
       }
       this.$axios({

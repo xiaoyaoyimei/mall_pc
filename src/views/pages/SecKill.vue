@@ -72,6 +72,7 @@ function InitTime(endtime){
 export default {
     data () {
 	return {
+		    t:'',
 		    pro:[],
             active: 'tab-container1',
             show:false,
@@ -84,30 +85,36 @@ export default {
     	this.getNewChannel();
     },
     mounted() {
-        setInterval( ()=> {
-            for (var key in this.pro) {
-            	var aaa ='';
-            	if(this.pro[key].switch=='0'){
-            		aaa= this.pro[key].crush["startTime"]
-            	}
-            	else{
-                 aaa = this.pro[key].crush["endTime"];
-                }
-                 aaa= new Date(aaa).getTime()
-                var bbb = new Date().getTime();
-                var rightTime = aaa - bbb;
-                if (rightTime > 0) {
-                    var dd = Math.floor(rightTime / 1000 / 60 / 60 / 24);
-                    var hh = Math.floor((rightTime / 1000 / 60 / 60) % 24);
-                    var mm = Math.floor((rightTime / 1000 / 60) % 60);
-                    var ss = Math.floor((rightTime / 1000) % 60);
-                }
-                this.pro[key]["djs"] = dd + "天" + hh + "小时" + mm + "分" + ss + "秒";
-            }
-        }, 1000);
+    	let _this=this;
+    	var startCount=()=>{
+	    		_this.t= setTimeout(() => {
+	    		    for (var key in _this.pro) {
+	            	var aaa ='';
+	            	if(_this.pro[key].switch=='0'){
+	            		aaa= _this.pro[key].crush["startTime"]
+	            	}
+	            	else{
+	                 aaa = _this.pro[key].crush["endTime"];
+	                 }
+	                 aaa= new Date(aaa).getTime()
+	                var bbb = new Date().getTime();
+	                var rightTime = aaa - bbb;
+	                if (rightTime > 0) {
+	                    var dd = Math.floor(rightTime / 1000 / 60 / 60 / 24);
+	                    var hh = Math.floor((rightTime / 1000 / 60 / 60) % 24);
+	                    var mm = Math.floor((rightTime / 1000 / 60) % 60);
+	                    var ss = Math.floor((rightTime / 1000) % 60);
+	                    _this.pro[key]["djs"] = dd + "天" + hh + "小时" + mm + "分" + ss + "秒";
+	                     startCount();
+	                }  else{
+	                	clearTimeout(_this.t)
+	                }
+	            }
+			}, 1000)
+    	}
+    	startCount()
     },
     methods: {
-    	
     	     getNewChannel(){
     	     	 var _this=this;
     	     	this.$axios({
@@ -142,7 +149,10 @@ export default {
     	      	percent(v){
     	      		return v.usedQuantity/v.totalQuantity*100
     	      	},
-    }
+    },
+       destroyed: function () {
+          	clearTimeout( this.t );
+		},
 }
 </script>
 <style scoped="scoped" lang="scss">

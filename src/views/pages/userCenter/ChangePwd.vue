@@ -2,9 +2,6 @@
 		<div class="order page-pwd">
 			<div class="order_h2">修改密码</div>
 				<Form ref="pwd" :model="pwd"  :label-width="150"  :rules="pwdValidate" >
-					<!--<FormItem label="旧密码:" prop="oldpass">
-						<i-input v-model="pwd.oldpass" placeholder="请输入旧密码"></i-input>
-					</FormItem>-->
 					<FormItem label="新密码:" prop="newpass">
 						<i-input v-model="pwd.newpass" placeholder="请输入新密码" type="password"></i-input>
 					</FormItem>
@@ -30,12 +27,12 @@
                 },
                 pwdValidate: {
                     newpass: [
-                        { required: true, message: '请输入密码', trigger: 'blur' },
+                        { required: true, message: '请输入新密码', trigger: 'blur' },
 					    { type: 'string', min: 6, message: '新密码不能少于6位', trigger: 'blur' }
                     ],
                     newpassagian: [
-                       { required: true, message: '请输入密码', trigger: 'blur' },
-					    { type: 'string', min: 6, message: '新密码不能少于6位', trigger: 'blur' }
+                       { required: true, message: '请输入确认密码', trigger: 'blur' },
+					    { type: 'string', min: 6, message: '确认密码不能少于6位', trigger: 'blur' }
                     ],
 
                 },

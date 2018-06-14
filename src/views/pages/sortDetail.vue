@@ -61,8 +61,9 @@
 						<div v-for="(item, i) in shangp.productAttrList"  :key="i" class="attr_wrap">
 							<div class="dt">{{item.attrKey.catalogAttrValue}} :</div>
 							<div  class="dd">
-								<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" 
-								v-bind:style="{paddingLeft:item.attrKey.isColorAttr == 'Y' ? '35px':'5px',backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? 'http://test-shop-img.dxracer.com.cn/'+child.listImg : '')+')'}">
+									<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" 
+								v-bind:style="{paddingLeft:item.attrKey.isColorAttr == 'Y' ? '35px':'5px',backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? 'http://test-shop-img.dxracer.com.cn/'+child.listImg : '')+')'}"
+								>
 									{{child.modelAttrValue}}
 								</span>
 							</div>
@@ -143,7 +144,7 @@ export default {
             		activityName:'',
             		startTime:'',
             		endTime:'',
-            		kucun:'',
+					kucun:'',
             	},
             	productItemId:'',
             	quantity:1,
@@ -279,13 +280,15 @@ export default {
             	   	//通过选择属性读出productItemId
             	   	    for (let chooseItem of this.shangp.productItemList) {
 							if(chooseItem.productModelAttrs==chooseId){
-								this.shangp.product.modelNo = chooseItem.itemNo,
-							   	this.choosesp.itemNo=chooseItem.itemNo,
+								this.shangp.product.modelNo = chooseItem.itemNo;
+								this.ImgUrl = chooseItem.listImg;
+							   	this.choosesp.itemNo=chooseItem.itemNo;
 								this.choosesp.price=chooseItem.salePrice;
 							   	this.productItemId=chooseItem.id;
 							   	if(this.shangp.promotions.length>0){
 							   		 for (let cxitem of this.shangp.promotions) {
 				            	   	 	if(cxitem.productItemId==this.productItemId){
+
 				            	   	 		this.cxshow=true;
 				            	   	 		this.choosesp.cuxiaoprice=cxitem.onSalePrice;
 				            	   	 		this.choosesp.activityName=cxitem.activityName;

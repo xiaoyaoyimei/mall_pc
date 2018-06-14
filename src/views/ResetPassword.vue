@@ -1,8 +1,8 @@
 <template>
-			<div class="login_wrap_main flex-center">
+			<div class="login_wrap_main flex-center-h">
 				<div class="login_wrap">
 					<div class="div">
-						<h3 class="lTitle">找回密码</h3>
+						<h3 class="lTitle h3">找回密码</h3>
 							<Form :model="regiForm" label-position="left" :label-width="0" :rules="ruleValidate" ref="regiForm">
 								<FormItem label="" class="Rform" prop="mobile">
 									<Input class="Rphone" v-model.trim="regiForm.mobile" type="text" placeholder="手机号"></Input>
@@ -10,16 +10,14 @@
 										<span v-if="!loadingtx">获取图形码</span>
 										<span v-else>Loading...</span>
 									</Button>
-									<img style='float:right;'  :src="verimg"  @click="getTx"/>
+									<img  :src="verimg"  @click="getTx"/>
 								</FormItem>
-	
 								<FormItem label="" class="Rform" prop="verificationCode">
 									<Input  class="Rphone" v-model="regiForm.verificationCode" type="text" placeholder="图形验证码"></Input>
-									<Button  class='R-check' :loading="loadingDx"   @click="getDx">
-										<span v-if="!loadingDx">获取短信验证码</span>
-										<span v-else>Loading...</span>
+									<Button  class='R-check'  >
+										<span v-if="sendMsgDisabled">{{time+'秒后获取'}}</span>
+  										<span v-if="!sendMsgDisabled"  @click="getDx">获取短信码</span>
 									</Button>
-									
 								</FormItem> 
 								<FormItem label="" prop="shortMessage">
 									<Input v-model="regiForm.shortMessage" type="text" placeholder="短信验证码"></Input>
@@ -32,7 +30,7 @@
 								</FormItem>
 							</Form>
 							<div class="login-link">
-								<router-link :to='{path:"/login"}' class='resetPassword font-14'>账号密码登录</router-link>
+								<router-link :to='{path:"/login"}' class='resetPassword font-14'>账号密码登录>></router-link>
 							</div>
 					</div>
 				</div>
@@ -43,7 +41,7 @@
 			 import { validatePHONE } from '@/assets/js/validate';
 	  export default {
         data () {
-            	 const validatePhone = (rule, value, callback) => {
+          const validatePhone = (rule, value, callback) => {
       	 	if(value.length<0){
       	 		 callback(new Error('手机号不能为空'));
       	 	}
@@ -54,7 +52,8 @@
           }
         };
             return {
-            	loadingDx:false,
+            	time: 180, // 发送验证码倒计时
+            	sendMsgDisabled: false,
             	loadingtx:false,
             	txv:1,
             	verimg:'',
@@ -83,24 +82,31 @@
         },
           methods:{
           	getDx(){
-          		this.loadingDx = true;
-          		let mobile=this.regiForm.mobile;
-          		if(mobile==null||mobile==''){
-          			this.$Message.error('手机号不能为空!');
-          			this.loadingDx = false;
+          		let verificationCode=this.regiForm.verificationCode;
+          		if(verificationCode==null||verificationCode==''){
+          			this.$Message.error('图形码不能为空!');
           		}else{
+          			  		//短信验证码180秒倒计时
+      				let _this = this;
+			    _this.sendMsgDisabled = true;
+			    let interval = setInterval(function() {
+			     if ((_this.time--) <= 0) {
+			      _this.time = 180;
+			      _this.sendMsgDisabled = false;
+			   	   clearTimeout(interval);
+			     }
+			    }, 1000);
           		this.$axios({
 					    method: 'post',
 					    url:'/customer/register/shortmessage',
 					    data:{
-					    		 "mobile":mobile,
+					    		 "mobile":this.regiForm.mobile,
 					    		  "verificationCode":this.regiForm.verificationCode
 					    	},
 					}).then((res)=>{
 						     if (res.code !== 200) {
 		                 		 this.$Message.error(res.msg);
 		              		} 
-                            this.loadingDx = false;
 					});
 					}
           	},
@@ -126,7 +132,7 @@
 									this.loadingDx = false;
 									      let { code, msg } = res;
 								              if (code !== 200) {
-								                this.$Message.error(res.msg);
+								                this.$Message.error(res.object);
 								              } else {
 								                this.$router.push({ path: '/Login' ,params: { mobile: this.regiForm.mobile }});
 								              }

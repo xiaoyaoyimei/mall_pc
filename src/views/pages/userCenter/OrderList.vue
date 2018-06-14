@@ -12,7 +12,7 @@
                    <th  width='150'>操作</th></tr>
               </thead>
               </table>
-              <table class="order-tb orderitem-tb" v-for="(x,index) in cartList" :key="index" v-if="cartList.length>0">
+              <table class="order-tb orderitem-tb" v-for="(x,index) in pro" :key="index" v-if="cartList.length>0">
                 <tbody >
                   <tr class="toptitle">
                   	<td  colspan="7">
@@ -60,7 +60,8 @@ export default {
       return {
       	spinShow:true,
         cartList:[],
-       statusList:[]
+	   statusList:[],
+	   pro:[],
     	}
    	 },
    	     filters: {
@@ -93,6 +94,7 @@ export default {
 						}).then((res)=>{
 							if(res.code=='200'){
 							this.statusList = res.object;
+
 							}
 						
 						});
@@ -126,12 +128,14 @@ export default {
 						    url:'/order/list',
 						}).then((res)=>{
 							if(res.code=='200'){
-								this.cartList= res.object;
+								this.cartList = res.object;
+								var ssss = this.cartList; 
+							    this.pro = ssss; 
 							}
 							this.spinShow=false;
 						});
 						
-	     	 }
+			  },
 	    },
          mounted() {
 				this.getOrder();

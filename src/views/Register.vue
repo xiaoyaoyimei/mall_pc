@@ -5,26 +5,22 @@
 				</router-link>
 				<div class="login_wrap">
 					<div class="div">
-						<h3 class="lTitle">使用手机号注册</h3>
+						<h3 class="lTitle h3">使用手机号注册</h3>
 							<Form :model="regiForm" label-position="left" :label-width="0" :rules="ruleValidate" ref="regiForm">
 								<FormItem label="" class="Rform" prop="loginName">
 									<Input class="Rphone" v-model.trim="regiForm.loginName" placeholder="手机号"></Input>
 									<Button  class='R-check' :loading="loadingtx"  @click="getTx">
-										<span v-if="!loadingtx">获取图形码</span>
-										<span v-else>Loading...</span>
+										<span>获取图形码</span>
 									</Button>
-									<img style='float:right;margin-top:24px;'  :src="verimg"  @click="getTx"/>
+									<img  :src="verimg"  @click="getTx"/>
 								</FormItem>
-	
 								<FormItem label="" class="Rform" prop="verificationCode">
 									<Input  class="Rphone" v-model="regiForm.verificationCode" placeholder="图形验证码"></Input>
-									<Button  class='R-check' :loading="loadingDx"   @click="getDx">
-										<span v-if="!loadingDx">获取短信验证码</span>
-										<span v-else>Loading...</span>
+									<Button  class='R-check'  >
+										<span v-if="sendMsgDisabled">{{time+'秒后获取'}}</span>
+  										<span v-if="!sendMsgDisabled"  @click="getDx">获取短信码</span>
 									</Button>
-									
 								</FormItem> 
-
 								<FormItem label="" prop="shortMessage">
 									<Input v-model="regiForm.shortMessage" placeholder="短信验证码"></Input>
 								</FormItem>
@@ -57,19 +53,22 @@
           }
         };
             return {
+            	time: 180, // 发送验证码倒计时
+    			sendMsgDisabled: false,
             	loadingDx:false,
             	loadingtx:false,
             	txv:1,
             	verimg:'',
                 regiForm: {
+                	loginName:'',
                     passWord: '',
-                    loginName:'',
                     shortMessage: '',
                     verificationCode:''
                 },
                 ruleValidate: {
                     passWord:[
-                      { required: true, message: '密码不能为空', trigger: 'blur' }
+                      { required: true, message: '密码不能为空', trigger: 'blur' },
+                      { type: 'string', min: 6, message: '密码不能少于6位', trigger: 'blur' }
                     ],
                     loginName:[
                       { required: true, validator:validatePhone, trigger: 'blur' }
@@ -84,25 +83,35 @@
           }
         },
           methods:{
+          	//获取图形验证码
           	getDx(){
-          		this.loadingDx = true;
-          		let loginName=this.regiForm.loginName;
-          		if(loginName==null||loginName==''){
-          			this.$Message.error('手机号不能为空!');
+          		let verificationCode=this.regiForm.verificationCode;
+          		if(verificationCode==null||verificationCode==''){
+          			this.$Message.error('图形验证码不能为空!');
           			this.loadingDx = false;
-          		}else{
+          		}
+          		else{
+          		//短信验证码180秒倒计时
+          		let _this = this;
+			    _this.sendMsgDisabled = true;
+			    let interval = setInterval(function() {
+			     if ((_this.time--) <= 0) {
+			      _this.time = 180;
+			      _this.sendMsgDisabled = false;
+			   	   clearTimeout(interval);
+			     }
+			    }, 1000);
           		this.$axios({
 					    method: 'post',
 					    url:'/customer/register/shortmessage',
 					    data:{
-					    		 "mobile":loginName,
+					    		 "mobile":this.regiForm.loginName,
 					    		  "verificationCode":this.regiForm.verificationCode
 					    	},
 					}).then((res)=>{
 						     if (res.code !== 200) {
 		                 		 this.$Message.error(res.msg);
 		              		} 
-							this.loadingDx = false;
 					});
 					}
           	},

@@ -27,14 +27,3 @@ import AppFooter from '@/components/RegisterFooter'
         }
        }
 </script>
-<style scoped="scoped">
-.layout{
-    background-color:#fff;
-    min-height:980px;
-}
-</style>
-<style>
-.ivu-layout{
-    background-color:#fff;
-}
-</style>

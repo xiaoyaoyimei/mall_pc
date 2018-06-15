@@ -354,15 +354,15 @@
 					}).then((res)=>{
 						if(res.code=='200'){
 							  this.$Message.info(res.msg);
-							  this.$router.go(0);
+							  this.getOrder();
 						}
 						else{
+							 this.getOrder();
 							  this.$Message.info(res.msg);
 						}
 					});
                     },
                     onCancel: () => {
-                        this.$Message.info('放弃');
                     }
                 });
             },

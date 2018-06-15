@@ -25,7 +25,7 @@ export default {
 }
 .icon{
     cursor: pointer;
-    background-image:url(assets/img/header_sprite.png);
+    background-image:url(./assets/img/header_sprite.png);
     background-repeat: no-repeat;
     background-attachment: scroll;
     display: inline-block;

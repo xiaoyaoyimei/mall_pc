@@ -3,7 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-let _host= process.env.API_ROOT;
+
 module.exports = {
   dev: {
 
@@ -13,7 +13,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: { 
     	'/pc': {
-        target: 'http://test-shop.dxracer.com.cn:8084/mall',// 请换成你的地址  
+        target: 'http://server-shop.dxracer.cn/mall',// 请换成你的地址  
         changeOrigin: true,
         pathRewrite:{
         	'^/pc': '/pc'
@@ -57,7 +57,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

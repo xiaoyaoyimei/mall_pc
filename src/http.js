@@ -1,17 +1,17 @@
-import axios from 'axios'
-import store from '@/store/store'
-import router from '@/router/route'
+import axios from 'axios';
+import store from '@/store/store';
+import router from '@/router/route';
 
 // axios 配置
 axios.defaults.timeout = 9000;
 console.log(process.env.API_HOST);
-axios.defaults.baseURL = '/pc/';
+axios.defaults.baseURL ='/pc/';
 // http request 拦截器
 axios.interceptors.request.use(
     config => {
         if (store.state.token) {
           config.headers['token'] = store.state.token;
-		  config.headers['loginUserId']=store.state.userId  
+		  config.headers['loginUserId']=store.state.userId
         }
         return config;
     },
@@ -25,8 +25,8 @@ axios.interceptors.response.use(
     	if(response.data.code=='401'){
     		 store.commit('LOGOUT');
     		router.replace({
-                        path: 'login',
-                       query: {redirect: router.currentRoute.fullPath}
+                        name: 'login',
+                        query: {redirect: router.currentRoute.fullPath}
                     })
     	  }
         return response.data;

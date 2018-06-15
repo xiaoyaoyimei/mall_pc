@@ -93,7 +93,7 @@
             },
         },
            mounted() {
-           	this.wexinpaycheck();
+           	   this.wexinpaycheck();
                this.getParams();
           },
           //离开页面时，清空检验支付的计时器

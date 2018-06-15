@@ -128,12 +128,12 @@ const routes =  [
 			
 		{
 			path: '/login', 
-			name: 'login',
 			component:  registerContent,
+			redirect: '/login',
 			children:[
 				{
 					path: '/login',
-					name: '/login',
+					name: 'login',
 					component:  resolve => require(['@/views/Login.vue'], resolve)
 				},
 				{

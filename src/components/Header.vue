@@ -85,7 +85,7 @@
          computed: {
             token() {
             	//获取store里面的token
-                return this.$store.state.token;
+                return store.state.token;
             }
         },
 		methods:{

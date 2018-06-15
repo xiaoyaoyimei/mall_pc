@@ -134,7 +134,6 @@ export default {
 							}
 							this.spinShow=false;
 						});
-						
 			  },
 	    },
          mounted() {

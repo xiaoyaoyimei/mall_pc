@@ -21,20 +21,20 @@
 						<h3 class="lTitle">账号密码登录</h3>
 						<Form ref="loginForm" :model="loginForm" :rules="ruleInline" inline>
 								<FormItem prop="loginName">
-										<Input type="text" class="loginInput" v-model="loginForm.loginName" autoComplete="on" placeholder="手机号">
+										<Input type="text" class="loginInput" v-model="loginForm.loginName" autoComplete="off" placeholder="手机号">
 										</Input>
 								</FormItem>
 								<FormItem prop="passWord">
-										<Input type="password" class="loginInput" @keyup.enter.native="handleLogin" v-model="loginForm.passWord" placeholder="密码">
+										<Input type="password" class="loginInput"  v-model="loginForm.passWord" placeholder="密码">
 										</Input>
 								</FormItem>
 								<FormItem>
-										<Button  :loading="loading" class='btn btn-40 btn-blue w-bai' @click.native="handleLogin('loginForm')">登录</Button>
+										<Button  :loading="loading" class='btn btn-40 btn-blue w-bai' @click="handleLogin()">登录</Button>
 								</FormItem>
 						</Form>
 						<div class="login-link">
-							<router-link :to='{path:"/register"}' tag="a">注册</router-link>
-							 <router-link :to='{path:"/resetPassword"}' class='resetPassword' tag="a">找回密码</router-link> 
+							<router-link :to='{path:"/register"}'>注册</router-link>
+							 <router-link :to='{path:"/resetPassword"}' class='resetPassword'>找回密码</router-link> 
 						</div>
 					</div>
 		</div>
@@ -42,7 +42,7 @@
 </template>
 <script>
 	import store from '@/store/store';
-	 import { validatePHONE } from '@/assets/js/validate';
+	import { validatePHONE } from '@/assets/js/validate';
 	import { mapMutations } from 'vuex';
     export default {
       name: 'login',
@@ -90,34 +90,30 @@
 		        this.loginForm.loginName = routerParams
      	 	},
           handleLogin() {
-          	this.loading=true;
-         	this.$refs.loginForm.validate(valid => {
+          	var _this=this;
+          	_this.loading=true;
+         	_this.$refs.loginForm.validate(valid => {
             if (valid) {
-            	this.loading = false;
-				this.$axios.post('customer/login', {  
-					loginName: this.loginForm.loginName,  
-					passWord: this.loginForm.passWord  
+            	_this.loading = false;
+				_this.$axios.post('customer/login', {  
+					loginName: _this.loginForm.loginName,  
+					passWord: _this.loginForm.passWord  
 				}).then(res => {  
 	               	let { code, object } = res;
 		              if (code !== 200) {
-		                  this.$Message.error(object);
+		                  _this.$Message.error(object);
 		              } else {
-					        this.$Message.success('登录成功');
+					        _this.$Message.success('登录成功');
 					 		let data = res;  
 							//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  
-							this.$store.commit('LOGIN',{token:data.object["token"],userId:data.object["userId"]});  
-//							 ...mapMutations({
-//   							 'set_token',{token:data.object["token"]} // 将 `this.add()` 映射为 `this.$store.commit('increment')`
-// 								 })
-							if (store.state.token) {  
-							this.$router.push(this.$route.query.redirect || '/')
-							} else {  
-								this.$router.replace('/login');  
-							}  
-		              }
+						    store.commit('LOGIN',{token:data.object["token"],userId:data.object["userId"]});
+						    	 _this.$router.push( '/' );
+						    	 }
+							
 				}).catch(error => {  
-						this.$Message.error('系统异常');
-						this.loading = false  
+						_this.$router.replace('/login');  
+						_this.$Message.error('系统异常');
+						_this.loading = false  
 				})  
             } 
             else {

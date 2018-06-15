@@ -59,12 +59,11 @@ function InitTime(endtime){
     var dd,hh,mm,ss = null;
     var time = new Date((endtime)).getTime() - new Date().getTime();
     if(time<=0){
-        return '结束'
     }else{
-        dd = Math.floor(time / 60 / 60 / 24);
-        hh = Math.floor((time / 60 / 60) % 24);
-        mm = Math.floor((time / 60) % 60);
-        ss = Math.floor(time  % 60);
+		var dd = Math.floor(time / 1000 / 60 / 60 / 24);
+		var hh = Math.floor((time / 1000 / 60 / 60) % 24);
+		var mm = Math.floor((time / 1000 / 60) % 60);
+		var ss = Math.floor((time / 1000) % 60);
         var str = dd+"天"+hh+"小时"+mm+"分"+ss+"秒";
         return str;
     }
@@ -81,40 +80,40 @@ export default {
             nostartpro:[]
     	}
       },
-    created() {
+    mounted() {
     	this.getNewChannel();
     },
-    mounted() {
-    	let _this=this;
-    	var startCount=()=>{
-	    		_this.t= setTimeout(() => {
-	    		    for (var key in _this.pro) {
-	            	var aaa ='';
-	            	if(_this.pro[key].switch=='0'){
-	            		aaa= _this.pro[key].crush["startTime"]
-	            	}
-	            	else{
-	                 aaa = _this.pro[key].crush["endTime"];
-	                 }
-	                 aaa= new Date(aaa).getTime()
-	                var bbb = new Date().getTime();
-	                var rightTime = aaa - bbb;
-	                if (rightTime > 0) {
-	                    var dd = Math.floor(rightTime / 1000 / 60 / 60 / 24);
-	                    var hh = Math.floor((rightTime / 1000 / 60 / 60) % 24);
-	                    var mm = Math.floor((rightTime / 1000 / 60) % 60);
-	                    var ss = Math.floor((rightTime / 1000) % 60);
-	                    _this.pro[key]["djs"] = dd + "天" + hh + "小时" + mm + "分" + ss + "秒";
-	                     startCount();
-	                }  else{
-	                	clearTimeout(_this.t)
-	                }
-	            }
-			}, 1000)
-    	}
-    	startCount()
-    },
     methods: {
+    	      daojishi(){
+    	      	let _this=this;
+    		   var timer=()=>{
+			  	setTimeout(() => {
+					      	for (var key in _this.pro) {
+		            	var aaa ='';
+			            	if(_this.pro[key].switch=='0'){
+			            		aaa= _this.pro[key].crush["startTime"]
+			            	}
+			            	else{
+			                 aaa = _this.pro[key].crush["endTime"];
+			                 }
+			                 aaa= new Date(aaa).getTime()
+		                var bbb = new Date().getTime();
+		                var rightTime = aaa - bbb;
+		                if (rightTime > 0) {
+		                    var dd = Math.floor(rightTime / 1000 / 60 / 60 / 24);
+		                    var hh = Math.floor((rightTime / 1000 / 60 / 60) % 24);
+		                    var mm = Math.floor((rightTime / 1000 / 60) % 60);
+		                    var ss = Math.floor((rightTime / 1000) % 60);
+		                    _this.pro[key]["djs"] = dd + "天" + hh + "小时" + mm + "分" + ss + "秒";
+		                    timer();
+		                }  else{
+		                	clearTimeout(_this.t)
+		                }
+		            }
+					}, 1000)
+				}
+      	        timer();	
+    	      },
     	     getNewChannel(){
     	     	 var _this=this;
     	     	this.$axios({
@@ -125,9 +124,7 @@ export default {
 							 this.pro=res.object;
 							  var ssss=this.pro;
 						        ssss.map( (obj,index)=>{
-						         this.$set(  
-						                obj,"djs",InitTime(obj.crush["endTime"])  
-						            );
+						         this.$set(obj,"djs",InitTime(obj.crush["endTime"])  );
 						        })  
 							    this.pro = ssss; 
 							    _this.startpro=[];
@@ -139,6 +136,7 @@ export default {
 											_this.nostartpro.push(item)
 										}
 									})
+							    _this.daojishi();
 							   }
 							else{
 								this.show=true;

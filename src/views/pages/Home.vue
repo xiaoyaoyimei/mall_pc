@@ -2,17 +2,14 @@
 <div class="homepage">
 		<div class="side_nav_wrap clear" style="">
 			<div class="main-wdith">
-			<div class="cat_nav">
+			<!--<div class="cat_nav">
 				<ul>
 					<li v-for="(item,index) in type" :key="index" >
 					 <router-link :to="{ path: '/sort',query:{typeid:item.id,typeindex:index} }"  >{{item.typeName}}</router-link>
 					</li>
 				</ul>
-			</div>
-			<Carousel
-						v-model="value3"
-						:autoplay="setting.autoplay"
-						:autoplay-speed="setting.autoplaySpeed"
+			</div>-->
+			<Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed"
 						:dots="setting.dots"
 						:radius-dot="setting.radiusDot"
 						:trigger="setting.trigger"
@@ -55,7 +52,6 @@
 						</div>
 						</div>
 						</div>
-						 <Spin size="large" fix v-if="spinShow"></Spin>
 		</div>	
 </template>
 
@@ -63,7 +59,6 @@
 export default {
   data() {
     return {
-    	spinShow:true,
       value3: 0,
       loginflag: true,
       setting: {
@@ -105,7 +100,6 @@ export default {
         if (res.code == "200") {
           this.Items = res.object;
         }
-        this.spinShow=false
       });
      this.$axios({
 					method: 'GET',

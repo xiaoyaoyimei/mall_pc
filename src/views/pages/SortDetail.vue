@@ -62,7 +62,7 @@
 							<div class="dt">{{item.attrKey.catalogAttrValue}} :</div>
 							<div  class="dd">
 									<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" 
-								v-bind:style="{paddingLeft:item.attrKey.isColorAttr == 'Y' ? '35px':'5px',backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? 'http://test-shop-img.dxracer.com.cn/'+child.listImg : '')+')'}"
+								v-bind:style="{paddingLeft:item.attrKey.isColorAttr == 'Y' ? '35px':'5px',backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? '//image-shop.dxracer.com.cn/'+child.listImg : '')+')'}"
 								>
 									{{child.modelAttrValue}}
 								</span>

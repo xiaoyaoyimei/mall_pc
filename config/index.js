@@ -12,13 +12,6 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: { 
-    	'/pc': {
-        target: 'http://server-shop.dxracer.cn/mall',// 请换成你的地址  
-        changeOrigin: true,
-        pathRewrite:{
-        	'^/pc': '/pc'
-        }
-      }  
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

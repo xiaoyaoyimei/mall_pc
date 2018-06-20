@@ -41,7 +41,7 @@
                 <p class="li2p">周一至周六</p>
                 <p class="li3p">9:00-17:30</p>
                 <p class="li4p"><img src="../assets/img/comments.png">联系在线客服</p>
-                <p class="li5p">©DXRACER 京ICP证110507号 京ICP备10046444号 </p>
+                <p class="li5p">©DXRACER 苏ICP备17005778号-2 </p>
             </li>
         </ol>
     </div>

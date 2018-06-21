@@ -7,28 +7,27 @@
 			</div>
 		</div>
 		<div class="scan_code_wrap">
-		  	 	<ul class="pay_tab js_pay_tab">
-		  	 		 <li class="alipay " data-target="alipay" @click="toggletab(0)" :class="{checked:0 == num}">
-		                <i class="icon icon-alipay"></i>
-		                                     支付宝
-		            </li>
-                    <li class="wechat" data-target="wechat" @click="toggletab(1)" :class="{checked:1 == num}"  >
-		                <i class="icon icon-wechat"></i>
-		                                    微信支付  
-		            </li>
-           			 </ul>
-                    <div class="pay_content">
-                    <div v-show=" 0 == num"  class="ali">
-                    	<form :action="pay" method="post" ref="payfang" id="myForm">
-                    		<img src="../../../assets/img/alipay.png" @click="handleSubmit('alipay')">
-						</form>
-                    	</div>
-                    	<div v-show=" 1 == num" >
-                    		<img :src="verimg"/>
-                    	</div>
-                    </div>
-    	</Form>
-    </div>
+	  	 	<ul class="pay_tab ">
+	  	 		 <li class="alipay " data-target="alipay" @click="toggletab(0)" :class="{checked:0 == num}">
+	                <i class="icon icon-alipay"></i>
+	                                     支付宝
+	            </li>
+                <li class="wechat" data-target="wechat" @click="toggletab(1)" :class="{checked:1 == num}"  >
+	                <i class="icon icon-wechat"></i>
+	                                    微信支付  
+	            </li>
+       			 </ul>
+                <div class="pay_content">
+                <div v-show=" 0 == num"  class="ali">
+                	<form :action="pay" method="post" ref="payfang" id="myForm">
+                		<img src="../../../assets/img/alipay.png" @click="handleSubmit('alipay')">
+					</form>
+                	</div>
+                	<div v-show=" 1 == num" >
+                		<img :src="verimg"/>
+                	</div>
+                </div>
+   	 	</div>
      </div>
 </template>
 
@@ -112,39 +111,22 @@
 	background: #fff;
 }
 .scan_code_wrap{
+	width: 990px;
+}
+.scan_code_wrap{
 	    padding: 20px 0 12px;
-	    width: 990px;
        margin: 0 auto;
 }
-.scan_code_wrap  p a{
-	margin-left: 20px;
+
+.ali img{
+	cursor: pointer;
 }
-.tips_info{
-    font-size: 16px;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 5px;
-    }
-    .pay_tab{
-    	border-width: 1px 1px 1px 0;
-    	border-style: solid;
-    	border-color:#e9e9e9;
-        display: inline-block;
-        }
-    .pay_tab li {
-    float: left;
-    position: relative;
-    width: 196px;
-    height: 60px;
-    line-height: 60px;
-    font-size: 14px;
-    text-align: center;
-    background-color: #fafafa;
-    cursor: pointer;
-    z-index: 1;
-        
-    border-left: 1px solid #e9e9e9;
-    color: #666;
+.pay_content div{
+	         display: flex;
+            justify-content: center;
+            height: 100%;
+            align-items: center;
+            min-height: 480px;
 }
 .pay_tab .icon-wechat {
     background-position: -68px -37px;
@@ -160,31 +142,5 @@
     background-position: -104px -38px;
     width: 24px;
     height: 24px;
-}
-.pay_content{
-    background-color: #fff;
-    border: 1px solid #e9e9e9;
-    margin-top: -6px;
-    height: 480px;
-    margin-bottom: 40px;
-    
-    	div{
-    		  display: flex;
-    justify-content: center;
-    height: 100%;
-    align-items: center;
-    img{
-    	align-self: center;
-    }
-    	}
-    }
-    .pay_tab .checked {
-    	height: 61px;
-    background-color: #fff;
-    border-bottom: 1px solid #fff;
-    margin-bottom: -1px;
-}
-.ali img{
-	cursor: pointer;
 }
 </style>

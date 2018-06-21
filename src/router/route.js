@@ -21,10 +21,15 @@ const routes =  [
 						path: '/newchannel',
 						component:resolve => require(['@/views/pages/NewChannel.vue'], resolve),
 					},
+				     {
+						name:'/activity',
+						path: '/activity',
+						component:resolve => require(['@/views/pages/Activity.vue'], resolve),
+					},
 					{
-							path: '/sort',
-							name: '/sort',
-							component:  resolve => require(['@/views/pages/Sort.vue'], resolve)
+						path: '/sort',
+						name: '/sort',
+						component:  resolve => require(['@/views/pages/Sort.vue'], resolve)
 					},
 					{
 						name:'/seckill',

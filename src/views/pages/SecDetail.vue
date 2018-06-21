@@ -53,7 +53,7 @@
 	
 				<Tabs class="spjs main-wdith">
 				<TabPane label="商品介绍">
-					<ul><li v-for="(item, index) in productimg" class="center1"  :key="index"><img :src="item.imgUrl |imgfilter"></li></ul>
+					<ul><li v-for="(item, index) in productimg"  :key="index"><img :src="item.imgUrl |imgfilter"></li></ul>
 				</TabPane>
 				<TabPane label="规格参数" >
 						<ul class="gk">

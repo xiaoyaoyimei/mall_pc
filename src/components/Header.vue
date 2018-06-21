@@ -8,6 +8,7 @@
                <router-link  to="/index" tag="li">首页</router-link>
                <router-link  to="/sort" tag="li">产品</router-link>
                 <router-link  to="/seckill" tag="li">秒杀专区</router-link>
+                  <router-link  to="/activity" tag="li">活动产品</router-link>
             </ul>
         </div>
         <div class="opt_wrap">

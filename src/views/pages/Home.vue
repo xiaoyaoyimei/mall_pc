@@ -32,24 +32,6 @@
 			               </li>
 			            </ul>
 						</div>
-							<div class="floor" v-if="proList.length>0">
-							<h2><p>推荐</p></h2>
-						 <ul class="search_list_wrap clearfix">
-			             <li  v-for="(item, index) in proList" :key='index'>
-			               <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" tag="a" >
-			                     <img :src=' item.model_img |imgfilter'>
-			                </router-link>
-			                <div  class="title">
-			                      {{item.model_no}}
-			                </div>
-			                <div class="name">{{item.model_name}}</div>
-			                <div v-if="item.promotionTitle !=null" class="sku_tag ">{{item.promotionTitle}}</div> 
-			                  <div class="price">
-			                       ￥ {{item.sale_price|pricefilter}}
-			                   </div>
-			               </li>
-			            </ul>
-						</div>
 						</div>
 						</div>
 		</div>	
@@ -72,7 +54,6 @@ export default {
       Items: [],
       aditems: [],
       productNew: [],
-      proList: [],
       type:[],
     };
   },
@@ -117,14 +98,6 @@ export default {
 							}
 						});
 						
-      this.$axios({
-        method: "GET",
-        url: "/index/index/product"
-      }).then(res => {
-        if (res.code == "200") {
-          this.proList = res.object;
-        }
-      });
     }
   },
   mounted() {

@@ -58,7 +58,7 @@
             	spinShow:true,
 				productList:[],
 				startRow:0,
-                pageSize:8,
+                pageSize:16,
 				title:'',
                 totalSize:0,
                 catalog:[],

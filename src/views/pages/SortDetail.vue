@@ -20,7 +20,7 @@
 				<div class='imgContent'>
 					<ul  v-for="(item, index) in shangp.productImageList"  :key="index">  
 						<li @click='getIndex(item.listImg,index)' class="clickproduct">  
-							<img :src="item.listImg |imgfilter" :class="{clickItem:item.clickItem}"  style="width: 50px; height: 50px" >  
+							<img :src="item.smallImg |imgfilter" :class="{clickItem:item.clickItem}"  style="width: 50px; height: 50px" >  
 						</li>  
 					</ul>
 				</div>
@@ -33,7 +33,8 @@
 		</div>  
         <div class="delie">
             <div class="G_info hidden">
-                <h3>{{shangp.product.modelNo}} 
+                <h3>
+                	{{shangp.product.modelNo}} 
                 	<span v-if="cxshow" class="color-blue">
                     	{{choosesp.activityName}} 
                     </span></h3>
@@ -52,28 +53,27 @@
                     	</span>
                     </p>
                     <div class="G_MEAS">
-						<div v-if="xiajia" class="xiajia">
-							<Icon type="information-circled">
-							</Icon>该商品已下架
-						</div>
-						<div  v-if="firstshow" class='choosesp'>
-						</div>
 						<div v-for="(item, i) in shangp.productAttrList"  :key="i" class="attr_wrap">
 							<div class="dt">{{item.attrKey.catalogAttrValue}} :</div>
 							<div  class="dd">
-									<span v-for="(child, index) in item.attrValues"  :key="index" @click="chooseSP($event,item,child)"   ref="dditem" :titleid="child.id" 
-								v-bind:style="{paddingLeft:item.attrKey.isColorAttr == 'Y' ? '35px':'5px',backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? '//image-shop.dxracer.com.cn/'+child.listImg : '')+')'}"
-								>
-									{{child.modelAttrValue}}
+								<div  :class="choosesp.kucun==0?'disabled':'abled'">
+								<span ref="dditem" v-for="(child, index) in item.attrValues"  :key="index"   v-bind:class="item.attrValues.length==1?'active':''" @click="chooseSP($event,item)"    :titleid="child.id" 
+							v-bind:style="{paddingLeft:item.attrKey.isColorAttr == 'Y' ? '35px':'5px',backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? '//image-shop.dxracer.com.cn/'+child.smallImg : '')+')'}">
+							{{child.modelAttrValue}}
 								</span>
+								</div>
 							</div>
 						</div>
 						<div class="sNumber">
 							<span class="title">数量:</span>
 							<InputNumber  :min="1" v-model="quantity"></InputNumber>
 							<span class="stock" >
-							 <b v-if="kucunshow"> 库存: {{choosesp.kucun}}</b>
+							 <b > 库存: {{choosesp.kucun}}</b>
 							</span>
+						</div>
+							<div v-if="xiajia" class="xiajia">
+							<Icon type="information-circled">
+							</Icon>该商品已下架
 						</div>
 						<div>
 							<Button v-if="wuhuotongzhi" size="large" class="goBtn"  disabled="disabled">暂时无货，到货通知</Button>
@@ -84,16 +84,23 @@
                 </div>
             </div>
         </div>
-       <Tabs>
-        <TabPane label="商品介绍">
-        	<ul><li class="center1" v-for="(item, index) in productimg"  :key="index"><img :src="item.imgUrl |imgfilter"></li></ul>
-        </TabPane>
-        <TabPane label="规格参数" >
-        		<ul class="gk">
-        			<li  v-for="(item, index) in productDesc"  :key="index">
-        			<span class="title">{{item.attrCode}}:</span> <span class="neirong">{{item.attrValue}}</span></li></ul>
-        </TabPane>
-    </Tabs>
+        	<div class="scan_code_wrap">
+	  	 	<ul class="pay_tab ">
+	  	 		<li class="alipay" data-target="alipay" @click="toggletab(0)" :class="{checked:0 == num}">商品介绍 </li>
+                <li class="wechat" data-target="wechat" @click="toggletab(1)" :class="{checked:1 == num}">规格参数  </li>
+       		</ul>
+            <div class="pay_content">
+                <div v-show=" 0 == num"  class="pro_intro">
+            		 <div  v-for="(item, index) in productimg"  :key="index"><img :src="item.imgUrl |imgfilter"></div>
+                	 </div>
+                	<div v-show=" 1 == num" class="pro_size">
+            			<p  v-for="(item, index) in productDesc"  :key="index">
+    						<span class="title">{{item.attrCode}}:</span> <span >{{item.attrValue}}</span>
+            			</p>
+                	</div>
+                </div>
+   	 	</div>
+
     </div>
 </div>
 </template>
@@ -103,7 +110,8 @@ export default {
         data () {
             return {
             	//库存是否为0添加购物车显示按钮
-            	kucunshow:false,
+            	num:0,
+            	isActive:false,
 				videoshow:false,
 				mousehidden:true,
 				xiajia:false,
@@ -115,7 +123,7 @@ export default {
             	modal_loading:false,
             	//商品最原始数据
             	oldshangp:{
-            		product:{},
+            		product:{modelNo:''},
             		promotions:[],
             		productImageList:[],
             		productItemList:[],
@@ -124,7 +132,7 @@ export default {
             	},
             	//请求product之后的商品数据
             	shangp:{
-            		product:{},
+            		product:{modelNo:'',salePrice:0},
             		promotions:[],
             		productImageList:[],
             		productItemList:[],
@@ -133,7 +141,6 @@ export default {
             	},
             	productDesc:[],
             	productimg:[],
-            	bigchoose:'',
 				cxshow:false,
 				stock:false,
             	choosesp:{
@@ -144,7 +151,7 @@ export default {
             		activityName:'',
             		startTime:'',
             		endTime:'',
-					kucun:'',
+					kucun:0,
             	},
             	productItemId:'',
             	quantity:1,
@@ -156,6 +163,10 @@ export default {
             }
         },
           methods: {
+                	//切换商品介绍和规格
+          			toggletab(num){
+		        		this.num=num;
+		        	},
           	        changeNumber: function(event){
 						var obj=event.target;
 						this.quantity = parseInt(obj.value);
@@ -240,10 +251,9 @@ export default {
 										    Bus.$emit('cartmsg', "again");
 											this.$router.push('/cart');
 										}
-										else{
-											this.$Message.error(res.msg);
+										else {
+											this.$Message.error('加入购物车失败');
 											//token过期
-											this.$router.push({  path: '/login', query: {redirect: this.$route.fullPath} })  
 										}
 							})
 						}else{
@@ -251,33 +261,19 @@ export default {
 						}
             	},
             	//选择商品
-            	chooseSP(e,pa,ch){
-            		this.kucunshow=false;
-            		this.cxshow=false;
+            	detail(){
             		var chooseId="",jishu=0;
-       	            let p=e.target.parentNode.children;
-	            	for(let i =0;i<p.length;i++) {
-	       	            	p[i].className="";
-						}
-            	 	e.target.className="active"; 
             		let dditem=this.$refs['dditem'];
-            		this.bigchoose="";
             		for(let n=0;n<dditem.length;n++){
             			if(dditem[n].getAttribute("class")=='active'){
             				chooseId+=dditem[n].getAttribute("titleid")+',';
-            				this.bigchoose +=dditem[n].innerHTML+',';
             				jishu++
             			}
             		}
-            		//显示促销信息
-            		if(this.shangp.promotions)
-            		//商品详情页已选显示
-            	   chooseId=(chooseId.slice(chooseId.length-1)==',')?chooseId.slice(0,-1):chooseId;
-            	   this.bigchoose=(this.bigchoose.slice(this.bigchoose.length-1)==',')?this.bigchoose.slice(0,-1):this.bigchoose;
-            	   var flag= false;
-            	   //只有选择完属性才可以 读出选中商品的促销价格+促销类目
-            	   if(jishu==this.shangp.productAttrList.length){
-            	   	//通过选择属性读出productItemId
+            		chooseId=(chooseId.slice(chooseId.length-1)==',')?chooseId.slice(0,-1):chooseId;
+            		var flag= false;
+            		if(jishu==this.shangp.productAttrList.length){
+            		  	//通过选择属性读出productItemId
             	   	    for (let chooseItem of this.shangp.productItemList) {
 							if(chooseItem.productModelAttrs==chooseId){
 								this.shangp.product.modelNo = chooseItem.itemNo;
@@ -288,7 +284,6 @@ export default {
 							   	if(this.shangp.promotions.length>0){
 							   		 for (let cxitem of this.shangp.promotions) {
 				            	   	 	if(cxitem.productItemId==this.productItemId){
-
 				            	   	 		this.cxshow=true;
 				            	   	 		this.choosesp.cuxiaoprice=cxitem.onSalePrice;
 				            	   	 		this.choosesp.activityName=cxitem.activityName;
@@ -302,7 +297,6 @@ export default {
 							   }else{
 							   		flag= false
 							   }
-
 							}
             	   	    if(flag == false){
             	   	    	this.choosesp.itemNo="";
@@ -313,21 +307,33 @@ export default {
             	   	    	this.xiajia=false;
             	   	    	this.firstshow=true
             	   	    }
-            	   }
-            	   //计算库存（库存需大于0才显示）
-            	   if(this.shangp.inventory.length>0){
-					for(let kucunitem of this.shangp.inventory){
-						if(kucunitem.skuId==this.productItemId){
-							this.choosesp.kucun=kucunitem.quantity-kucunitem.lockQuantity
+            	   	    	   //计算库存（库存需大于0才显示）
+		            	   if(this.shangp.inventory.length>0){
+							for(let kucunitem of this.shangp.inventory){
+								if(kucunitem.skuId==this.productItemId){
+									this.choosesp.kucun=kucunitem.quantity-kucunitem.lockQuantity
+								}
+							}
+							}
+							if(this.choosesp.kucun < 1){
+								this.wuhuotongzhi = true;
+							}else{
+								this.wuhuotongzhi = false;
+							}
+            	   	    
+            		}else{
+            			return;
+            		}
+            
+            	},
+            	chooseSP(e,pa){
+            		this.cxshow=false;
+       	            let p=e.target.parentNode.children;
+	            	for(let i =0;i<p.length;i++) {
+	       	            	p[i].className="";
 						}
-					}
-					this.kucunshow=true;
-					}
-					if(this.choosesp.kucun < 1){
-						this.wuhuotongzhi = true;
-					}else{
-						this.wuhuotongzhi = false;
-					}
+            	 	e.target.className="active"; 
+            		this.detail();
             	},
     	      	getParams () {
 	       			 // 取到路由带过来的参数 
@@ -345,17 +351,27 @@ export default {
 									if(res.code=='200'){
 										//原始数据用于合并求得的数据=>新数据
 										this.shangp= Object.assign({},this.oldshangp,res.object);
+									   if(this.shangp.inventory.length>0){
+											for(let kucunitem of this.shangp.inventory){
+													this.choosesp.kucun += kucunitem.quantity-kucunitem.lockQuantity;
+												}
+											}
+									   	if(this.choosesp.kucun < 1){
+											this.wuhuotongzhi = true;
+										}else{
+											this.wuhuotongzhi = false;
+										}
 										for (let a = 0; a < this.shangp.productImageList.length; a++) {
 											this.shangp.productImageList[a].clickItem = false;
 										}
 										this.ImgUrl = this.shangp.product.modelImg;
 										if(this.shangp.productImageList.length >0){
-											
 											this.shangp.productImageList[0].clickItem = true;
 										}
 										if(this.shangp.product.video != ''){
 											this.videoIcon = true;
 										}
+									
 									}
 							});
 			     },
@@ -377,13 +393,16 @@ export default {
     	 mounted() {
 				this.getParams();
 				this.getProduct();
+				 setTimeout(() => {
+				    	this.detail();
+				    }, 500)
 				this.getProductDesc();
+				
         },
     }
        
 </script>
 <style lang="scss" scoped="scoped">
- @import '@/styles/color.scss';
     .sortDetail{
         margin-bottom:50px;
         min-height: 900px;
@@ -601,10 +620,21 @@ export default {
 			background-size: contain;
 			background-repeat: no-repeat;
 			vertical-align: middle;
+			position: relative;
 		}       
-		span.active{
+		 span.active{
 			color:#0099ff;
 	  	    border-color:#0099ff;
+		}
+		 .active:after{
+			content:"";
+			background: url(../../assets/img/header_sprite.png) scroll no-repeat -9px -71px;
+			width:12px;
+			height: 12px;
+			display: inline-block;
+			position: absolute;
+			right: 0;
+			bottom: 0;
 		}
 	  }
  }
@@ -639,7 +669,6 @@ export default {
 	background-color: #57a3f3;
 	border: 1px solid #57a3f3;
 }
-
 .sortDetail .stock{
 	padding-left: 20px;
 	color: black;
@@ -702,13 +731,26 @@ export default {
 	width: 30px;
 	cursor: pointer;
 }
-.sortDetail .neirong, .sortDetail .title{
-	font-size: 15px;
-	line-height: 35px;
+.pay_content{
+	padding-top: 15px;
 }
-.sortDetail .title{
-	width:150px;
-	display: inline-block;
+.pro_intro{
+	text-align: center;
+}
+.pro_size{
+	padding: 20px;
+	line-height: 30px;
+	overflow: hidden;
+	p{
+		width: 50%;
+		float: left;
+	}
+	.title{
+		width: 150px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 20px;
+	}
 }
 .sortDetail .sNumber {
 	border-bottom: 1px solid #e7e7e7;

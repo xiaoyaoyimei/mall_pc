@@ -11,7 +11,14 @@ module.exports = {
     autoOpenBrowser: false,  
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: { 
+    proxyTable: {
+    	 '/pc': {
+                target: '"http://server-shop.dxracer.cn/mall"',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/pc': '/pc'
+                }
+            }
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

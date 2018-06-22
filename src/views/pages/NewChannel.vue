@@ -3,7 +3,7 @@
 	<div class="main-wdith mt20">
         <ul class="search_list_wrap clearfix">
              <li  v-for="(item, index) in productNew" :key='index'>
-               <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" tag="a">
+               <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" >
                      <img :src=' item.model_img |imgfilter'>
                 </router-link>
                 <div  class="title">

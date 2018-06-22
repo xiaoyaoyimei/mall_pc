@@ -50,7 +50,7 @@
 						<p class='cart_qua'>
 							<div class="min-add">
 						    <i  @click="jian(x,index)" class="min"  >-</i>
-						     <input class="text-box" name="pricenum"  type="tel" v-model="x.quantity*1" v-on:input="changeNumber($event,x,index)" placeholder="数量" data-max="50" />
+						     <input class="text-box" name="pricenum"  type="tel" v-model="x.quantity*1" v-on:blur="changeNumber($event,x,index)" placeholder="数量" data-max="50" />
 						  <i  @click="jia(x,index)" class="add">+</i>
 						</div>
 					</Col>
@@ -134,7 +134,13 @@ export default {
 							});
               },
         	changeNumber: function(event,x,index){
-					var obj=event.target;
+						var obj=event.target;
+					 let n = /^[1-9]\d*$/; 
+			        if(!n.test(obj)){
+			            this.$Message.warning('商品数量须大于0个，请输入正整数');
+			            obj.value=1
+			            return ;
+			        }
 					x.quantity = parseInt(obj.value);
 					 if(this.temp.indexOf(index)<0){
 					     		this.temp.push(index)

@@ -555,6 +555,7 @@
 }
 .checked .icon_checked{
 	display: block;
+	top:109px;
 }
 .address-box .adr-inner {
     position: relative;

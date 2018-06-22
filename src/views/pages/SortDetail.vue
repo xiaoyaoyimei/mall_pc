@@ -78,7 +78,7 @@
 						<div>
 							<Button v-if="wuhuotongzhi" size="large" class="goBtn"  disabled="disabled">暂时无货，到货通知</Button>
 							<Button v-show="!wuhuotongzhi" class="goCart"  size="large"     disabled="disabled" v-if="xiajia">加入购物车</Button>
-							<Button v-show="!wuhuotongzhi" class="goCart"  size="large"  :loading="modal_loading" @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
+							<Button v-show="!wuhuotongzhi" class="goCart"  size="large"   @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
 						</div>
                     </div>
                 </div>
@@ -120,7 +120,6 @@ export default {
             	selectedId:-1,
 				modal2: false,
 				videoIcon:false,
-            	modal_loading:false,
             	//商品最原始数据
             	oldshangp:{
             		product:{modelNo:''},
@@ -236,7 +235,10 @@ export default {
 					},
           	//加入购物车
           	   atc () {
-                    this.modal_loading = true;
+                    if(this.productItemId==""){
+                    	this.$Message.error('请选择商品属性');
+                    	return
+                    }
 	                if(localStorage.getItem('token')!=null&&localStorage.getItem('token')!=undefined){
 	                	this.$axios({
 								    method: 'post',
@@ -246,7 +248,6 @@ export default {
 								    	quantity:this.quantity
 								    }
 									}).then((res)=>{
-										this.modal_loading = false;
 										if(res.code=='200'){
 										    Bus.$emit('cartmsg', "again");
 											this.$router.push('/cart');

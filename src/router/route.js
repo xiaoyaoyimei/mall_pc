@@ -1,4 +1,3 @@
-const _import = require('./_import_' + process.env.NODE_ENV);
 import Full from '@/container/Full'
 import UFull from '@/container/UFull'
 import registerContent from "@/container/RegisterContent"
@@ -14,12 +13,12 @@ const routes =  [
                     children: [
                     {
 						path: '/index',
-						component:resolve => require(['@/views/pages/Home.vue'], resolve),
+						component: () => import('@/views/pages/Home.vue'),
 					},
 					{
 						name:'新品频道',
 						path: '/newchannel',
-						component:resolve => require(['@/views/pages/NewChannel.vue'], resolve),
+						component:() => import('@/views/pages/NewChannel.vue'),
 					},
 				     {
 						name:'/activity',
@@ -29,7 +28,7 @@ const routes =  [
 					{
 						path: '/sort',
 						name: '/sort',
-						component:  resolve => require(['@/views/pages/Sort.vue'], resolve)
+						component: () => import('@/views/pages/Sort.vue'),
 					},
 					{
 						name:'/seckill',

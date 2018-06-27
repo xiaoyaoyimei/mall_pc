@@ -31,7 +31,6 @@
 		   		    <p>{{item.productItemNo}}</p></td>
 		   			<td>
 		   				<span class="color-blue font-14">￥{{orderFeejun(item)|pricefilter}}</span>
-		   				<span class="color-origin">￥{{productFeejun(item)|pricefilter}}</span>
 		   			</td>
 		   			<td>{{item.quantity}}</td>
 		   			<td>￥{{discountFeejun(item)|pricefilter}}</td>

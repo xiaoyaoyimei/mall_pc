@@ -48,7 +48,8 @@
         	toggletab(num){
         		this.num=num;
         		if(num==1){
-        			this.verimg=this.$axios.defaults.baseURL+'order/weixin/'+this.$route.query.orderNo;
+        				let urlo=window.location.origin;
+        			this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
         		}
         	},
         	wexinpaycheck(){

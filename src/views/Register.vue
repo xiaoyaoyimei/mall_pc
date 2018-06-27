@@ -20,7 +20,7 @@
 										<span v-if="sendMsgDisabled">{{time+'秒后获取'}}</span>
   										<span v-if="!sendMsgDisabled"  @click="getDx">获取短信码</span>
 									</Button>
-								</FormItem> 
+								</FormItem>
 								<FormItem label="" prop="shortMessage">
 									<Input v-model="regiForm.shortMessage" placeholder="短信验证码"></Input>
 								</FormItem>
@@ -111,14 +111,14 @@
 					}).then((res)=>{
 						     if (res.code !== 200) {
 		                 		 this.$Message.error(res.msg);
-		              		} 
+		              		}
 					});
 					}
           	},
           	getTx(){
           			if(this.regiForm.loginName==""){
           			  this.$Message.error('手机号不能为空');
-          			  return 
+          			  return
           			}
           		    //验证用户名是否存在
           		 	this.$axios({
@@ -126,8 +126,9 @@
 							    url:'/customer/validate?userName='+this.regiForm.loginName,
 							}).then((res)=>{
 								if(res.code=='200'){
-									this.txv++;
-          							this.verimg=this.$axios.defaults.baseURL+'customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+									     this.txv++;
+											 	let urlo=window.location.origin;
+          							this.verimg=urlo+'/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
 								}else{
 									  this.$Message.error(res.msg);
 								}
@@ -159,4 +160,3 @@
         }
        }
 </script>
-

@@ -18,7 +18,7 @@
 										<span v-if="sendMsgDisabled">{{time+'秒后获取'}}</span>
   										<span v-if="!sendMsgDisabled"  @click="getDx">获取短信码</span>
 									</Button>
-								</FormItem> 
+								</FormItem>
 								<FormItem label="" prop="shortMessage">
 									<Input v-model="regiForm.shortMessage" type="text" placeholder="短信验证码"></Input>
 								</FormItem>
@@ -106,7 +106,7 @@
 					}).then((res)=>{
 						     if (res.code !== 200) {
 		                 		 this.$Message.error(res.msg);
-		              		} 
+		              		}
 					});
 					}
           	},
@@ -117,7 +117,8 @@
           			return ;
           			}
           			this.txv++;
-          			this.verimg=this.$axios.defaults.baseURL+'customer/'+mobile+'/verification.png?v='+this.txv;
+								let urlo=window.location.origin;
+          			this.verimg=urlo+'/mall/pc/customer/'+mobile+'/verification.png?v='+this.txv;
           	},
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
@@ -143,4 +144,3 @@
         }
        }
 </script>
-

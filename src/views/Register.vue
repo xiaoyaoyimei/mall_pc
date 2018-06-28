@@ -9,19 +9,19 @@
 							<Form :model="regiForm" label-position="left" :label-width="0" :rules="ruleValidate" ref="regiForm">
 								<FormItem label="" class="Rform" prop="loginName">
 									<Input class="Rphone" v-model.trim="regiForm.loginName" placeholder="手机号"></Input>
-									<Button  class='R-check' :loading="loadingtx"  @click="getTx">
-										<span>获取图形码</span>
-									</Button>
+									<button  class='R-check' @click="getTx"  type="button">
+										获取图形码
+									</button>
 									<img  :src="verimg"  @click="getTx"/>
 								</FormItem>
 								<FormItem label="" class="Rform" prop="verificationCode">
 									<Input  class="Rphone" v-model="regiForm.verificationCode" placeholder="图形验证码"></Input>
-								    <Button  class='R-check'  v-if="sendMsgDisabled">
-										<span >{{time+'秒后获取'}}</span>
-									</Button>
-									<Button  class='R-check'  v-else @click.native="getDx">
-										<span >获取短信码</span>
-									</Button>
+								    <button  class='R-check'  v-if="sendMsgDisabled"  type="button">
+										{{time+'秒后获取'}}
+									</button>
+									<button  class='R-check'  v-else @click="getDx"  type="button">
+										获取短信码
+									</button>
 								</FormItem>
 								<FormItem label="" prop="shortMessage">
 									<Input v-model="regiForm.shortMessage" placeholder="短信验证码"></Input>
@@ -30,7 +30,7 @@
 									<Input v-model="regiForm.passWord" placeholder="密码"></Input>
 								</FormItem>
 									<FormItem>
-								<button  class=' btn btn-40 btn-blue w-bai' @click="handleSubmit('regiForm')">注册</button>
+								<button  type="button" class=' btn btn-40 btn-blue w-bai' @click="handleSubmit('regiForm')">注册</button>
 									</FormItem>
 							</Form>
 							<div class="login-link">
@@ -105,15 +105,9 @@
 					}).then((res)=>{
 						if(res.code==200){
 								//短信验证码180秒倒计时
-				          		let _this = this;
+				     			let _this = this;
 							    _this.sendMsgDisabled = true;
-							   _this.t = setInterval(function() {
-							     if ((_this.time--) <= 0) {
-							      _this.time = 180;
-							      _this.sendMsgDisabled = false;
-							   	   clearTimeout(_this.t );
-							     }
-							    }, 1000);
+							    _this.startTime();
 						}
 						     else {
 		                 		 this.$Message.error(res.msg);
@@ -121,6 +115,20 @@
 					});
 					}
           	},
+          	  startTime(){
+          	 	if(this.time==0){
+          	 		  this.time = 180;
+				      this.sendMsgDisabled = false;
+				      clearTimeout(this.t);
+          	 		}
+					else{
+					    this.time--;
+					 }
+					 let self=this;
+                      this.t= setTimeout(() => {
+                                self.startTime();
+                        }, 	1000);
+				},
           	getTx(){
           			if(this.regiForm.loginName==""){
           			  this.$Message.error('手机号不能为空');
@@ -135,7 +143,7 @@
 									     this.txv++;
 									//     this.verimg=this.$axios.defaults.baseURL+'/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
 										 	let urlo=window.location.origin;
-      							this.verimg=urlo+'/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+      										this.verimg=urlo+'/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
 								}else{
 									  this.$Message.error(res.msg);
 								}
@@ -155,7 +163,7 @@
 								              if (code !== 200) {
 								                this.$Message.error(res.msg);
 								              } else {
-								                this.$router.push({ path: '/login' ,params: { loginName: this.regiForm.loginName }});
+								                this.$router.push({ name: '/login' ,params: { loginName: this.regiForm.loginName }});
 								              }
 							});
 							}

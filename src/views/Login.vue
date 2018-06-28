@@ -88,6 +88,7 @@
 		        let routerParams = this.$route.params.loginName
 		        // 将数据放在当前组件的数据内
 		        this.loginForm.loginName = routerParams
+		        console.log(routerParams)
      	 	},
           handleLogin() {
           	var _this=this;

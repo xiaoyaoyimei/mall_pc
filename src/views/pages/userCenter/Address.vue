@@ -253,7 +253,8 @@
                 this.$refs[name].resetFields();
             },
             secAdd(item){
-            	 this.$router.push({name: '/secdetail',query:{skuId:this.$route.query.skuId,address:item}}) ;
+            	 localStorage.setItem("secaddress",JSON.stringify(item))
+            	 this.$router.push({name: '/secdetail',query:{skuId:this.$route.query.skuId}}) ;
             }
 	      },
 	      mounted(){

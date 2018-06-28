@@ -160,6 +160,7 @@
       return {
       	timerShow:false,
       	spinShow:true,
+      	timer:'',
       	protime:'',
       	orderdetail:{
       		shippingOrder:{},
@@ -400,9 +401,10 @@
 				}
 			});
 		},
-		getTimeout(inittime){
+	getTimeout(inittime){
+		let _this = this
 			var timer=()=>{
-				setTimeout(() => {
+				 _this.timer =	setTimeout(() => {
 					var mm,ss = null;
 					var time = new Date((inittime)).getTime()  - new Date().getTime();
 					time = time + 30*60*1000;
@@ -419,14 +421,17 @@
 					}, 1000)
 				}
 			timer()
-		}
+	}
 	},
 	mounted() {
 			this.getParams();
 			this.getOrder();
 			this.getStatusEnum();
 			this.getAddressOption();
-	}
+	},
+	 destroyed: function () {
+          	clearTimeout(this.timer);
+		},
   }
 </script>
 

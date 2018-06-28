@@ -10,11 +10,11 @@ const routes =  [
 				  {
 					path: '/',
 				    redirect: '/index',
-                    component: Full,
-                    children: [
-                    {
-						path: '/index',
-						component: () => import('@/views/pages/Home.vue'),
+            component: Full,
+            children: [
+            {
+				path: '/index',
+				component: () => import('@/views/pages/Home.vue'),
 					},
 					{
 						name:'新品频道',
@@ -227,7 +227,7 @@ const routes =  [
 			children:[
 				{
 					path: '/login',
-					name: 'login',
+					name: '/login',
 					component:  resolve => require(['@/views/Login.vue'], resolve)
 				},
 				{

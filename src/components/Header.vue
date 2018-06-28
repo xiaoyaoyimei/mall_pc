@@ -18,7 +18,7 @@
                  <div class="common-wrap login-wrap" v-if="!nologin">
             		<i class="icon-arrow"></i>
             		<h3>WELCOME !<i class="icon icon-wel"></i></h3>
-            		<p class="color-blue">用户ID</p>
+            		<p class="color-blue">{{account.nickName}}</p>
             		<p class="mb30">欢迎来到DXRACER官方商城  现在就开始您的购物之旅吧！</p>
                     <router-link  to="/user" class="btn-blue btn-normol btn-40 mr15" tag="button">个人中心</router-link>
                     <button class="btn-dark btn-normol btn-40" @click="logout">退出登录</button>
@@ -87,7 +87,7 @@
             token() {
             	//获取store里面的token
                 return store.state.token;
-            }
+            },
         },
 		methods:{
             isLogin(){

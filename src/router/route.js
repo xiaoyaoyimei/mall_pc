@@ -1,12 +1,13 @@
 import Full from '@/container/Full'
 import UFull from '@/container/UFull'
+import HFull from '@/container/HFull'
 import registerContent from "@/container/RegisterContent"
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store/store'
 Vue.use(VueRouter)
 const routes =  [
-				{
+				  {
 					path: '/',
 				    redirect: '/index',
                     component: Full,
@@ -127,6 +128,95 @@ const routes =  [
 			   		path:'setting',
 		 		   	component:resolve => require(['@/views/pages/userCenter/MySetting.vue'],resolve)
 				}	
+			]
+				},
+					{
+				path: '/help',
+				name:'/help',
+				component: HFull,
+				redirect: '/help/gwzn',
+				children:[
+				            {
+				         	name:'gwzn',
+				   				path: 'gwzn',
+				 	   			component:() => import('@/views/pages/help/gwzn.vue'),
+				         },     
+				         { 
+				         	
+				         	name:'psfs',
+				   			  path: 'psfs',
+				 	   			component:() => import('@/views/pages/help/psfs.vue'),
+				      	},
+								{
+									name:'zffs',
+							   		path: 'zffs',
+						 		   	component:() => import('@/views/pages/help/zffs.vue'),
+								},
+								{
+									name:'cjwt',
+							   		path: 'cjwt',
+						 		   	component:() => import('@/views/pages/help/cjwt.vue'),
+								},
+								{
+									name:'bxzc',
+							   		path: 'bxzc',
+						 		   	component:() => import('@/views/pages/help/bxzc.vue'),
+								},
+								{
+									name:'thhzc',
+							   		path: 'thhzc',
+						 		   	component:() => import('@/views/pages/help/thhzc.vue'),
+								},
+								{
+									name:'thhlc',
+							   		path: 'thhlc',
+						 		   	component:() => import('@/views/pages/help/thhlc.vue'),
+								},
+									{
+									name:'bxzt',
+							   		path: 'bxzt',
+						 		   	component:() => import('@/views/pages/help/bxzt.vue'),
+								},
+										{
+									name:'shfw',
+							   		path: 'shfw',
+						 		   	component:() => import('@/views/pages/help/shfw.vue'),
+								},
+								{
+									name:'xxty',
+							   		path: 'xxty',
+						 		   	component:() => import('@/views/pages/help/xxty.vue'),
+								},
+								{
+									name:'azsp',
+							   		path: 'azsp',
+						 		   	component:() => import('@/views/pages/help/azsp.vue'),
+								},
+								{
+									name:'tsjy',
+							   		path: 'tsjy',
+						 		   	component:() => import('@/views/pages/help/tsjy.vue'),
+								},
+													{
+									name:'gsjs',
+							   		path: 'gsjs',
+						 		   	component:() => import('@/views/pages/help/gsjs.vue'),
+								},
+								{
+									name:'scjj',
+							   		path: 'scjj',
+						 		   	component:() => import('@/views/pages/help/scjj.vue'),
+								},
+								{
+									name:'zzzc',
+							   		path:'zzzc',
+						 		   	component:() => import('@/views/pages/help/zzzc.vue'),
+								},
+								{
+									name:'lxwm',
+							   		path:'lxwm',
+						 		   	component:() => import('@/views/pages/help/lxwm.vue'),
+								},
 			]
 				},
 			

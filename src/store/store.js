@@ -17,7 +17,7 @@ const mutations = {
     LOGOUT(state) {
           state.token = null
 		  state.userId = null
-			localStorage.removeItem('token')  
+		   localStorage.removeItem('token')  
 			localStorage.removeItem('userId') 
     },
 }

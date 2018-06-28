@@ -14,9 +14,11 @@
 								</FormItem>
 								<FormItem label="" class="Rform" prop="verificationCode">
 									<Input  class="Rphone" v-model="regiForm.verificationCode" type="text" placeholder="图形验证码"></Input>
-									<Button  class='R-check'  >
-										<span v-if="sendMsgDisabled">{{time+'秒后获取'}}</span>
-  										<span v-if="!sendMsgDisabled"  @click="getDx">获取短信码</span>
+									<Button  class='R-check'  v-if="sendMsgDisabled">
+										<span>{{time+'秒后获取'}}</span>
+										</Button>
+										<Button  class='R-check'  v-else  @click.native="getDx">
+  										<span>获取短信码</span>
 									</Button>
 								</FormItem>
 								<FormItem label="" prop="shortMessage">
@@ -52,6 +54,7 @@
           }
         };
             return {
+            	t:'',
             	time: 180, // 发送验证码倒计时
             	sendMsgDisabled: false,
             	loadingtx:false,
@@ -86,16 +89,7 @@
           		if(verificationCode==null||verificationCode==''){
           			this.$Message.error('图形码不能为空!');
           		}else{
-          			  		//短信验证码180秒倒计时
-      				let _this = this;
-			    _this.sendMsgDisabled = true;
-			    let interval = setInterval(function() {
-			     if ((_this.time--) <= 0) {
-			      _this.time = 180;
-			      _this.sendMsgDisabled = false;
-			   	   clearTimeout(interval);
-			     }
-			    }, 1000);
+          			
           		this.$axios({
 					    method: 'post',
 					    url:'/customer/register/shortmessage',
@@ -104,8 +98,19 @@
 					    		  "verificationCode":this.regiForm.verificationCode
 					    	},
 					}).then((res)=>{
-						     if (res.code !== 200) {
-		                 		 this.$Message.error(res.msg);
+						     if (res.code == 200) {
+						     	  		//短信验证码180秒倒计时
+				      				let _this = this;
+							    _this.sendMsgDisabled = true;
+							    _this.t = setInterval(function() {
+							     if ((_this.time--) <= 0) {
+							      _this.time = 180;
+							      _this.sendMsgDisabled = false;
+							   	   clearTimeout( _this.t);
+							     }
+							    }, 1000);
+		              		}else{
+		              			this.$Message.error(res.msg);
 		              		}
 					});
 					}
@@ -116,9 +121,19 @@
           			this.$Message.error('手机号不能为空!');
           			return ;
           			}
-          			this.txv++;
-								let urlo=window.location.origin;
-          			this.verimg=urlo+'/mall/pc/customer/'+mobile+'/verification.png?v='+this.txv;
+          		 	this.$axios({
+							    method: 'post',
+							    url:'/customer/validate?userName='+this.regiForm.mobile,
+							}).then((res)=>{
+								if(res.code!=='200'){
+									this.txv++;
+									let urlo=window.location.origin;
+				          			this.verimg=urlo+'/mall/pc/customer/'+mobile+'/verification.png?v='+this.txv;
+								}else{
+									   this.$Message.error('该手机号不存在，请注册');
+								}
+							});
+          			
           	},
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
@@ -141,6 +156,9 @@
 							}
                       })
             },
-        }
+        },
+         destroyed: function () {
+          	clearTimeout( this.t );
+		},
        }
 </script>

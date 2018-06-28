@@ -1,6 +1,6 @@
 <template>
   <div class="foot">
-    ©DXRACER 京ICP证110507号 京ICP备10046444号 
+		©DXRACER 苏ICP备17005778号-2
   </div>
 </template>
 

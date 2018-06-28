@@ -15,7 +15,7 @@
 						:trigger="setting.trigger"
 						:arrow="setting.arrow" class="banner">
 		                <CarouselItem  v-for="(item, index) in Items"  :key="index">
-		                        <div class="demo-carousel"><img :src="item.imgUrl |imgfilter"></div>
+		                        <div class="demo-carousel"><a :href="item.linkUrl"><img :src="item.imgUrl |imgfilter"></a></div>
 		                </CarouselItem>
 			</Carousel>
 						<div class="floor" v-if="productNew.length>0">

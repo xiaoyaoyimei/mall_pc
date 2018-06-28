@@ -5,7 +5,7 @@
 				</router-link>
 			<div class="login_wrap">
     			<div class="div">
-						<h3 class="lTitle">使用合作号登录</h3>
+						<!--<h3 class="lTitle">使用合作号登录</h3>
 						<ul class="ul">
 							<li class="li">
 								<router-link :to="{  }">
@@ -17,7 +17,7 @@
 									<img src="../assets/img/link-wx.png" alt="微信登录">
 								</router-link>
 							</li>
-						</ul>
+						</ul>-->
 						<h3 class="lTitle">账号密码登录</h3>
 						<Form ref="loginForm" :model="loginForm" :rules="ruleInline" inline>
 								<FormItem prop="loginName">

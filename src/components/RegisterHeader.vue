@@ -6,20 +6,10 @@
         </div>
     </div>
     </div>
-
 </template>
 <script>
-   // 引入公共的bug，来做为中间传达的工具
-	import Bus from '@/assets/js/bus.js'
-	 export default {
-        data () {
-            return {}
-        },
-
-    }
 </script>
-
-<style   lang="scss">
+<style   lang="scss" >
 	.w-bai{
 	width: 300px;
 }
@@ -39,6 +29,13 @@
 			background-color: #fff;
 			height: 40px;
 			border-radius: 0;
+			border: 1px solid #dddee1;
+			cursor: pointer;
+			padding-left: 2px;
+			padding-right: 2px;
+		}
+		.R-check:hover{
+			color:#0099ff;
 		}
 .flex-center-h{
 	display: flex;

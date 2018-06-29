@@ -16,9 +16,11 @@
 		                      {{item.product.modelNo}}
 		                </div>
 		                <div class="name">{{item.product.modelName}}</div>
-		                	<div  class="fn">
+		                <div class="color-dx">开始:{{item.crush.startTime}}</div>
+		                <div>结束:{{item.crush.endTime}}</div>
+		                	<!--<div  class="fn">
 									距离结束:    {{item.djs}}	
-							</div>
+							</div>-->
 		                <div  class="sku_tag" v-if="item.promotionTitle !=null">{{item.promotionTitle}}</div> 
 		                  <div class="price">
 		                        <span class="origin">￥{{item.product.salePrice |pricefilter }}</span>
@@ -39,9 +41,8 @@
 		                      {{item.product.modelNo}}
 		                </div>
 		                <div class="name">{{item.product.modelName}}</div>
-		                	<div  class="fn">
-									距开始:{{item.djs}}	
-							</div>
+		                	 <div class="color-dx">开始:{{item.crush.startTime}}</div>
+		                <div>结束:{{item.crush.endTime}}</div>
 		                <div  class="sku_tag" v-if="item.promotionTitle !=null">{{item.promotionTitle}}</div> 
 		                  <div class="price">
 		                        <span class="origin">￥{{item.product.salePrice |pricefilter }}</span>
@@ -55,25 +56,10 @@
     </div>
 </template>
 <script>
-function InitTime(endtime){
-    var dd,hh,mm,ss = null;
-    var time = new Date((endtime)).getTime() - new Date().getTime();
-    if(time<=0){
-    }else{
-		var dd = Math.floor(time / 1000 / 60 / 60 / 24);
-		var hh = Math.floor((time / 1000 / 60 / 60) % 24);
-		var mm = Math.floor((time / 1000 / 60) % 60);
-		var ss = Math.floor((time / 1000) % 60);
-        var str = dd+"天"+hh+"小时"+mm+"分"+ss+"秒";
-        return str;
-    }
-}
 export default {
     data () {
 	return {
-		    t:'',
 		    pro:[],
-            active: 'tab-container1',
             show:false,
             list: [],
             startpro:[],
@@ -84,36 +70,6 @@ export default {
     	this.getNewChannel();
     },
     methods: {
-    	      daojishi(){
-    	      	let _this=this;
-    		   var timer=()=>{
-			  	setTimeout(() => {
-					      	for (var key in _this.pro) {
-		            	var aaa ='';
-			            	if(_this.pro[key].switch=='0'){
-			            		aaa= _this.pro[key].crush["startTime"]
-			            	}
-			            	else{
-			                 aaa = _this.pro[key].crush["endTime"];
-			                 }
-			                 aaa= new Date(aaa).getTime()
-		                var bbb = new Date().getTime();
-		                var rightTime = aaa - bbb;
-		                if (rightTime > 0) {
-		                    var dd = Math.floor(rightTime / 1000 / 60 / 60 / 24);
-		                    var hh = Math.floor((rightTime / 1000 / 60 / 60) % 24);
-		                    var mm = Math.floor((rightTime / 1000 / 60) % 60);
-		                    var ss = Math.floor((rightTime / 1000) % 60);
-		                    _this.pro[key]["djs"] = dd + "天" + hh + "小时" + mm + "分" + ss + "秒";
-		                    timer();
-		                }  else{
-		                	clearTimeout(_this.t)
-		                }
-		            }
-					}, 1000)
-				}
-      	        timer();	
-    	      },
     	     getNewChannel(){
     	     	 var _this=this;
     	     	this.$axios({
@@ -122,11 +78,6 @@ export default {
 						}).then((res)=>{
 							if(res.code=='200'){
 							 this.pro=res.object;
-							  var ssss=this.pro;
-						        ssss.map( (obj,index)=>{
-						         this.$set(obj,"djs",InitTime(obj.crush["endTime"])  );
-						        })  
-							    this.pro = ssss; 
 							    _this.startpro=[];
 							    _this.nostartpro=[];
 							    this.pro.map(function (item) {
@@ -136,7 +87,6 @@ export default {
 											_this.nostartpro.push(item)
 										}
 									})
-							    _this.daojishi();
 							   }
 							else{
 								this.show=true;
@@ -148,12 +98,12 @@ export default {
     	      		return v.usedQuantity/v.totalQuantity*100
     	      	},
     },
-       destroyed: function () {
-          	clearTimeout( this.t );
-		},
 }
 </script>
 <style scoped="scoped" lang="scss">
+.color-dx{
+	color:#0099ff;
+}
 .origin{
 	color:#999;
 	font-weight: normal;
@@ -161,9 +111,6 @@ export default {
 }
 .fn{
 	margin-bottom: 5px;
-}
-.start{
-	border-bottom:2px solid #333;
 }
 .start .fn{
 	color:#0099ff;
@@ -175,6 +122,7 @@ export default {
 	color:#0099ff;
 }
 .nostart{
+	border-top:2px solid #333;
 	padding-top: 30px;
 	.fn{
 		color:#333;

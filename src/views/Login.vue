@@ -88,6 +88,7 @@
 		        let routerParams = this.$route.params.loginName
 		        // 将数据放在当前组件的数据内
 		        this.loginForm.loginName = routerParams
+		        console.log(routerParams)
      	 	},
           handleLogin() {
           	var _this=this;
@@ -105,6 +106,7 @@
 		              } else {
 					        _this.$Message.success('登录成功');
 					 		let data = res;  
+					 		localStorage.setItem('mobile',_this.loginForm.loginName);
 							//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  
 						    store.commit('LOGIN',{token:data.object["token"],userId:data.object["userId"]});
 						    	 _this.$router.push( '/' );

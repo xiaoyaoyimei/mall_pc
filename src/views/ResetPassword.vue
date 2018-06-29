@@ -6,20 +6,20 @@
 							<Form :model="regiForm" label-position="left" :label-width="0" :rules="ruleValidate" ref="regiForm">
 								<FormItem label="" class="Rform" prop="mobile">
 									<Input class="Rphone" v-model.trim="regiForm.mobile" type="text" placeholder="手机号"></Input>
-									<Button  class='R-check' :loading="loadingtx"  @click="getTx">
+									<button  class='R-check'   @click="getTx" type="button">
 										<span v-if="!loadingtx">获取图形码</span>
 										<span v-else>Loading...</span>
-									</Button>
+									</button>
 									<img  :src="verimg"  @click="getTx"/>
 								</FormItem>
 								<FormItem label="" class="Rform" prop="verificationCode">
 									<Input  class="Rphone" v-model="regiForm.verificationCode" type="text" placeholder="图形验证码"></Input>
-									<Button  class='R-check'  v-if="sendMsgDisabled">
+									<button  class='R-check'  v-if="sendMsgDisabled" type="button">
 										<span>{{time+'秒后获取'}}</span>
-										</Button>
-										<Button  class='R-check'  v-else  @click.native="getDx">
+									</button>
+										<button  class='R-check'  v-else  @click="getDx" type="button">
   										<span>获取短信码</span>
-									</Button>
+									</button>
 								</FormItem>
 								<FormItem label="" prop="shortMessage">
 									<Input v-model="regiForm.shortMessage" type="text" placeholder="短信验证码"></Input>
@@ -28,7 +28,7 @@
 									<Input v-model="regiForm.password" type='password' placeholder="请输入新的密码"></Input>
 								</FormItem>
 									<FormItem>
-								<button  class=' btn btn-40 btn-blue w-bai' @click="handleSubmit('regiForm')">立即找回</button>
+								<button type="button" class='btn btn-40 btn-blue w-bai' @click="handleSubmit('regiForm')">立即找回</button>
 								</FormItem>
 							</Form>
 							<div class="login-link">
@@ -100,21 +100,30 @@
 					}).then((res)=>{
 						     if (res.code == 200) {
 						     	  		//短信验证码180秒倒计时
-				      				let _this = this;
+				      		let _this = this;
 							    _this.sendMsgDisabled = true;
-							    _this.t = setInterval(function() {
-							     if ((_this.time--) <= 0) {
-							      _this.time = 180;
-							      _this.sendMsgDisabled = false;
-							   	   clearTimeout( _this.t);
-							     }
-							    }, 1000);
+							    _this.startTime();
 		              		}else{
 		              			this.$Message.error(res.msg);
 		              		}
 					});
 					}
           	},
+          	   	  startTime(){
+          	 	if(this.time==0){
+          	 		  this.time = 180;
+				      this.sendMsgDisabled = false;
+				      clearTimeout(this.t);
+          	 		}
+					else{
+					    this.time--;
+					 }
+					 let self=this;
+					 
+                      this.t= setTimeout(() => {
+                                self.startTime();
+                        }, 	1000);
+				},
           	getTx(){
           			let mobile=this.regiForm.mobile;
           			if(mobile==null||mobile==''){
@@ -129,6 +138,7 @@
 									this.txv++;
 									let urlo=window.location.origin;
 				          			this.verimg=urlo+'/mall/pc/customer/'+mobile+'/verification.png?v='+this.txv;
+				          			//this.verimg=this.$axios.defaults.baseURL+'/customer/'+mobile+'/verification.png?v='+this.txv;;
 								}else{
 									   this.$Message.error('该手机号不存在，请注册');
 								}
@@ -147,10 +157,10 @@
 							}).then((res)=>{
 									this.loadingDx = false;
 									      let { code, msg } = res;
-								              if (code !== 200) {
-								                this.$Message.error(res.object);
+								              if (code == 200) {
+								              	  this.$router.push({ path: '/login' ,params: { loginName: this.regiForm.mobile }});
 								              } else {
-								                this.$router.push({ path: '/Login' ,params: { mobile: this.regiForm.mobile }});
+								               this.$Message.error(res.object);
 								              }
 							});
 							}

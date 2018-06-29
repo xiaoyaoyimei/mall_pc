@@ -10,34 +10,38 @@
         <ol class="Ftitle1 clearfix">
             <li class="li1">
                 <ul class="footerList">
-                    <li >
-                        <h4>常见问题</h4>
-                        <p>包装运输</p>
-                        <p>安装方式</p>
-                        <p>权威检测</p>
+                    <li>
+                        <h4>购物相关</h4>
+                       <p><router-link :to="{path: '/help/gwzn'}" >购物指南  </router-link></p>
+										<p><router-link :to="{path: '/help/psfs'}" >配送方式  </router-link></p>
+										<p><router-link :to="{path: '/help/zffs'}" >支付方式  </router-link></p>
+										<p><router-link :to="{path: '/help/cjwt'}" >常见问题  </router-link></p>
                     </li>
                     <li>                        
-                        <h4></h4>
-                        <p>关于保修</p>
-                        <p>关于发票</p>
-                        <p></p>
+                        <h4>保修与退换货</h4>
+                        <p><router-link :to="{path: '/help/bxzc'}">保修政策 </router-link> </p>
+												<p><router-link :to="{path: '/help/thhzc'}">退换货政策</router-link> </p>
+												<p><router-link :to="{path: '/help/thhlc'}">退换货流程</router-link> </p>	
+												<p><router-link :to="{path: '/help/bxzt'}">保修状态查询</router-link> </p>	
                     </li>
                     <li>
-                        <h4>帮助中心</h4>
-                        <p>购物指南</p>
-                        <p>支付方式</p>
-                        <p>配送方式</p>
+                        <h4>服务支持</h4>
+                       		<p><router-link :to="{path: '/help/shfw'}">售后服务 </router-link> </p>
+													<p><router-link :to="{path: '/help/xxty'}">线下体验</router-link> </p>
+													<p><router-link :to="{path: '/help/azsp'}">安装视频</router-link> </p>	
+													<p><router-link :to="{path: '/help/tsjy'}">投诉建议</router-link> </p>	
                     </li>
                     <li>
-                        <h4>全球官网</h4>
-                        <p>DX美国</p>
-                        <p>DX日本</p>
-                        <p>DX韩国</p>
+                        <h4>关于我们</h4>
+                    		<p><router-link :to="{path: '/help/gsjs'}">公司介绍 </router-link> </p>
+													<p><router-link :to="{path: '/help/scjj'}">商城简介 </router-link> </p>
+													<p><router-link :to="{path: '/help/zzzc'}">赞助支持</router-link> </p>	
+													<p><router-link :to="{path: '/help/lxwm'}">联系我们</router-link> </p>	
                     </li>
                 </ul>
             </li>
              <li class="li2">
-                <h3 class="blue">4006-760-730</h3>
+                <h3 class="blue">0510-83599633</h3>
                 <p class="li2p">周一至周六</p>
                 <p class="li3p">9:00-17:30</p>
                 <p class="li4p"><img src="../assets/img/comments.png">联系在线客服</p>
@@ -144,5 +148,8 @@
 .foot .footer .Ftitle1 .li2 .li5p{
     margin-top: 20px;
     font-size: 10px;
+}
+a{
+	color:#fff
 }
 </style>

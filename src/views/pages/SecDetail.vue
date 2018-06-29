@@ -23,9 +23,14 @@
 			</div> 
 			<div class="delie">
 				<div class="G_info">
-					 <h3>{{detail.product.modelNo}}</h3>
+					 <h3>
+					 	{{detail.product.modelNo}}
+					 	{{detail.switch}}
+					 	<span class="djs" >
+					 		<em v-if="detail.switch==0">距开始</em>
+					 		<em v-else>距结束</em>{{ `${day}天 ${hr}小时 ${min}分钟 ${sec}秒` }}</span>
+					 </h3>
 					<p>{{detail.product.modelName}}</p> 
-					<!--<div>距离结束</div>-->
 					<div class="G_changeDetail">
 						<p class="G_right"><strong class="strong">￥{{detail.crush.salePrice | pricefilter}} </strong> <span class='chooseSPPrice'>￥{{detail.productItem.salePrice | pricefilter}}</span></p>
 						<div class="sNumber">数量 : <InputNumber  :min="1" v-model="quantity" :max="detail.crush.unitQuantity*1"></InputNumber></div>
@@ -45,12 +50,12 @@
 							</div>
 					</div>
 						<div class="foot"> 
-								<button :loading="loading" @click="confirm" class="miaoshagou">马上抢</button>
+							     <button   class="btn-disabled" v-if="detail.switch==0">尚未开始</button>
+								<button :loading="loading" @click="confirm" class="miaoshagou" v-else>马上抢</button>
 							</div> 
 				</div>
         	</div> 
 		</div>
-	
 				<Tabs class="spjs main-wdith">
 				<TabPane label="商品介绍">
 					<ul><li v-for="(item, index) in productimg"  :key="index"><img :src="item.imgUrl |imgfilter"></li></ul>
@@ -67,10 +72,13 @@
 		export default {
 	    data () {
 	        return {
+	        	day: 0, hr: 0, min: 0, sec: 0,
+	        	t:'',
+	        	jsqtime:0,
 	        	detail:{
-	        		productItem:{},
+	        		productItem:{salePrice:0},
 	        		product:{},
-	        		crush:{}
+	        		crush:{salePrice:0}
 	        	},
 	        	skuId:'',
 	        	quantity:1,
@@ -109,9 +117,9 @@
 			},
 	      	//获取address中传来的数据
 	      	getDD(){
-                let routerParams = this.$route.query.address;
+                let routerParams = localStorage.getItem('secaddress');
                 if(routerParams!=undefined){
-                	this.addressList=routerParams;
+                	this.addressList=JSON.parse(routerParams);
                 	this.youdizhi=true
                 }
         	},
@@ -120,7 +128,9 @@
         		 this.$router.push({name: '/user/address',query:{skuId:this.$route.query.skuId,fromc:'secdetail'}}) ;
         	},
 		    getAddress(){
-		      	var _this=this;
+		    	  let token=localStorage.getItem('token');
+		    		if(token!=undefined&&token!=null){
+		      	   var _this=this;
 		      	  	this.$axios({
 						    method: 'post',
 						    url:'/address',
@@ -135,6 +145,7 @@
 								
 							}
 						});
+						}
 		      },
 		      confirm(){
 		          if(this.addressList.id==undefined){
@@ -159,13 +170,43 @@
 					}
 				});
            },
+            countdown: function () {
+                const end = Date.parse(new Date(this.jsqtime));
+                const now = Date.parse(new Date());
+                const msec = end - now;
+                //当秒杀开始时
+                if(msec==0){
+                	this.detail.switch=1;
+                	this.jsqtime = this.detail.crush["endTime"];
+                }
+                let day = parseInt(msec / 1000 / 60 / 60 / 24);
+                let hr = parseInt(msec / 1000 / 60 / 60 % 24);
+                let min = parseInt(msec / 1000 / 60 % 60);
+                let sec = parseInt(msec / 1000 % 60);
+                this.day = day;
+                this.hr = hr > 9 ? hr : '0' + hr;
+                this.min = min > 9 ? min : '0' + min;
+                this.sec = sec > 9 ? sec : '0' + sec;
+                let self=this;
+                  this.t= setTimeout(() => {
+                                self.countdown();
+                        }, 	1000);
+               },
 	      	getDetail(){
 	      			this.$axios({
 					    method: 'get',
 					    url:'/promotion/crush/'+  this.$route.query.skuId,
 					}).then((res)=>{
 						if(res.code=='200'){
-						this.detail = res.object;
+							this.detail = res.object;
+							if(this.detail.switch=='0'){
+			            		this.jsqtime=this.detail.crush["startTime"]
+			            	}
+			            	else{
+			                 	this.jsqtime = this.detail.crush["endTime"];
+			                 }
+			            	//计时器
+			            	 this.countdown();
 						this.detail.productItem.clickItem =true;
 						if(this.detail.product.video != ''){
 							this.videoIcon = true;
@@ -192,7 +233,10 @@
 			  this.getDetail()
 			  this.getDD();
 			  this.getAddress();
-	      }
+	      },
+	       destroyed () {
+            clearTimeout(this.t)
+        	},
     }
 </script>
 
@@ -204,22 +248,8 @@
             display: inline-block;
             width:400px;
 			overflow: hidden;
-			.little_img{
-				overflow: hidden;
-			}
-			.clickproduct{
-				float: left;
-				width:50px;
-				height:50px;
-				margin:10px 7.5px;
-				cursor: pointer;
-			}
+
 		}
-        .ivu-carousel{
-            width: 400px;
-            height: 400px;
-            display: inline-block;
-        }
         .delie{
             display: inline-block;
             width:600px;
@@ -230,51 +260,8 @@
         img{
             max-width:100%;
         }
-        h4{
-            text-align:left;
-            text-indent:1.5em;
-            height:40px;
-        }
-        .biaoqian{
-            width:50%;
-        }
-		.tp{
-		 position:relative;
-		img{
-			display: block;
-			width:100%;
-			text-align: center;
-		}
-		}
 	}
-	.jg {
-		color: #fff;
-		background: #d71777;
-		position: absolute;
-		bottom:0;
-		left: 0;
-		padding: 5px;
-		span{
-		color:#fff;
-		display: block;
-		}
-		.yj{
-			text-decoration:line-through;
-			font-size: 1.2rem;
-		}
-	}
-	.xq{
-		padding: 1rem;
-		margin-bottom: 1rem;
-		margin-top: 1rem;
-		background: #fff;
-		p{
-			margin-bottom: 1rem;
-		}
-	}
-.chooseAddress{
-	margin-top: 10px;;
-}
+
 .sortDetail .addressStrong{
 	color: #333;
 	font-size: 18px;
@@ -306,7 +293,7 @@
 	font-size: 15px;
 	color: #999;
 }
-.sortDetail .G_info .G_right{
+.G_info .G_right{
 	padding-top: 20px;
 	font-size: 32px;
 	width:100%;
@@ -317,66 +304,19 @@
 .miaoshagou {
 	background-color: #0099ff;
 	border: 1px solid #0099ff;
+	color:#fff;
+}
+.miaoshagou,.btn-disabled{
 	cursor: pointer;
 	height:50px;
 	width: 155px;
-	color:#fff;
 	font-size: 16px;
 }
-.little_img{
-	position: relative;
-	padding-left:5px;
-	min-width: 400px;
-	height: 70px;
-}
-.inlineBlock{
-	display: inline-block;
-	vertical-align: middle;
-	position: absolute;
-	top: 0px;
-	font-size: 16px;
-	z-index: 10;
-	width: 20px;
-	height: 50px;
-	line-height: 70px;
-	cursor: pointer;
-}
-.imgContent{
-	min-width: 400px;
-}
-.leftBtn{
-	left: 0px;
-}
-.rightBtn{
-	right: 0px;
-}
-.rightBtn li{
-	text-align: right;
-}
-.videoContent{
-	width:400px;
-	height: 400px;
-	position: relative;
-}
-.videoIcon{
-	width:50px!important;
-	height:50px;
-	position: absolute;
-	left: 0px;
-	bottom: 0px;
-}
-.youku{
-	width:100%;
-	height: 95%;
-}
-.guanbi{
-	position: absolute;
-	top:10px;
-	right: 0px;
-	font-size: 16px;
-	height: 30px;
-	width: 30px;
-	cursor: pointer;
+.btn-disabled{
+	border:1px solid #ccc;
+	background-color: #f3f3f3;
+	color: #999;
+	cursor: not-allowed;
 }
 .sortDetail .addAddress{
 	float: right;
@@ -385,10 +325,6 @@
 	position: relative;
 	top: -70px;
 	font-size: 25px;
-}
-.sortDetail .neirong, .sortDetail .title{
-	font-size: 15px;
-	line-height: 35px;
 }
 .sortDetail .sNumber {
 	border-bottom: 1px solid #ccc;
@@ -437,14 +373,14 @@
 	cursor: pointer;
 	background: #fff;
 }
+.djs{
+	em{
+		font-size: 12px;
+		font-style: normal;
+		margin-right: 5px;
+		color:#0099ff;
+	}
+	float: right;
+	font-size: 16px;
+}
 </style>
-<style>
-	.spjs .ivu-tabs-nav{
-		width:100%
-	}
-	.spjs .ivu-tabs-tab{
-		font-size:20px;
-		width:50%;
-		text-align: center;
-	}
-	</style>

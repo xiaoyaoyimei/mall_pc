@@ -54,4 +54,8 @@ import HelpLeft from '@/components/HelpLeft'
 .help_wrap p{
 	line-height: 28px;
 }
+.help_wrap h3{
+	text-align: center;
+	font-size: 16px;
+}
 </style>

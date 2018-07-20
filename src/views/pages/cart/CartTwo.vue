@@ -342,6 +342,7 @@
         		let _this=this;
         		  //刚进入购物车页面
         		if(value==undefined){
+        			_this.total.num=0;
         			  this.cartList.forEach(function(item,index) {
 					    _this.origintotal.price +=item.salePrice*item.quantity;
 					     _this.total.price+=item.salePrice*item.quantity;
@@ -350,6 +351,7 @@
         		}
         		//使用优惠券
         		else{
+        			_this.total.num=0;
 		        		this.cartList.forEach(function(item,index) {
 							     _this.total.num+=item.quantity;
 						   });

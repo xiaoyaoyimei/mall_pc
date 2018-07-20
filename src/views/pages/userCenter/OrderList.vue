@@ -35,12 +35,15 @@
                           <td  width='50'> {{child.quantity}}</td>
                           <td  width='100'> ￥{{child.orderFee| pricefilter}}</td>
                            <td  width='100'> 
-                          	<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}" v-if="i==0">订单详情</router-link>
+                          	<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}" >订单详情</router-link>
                           </td>
-                          <td    width='150'>
-                         <div class="cz"  v-if="i==0">
+                          <td    width='200'>
+                  
+                         <div class="cz" >
                          	<button   class="btn"  @click="cancel(x.order.orderNo)" v-if="x.order.orderStatus=='01'||x.order.orderStatus=='02'||x.order.orderStatus=='05'">取消订单</button>
-                         	<button   class="btn btn-dx"  @click="quzhifu(x.order.orderNo)" v-if="x.order.orderStatus=='01'">去支付</button></div>
+                         	<button   class="btn btn-dx"  @click="quzhifu(x.order.orderNo)" v-if="x.order.orderStatus=='01'">去支付</button>
+                         	<button   class="btn btn-dx"  @click="qianshou(x.order.orderNo)" v-if="x.order.orderStatus=='06'">签收订单</button>
+                         </div>
                           </td> 
                           </tr>
                 </tbody>
@@ -119,6 +122,29 @@ export default {
                     },
                     onCancel: () => {
                         this.$Message.info('放弃取消');
+                    }
+                });
+            },
+         	  qianshou(value){
+                this.$Modal.confirm({
+                    content: '<p>确定签收该订单？</p>',
+                    onOk: () => {
+                      this.$axios({
+					    method: 'post',
+					    url:'/order/receive/'+value,
+					}).then((res)=>{
+						if(res.code=='200'){
+							  this.$Message.info(res.msg);
+							  this.getOrder();
+						}
+						else{
+							  this.$Message.info(res.msg);
+							 
+						}
+					});
+                    },
+                    onCancel: () => {
+                        this.$Message.info('放弃签收');
                     }
                 });
             },

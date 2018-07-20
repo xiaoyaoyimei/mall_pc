@@ -13,7 +13,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
     	 '/pc': {
-                target: '"http://server-shop.dxracer.cn/mall"',
+                target: 'http://server-shop.dxracer.cn/mall',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/pc': '/pc'

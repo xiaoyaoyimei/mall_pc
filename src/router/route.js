@@ -9,12 +9,12 @@ Vue.use(VueRouter)
 const routes =  [
 				  {
 					path: '/',
-				    redirect: '/index',
-            component: Full,
-            children: [
+				  redirect: '/index',
+          component: Full,
+          children: [
             {
-				path: '/index',
-				component: () => import('@/views/pages/Home.vue'),
+						path: '/index',
+						component: () => import('@/views/pages/Home.vue'),
 					},
 					{
 						name:'新品频道',
@@ -216,6 +216,26 @@ const routes =  [
 									name:'lxwm',
 							   		path:'lxwm',
 						 		   	component:() => import('@/views/pages/help/lxwm.vue'),
+								},
+										{
+									name:'fwtk',
+							   		path: 'fwtk',
+						 		   	component:() => import('@/views/pages/help/fwtk.vue'),
+								},
+								{
+									name:'xyfw',
+							   		path: 'xyfw',
+						 		   	component:() => import('@/views/pages/help/xyfw.vue'),
+								},
+								{
+									name:'zffw',
+							   		path:'zffw',
+						 		   	component:() => import('@/views/pages/help/zffw.vue'),
+								},
+								{
+									name:'yszc',
+							   		path:'yszc',
+						 		   	component:() => import('@/views/pages/help/yszc.vue'),
 								},
 			]
 				},

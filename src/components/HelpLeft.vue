@@ -26,6 +26,12 @@
 		<li><router-link :to="{path: '/help/scjj'}">商城简介 </router-link> </li>
 		<li><router-link :to="{path: '/help/zzzc'}">赞助支持</router-link> </li>	
 		<li><router-link :to="{path: '/help/lxwm'}">联系我们</router-link> </li>	
+				<li class="side_bar_nav_line"></li>
+				<li><span>其他</span></li>
+		<li><router-link :to="{path: '/help/fwtk'}">服务条款 </router-link> </li>
+		<li><router-link :to="{path: '/help/xyfw'}">信用服务协议 </router-link> </li>
+		<li><router-link :to="{path: '/help/zffw'}">支付用户服务协议</router-link> </li>	
+		<li><router-link :to="{path: '/help/yszc'}">隐私政策</router-link> </li>	
 	</ul>
    </div>
 </template>

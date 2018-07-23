@@ -34,7 +34,7 @@
 									</FormItem>
 							</Form>
 							<div class="login-link">
-							    <span><Checkbox v-model="fwtk">我已阅读并同意<span  class="color-blue"  @click="fwtkmodal= true"><<网站服务条款>></span></Checkbox></span>
+							    <div><Checkbox v-model="fwtk">我已阅读并同意<span  class="color-blue"  @click="fwtkmodal= true"><<网站服务条款>></span></Checkbox></div>
 								<router-link :to='{path:"/login"}' class='resetPassword' >已有账号，请登录</router-link>
 							</div>
 					</div>

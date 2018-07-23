@@ -57,9 +57,8 @@
 							<div class="dt">{{item.attrKey.catalogAttrValue}} :</div>
 							<div  class="dd">
 								<div  :class="choosesp.kucun==0?'disabled':'abled'">
-								<span ref="dditem" v-for="(child, index) in item.attrValues"  :key="index"   v-bind:class="item.attrValues.length==1?'active':''" @click="chooseSP($event,item)"    :titleid="child.id" 
-							v-bind:style="{paddingLeft:item.attrKey.isColorAttr == 'Y' ? '35px':'5px',backgroundImage:'url('+(item.attrKey.isColorAttr == 'Y' ? '//image-shop.dxracer.com.cn/'+child.smallImg : '')+')'}">
-							{{child.modelAttrValue}}
+								<span ref="dditem" v-for="(child, index) in item.attrValues"  :key="index"   v-bind:class="item.attrValues.length==1?'active':''" @click="chooseSP($event,item)"    :titleid="child.id">
+									<img :src="child.smallImg |imgfilter " v-if="item.attrKey.isColorAttr == 'Y'">{{child.modelAttrValue}}
 								</span>
 								</div>
 							</div>
@@ -264,6 +263,7 @@ export default {
             	//选择商品
             	detail(){
             		var chooseId="",jishu=0;
+            		
             		let dditem=this.$refs['dditem'];
             		for(let n=0;n<dditem.length;n++){
             			if(dditem[n].getAttribute("class")=='active'){
@@ -328,12 +328,25 @@ export default {
             
             	},
             	chooseSP(e,pa){
+            		
             		this.cxshow=false;
-       	            let p=e.target.parentNode.children;
-	            	for(let i =0;i<p.length;i++) {
+            		let p=[];
+            		if(e.target.tagName=="IMG"){
+            			p=e.target.parentNode.parentNode.children;
+            				for(let i =0;i<p.length;i++) {
 	       	            	p[i].className="";
 						}
-            	 	e.target.className="active"; 
+            	 		e.target.parentNode.className="active"; 
+            		}
+       	            else{ 
+       	            	p=e.target.parentNode.children;
+       	            	for(let i =0;i<p.length;i++) {
+	       	            	p[i].className="";
+						}
+            	 		e.target.className="active"; 
+       	            }
+       	            
+	            	
             		this.detail();
             	},
     	      	getParams () {

@@ -4,8 +4,8 @@ import router from '@/router/route';
 
 // axios 配置
 axios.defaults.timeout = 9000;
-//axios.defaults.baseURL = process.env.API_HOST+'/pc';
-axios.defaults.baseURL='/mall/pc'
+axios.defaults.baseURL ='/pc';
+//axios.defaults.baseURL='/mall/pc'
 // http request 拦截器
 axios.interceptors.request.use(
     config => {

@@ -32,15 +32,14 @@
 			</div>  
 		</div>  
         <div class="delie">
-            <div class="G_info hidden">
                 <h3>
                 	{{shangp.product.modelNo}} 
                 	<span v-if="cxshow" class="color-blue">
                     	{{choosesp.activityName}} 
                     </span></h3>
-                <p>
+                <h4>
                 	{{shangp.product.modelName}}
-                </p>
+                </h4>
 				<div class="G_changeDetail">
                     <p class="detail_price">
                     	<span v-if="choosesp.price==0">￥{{shangp.product.salePrice | pricefilter}}</span>
@@ -56,8 +55,8 @@
 						<div v-for="(item, i) in shangp.productAttrList"  :key="i" class="attr_wrap">
 							<div class="dt">{{item.attrKey.catalogAttrValue}} :</div>
 							<div  class="dd">
-								<div  :class="choosesp.kucun==0?'disabled':'abled'">
-								<span ref="dditem" v-for="(child, index) in item.attrValues"  :key="index"   v-bind:class="item.attrValues.length==1?'active':''" @click="chooseSP($event,item)"    :titleid="child.id">
+								<div     :class="choosesp.kucun==0?'disabled':'abled'" v-for="(child, index) in item.attrValues"  :key="index"  @click="chooseSP($event,item)" >
+								  <span    v-bind:class="item.attrValues.length==1?'active':''"   :titleid="child.id" ref="dditem">
 									<img :src="child.smallImg |imgfilter " v-if="item.attrKey.isColorAttr == 'Y'">{{child.modelAttrValue}}
 								</span>
 								</div>
@@ -66,8 +65,9 @@
 						<div class="sNumber">
 							<span class="title">数量:</span>
 							<InputNumber  :min="1" v-model="quantity"></InputNumber>
-							<span class="stock" >
-							 <b > 库存: {{choosesp.kucun}}</b>
+							
+							<span class="stock" v-show="!xiajia">
+							 <b  > 库存: {{choosesp.kucun}}</b>
 							</span>
 						</div>
 							<div v-if="xiajia" class="xiajia">
@@ -76,11 +76,9 @@
 						</div>
 						<div>
 							<Button v-if="wuhuotongzhi" size="large" class="goBtn"  disabled="disabled">暂时无货，到货通知</Button>
-							<Button v-show="!wuhuotongzhi" class="goCart"  size="large"     disabled="disabled" v-if="xiajia">加入购物车</Button>
 							<Button v-show="!wuhuotongzhi" class="goCart"  size="large"   @click="atc" type="error"  v-if="!xiajia">加入购物车</Button>
 						</div>
                     </div>
-                </div>
             </div>
         </div>
         	<div class="scan_code_wrap">
@@ -263,7 +261,6 @@ export default {
             	//选择商品
             	detail(){
             		var chooseId="",jishu=0;
-            		
             		let dditem=this.$refs['dditem'];
             		for(let n=0;n<dditem.length;n++){
             			if(dditem[n].getAttribute("class")=='active'){
@@ -308,13 +305,16 @@ export default {
             	   	    	this.xiajia=false;
             	   	    	this.firstshow=true
             	   	    }
-            	   	    	   //计算库存（库存需大于0才显示）
+            	   	    //计算库存（库存需大于0才显示）
 		            	   if(this.shangp.inventory.length>0){
 							for(let kucunitem of this.shangp.inventory){
-								if(kucunitem.skuId==this.productItemId){
-									this.choosesp.kucun=kucunitem.quantity-kucunitem.lockQuantity
+									if(kucunitem.skuId==this.productItemId){
+										this.choosesp.kucun=kucunitem.quantity-kucunitem.lockQuantity;
+										if(this.choosesp.kucun<0){
+											this.choosesp.kucun=0;
+										}
+									}
 								}
-							}
 							}
 							if(this.choosesp.kucun < 1){
 								this.wuhuotongzhi = true;
@@ -328,25 +328,23 @@ export default {
             
             	},
             	chooseSP(e,pa){
-            		
             		this.cxshow=false;
             		let p=[];
+            		var i=0;
             		if(e.target.tagName=="IMG"){
-            			p=e.target.parentNode.parentNode.children;
-            				for(let i =0;i<p.length;i++) {
-	       	            	p[i].className="";
+            			p=e.target.parentNode.parentNode.parentNode.children;
+            			for( i =0;i<p.length;i++) {
+	       	            	p[i].children[0].className="";
 						}
             	 		e.target.parentNode.className="active"; 
             		}
        	            else{ 
-       	            	p=e.target.parentNode.children;
-       	            	for(let i =0;i<p.length;i++) {
-	       	            	p[i].className="";
+       	            	p=e.target.parentNode.parentNode.children;
+       	            	for( i =0;i<p.length;i++) {
+	       	            	p[i].children[0].className="";
 						}
             	 		e.target.className="active"; 
        	            }
-       	            
-	            	
             		this.detail();
             	},
     	      	getParams () {
@@ -364,26 +362,30 @@ export default {
 								}).then((res)=>{
 									if(res.code=='200'){
 										//原始数据用于合并求得的数据=>新数据
-										this.shangp= Object.assign({},this.oldshangp,res.object);
-									   if(this.shangp.inventory.length>0){
-											for(let kucunitem of this.shangp.inventory){
-													this.choosesp.kucun += kucunitem.quantity-kucunitem.lockQuantity;
+										_this.shangp= Object.assign({},this.oldshangp,res.object);
+									   if(_this.shangp.inventory.length>0){
+											for(let kucunitem of _this.shangp.inventory){
+													_this.choosesp.kucun += kucunitem.quantity-kucunitem.lockQuantity;
 												}
+											   if(_this.choosesp.kucun<0){
+											   	_this.choosesp.kucun=0
+											   }
 											}
-									   	if(this.choosesp.kucun < 1){
-											this.wuhuotongzhi = true;
+									   
+									   	if(_this.choosesp.kucun < 1){
+											_this.wuhuotongzhi = true;
 										}else{
-											this.wuhuotongzhi = false;
+											_this.wuhuotongzhi = false;
 										}
-										for (let a = 0; a < this.shangp.productImageList.length; a++) {
-											this.shangp.productImageList[a].clickItem = false;
+										for (let a = 0; a < _this.shangp.productImageList.length; a++) {
+											_this.shangp.productImageList[a].clickItem = false;
 										}
-										this.ImgUrl = this.shangp.product.modelImg;
-										if(this.shangp.productImageList.length >0){
-											this.shangp.productImageList[0].clickItem = true;
+										_this.ImgUrl = _this.shangp.product.modelImg;
+										if(_this.shangp.productImageList.length >0){
+											_this.shangp.productImageList[0].clickItem = true;
 										}
-										if(this.shangp.product.video != ''){
-											this.videoIcon = true;
+										if(_this.shangp.product.video != ''){
+											_this.videoIcon = true;
 										}
 									
 									}
@@ -453,38 +455,35 @@ export default {
         img{
             max-width:100%;
         }
-        h4{
-            text-align:left;
-            text-indent:1.5em;
-            height:40px;
-        }
+       
       
         .biaoqian{
             width:50%;
         }
 
     }
-.sortDetail .G_info > h3 {
+.sortDetail  .delie h3 {
 	font-size: 28px;
 	color: black;
 }
-.sortDetail .G_info > p {
+.sortDetail  .delie h4 {
     font-size: 15px;
     line-height: 36px;
     border-bottom: 1px solid #e7e7e7;
     padding-bottom: 20px;
+    font-weight: normal;
 }
 .G_changeDetail {
     font-size: 14px;
 }
-.sortDetail .G_info .G_changeDetail .G_MEAS form h5 {
+.sortDetail  .G_changeDetail .G_MEAS form h5 {
     display: inline-block;
     font-weight: normal;
     font-size: 100%;
     position: relative;
     top: -15px;
 }
-.sortDetail .G_info .G_changeDetail .G_MEAS form p {
+.sortDetail  .G_changeDetail .G_MEAS form p {
     position: relative;
     display: inline-block;
     margin-right: 6px;
@@ -493,7 +492,7 @@ export default {
     line-height: 30px;
 }
 
-.sortDetail .G_info .G_changeDetail .G_MEAS form p input {
+.sortDetail  .G_changeDetail .G_MEAS form p input {
     height: 40px;
     min-width: 40px;
     text-align: center;
@@ -514,7 +513,7 @@ export default {
         width: 33.33333%;
     }
 }
-.sortDetail .G_info > a {
+.sortDetail .delie > a {
     display: block;
     height: 50px;
     width: 208px;
@@ -617,6 +616,12 @@ export default {
 	    overflow: hidden;
 	    zoom: 1;
 	    cursor: pointer;
+	    div{
+	    	display: inline-block;
+			margin-right: 10px;
+			line-height: 40px;
+			margin-bottom: 10px;
+	    }
 		img{
 			width: 38px;
 			height: 38px;
@@ -627,16 +632,10 @@ export default {
 			display: inline-block;
 			border:1px solid #ccc;
 			height: 40px;
-			margin-right: 10px;
-			line-height: 40px;
-			padding: 0 5px;
-			margin-bottom: 10px;
-			background-size: contain;
-			background-repeat: no-repeat;
-			vertical-align: middle;
 			position: relative;
+			padding: 0 5px;
 		}       
-		 span.active{
+		 .active{
 			color:#0099ff;
 	  	    border-color:#0099ff;
 		}
@@ -672,7 +671,7 @@ export default {
 }
 .detail_price{
 	font-size: 28px;
-	color:#333;
+	color:#0099ff;
 	padding: 20px 20px 20px 0;
 	border-bottom: 1px solid #ccc;
 }

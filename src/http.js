@@ -6,7 +6,7 @@ import router from '@/router/route';
 axios.defaults.timeout = 9000;
 
 axios.defaults.baseURL ='/pc';
-
+//修改flj
 //axios.defaults.baseURL='/mall/pc'
 // http request 拦截器
 axios.interceptors.request.use(

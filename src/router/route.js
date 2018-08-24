@@ -89,12 +89,19 @@ const routes =  [
 				         	name:'orderlist',
 				   			path: 'orderlist',
 				 	   		component:resolve => require(['@/views/pages/userCenter/OrderList.vue'], resolve),
-				         },     
+				         },  
+				           
 				         { 	meta:{requireAuth:true},
 				         	name:'/order/detail',
 				   			path: '/order/detail',
 				 	   		component:resolve => require(['@/views/pages/userCenter/OrderDetail.vue'], resolve),
 				      	},
+				      	         {
+				            meta:{requireAuth:true},
+				         	name:'/order/refund',
+				   			path: '/order/refund',
+				 	   		component:resolve => require(['@/views/pages/userCenter/RefundDetail.vue'], resolve),
+				         },  
 						{
 							meta:{requireAuth:true},
 							name:'/user/address',
@@ -276,7 +283,7 @@ const router = new VueRouter({
     routes,
    scrollBehavior (to, from, savedPosition) {
 		  if (savedPosition) {
-		    return savedPosition·
+		    return savedPosition
 		  } else {
 		    return { x: 0, y: 0 }
 		  }

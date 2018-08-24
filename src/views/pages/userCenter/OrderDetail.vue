@@ -138,6 +138,7 @@
 				</div>
 			</Form>
 		</Modal>
+
 		 <Spin size="large" fix v-if="spinShow"></Spin>
 	</div>
 </template>
@@ -158,6 +159,7 @@
 	          }
         	};
       return {
+      
       	timerShow:false,
       	spinShow:true,
       	timer:'',
@@ -241,6 +243,8 @@
 	   }
 	},
     methods: {
+    	
+  
 		getAddressOption(){
 			this.$axios({
 				method: 'post',

@@ -28,7 +28,7 @@
 									<Input v-model="regiForm.password" type='password' placeholder="请输入新的密码"></Input>
 								</FormItem>
 									<FormItem>
-								<button type="button" class='btn btn-40 btn-blue w-bai' @click="handleSubmit('regiForm')">立即找回</button>
+								<Button type="primary"  @click="handleSubmit('regiForm')" long  class="btn-40">立即找回</Button>
 								</FormItem>
 							</Form>
 							<div class="login-link">

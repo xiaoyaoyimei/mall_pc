@@ -30,7 +30,7 @@
 									<Input v-model="regiForm.passWord" placeholder="密码"></Input>
 								</FormItem>
 									<FormItem>
-								<button  type="button" class=' btn btn-40 btn-blue w-bai' @click="handleSubmit('regiForm')">注册</button>
+								<Button  type="primary" long  @click="handleSubmit('regiForm')" class="btn-40">注册</Button>
 									</FormItem>
 							</Form>
 							<div class="login-link">
@@ -412,9 +412,10 @@
 							}).then((res)=>{
 								if(res.code=='200'){
 									     this.txv++;
-									//     this.verimg=this.$axios.defaults.baseURL+'/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
-										 	let urlo=window.location.origin;
-      										this.verimg=urlo+'/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+									      this.verimg='http://10.0.0.79:8080/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+								         //this.verimg=this.$axios.defaults.baseURL+'/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+										 //	let urlo=window.location.origin;
+      										//this.verimg=urlo+'/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
 								}else{
 									  this.$Message.error(res.msg);
 								}

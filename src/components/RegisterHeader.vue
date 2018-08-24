@@ -10,9 +10,7 @@
 <script>
 </script>
 <style   lang="scss" >
-	.w-bai{
-	width: 300px;
-}
+
 .new_header{
 	background: #191919;
 }
@@ -97,6 +95,7 @@
 		}
 		.login-link{
 			font-size: 14px;
+			margin-top: 10px;
 		}
 </style>
 <style> 

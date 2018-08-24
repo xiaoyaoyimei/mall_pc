@@ -28,13 +28,11 @@
 										<Input type="password" class="loginInput"  v-model="loginForm.passWord" placeholder="密码">
 										</Input>
 								</FormItem>
-								<FormItem>
-										<Button  :loading="loading" class='btn btn-40 btn-blue w-bai' @click="handleLogin()">登录</Button>
-								</FormItem>
+								<Button  class="btn-40" type="primary" long :loading="loading"  @click="handleLogin()">登录</Button>
 						</Form>
 						<div class="login-link">
 							<router-link :to='{path:"/register"}'>注册</router-link>
-							 <router-link :to='{path:"/resetPassword"}' class='resetPassword'>找回密码</router-link> 
+							 <router-link :to='{path:"/resetPassword"}' class='resetPassword '>找回密码</router-link> 
 						</div>
 					</div>
 		</div>
@@ -54,6 +52,7 @@
           else if (!validatePHONE(value)) {
             callback(new Error('请输入正确的手机号'));
           } else {
+          	
             callback();
           }
         };
@@ -93,30 +92,38 @@
           handleLogin() {
           	var _this=this;
           	_this.loading=true;
+          
          	_this.$refs.loginForm.validate(valid => {
             if (valid) {
             	_this.loading = false;
-				_this.$axios.post('customer/login', {  
-					loginName: _this.loginForm.loginName,  
-					passWord: _this.loginForm.passWord  
-				}).then(res => {  
-	               	let { code, object } = res;
-		              if (code !== 200) {
-		                  _this.$Message.error(object);
-		              } else {
-					        _this.$Message.success('登录成功');
-					 		let data = res;  
-					 		localStorage.setItem('mobile',_this.loginForm.loginName);
-							//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  
-						    store.commit('LOGIN',{token:data.object["token"],userId:data.object["userId"]});
-						    	 _this.$router.push( '/' );
-						    	 }
-							
-				}).catch(error => {  
-						_this.$router.replace('/login');  
-						_this.$Message.error('系统异常');
-						_this.loading = false  
-				})  
+            	_this.$axios.post(`customer/validate?userName=${_this.loginForm.loginName}`).then(res => {  
+					         if (res.code !== 500) {
+					         	_this.$Message.error(res.msg);
+					         }else{
+					         		_this.$axios.post('customer/login', {  
+										loginName: _this.loginForm.loginName,  
+										passWord: _this.loginForm.passWord  
+									}).then(res => {  
+						               	let { code, object } = res;
+							              if (code !== 200) {
+							                  _this.$Message.error(object);
+							              } else {
+										        _this.$Message.success('登录成功');
+										 		let data = res;  
+										 		localStorage.setItem('mobile',_this.loginForm.loginName);
+												//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  
+											    store.commit('LOGIN',{token:data.object["token"],userId:data.object["userId"]});
+											    	 _this.$router.push( '/' );
+											    	 }
+												
+									}).catch(error => {  
+											_this.$router.replace('/login');  
+											_this.$Message.error('系统异常');
+											_this.loading = false  
+									}) 
+								}
+							})
+			 
             } 
             else {
              	this.loading = false  

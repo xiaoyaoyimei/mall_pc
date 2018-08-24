@@ -3,10 +3,12 @@ import store from '@/store/store';
 import router from '@/router/route';
 
 // axios 配置
+console.log(process.env.API_HOST)
 axios.defaults.timeout = 9000;
-
-axios.defaults.baseURL ='/pc';
+//测试环境
+axios.defaults.baseURL =`/pc`;
 //修改flj
+//生产环境
 //axios.defaults.baseURL='/mall/pc'
 // http request 拦截器
 axios.interceptors.request.use(
@@ -34,7 +36,7 @@ axios.interceptors.response.use(
         return response.data;
     },
     error => {
-        console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
+       // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
         return Promise.reject(error.response)
     });
 

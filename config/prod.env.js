@@ -1,5 +1,5 @@
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
-  API_HOST:'"http://server-shop.dxracer.cn/mall"'
+  API_HOST:'"http://10.0.0.79:8080/mall"'
 }

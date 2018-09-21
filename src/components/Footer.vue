@@ -1,5 +1,6 @@
 <template>
-  <div class="foot">
+	<div>
+  <!--<div class="foot">
     <div class="footer main-wdith">
         <ul class="Ftitle clearfix">
             <li class="footerPaddingleft"><img src="../assets/img/zp.png"></li>
@@ -48,7 +49,70 @@
                 <p class="li5p">©DXRACER 苏ICP备17005778号-2 </p>
             </li>
         </ol>
-    </div>
+    </div>-->
+    <div class="newfooter">
+
+			<div class="main-width clearfix">
+
+				<ul class="fl icon-classes">
+					<li><i class="icon-new icon-qi"></i>7天无理由退货</li>
+					<li><i class="icon-new icon-express"></i>快速送达</li>
+					<li><i class="icon-new icon-freein"></i>免费上门安装</li>
+					<li><i class="icon-new icon-outline"></i>线下门店</li>
+				</ul>
+				<hr>
+				<dl><dt>服务支持</dt>
+					<dd><a href="javascript:void(0)">关于运输</a></dd>
+					<dd><a href="javascript:void(0)">
+						安装方式</a></dd>
+					<dd><a href="javascript:void(0)">
+						售后政策</a></dd>
+				</dl>
+				<dl><dt>帮助中心</dt>
+					<dd><a href="javascript:void(0)">账户管理</a></dd>
+					<dd><a href="javascript:void(0)">
+
+						购物指南</a></dd>
+					<dd><a href="javascript:void(0)">
+						关于发票</a></dd>
+				</dl>
+				<dl><dt>关于品牌</dt>
+					<dd><a href="javascript:void(0)">了解迪瑞克斯</a></dd>
+					<dd><a href="javascript:void(0)">
+
+						加入迪瑞克斯</a></dd>
+				</dl>
+				<dl><dt>特色服务</dt>
+					<dd><a href="javascript:void(0)">DIY定制</a></dd>
+					<dd><a href="javascript:void(0)">优惠码通道</a></dd>
+					<dd><a href="javascript:void(0)">查询真伪</a></dd>
+				</dl>
+				<dl><dt>DX全球</dt>
+					<dd><a href="javascript:void(0)">USA</a></dd>
+					<dd><a href="javascript:void(0)">JAPAN</a></dd>
+					<dd><a href="javascript:void(0)">KOREA</a></dd>
+				</dl>
+				<hr class="ml60">
+				<div class="fr linkus">
+					<h1>400-990-5033</h1>
+					<p>周一至周六 9:00-17:30
+					</p>
+					<p>(仅收市话费)</p><button>联系在线客服</button>
+					<div class="pr"><i class="icon-new icon-wechat"></i><i class="icon-new icon-webo"></i><i class="icon-new icon-youku"></i></div>
+				</div>
+			</div>
+
+		</div>
+    <div class="bottom">
+			<div class="main-width bottom-con"><img class="fl"  src="../assets/img/logo-red.png">
+				<div class="bottom-dtl">
+					<p>
+						<a href="">服务协议 </a> |
+						<a href="" class="ml10"> 隐私声明</a>© 2018 迪瑞克斯DXRacer</p>
+					<p>本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</p>
+				</div>
+			</div>
+		</div>
   </div>
 </template>
 

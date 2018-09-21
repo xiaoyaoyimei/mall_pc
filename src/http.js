@@ -9,6 +9,8 @@ axios.defaults.timeout = 9000;
 axios.defaults.baseURL =`/pc`;
 //修改flj
 //生产环境
+//http://10.0.0.53:8080/dxracer-mall-api
+//axios.defaults.baseURL =`http://10.0.0.53:8080/dxracer-mall-api/pc`;
 //axios.defaults.baseURL='/mall/pc'
 // http request 拦截器
 axios.interceptors.request.use(

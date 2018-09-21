@@ -1,18 +1,51 @@
 <template>
-
-	<div class="mb30">
+<div >
+                    <h3 class="myorder">我的订单
+						<div class="myorderspan" >
+							<span  :class="{red:'00' == numactive}">全部订单</span>
+							<!--<span class="red" v-for="(item,index) in statusList">{{item.value}}</span>-->
+							<span @click="changeStatus('06')" :class="{red:'06' == numactive}">已收货</span>
+							<span @click="changeStatus('01')" :class="{red:'01' == numactive}">待付款</span>
+							<span @click="changeStatus('05')" :class="{red:'05' == numactive}">待发货</span>
+							<span @click="changeStatus('04')" :class="{red:'04' == numactive}">已取消</span>
+						</div>
+					</h3>
+                    <ul class="ul" v-if="pro.length>0">
+                        <li v-for="(x,index) in pro" :key="index" >
+							<h3 class="red"> {{statusfilter(x.order.orderStatus)}}</h3>
+								<div class="myorderinformation clearfix">
+									<span class="myorderOrder clearfix">{{x.order.createTime | formatDate}} 丨 {{x.order.orderNo}} <span class="span">订单金额: ￥<strong>{{x.order.orderTotalFee | pricefilter}}</strong></span></span>	
+								</div>	
+								<div class="myorderImg clearfix">
+									<ul>
+										<li v-for="(child,i) in x.orderItems" :key="i">
+											<img :src="child.productItemImg | imgfilter" alt=""> <span>{{child.productTitle}}   {{child.productAttrs}}</span><span>￥{{child.orderFee | pricefilter}} x {{child.quantity}}</span>
+										</li>
+									</ul>
+									<div class="myorderp">
+										<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情	</router-link>
+										<button>查看物流</button>
+										<button>售后服务</button>
+										<button>去评价</button>
+									</div>
+								</div>
+						</li>
+                    </ul>
+                <div class="" v-else >暂无记录</div>
+                </div>
+	<!--<div class="mb30">
 		<Tabs value="name1">
 			<TabPane label="全部订单" name="name1">
 				<table class="order-tb">
 					<thead>
 						<tr>
 							<th width='100'>主图</th>
-							<th>商品</th>
+							<th width="250">商品</th>
 							<th width='100'>单价</th>
 							<th width='50'>数量</th>
 							<th width='100'>总价</th>
 							<th width='100'>状态</th>
-							<th width='150'>操作</th>
+							<th width='200'>操作</th>
 						</tr>
 					</thead>
 				</table>
@@ -20,25 +53,28 @@
 					<tbody>
 						<tr class="toptitle">
 							<td colspan="7">
-								<span>订单号：{{x.order.orderNo}}</span>
+								<span>订单号:{{x.order.orderNo}}</span>
 								<span class="date">{{x.order.createTime | formatDate}}</span>
+								<span  v-if="x.refundOrderStatus!=''" style="color:#F60;margin-left: 10px;">售后状态:{{statusrufundfilter(x.refundOrderStatus)}}</span></span>
 								<span class="right"> {{statusfilter(x.order.orderStatus)}}</span>
 							</td>
 						</tr>
-						<tr v-for="(child,i) in x.orderItems" :key="i">
+						<tr>
+							<div v-for="(child,i) in x.orderItems" :key="i">
 							<td class="goods_pic" width='100'>
 								<a href="javascript:void(0)"><img :src="child.productItemImg | imgfilter" alt=""></a>
 							</td>
-							<td>
+							<td width="200">
 								<div class="goods_title">
 									<p>{{child.productTitle}}</p>
-									<p>{{child.productAttrs}}</p>
+									<p>{{child.productAttrs}} </p>
 								</div>
 							</td>
 							<td width='100'>￥{{unitprice(child.orderFee,child.quantity) | pricefilter}}</td>
 							<td width='50'> {{child.quantity}}</td>
 							<td width='100'> ￥{{child.orderFee| pricefilter}}</td>
-							<td width='100'>
+							</div>
+							<td width='100' >
 								<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情</router-link>
 							</td>
 							<td width='200'>
@@ -64,7 +100,7 @@
 					<thead>
 						<tr>
 							<th width='100'>主图</th>
-							<th>商品</th>
+							<th width='250'>商品</th>
 							<th width='100'>单价</th>
 							<th width='50'>数量</th>
 							<th width='100'>总价</th>
@@ -82,11 +118,12 @@
 								<span class="right"> </span>
 							</td>
 						</tr>
-						<tr v-for="(child,i) in x.refundOrderItems" :key="i">
+						<tr >
+							<div v-for="(child,i) in x.refundOrderItems" :key="i">
 							<td class="goods_pic" width='100'>
 								<a href="javascript:void(0)"><img :src="child.productItemImg | imgfilter" alt=""></a>
 							</td>
-							<td>
+							<td width='200'>
 								<div class="goods_title">
 									<p>{{child.productTitle}}</p>
 									<p>{{child.productAttrs}}</p>
@@ -96,10 +133,13 @@
 							<td width='100'>￥{{unitprice(child.refundOrderFee,child.quantity) | pricefilter}}</td>
 							<td width='50'> {{child.quantity}}</td>
 							<td width='100'> ￥{{child.refundOrderFee| pricefilter}}</td>
-							<td width='150'>
-								<span class="color-blue">{{statusrufundfilter(x.refundOrder.refundOrderStatus)}}</span>
+							</div>
+							<td width='100'>
+								
+								<span style="color:#f60">{{statusrufundfilter(x.refundOrder.refundOrderStatus)}}</span>
 							</td>
-							<td width='200'>
+							<td width='150'>
+								<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='01'" @click="cancelrefund(x.refundOrder.refundOrderNo)">取消</button>
 								<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='02'" @click="showLogisticsInfo(x.refundOrder.refundOrderNo)">填写物流单号</button>
 							</td>
 						</tr>
@@ -108,7 +148,6 @@
 			</TabPane>
 		</Tabs>
 		<Spin size="large" fix v-if="spinShow"></Spin>
-		<!--退货-->
 		<Modal v-model="refundModal" width="600" :mask-closable="false">
 			<p slot="header" style="color:#f60;text-align:center">
 				<Icon type="ios-information-circle"></Icon>
@@ -154,7 +193,6 @@
 				<Button type="primary" size="large" long @click="refund">提交</Button>
 			</div>
 		</Modal>
-		<!--		填写物流单号-->
 		<Modal v-model="infoModal" width="500" :mask-closable="false">
 			<p slot="header" style="color:#f60;text-align:center">
 				<Icon type="ios-information-circle"></Icon>
@@ -173,7 +211,7 @@
 				<Button type="primary" size="large" long @click="submitLogisticsInfo">提交</Button>
 			</div>
 		</Modal>
-	</div>
+	</div>-->
 </template>
 
 <script>
@@ -181,6 +219,8 @@
 	export default {
 		data() {
 			return {
+				numactive:'00',
+				orderStatus:'00',
 				imgmust: 'N',
 				reasonModel: '',
 				infoModal: false,
@@ -213,6 +253,11 @@
 			}
 		},
 		methods: {
+			changeStatus(v){
+				this.numactive=v;
+				this.orderStatus=v;
+				this.getOrder()
+			},
 			img_must(v) {
 				for(var i = 0; i < this.reasonList.length; i++) {
 					if(this.reasonList[i].causeId == v) {
@@ -397,6 +442,29 @@
 					}
 				});
 			},
+				cancelrefund(value) {
+				this.$Modal.confirm({
+					content: '<p>确定取消该售后订单？</p>',
+					onOk: () => {
+						this.$axios({
+							method: 'post',
+							url: '/refund/cancel?refundOrderNo=' + value,
+						}).then((res) => {
+							if(res.code == '200') {
+								this.$Message.info(res.msg);
+								this.getRefundOrder();
+							} else {
+								this.$Message.info(res.msg);
+								this.getRefundOrder();
+							}
+						});
+					},
+					onCancel: () => {
+						this.$Message.info('放弃取消');
+					}
+				});
+			},
+			
 			qianshou(value) {
 				this.$Modal.confirm({
 					content: '<p>确定签收该订单？</p>',
@@ -420,28 +488,38 @@
 				});
 			},
 			getOrder() {
+				let status='';
+				if(this.orderStatus!='00'){
+					status=this.orderStatus;
+				}
 				this.$axios({
 					method: 'get',
-					url: '/order/list',
+					url: `/order/list?orderStatus=${status}`,
 				}).then((res) => {
 					if(res.code == '200') {
 						this.cartList = res.object;
 						var ssss = this.cartList;
 						this.pro = ssss;
+					}else{
+						this.cartList=[];
+						this.pro = [];
 					}
 					this.spinShow = false;
 				});
+
+			},
+			getRefundOrder(){
 				this.$axios({
 					method: 'get',
 					url: '/refund/getRefundOrderList',
 				}).then((res) => {
 					this.refundList = res;
 				});
-
-			},
+			}
 		},
 		mounted() {
 			this.getOrder();
+			this.getRefundOrder();
 			this.getStatusEnum();
 			this.uploadList = this.$refs.upload.fileList;
 		}
@@ -449,112 +527,147 @@
 </script>
 
 <style scoped="scoped" lang="scss">
-	.order-tb {
-		width: 100%;
-	}
-	
-	.goods_title {
-		float: left;
-		width: 300px;
-		text-align: left;
-	}
-	
-	.date {
-		margin-left: 10px;
-	}
-	
-	.right {
-		float: right;
-	}
-	
-	.orderitem-tb {
-		margin-top: 20px;
-	}
-	
-	.orderitem-tb .toptitle {
-		background: #efefef;
-	}
-	
-	.toptitle td {
-		text-align: left;
-	}
-	
-	.btn {
-		background: #fff;
-		border: 1px solid #333;
-		padding: 2px;
-		cursor: pointer;
-	}
-	
-	.btn:hover {
-		background: #f3f3f3;
-	}
-	
-	.btn-dx {
-		border-color: #0099ff;
-		color: #0099ff;
-	}
-	
-	.refund {
-		display: flex;
-		margin-bottom: 10px;
-		p {
-			width: 100px;
-		}
-		textarea {
-			min-height: 60px;
-		}
-		textarea,
-		input {
-			flex: 1;
-			border: 1px solid #ccc;
-			text-indent: 5px;
-		}
-		input {
-			min-height: 32px;
-		}
-	}
-	
-	.demo-upload-list {
-		display: inline-block;
-		width: 80px;
-		height: 80px;
-		text-align: center;
-		line-height: 80px;
-		border: 1px solid transparent;
-		border-radius: 4px;
-		overflow: hidden;
-		background: #fff;
-		position: relative;
-		box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-		margin-right: 4px;
-	}
-	
-	.demo-upload-list img {
-		width: 100%;
-		height: 100%;
-	}
-	
-	.demo-upload-list-cover {
-		display: none;
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: rgba(0, 0, 0, .6);
-	}
-	
-	.demo-upload-list:hover .demo-upload-list-cover {
-		display: block;
-	}
-	
-	.demo-upload-list-cover i {
-		color: #fff;
-		font-size: 20px;
-		cursor: pointer;
-		margin: 0 2px;
-	}
+.newcenter h3{
+    font-weight: 400;
+    font-size: 24px;
+    color: #999999;
+    width: 100%;
+    border-bottom: 1px solid #c6c6c6;
+    padding-bottom: 18px;
+}
+	.newcenterbody{
+    float: left;
+    width: 940px;
+    background-color: #FFFFFF;
+    padding: 40px;
+    position: relative;
+}
+.newcenterbody .myorder{
+				color: #333333;
+				padding-bottom: 0px;
+			}
+			.myorder .myorderspan{
+				margin-top: 35px;
+			}
+			.myorder .myorderspan span{
+				display: inline-block;
+				width: 125px;
+				height: 40px;
+				font-weight: 400;
+				font-style: normal;
+				font-size: 16px;
+				color: #666666;
+				text-align: center;
+				line-height: 40px;
+				cursor: pointer;
+			}
+			.myorder .myorderspan .red, .myorder .myorderspan span:hover{
+				color: #FF0000;
+			}
+			.ul{
+				padding: 0px;
+			}
+			 .ul li{
+				padding: 28px 0px;
+			}
+		 .ul>li{
+				border-bottom: 1px solid #c6c6c6;
+				padding-bottom: 0px;
+			}
+			.ul .myorderinformation{
+				height: 20px;
+				font-weight: 400;
+				font-size: 14px;
+				color: #666666;
+			}
+			.ul .myorderOrder{
+				float: left;
+				width: 100%;
+				height: 20px;
+				font-weight: 400;
+				font-size: 14px;
+				color: #666666;
+				text-align: left;
+				margin: 0px 0px 10px;
+			}
+			.ul .span{
+				float: right;
+				background-color: #ffffff;
+				color: #666666;
+				padding: 0px;
+			}
+			.ul .span strong{
+				font-weight: 400;
+				font-style: normal;
+				font-size: 30px;
+				color: #1E1E1E;
+				text-align: right;
+			}
+			.ul .red{
+				border: none;
+			}
+			.myorderImg ul{
+				padding: 0px;
+				padding-top: 28px;
+			}
+			.ul .myorderImg li{
+				float: left;
+				width: 470px;
+				padding-bottom: 0px;
+				padding-top: 0px;
+
+			}
+			.myorderImg  img{
+				display: inline-block;
+				height: 60px;
+				vertical-align: middle;
+			}
+			.ul .myorderImg{
+				position: relative;
+			}
+			.ul .myorderImg span{
+				float: right;
+				width: 390px;
+				font-weight: 400;
+				height: 20px;
+				overflow: hidden;
+				font-style: normal;
+				font-size: 14px;
+				color: #666666;
+			}
+			.ul .myorderImg span:nth-of-type(2){
+				position: relative;
+				top: -30px;
+			}
+			.myorderImg .myorderp{
+				/* float: right; */
+				position: absolute;
+				width: 375px;
+				top: 40px;
+				right: -10px;
+
+			}
+			.myorderImg .myorderp a{
+				display: inline-block;
+				width: 80px;
+				margin-right: 10px;
+				height: 30px;
+				line-height: 30px;
+				border: none;
+				background-color: #e1e1e1;
+				font-weight: 400;
+				font-size: 13px;
+				color: #333333;
+				text-align: center;
+			}
+			.myorderImg .myorderp button:nth-last-of-type(n+2):hover{
+				background-color: #cccccc;
+			}
+			.myorderImg .myorderp button:nth-last-of-type(1){
+				background-color: #ffffff;
+				border: 1px solid #f2191a;
+				color: #FF0000;
+			}
 </style>
 <style>
 	.imglarger .ivu-modal-wrap {

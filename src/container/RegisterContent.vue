@@ -7,15 +7,12 @@
                    <router-view/>
                 </Content>
             </Layout>
-             <app-footer></app-footer>
         </Layout>
 </div>
 </template>
 
 <script>
-import AppHeader from '@/components/RegisterHeader'
-import AppFooter from '@/components/RegisterFooter'
-
+import AppHeader from '@/components/RHeader'
 	export default {
 			data(){
 				return {
@@ -23,7 +20,6 @@ import AppFooter from '@/components/RegisterFooter'
 			},
         components:{
         	AppHeader,
-        	AppFooter,
         }
        }
 </script>

@@ -4,10 +4,9 @@
              <app-header></app-header>
             <Layout >
                 <Content class='layout' :style="{ minHeight: '700px'}">
-				<div class="inner_wrap">
+				<div class="newcenter clearfix">
 					<user-left></user-left>
-					 
-					 <div class="content_wrap"><router-view/></div>
+					<div class="newcenterbody"> <router-view/></div>
 				</div>
                 </Content>
             </Layout>
@@ -36,16 +35,17 @@ import UserLeft from '@/components/UserLeft'
 </script>
 
 <style lang="scss" scoped="scoped"> 
-.inner_wrap {
-    padding-top: 25px;
-    zoom: 1;
-    min-height: 570px;
-    width: 1190px;
+.newcenterbody{
+    float: left;
+    width: 940px;
+    background-color: #FFFFFF;
+    padding: 40px;
+    position: relative;
+}.newcenter {
+    width: 1200px;
     margin: 0 auto;
-}
-.content_wrap{
-	    float: left;
-    width: 990px;
-    margin-left: 60px;
+    margin-top: 7px;
+    position: relative;
+    left: -3px;
 }
 </style>

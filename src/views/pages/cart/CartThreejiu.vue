@@ -1,5 +1,5 @@
 <template>
-	<div><div class="nav Nav">
+	<!--<div><div class="nav Nav">
 			<div class="main-width clearfix">
                 <router-link  to="/index" class="logo fl navcart"><img    src="../../../assets/img/logo-red.png"></router-link>
                 <a href="" class="fl mycart">支付订单</a>
@@ -39,17 +39,24 @@
                     <h4>选择以下支付方式付款</h4>
                     <div class="clearfix">
                         <span class="cartIcon iconIcon-weixin" @click="toggletab(1)"></span>
-                        <span class="cartIcon iconIcon-zhifubao" @click="handleSubmit('alipay')"></span>
+                        <span class="cartIcon iconIcon-zhifubao" @click="toggletab(0)"></span>
                     </div>
-<div v-show=" 1 == num" >
+                          <div class="pay_content">
+                <div v-show=" 0 == num"  class="ali">
+                	<form :action="pay" method="post" ref="payfang" id="myForm">
+                		<img src="../../../assets/img/alipay.png" @click="handleSubmit('alipay')">
+					</form>
+                	</div>
+                	<div v-show=" 1 == num" >
                 		<img :src="verimg"/>
                 	</div>
+                </div>
                 </div>
             </div>
 
         </div>
-		</div>
-	<!--<div class='zhifu' >
+		</div>-->
+	<div class='zhifu' >
 		<div class="pay_info_wrap">
 			<div class="scan_code_wrap ">
 				<p class="tips_info">订单提交成功，请在<b class="color-blue">半小时</b>以内完成付款！</p>
@@ -78,7 +85,7 @@
                 	</div>
                 </div>
    	 	</div>
-     </div>-->
+     </div>
 </template>
 
 <script>
@@ -113,7 +120,7 @@
 									_this.$router.push({ name:'/order/detail',query:{orderNo:this.$route.query.orderNo}});
 								}
 							});
-							 _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
+						//	 _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
         	},
         	cancelpay(){
         		this.payshow=true;

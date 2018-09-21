@@ -1,5 +1,5 @@
 <template>
-    <div class="new_header">
+    <!--<div class="new_header">
        <div class="inner clearfix">
        	<div class="main-wdith">
        	 <router-link  to="/index" class="logo"><img src="../assets/img/logo.png"></router-link>
@@ -59,9 +59,34 @@
             </div>
         </div>
         </div>
-    </div>
-    </div>
+    </div>-->
+    <div>
+    <header class="bg-black ">
+			<div class="main-width">
+				<div class="fl header-left">
+					<router-link  to="/index">首页</router-link>
+					<hr class="spacer mlr8">
+					<a href="javascript:void(0)">合作招商</a>
+					<hr class="spacer mlr8">
+					 <router-link  to="/help">操作指南</router-link>
+				</div>
+				<div class="fr header-right">
+					<div v-if="nologin" style="display: inline-block;"><router-link  to="/login"  >登录</router-link>
+					<hr class="spacer">
+					 <router-link  to="/register">注册</router-link></div>
+					<router-link  to="/user"  v-if="!nologin" style="width: 100px;">
+						{{account.nickName}}
+						<span v-if="account.nickName==''">{{account.customerMobile}}</span></router-link>
+					
+					<hr class="spacer">
+					<a href="" class="message"><i class="icon-new icon-message"></i></a>
+					<router-link  to="/cart" class="mini-cart"><i class="icon-new icon-minicart"></i></router-link >
+				</div>
+			</div>
+		</header>
 
+    </div>
+</div>
 </template>
 <script>
    // 引入公共的bug，来做为中间传达的工具
@@ -70,8 +95,6 @@
 	 export default {
         data () {
             return {
-              keyword: '',
-              opt_search_hover:false,
               nologin:true,
               account:{
               nickName:'',
@@ -120,10 +143,6 @@
 							});
 					}
         	},
-			gosearch(){
-			    Bus.$emit('val', this.keyword)
-                this.$router.push({path: '/sort',query:{keyword:this.keyword}});  
-            },
             gotologin(){
             	this.$router.push('/login');
             },
@@ -170,199 +189,5 @@
 
 <style scoped="scoped"  lang="scss">
 
-.new_header{
-	background: #191919;
-}
-.inner{
-	padding-top: 15px;
-	.logo{
-		float: left;
-	}
-	.nav_wrap{
-		float: left;
-		display: block;
-		margin-left: 100px;
-		li{
-			float: left;
-			color: #fff;
-			margin-left: 80px;
-			height: 36px;
-			line-height: 36px;
-			cursor: pointer;
-			font-size: 14px;
-		}
-		li:hover,.router-link-active{
-			color:#0099ff
-		}
-	}
-}
-.search_wrap input{
-	border: 1px solid #fff;
-	height: 22px;
-	width: 136px;
-	background: #191919;
-	color: #fff;
-	text-align: center;
-	font-weight: bold;
-}
-.icon_search{
-	background:url(../assets/img/search_header.png) scroll no-repeat 0 0;
-	width:16px;
-	height: 16px;
-	display: inline-block;
-	position: absolute;
-	right: 5px;
-	top: 1px;
-	cursor: pointer;
-}
-.opt_wrap{
-		float: right;
-		padding-top: 8px ;
-		position: relative;
-		right:0
-	}
-.opt_cart,.opt_user,.opt_search{
-		position: relative;
-	float: right;
-	
-}
-.opt_cart{
-	margin-left:30px;
-}
-.opt_user{
-	padding-left: 30px;
-	padding-bottom: 15px;
-	padding-right: 20px;
-	a{
-		color:#fff;
-	}
-}
 
-.icon-login-gray,.icon-login-blue{
-	width: 25px;
-	height: 25px;
-}
-.icon-login-gray{
-	background-position: -35px -3px;
-}
-.icon-login-gray:hover,.icon-login-blue{
-	background-position: -3px -2px;
-}
-.opt_user:hover .common-wrap,.opt_cart:hover .common-wrap{
-	display: block;
-}
-.common-wrap{
-	display: none;
-     position: absolute;
-    right: -50px;
-    width: 320px;
-    top: 45px;
-    z-index: 11;
-    background: #fff;
-    border: 1px solid #ccc;
-    padding-left: 27px;
-    padding-top: 25px;
-    padding-right: 26px;
-    padding-bottom: 20px;
-    .icon-arrow{
-    	background: url(../assets/img/header_sprite.png) no-repeat scroll -68px -1px;
-    	width:31px;
-    	height: 15px;
-    	display: inline-block;
-    	position: absolute;
-    	top:-15px;
-    	right: 63px;
-    }
-    h3{
-    	font-weight: bold;
-    	color:#0099ff;
-    	margin-bottom: 20px;
-    	font-size: 15px;
-    }
-}
-.login-wrap p{
-	font-size: 15px;
-}
-.login-wrap .color-blue{
-	margin-bottom: 5px;
-}
-.icon-wel{
-	background-position: -110px -2px;
-	width: 26px;
-	height: 26px;
-	position: relative;
-	top: 4px;
-	left: 5px;
-}
-.icon-cart-gray,.icon-cart-blue{
-	width: 30px;
-	height: 30px;
-	display: inline-block;
-}
-.icon-cart-gray{
-background-position: -36px -37px;
-
-}
-.icon-cart-gray:hover,.icon-cart-blue{
-	background-position: -1px -36px;
-}
-
-.cartList{
-	img{
-	width: 80px;
-	float: left;
-	}
-	.total{
-		float: right;
-		font-size: 16px;
-		color:#0099ff
-		}
- p{
-	color:#111;
-	font-weight: bold;
-}
-
- .title{
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	width:185px;
-	overflow: hidden;
-}
-.divider{
-	margin-left:-27px;
-	margin-right: -26px;
-	border-top:1px solid #ccc;
-	margin-top: 20px;
-	padding-top:15px;
-	padding-bottom: 15px;
-	padding-left: 27px;
-	padding-right: 26px;
-}
-}
-.cart_empty {
-	    display: flex;
-    justify-content: center;
-    align-items: center;
-	img{
-	width: 50px;
-	margin-right: 20px;
-	}
-}
-.cart-num-wrap{
-	color:#fff
-}
-.cart-num-wrap span{
-	float: right;
-	cursor: pointer;
-}
-</style>
-<style> 
-	 .ivu-input{
-    	height: 40px;
-    	border-radius: 0;
-    }
-    .ivu-form .ivu-form-item-label{
-    		font-size: 15px;
-    	color:#999
-    }
 </style>

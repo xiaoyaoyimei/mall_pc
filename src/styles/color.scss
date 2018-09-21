@@ -4,6 +4,257 @@ $color-dx:#ed1844;
 $color-default:#333;
 $color-white:#fff;
 $color-gray:#999;
+    .ml60 {
+        margin-left: 60px;
+    }
+    
+
+.icon-message,
+.icon-minicart{
+    top:6px
+}
+.icon-message,
+.icon-minicart,
+.icon-search {
+    position: relative;
+
+    left: 2px;
+}
+.icon-search {
+        top: 4px;
+}
+.icon-wechat,
+.icon-webo {
+    width: 30px;
+    height: 30px;
+}
+
+.icon-user,
+.icon-kefu,
+.icon-cart,
+.icon-back {
+    width: 30px;
+    height: 30px;
+}
+
+.icon-user {
+    background-position: -39px -90px;
+}
+
+.icon-kefu {
+    background-position: -37px -127px;
+}
+
+.icon-cart {
+    background-position: -39px -163px;
+}
+
+.icon-back {
+    background-position: -73px -1px;
+}
+.detailtoolbar .icon-user {
+    background-position: -116px -51px;
+}
+
+.detailtoolbar .icon-kefu {
+    background-position: -116px -84px;
+}
+
+.detailtoolbar .icon-cart {
+    background-position: -115px -119px;
+}
+
+.detailtoolbar .icon-back {
+    background-position: -115px -156px;
+}
+
+.icon-wechat {
+    background-position: -34px -25px;
+}
+
+.icon-webo {
+    background-position: -32px -57px;
+}
+
+.icon-youku {
+    background-position: -73px -34px;
+    width: 40px;
+    height: 16px;
+}
+
+.icon-classes i {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    top: 10px;
+    left: 0;
+}
+
+.icon-qi {
+    background-position: 0px -109px;
+}
+
+.icon-express {
+    background-position: -2px -141px;
+}
+
+.icon-freein {
+    background-position: -3px -172px;
+}
+
+.icon-outline {
+    background-position: -31px 0;
+}
+
+.icon-more {
+    background-position: -3px -87px;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    position: relative;
+    top: 3px;
+}
+
+.icon-search {
+    background-position: -3px -65px;
+    width: 26px;
+    height: 20px;
+}
+
+.icon-message {
+    background-position: -3px 0;
+    width: 24px;
+    height: 24px;
+}
+
+.icon-minicart {
+    background-position: -3px -33px;
+    width: 31px;
+    height: 21px;
+}
+.icon-add,.icon-minus{
+        width: 23px;
+    height: 23px;
+     position: absolute;
+     right: -1px;
+     cursor: pointer;
+}
+.icon-add{
+    background-position: -76px -56px;
+    
+}
+.icon-minus{
+    background-position:-76px -79px;
+    top: 23px;
+}
+.icon-like{
+    background-position:-76px -113px;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    top: 11px;
+}
+.icon-recadd{
+        background-position:-81px -147px;
+    width: 22px;
+    height: 22px;
+}
+.icon-onlyimg,.icon-allimg{
+        width: 22px;
+    height: 22px;
+    position: relative;
+    top: 5px;
+}
+.icon-onlyimg{
+    background-position:-77px -175px;
+}
+.icon-allimg{
+    background-position:-147px -1px;
+}
+.icon-zan,.icon-zan-active{
+    width: 23px;
+    height: 23px;}
+.icon-zan{
+        background-position: -119px -24px;
+    
+}
+.icon-zan-active{
+    background-position: -119px -0px;
+}
+.cartIcon-checkBox{
+    background-position: -475px -94px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+.cartIcon-checkBox-checked{
+    background-position: -475px -144px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;    
+}
+.cartIcon-delete{
+    background-position: -582px -94px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.cartIcon-delete-red,.cartIcon-delete:hover{
+    background-position: -576px -145px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+.iconIcon-cart{
+    background-position: -222px -88px;
+    width: 35px;
+    height: 35px;
+}
+.iconIcon-cart-red{
+    background-position: -222px -130px;
+    width: 35px;
+    height: 35px;
+}
+.iconIcon-order{
+    background-position: -310px -84px;
+    width: 35px;
+    height: 35px;   
+}
+.iconIcon-order-red{
+    background-position: -310px -130px;
+    width: 35px;
+    height: 35px;   
+}
+.iconIcon-successorder{
+    background-position: -384px -82px;
+    width: 35px;
+    height: 35px;       
+}
+.iconIcon-successorder-red{
+    background-position: -384px -130px;
+    width: 35px;
+    height: 35px;       
+}
+.iconIcon-pay{
+    background-position: -673px -96px;
+    width: 85px;
+    height: 85px;       
+}
+.iconIcon-weixin{
+    background-position: -100px -225px;
+    width: 180px;
+    height: 65px;       
+}
+.iconIcon-zhifubao{
+    background-position: -300px -225px;
+    width: 180px;
+    height: 65px;       
+}
+.iconIcon-zaixian{
+    background-position: -500px -225px;
+    width: 180px;
+    height: 65px;
+}
 .font-14{
     font-size: 14px;
 }

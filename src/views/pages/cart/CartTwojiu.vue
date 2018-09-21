@@ -1,94 +1,51 @@
 <template>
-	<div>
-	<div class="nav Nav">
-			<div class="main-width clearfix">
-				<router-link  to="/index" class="logo fl navcart"><img    src="../../../assets/img/logo-red.png"></router-link>
-                <a href="" class="fl mycart">确认订单</a>
-                <ul class="navCart">
-                    <li><a href=""><p class="cartIcon iconIcon-successorder"></p><p>成功提交订单</p></a></li>
-                    <li><a class="red" href=""><p class="cartIcon iconIcon-order-red"></p><p>填写核对订单</p></a></li>
-                    <li><a class="" href=""><p class="cartIcon iconIcon-cart"></p><p>我的购物车</p></a></li>
-                </ul>
-			</div>
-		</div>
-		<div class="placeorder">
-            <div class="placeorderlist">
-                <div class="placeorderaddress">
-                    <h5>收货地址</h5>
-                    <ul class="clearfix">
-                        <li :class="{default: index == selectItem}"  v-for="(addritem,index) in addressList" :key="index"  @click="chooseAddr(addritem.id,index)">
-                            	<h6 class="name">{{addritem.person}}</h6>
-                            <p class="phone">
-                            	{{addritem.phone}}
-                            </p>
-                            <div class="address">{{addritem.receiveProvince}}{{addritem.receiveCity}}{{addritem.receiveDistrict}}{{addritem.address}}</div>
-                            <button class="addressedit" @click="editmodal(addritem)">修改</button>
-                        </li>
-                        <li>
-                            <div class="addaddress" @click="modaladdr=true">
-                                <div>+</div>
-                                <p>添加新地址</p>
-                            </div>
-                        </li>
-                    </ul>
+ <div class='main-wdith'>
+     <div class="wrap-header">
+        <h3>选择收货地址</h3>
+        <span class="small-text js_address_tips">地址切换可能导致价格和库存变动，请仔细确认</span>
+    </div>
+    <div class="address-box clearfix" >
+        <div class="adr js_adr_check"  :class="{checked: index == selectItem}"  v-for="(addritem,index) in addressList" :key="index" >
+            <div class="adr-inner">
+            	<div @click="chooseAddr(addritem.id,index)" class="P20">
+                <i class="icon icon_checked"></i>
+                <div class="adr-head" >
+                    <span class="adr-province">{{addritem.receiveProvince}}</span>
+                    <span class="adr-city">{{addritem.receiveCity}}</span>
+                    <span class="adr-name">{{addritem.person}}</span>
                 </div>
-                <div class="placeorderTable">
-                    <div class="placeorderTitle clearfix">
-                        <h5>商品及优惠卷</h5>
-                       <router-link  to="/cart" >返回购物车 &gt;</router-link>
-                    </div>
-                    <table class="placeorderBody">
-                        <tbody><tr v-for="(x,index) in cartList" :key="index" >
-                            <td width="400">
-                                <img :src="imageSrc+x.image" alt=""><span class="placeorderspan">{{x.productName}}</span>
-                            </td>
-                           <td width="150">	￥{{x.salePrice|pricefilter }}  x {{x.quantity}} </td><!--<p v-if="x.promotionTitle ==null&&xscoupon" >￥{{x.salePrice|pricefilter }}  x {{x.quantity}}</p>
-											<p v-else>￥{{x.salePrice |pricefilter}} x {{x.quantity}}</p></td>-->
-                            <td width="400" ><span v-if="x.promotionTitle !=null">{{x.promotionTitle}}</span>	</td>
-                            <td width="150">	<p v-if="x.promotionTitle ==null&&xscoupon"   class="cart_price">￥{{x.salePrice|pricefilter}}</p>
-											<p v-else>￥{{itemtotal(x.salePrice,x.quantity)|pricefilter}} </p></td>
-                        </tr>
-                    </tbody></table>
-                    <div class="placeorderActivity clearfix">
-                        <div class="shipping">参与活动</div>
-                        <div class="information">
-                            <div class="placeorderInformation">
-                                使用优惠码 
-                              <div v-for="(item,index) in inputlist" class="inlineBlock"> <input  class="input" type="text" ref="couponitem" onKeyUp="if(this.value.length>4){this.value=this.value.substr(0,4)}">-</div> 
-                                <button class="btn"  @click='usecoupon'>确定</button>
-                                <span class="cost">-￥{{(origintotal.price -total.price)|pricefilter}}</span>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="placeorderSend">
-                        <span class="shipping">配送方式</span>
-                        <span class="information"><span class="doubt">?</span>了解运费信息</span>
-                        <span class="cost">快递费用 ￥100</span>
-                    </div>
-                    <div class="placeorderzhubei clearfix">
-                        <span class="span">备注留言</span>
-                        <textarea v-model.trim="beizhu"  cols="70" rows="2"></textarea>
-                        <div class="placeorderTotal">
-                            <p class="heji"><span class="num">商品件数：</span><span class="red">{{total.num}} 件</span></p>
-                            <p class="heji"><span class="num">商品总价：</span><span class="red">￥{{origintotal.price|pricefilter}}</span></p>
-                            <p class="heji"><span class="num">活动优惠：</span><span class="red">-￥{{(origintotal.price -total.price)|pricefilter}}</span></p>
-                            <p class="heji"><span class="num">运费： </span><span class="red">100 元</span></p>
-                            <div class="heji totalPrice"><span class="num">应付总额：</span><span class="red"><strong>￥{{total.price|pricefilter}}</strong> </span></div>
-                            <div class="heji gopay" @click="confirm">去结算</div>
-                        </div>
-                    </div>
-
+                <div class="adr-body" title="addritem.address">
+                    <p class="adr-text">
+                        <span class="adr-detail">{{addritem.address}}</span>
+                    </p>
+                      <span v-if="addritem.isDefault=='Y'">(默认)</span>
+                </div>
+                  </div>
+                <div class="adr-foot">
+                    <a href="javascript:void(0);" @click="editmodal(addritem)">编辑</a>
+                    <a href="javascript:void(0);"  @click="handleDelete(addritem.id)">删除</a>
                 </div>
             </div>
         </div>
-                    <Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading">
+        <div class="adr js_adr_add" ms-hover="'hover'" @click="modaladdr=true">
+            <div class="adr-inner">
+                <div class="adr-add P20">
+                    <p class="adr-add-icon"><i class="icon icon_add_address"></i></p>
+                    <p class="adr-add-text">添加地址</p>
+                </div>
+            </div>
+        </div>
+    </div>
+                <Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading">
 				<Form :model="addForm" ref="addForm" label-position="left" :label-width="110" :rules="ruleValidate" style="padding: 15px;"> 
 					<FormItem label="收货人" prop="person">
 						<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
 					</FormItem>
 					<FormItem label="手机号" prop="phone">
 						<Input v-model="addForm.phone" placeholder="联系电话" autocomplete="off"></Input>
+					</FormItem>
+					<FormItem label="固定电话" >
+						<Input v-model="addForm.tel" placeholder="固定电话" autocomplete="off"></Input>
 					</FormItem>
 			        <FormItem label="所在地区"  prop="selectedOptionsAddr">
         		 <Cascader  v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
@@ -98,7 +55,7 @@
 					</FormItem>
 				</Form>
 				  </Modal>
-				  	   <Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading"  >
+				   <Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading"  >
 					  	<Form :model="editForm" ref="editForm" label-position="left" :label-width="110" :rules="ruleValidate" style="padding: 15px;" > 
 				        <FormItem label="收货人" prop="person">
 				            <Input v-model="editForm.person" placeholder="收货人"></Input>
@@ -117,7 +74,58 @@
 				        </FormItem>
 				    </Form>
 			    </Modal>
-        </div>
+			        <div class="wrap-header">
+				        <h3>确认订单信息</h3>
+				    	</div>
+            <table class="order-tb cart2">
+				<thead>
+						<tr>
+							<th>主图</th>
+							<th>商品信息</th>
+							<th>单价(元)</th>
+							<th>数量</th>
+							<th>小计(元)</th>
+						</tr>
+				</thead>
+						<tbody>
+							<tr   v-for="(x,index) in cartList" :key="index" > 
+										<td><img  :src="imageSrc+x.image"></td>
+										<td class="title">
+											<p class="title_name">{{x.productName}}</p>
+											<p class="title_attr">{{x.productAttr}}</p>
+											<label class="color-blue" v-if="x.promotionTitle !=null">{{x.promotionTitle}}</label>
+										</td>
+										<td>
+											<p v-if="x.promotionTitle ==null&&xscoupon" >￥{{x.salePrice|pricefilter }}</p>
+											<p v-else>￥{{x.salePrice |pricefilter}}</p>
+							            </td>
+									   	<td>
+											<p>{{x.quantity}}</p>
+										</td>
+										<td>
+											<p v-if="x.promotionTitle ==null&&xscoupon"   class="cart_price">￥{{x.salePrice|pricefilter}}</p>
+											<p v-else>￥{{itemtotal(x.salePrice,x.quantity)|pricefilter}} </p>
+										</td>
+								</tr>
+						</tbody>
+			</table>
+			   <div class="wrap-header" v-show="couponshow">
+				        <h3>优惠信息</h3>
+				        <div class="coupon-wrap"> <input type="text"  placeholder="请输入优惠券" v-model.trim="couponCode">
+                         <span @click='usecoupon'>确认</span>
+                        </div>
+				    	</div>
+				    	<div class="cart2_price">
+         <div  class="price_wrap">	
+         	<dl class="cf-wrap">
+         	<dt>商品数量:</dt><dd>{{total.num}}</dd><dt>金额总计:</dt><dd>￥{{origintotal.price|pricefilter}}</dd>
+         	<dt>活动优惠:</dt><dd>￥{{(origintotal.price -total.price)|pricefilter}}</dd><dt>应付总额:</dt><dd >￥<span class="font-24">{{total.price|pricefilter}}</span></dd></dl>
+           <button  @click="confirm"  type="button" class="btn_pay"> 
+				确认订单
+			</button>
+			</div>
+    	</div>
+    	</div>
 </template>
 <script>
 	import Bus from '@/assets/js/bus.js'
@@ -135,11 +143,9 @@
 	          }
         	};
             return {
-            	 inputlist:[1,2,3,4],
-            	beizhu:'',
             	loading:true,
-            	addressOption: [],
-             	selectItem:null,
+             addressOption: [],
+             selectItem:null,
 			  addForm: {
 		                    person: '',
 		                    phone: '',
@@ -442,8 +448,7 @@
 	          	let para={
 						addressId:this.addressList[this.selectItem].id,
 	                    productItemIds:this.productItemIds,
-	                    couponCode:this.couponCode,
-	                    remark:this.beizhu
+	                    couponCode:this.couponCode
 	          	};
     	   	  	this.$axios({
 				    method: 'post',
@@ -466,17 +471,11 @@
            },
            //使用优惠券
            usecoupon(){
-           	this.xscoupon=false;
-           	let _this=this;
-           	this.$refs['couponitem'].forEach(function(item,index) {
-           		_this.couponCode+=(item.value).replace(/(^\s*)|(\s*$)/g, "");
-           		
-           	})
+           	this.xscoupon=false
            	if(this.couponCode==''){
            		this.$Message.error('优惠码不能为空');
            		return;
            	}
-           	
            	let para={
 						addressId:this.addressList.id,
 	                    productItemIds:this.productItemIds,
@@ -497,9 +496,6 @@
 					}
 				});
           },
-          addnewdizhi(){
-          	this.$refs['placeorderModal'].classList.remove("none")
-          }
         },
          mounted() {
          	this.getAddress();
@@ -510,438 +506,159 @@
     }
 </script>
 <style lang="scss" scoped="scoped">
-.none {
+ .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
+.clearfix { *zoom:1; }
+		/*地址样式-s*/
+.address-box .checked .adr-inner {
+    border: 2px solid #0099ff;
+    color: #333;
+    z-index: 1;
+}
+.address-box .adr-add {
+    text-align: center;
+}
+.wrap-header {
+	margin-top:40px
+}
+.wrap-header h3 {
+    font-size: 24px;
+    line-height: 24px;
+    font-weight: 400;
+    color: #333;
+    margin-right: 15px;
+}
+.wrap-header .small-text {
+    font-size: 12px;
+    color: #999;
+}
+.address-box {
+    margin-top: 20px;
+}
+.address-box .adr {
+    float: left;
+    margin-top: -1px;
+    margin-left: -1px;
+    background-color: #fff;
+    cursor:pointer;
+    width: 25%;
+}
+.address-box .adr-inner:hover {
+    background-color: #fafafa;
+}
+.icon_checked {
+	    background-position: -5px -71px;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: -2px;
+    right: -2px;
     display: none;
 }
- .placeorder{
-    width: 100%;
-    background-color: #F2F2F2;
-    padding: 70px 0px;
+.checked .icon_checked{
+	display: block;
+	top:109px;
 }
-.placeorderlist{
-    margin: 0px auto;
-    width: 1200px;
-    background-color: #fff;
-    padding-top: 83px;
-    padding-left: 40px;
-}
-.placeorderaddress h5{
-    font-size: 18px;
-    width: 73px;
-    height: 24px;
-    font-weight: 300;
-    margin-bottom: 20px;
-}
-.placeorderaddress .default{
-    border: 1px solid #FF0000;
-}
-.placeorderaddress li{
-    float: left;
-    width: 250px;
-    margin-right: 15px;
-    border: 1px solid #999999;
-    height:210px;
+.address-box .adr-inner {
     position: relative;
-    margin-bottom: 25px;
-    cursor: pointer;
+    height: 125px;
+    border: 1px solid #e9e9e9;
+    color: #999;
 }
-.placeorderaddress li .name{
-    font-size: 18px;
-    padding-top: 35px;
-    padding-left: 25px;
-    font-weight: 300;
-}
-.placeorderaddress li .phone{
-    padding-top: 20px;
-    padding-left: 25px;
-}
-.placeorderaddress .address{
-    padding-left: 25px;
-    overflow: hidden;
-    max-height: 55px;
-}
-.placeorderaddress .addressedit{
-    position: absolute;
-    bottom: 5px;
-    right: 0px;
-    width: 50px;
-    border: none;
-    background-color: #fff;
-    color: #ff0000;
-}
-.placeorderaddress .addaddress{
-    width: 60%;
-    margin: 80px auto;
-    cursor: pointer;
-}
-.placeorderTable .placeorderspan{
-    position: relative;
-    top: 15px;
-    display: inline-block;
-    height: 40px;
-    width: 300px;
-    overflow: hidden;
-}
-.placeorderaddress .addaddress div {
-    background-color:#c6c6c6;
-    width: 33px;
-    height: 33px;
-    margin: 0 auto;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 28px;
-    font-weight: 700;
-    font-style: normal;
-    font-size: 30px;
-    color: #FFFFFF;
-}
-.placeorderaddress .addaddress p{
-    font-weight: 400;
-    font-size: 18px;
-    color: #999999;
-    text-align: center;
-}
-.placeorderlist .placeorderTable{
-    margin-top: 30px;
-    width: 100%;
-    padding-right: 25px;
-}
-.placeorderTitle h5{
-    float: left;
-    font-weight: 400;
-    font-size:18px;
-    color: #333333;
-    padding-left: 10px;
-}
-.placeorderTitle a{
-    float: right;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 14px;
-    color: #999999;
-    text-align: right;
-    width: 150px;
-    height: 20px;
-    background-color: #fff;
-    border: none;
-    padding-right: 35px;
-    margin: 5px 0 5px;
-}
-.placeorderBody{
-    border-top: 1px solid #c6c6c6;
-    border-bottom:1px solid #c6c6c6;
-    padding:20px 0px 30px;
+.address-box .adr-body {
+    margin-top: 10px;
 }
 
-.placeorderBody img{
-    margin-right: 10px;
-    height: 50px;
-    margin-top:7px;
-    margin-bottom: 8px; 
-} 
-.placeorderBody td{
-    text-align: center;
+.address-box .adr-head {
+    font-size: 0;
+}
+.address-box .adr-head span {
     font-size: 14px;
-    font-weight: 400px;
-    overflow: hidden;
-    color: #333333;
+    line-height: 14px;
 }
-.placeorderBody tr td:nth-of-type(1){
-    text-align: left;
-    padding-left: 10px;
+.address-box .adr-head .adr-name {
+    margin-left: 12px;
 }
-.placeorderBody tr td:nth-last-of-type(1){
-    text-align: right;
-    padding-right: 10px;
-    color: #ff0000;
+.address-box .adr-body .adr-detail {
+    margin-right: 8px;
 }
-.placeorderBody .red{
-    padding: 5px 10px ;
-    border: 1px solid #FF0000;
-    color: #FF0000;
+.address-box .adr-foot {
+    display: none;
+    position: absolute;
+    bottom: 7px;
+    left: 20px;
 }
-.placeorderActivity{
-    border-bottom: 1px solid #c6c6c6;
-    padding: 30px 0 50px;
-    width: 1100px;
-}
-.placeorderActivity .shipping{
-    float: left;
-    width: 200px;
-    font-size: 18px;
-    text-align: left;
-    font-weight: 400;
-    padding-left: 10px;
-    color: #333333;
-}
-.placeorderActivity .placeorderInformation{
-    font-size: 14px;
-    font-weight: 400;
-    font-weight: 400;
-    color: #FF0000;
-}
-.placeorderInformation .btn{
-    width: 50px;
-    height: 30px;
-    font-weight: 400;
-    font-size: 14px;
-    background-color: #FFFFFF;
-    border: 1px solid rgba(255, 0, 0, 1);
-    color: #FF0000;
-}
-.placeorderActivity .input{
-    width: 93px;
-    height: 31px;
-    font-size: 14px;
-    font-weight: 400;
-    font-weight: 400;
-    color: #FF0000;
-    margin:0 10px;
-    border: 1px solid #c6c6c6;
-    text-align: center;
-   
-}
-.placeorderActivity .information{
-    float: left;
-    width: 900px;
-} 
-.placeorderActivity .cost{
-    float: right;
-    width: 200px;
-    text-align: right;
-    font-weight: 400;
-    font-size: 14px;
-    color: #FF0000;
-}
-.placeorderSend{
-    height: 85px;
-    line-height: 85px;
-}
-.placeorderSend .shipping{
-    font-size: 18px;
-    font-weight: 400;
-    color: #333333;
-    display: inline-block;
-    width: 200px;
-    padding-left: 10px;
-}
-.placeorderSend .information{
-    font-weight: 400;
-    font-size: 14px;
-    color: #999999;
-    cursor: pointer;
-}
-.placeorderSend .cost{
-    font-weight: 400;
-    font-style: normal;
-    font-size: 14px;
-    color: #FF0000;
-    float: right;
-    padding-right: 35px;
-}
-.placeorderModal .modal{
-    margin: 150px auto;
-    width: 600px;
-    background-color: #FFFFFF;
-}
-.placeorderModal .modalTitle{
-    height:60px;
-    line-height: 60px;
-    width: 100%;
-    background-color: #F2F2F2;
-}
-.placeorderModal h5{
-    float: left;
-    padding-left: 25px;
-    font-size: 18px;
-    font-weight: 400;
-    color: #000000;
-}
-.placeorderModal span{
-    float: right;
-    color: #000000;
-    padding-right: 25px;
-    font-size: 18px;
-    font-weight: 900;
-    cursor: pointer;
-}
-.placeorderModal .modalBody{
-    padding: 15px 25px 45px;
-}
-.placeorderModal .mdalText{
-    width: 260px;
-    margin-right: 10px;
-    height: 45px;
-    line-height: 45px;
-    padding-left: 15px;
-    border: 1px solid #cccccc;
-}
-.placeorderModal .modaladdress{
-    height: 45px;
-    line-height: 45px;
-    padding-left: 15px;
-    width: 535px;
-    margin-top: 15px;
-    border: 1px solid #cccccc;
-}
-.placeorderModal  .modaladdressaddr{
-    height: 90px;
-    line-height: 90px;
-}
-.placeorderModal .modalFoot{
-    height: 90px;
-    background-color: #F2F2F2;
-    padding: 0px 25px;
-    width: 100%;
-    text-align: center;
-}
-.placeorderModal button{
-    margin-top: 20px;
-    margin-right: 15px;
-    padding: 10px 50px;
-    color: #FFFFFF;
-    border: none;
-    
-}
-.placeorderModal .sure{
-    background-color: #ff0000;
-}
-.placeorderModal .cancel{
-    background-color: #888888;
-}
-#placeorderModal{
-    position: fixed;
-    left: calc(50% - 300px);
-    top: 250px;
-    width: 600px;
-    height: 420px;
-    background-color: #888888;
-    opacity: 1;
-}
-.placeorderModal{
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    bottom: 0px;
-    left: 0px;
-    opacity: 0.8;
-    background-color: #888888;
-    z-index: 10;
-    padding: 100px;
-}
-.doubt {
-    padding: 0px 6px;
-    color: #fff;
-    height: 21px;
-    border-radius: 50%;
-    background-color: #d6d6d6;
-    margin-right: 5px;
-}
-.placeorderinvoice{
-    height: 90px;
-    width: 1110px;
-    border-top: 1px solid #c6c6c6;
-    border-bottom: 1px solid #c6c6c6;
-    line-height: 90px;
-    font-size: 14px;
-    color: #333333;
-}
-.placeorderinvoice .invoice{
-    font-size: 18px;
-    font-weight: 400;
-    color: #333333;
-    display: inline-block;
-    padding-left: 10px;
-    width: 200px;
-}
-.placeorderinvoice .invoiceinformation{
-    display: inline-block;
-    width: 748px;
-    height: 90px;
-}
-.placeorderinvoice .text{
-    height: 40px;
-    line-height: 40px;
-    padding-left: 10px;
-    width: 282px;
-    margin-right: 30px;
-    border: #cccccc 1px solid
-}
-.placeorderinvoice .information{
-    color: #888888;
-}
-.placeorderzhubei{
-    padding-top: 25px;
-    width: 1100px;
-    padding-bottom: 45px;
-}
-.placeorderzhubei .span{
-    font-size: 18px;
-    font-weight: 400;
-    color: #333333;
-    display: inline-block;
-    width: 200px;
-    padding-left: 10px;
-}
-.placeorderzhubei textarea{
-    vertical-align: top;
-    border: #cccccc 1px solid;
-    padding-left: 15px;
-    line-height: 30px;
-}
-.placeorderTotal{
-    float: right;
-    width: 400px;
-    margin-top: 30px;
-}
-.placeorderTotal .heji{
-    width: 260px;
-    float: right;
-}
-.placeorderTotal .num{
-    float: left;
-    width: 120px;
-    font-weight: 400;
-    font-size: 14px;
-    text-align: right;
-}
-.placeorderTotal .red{
-    float: right;
-    width: 140px;
-    text-align: right;
-    padding-right: 10px;
-    color: #FF0000;
-    font-weight: 400;
-    font-size: 14px;
-    text-align: right;
-}
-.placeorderTotal .totalPrice{
-    margin-top: 30px;
-}
-.placeorderTotal .red strong{
-    font-size: 30px;
-    line-height: 50px;
-}
-.placeorderTotal .totalPrice .num{
-    padding-top: 20px;
-}
-.placeorderTotal .gopay{
-    margin-top: 15px;
-    text-align: center;
-    width: 200px;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 18px;
-    color: #FFFFFF;
-    background-color: #ff0000;
-    height: 50px;
-    margin-right: 10px;
-    line-height: 50px;
-    cursor: pointer;
-}
-.inlineBlock{
+.address-box:hover .adr-foot{
 	display: inline-block;
+}
+.adr-foot a{
+	margin-right: 10px;
+}
+.address-box .adr-add .adr-add-icon {
+    margin-top: 8px;
+    font-size: 18px;
+}
+.confirm-order-box .coupon-wrap .exchange-code .item-box-txt {
+    width: 438px;
+    margin-right: 20px;
+    float: left;
+}
+.color-coupon{
+	color:red
+}
+.wrap-header{
+	margin-top:30px;
+}
+.promotion{
+	color:red
+}
+
+/*地址样式-e*/
+/*table cart2样式*/
+.order-tb{
+	margin-top: 20px;
+}
+.cart2 img{
+	max-width: 80px;
+}
+.title{
+	text-align: left;
+	.color-blue{
+		font-size: 14px;
+		font-weight: 600;
+	}
+}
+.title_name{
+	font-weight: bold;
+}
+.cart_price{
+	font-size: 16px;
+}
+.coupon-wrap{
+	margin-top:20px;
+}
+.coupon-wrap input{
+	width:200px;
+	height: 40px;
+	line-height:40px;
+	border:1px solid #0099ff;
+	text-align: center;
+}
+.coupon-wrap span{
+	cursor: pointer;
+	color:#0099ff;
+}
+.icon_add_address{
+	background-position:-3px -94px ;
+	width:45px;
+	height: 45px;
+}
+.color-45{
+	color: #454545;
+}
+.P20{
+	padding: 20px;
+}
+.checked .P20{
+	padding: 19px;
 }
 </style>

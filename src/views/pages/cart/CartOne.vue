@@ -1,100 +1,78 @@
 <template>
 	<div class='cart1 cartpage'>
-		<div class="cart_top">
-        <div class="cart_top_inner">
-            <h2 class="cart_title">
-             		   购物车
-             </h2>
-         </div>
+	<div class="nav Nav">
+			<div class="main-width clearfix">
+				<router-link  to="/index" class="logo fl navcart"><img   src="../../../assets/img/logo-red.png"></router-link>
+                <a href="" class="fl mycart">我的购物车</a>
+                <ul class="navCart">
+                    <li><a href=""><p class="cartIcon iconIcon-successorder"></p><p>成功提交订单</p></a></li>
+                    <li><a href=""><p class="cartIcon iconIcon-order"></p><p>填写核对订单</p></a></li>
+                    <li><a class="red" href=""><p class="cartIcon iconIcon-cart-red"></p><p>我的购物车</p></a></li>
+                </ul>
+			</div>
+		</div>
+		<div class="cartlist clearfix">
+            <div class="cartTable" v-if="cartList.length>0">
+            	   <Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange" class="item_detail clearfix">
+                <table>
+                    <thead>
+                        <tr><th width="150" ><!--<span class="cartIcon cartIcon-checkBox AllcheckBox"> 全选</span>-->
+                        	<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
+                        </th>
+                        <th width="400">商品名称</th>
+                        <th width="150">单价</th>
+                        <th width="200">数量</th>
+                        <th width="150">小计</th>
+                        <th width="150">操作</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr v-for="(x,index) in cartList" :key="index">
+                            <td><Checkbox  :label="index" :key="index"></Checkbox><!--<span class="cartIcon cartIcon-checkBox left-checkBox"></span>--></td>
+        					
+                            <td>
+                                <div class="cartlistImg">
+                                    <img  :src="x.image |imgfilter">
+                                </div>
+                                <div class="cartlisstText">
+                                    <h6>{{x.productName}}</h6>
+                                    <p>{{x.productAttr}}</p>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="salePrice">￥{{x.originSalePrice|pricefilter}}</p>
+                                <p class="price" v-if="x.promotionTitle!=null">￥{{x.salePrice|pricefilter}}</p>
+                            </td>
+                            <td>
+                                <div class="cartlistnum">
+                                        <input class="cartminus" value="-" type="button" @click="jian(x,index)" >
+                                        <input class="num" value="1" type="text" v-model.lazy="x.quantity" v-on:blur="changeNumber($event,x,index)">
+                                        <input class="cartadd" value="+" type="button"  @click="jia(x,index)">
+                                </div>
+
+                            </td>
+                            <td><p class="cartlist-red">￥{{itemtotal(x.salePrice,x.quantity)|pricefilter}}</p></td>
+                            <td><span class="cartIcon cartIcon-delete" @click="remove(x.id)"></span></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                        	 <td align="center">	<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>	<span class="operation_delete" @click="removeall()">删除</span></td>
+                            <td colspan="2"><router-link :to="{ path: '/index' }" class="cartshopping">继续购物</router-link>
+                            	<span class="totalnum">共 <span>{{totalnum}}</span> 件商品，已选择 <span>{{zslcount}}</span> 件</span></td>
+                            <td colspan="2"><p class="totalprice"><span class="span">共计优惠￥{{sale}}</span> 
+                            	合计：<span class="total">    ￥{{totalPrice |pricefilter}}        </span></p></td>
+                            <td><span class="cartPay"  @click="paymoney">去结算</span></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                			</Checkbox-group>
+            </div>
+                    <div class="cartTablenull" v-else>
+                        <img src="../../../assets/img/u15.png" alt="">
+                        <span>您的购物车还是空的！<button>马上去购物</button></span>
+                    </div>
         </div>
-		<div v-if="cartList.length>0" class="cart_body">
-		<div class='carthead'>
-			<Row>
-				<Col  class='cartCol' span="24">
-					<Col  span="2" class="center">
-					<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
-					</Col>
-					<Col span="3" >主图</Col>
-					<Col span="10">商品信息</Col>
-					<Col span="2">
-						单价（元）
-					</Col>
-					<Col span="3">
-						数量
-					</Col>
-					<Col  span="2">
-						小计（元）
-					</Col>
-					<Col  span="2">
-						操作
-					</Col>
-				</Col>
-			</Row>
-		</div>
-		<Row>
-		    <Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange" class="item_detail clearfix">
-		 		<Col  class='cartCol' span="24" v-for="(x,index) in cartList" :key="index"> 
-        			<Col class='cartcheckbok' span="2">
-        					<Checkbox  :label="index" :key="index"></Checkbox>
-        			</Col>
-					<Col span="3" class="cart_img"><img  :src="x.image |imgfilter"></Col>
-					<Col span="10" class='cart_product'>
-						<p >{{x.productName}}</p>
-						<p class="color-blue">{{x.promotionTitle}}</p>
-						<p>{{x.productAttr}}</p>
-					</Col>
-					<Col span="2" class='cart_price'>
-						<p >￥{{x.salePrice |pricefilter}}</p>
-					</Col>
-					<Col span="3"  class='cart_num'>
-						<p class='cart_qua'>
-							<div class="min-add">
-						    <i  @click="jian(x,index)" class="min"  >-</i>
-						    
-						     <input class="text-box" name="pricenum"  type="tel" v-model.lazy="x.quantity" v-on:blur="changeNumber($event,x,index)" placeholder="数量" data-max="50" />
-						  <i  @click="jia(x,index)" class="add">+</i>
-						</div>
-					</Col>
-					<Col span="2">
-						<p class='cart_price'>￥{{itemtotal(x.salePrice,x.quantity)|pricefilter}}</p>
-					</Col>
-					<Col span="1">
-						<span class="operation_delete" @click="remove(x.id)">删除</span>
-					</Col>
-				</Col>
-			</Checkbox-group>
-		</Row>
-			<div class='cart_bottom_wrap'>
-				<div class="cart_bottom">
-					<div class="cart_sum_left">
-						<div   class="cart_sum_choose">
-							<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
-						</div>
-						<div class="cart_sum_delete" @click="removeall()">删除</div>
-						</div>
-						<div class="cart_sum_right">
-						<div  class="cart_sum_price">
-							<div class="cart_sum_num">已选商品<span class="color_f60">{{zslcount}}</span>款</div>
-							<div class='total_price'>
-                                                                                     合计：<span class="total_price_inner">
-                            <span class="js_total_price">
-                                                                                   ￥{{totalPrice |pricefilter}}                        
-                            </span>
-                        </span>
-                        </div>
-                        </div>
-						<div class='cart_sum_to_order' @click="paymoney"> 
-							去结算
-						</div>
-						</div>
-				</div>
-			</div>
-			</div>
-				<div class="cart_empty flex-center main-wdith"  v-else>
-			 <img src="../../../assets/img/cartempty.png">
-			 <div>购物车是空的</div>
-			<router-link to="/index"  >去首页</router-link>
-		</div>
+	
 	</div>
 </template>
 
@@ -104,7 +82,7 @@ import Bus from '@/assets/js/bus.js'
 export default {
         data () {
             return {
-                indeterminate: true,
+                indeterminate: false,
                 checkAll: false,
 				checkAllGroup: [],
 				totalPrice:0,
@@ -112,6 +90,9 @@ export default {
 				editface:true,
 				zslcount:0,
 				temp:[],
+				sale:0,
+				totalnum:0
+				
             }
 		},
         methods: {
@@ -123,12 +104,12 @@ export default {
 							    method: 'post',
 							    url:'/order/shopping/add',
 							    data:{
-							    	productItemId:x.id,
+							    	productItemIds:[x.id],
 							    	quantity:x.quantity
 							   	 }
 								}).then((res)=>{
 									if(res.code=='200'){
-									Bus.$emit('cartmsg', "again");
+									  Bus.$emit('cartmsg', "again");
 									}else{
 										 this.$Message.warning(res.object);
 									}
@@ -180,6 +161,7 @@ export default {
 						}
 					},
         	getCartList(){
+        		let _this=this;
         		if(localStorage.getItem('token')!=undefined){
         			this.nologin=false;
         			this.cartList=[],
@@ -189,6 +171,14 @@ export default {
 								}).then((res)=>{
 									if(res.code=='200'){
 										this.cartList=res.object;
+										this.totalnum=0;
+										this.sale=0;
+								        this.cartList.forEach((item,index)=>{
+											     _this.totalnum+=parseInt(item.quantity);
+											     _this.sale+=(item.originSalePrice-item.salePrice) *100* parseInt(item.quantity)
+											});
+										_this.sale=  _this.sale/100
+										this.handleCheckAll()
 									}
 							});
 					}
@@ -253,7 +243,7 @@ export default {
 									if(res.code==200){
 									this.$Message.info(res.object);
 									Bus.$emit('cartmsg', "again");
-								//	this.getCartList()
+								     this.getCartList()
 									}
 							});
                     },
@@ -274,20 +264,31 @@ export default {
                 if (_this.checkAll) {
 	                	_this.checkAllGroup=[];
 	                	 _this.temp=[];
+	                	 	_this.totalPrice=0;
+					_this.zslcount=0;
+					_this.sale=0;
 	                    _this.cartList.forEach(function(item,index) {
 					    _this.checkAllGroup.push(index);
 					    _this.temp.push(index);
 					    _this.totalPrice+=item.salePrice*item.quantity;
-					    _this.zslcount+=parseInt(item.quantity)
+					    _this.zslcount+=parseFloat(item.quantity)
+					     _this.sale+=(item.originSalePrice-item.salePrice) * parseFloat(item.quantity)*100
 				      });
+				      _this.sale=_this.sale/100;
                 } else {
 					_this.checkAllGroup = [];
 					_this.temp=[];
 					_this.totalPrice=0;
 					_this.zslcount=0;
+					_this.sale=0;
                 }
 			},
             checkAllGroupChange (data) {
+            	this.totalnum=0;
+            	this.sale=0;
+            	        this.cartList.forEach((item,index)=>{
+										     this.totalnum+=parseInt(item.quantity)
+										});
                 if (data.length === this.cartList.length) {
                     this.indeterminate = false;
                     this.checkAll = true;
@@ -300,10 +301,13 @@ export default {
 				}
                  this.totalPrice=0;
                  this.zslcount=0;
+					this.sale=0;
                  data.forEach((i) => {
 				   this.totalPrice += parseFloat(this.cartList[i].salePrice) * parseFloat(this.cartList[i].quantity);
-				   this.zslcount+=parseInt(this.cartList[i].quantity)
+				   this.zslcount+=parseInt(this.cartList[i].quantity);
+				   this.sale+=(this.cartList[i].originSalePrice-this.cartList[i].salePrice) *100* parseInt(this.cartList[i].quantity);
 				});
+				 this.sale=this.sale/100
             }
         },
          mounted() {
@@ -313,141 +317,207 @@ export default {
 </script>
 
 <style  lang="scss"  scoped="scoped">
-.cartpage{
-	.cart_top {
-		    background-color: #fff;
-		    border-bottom: 1px solid #e9e9e9;
-		    margin-bottom: 20px;
-	}
-	.cart_top .cart_top_inner {
-    width: 1200px;
-    margin: 0 auto;
-    font-weight: normal;
-	}
-	.cart_top .cart_title {
-    font-size: 32px;
-    line-height: 80px;
-    color: #333;
-    font-weight: normal;
-	}
-	.cart_body {
-    width: 1200px;
-    margin: 0 auto;
-}
-	.carthead{
-	border: 1px solid #e9e9e9;
-    background-color: #fafafa;
-    height: 40px;
-    line-height: 40px;
-    color: #aaa;
-	}
-	.cartCol{
-		    position: relative;
-    z-index: auto;
-    padding: 0 20px;
-	}
-	.item_detail{
-	     border: 1px solid #ccc;
-    margin-top: 20px;
-    background: #fff;}
-}
-.cart_img img{
-	width:90px
-}
 
-.item_detail .cartCol .ivu-col{
-	padding: 20px 0;
+.cartlist {
+    background-color: rgb(238, 238, 238);
+    padding: 50px 0px 70px;
 }
-.text-box{
-	    height: 22px;
-    line-height: 22px;
-    width: 34px;
-    border: 1px solid #d6d6d6;
-    background: #fff;
-    border-left: 0;
-    border-right: 0;
-    text-align: center;
-    float: left;
-}
-.min,.add{
-	float: left;
-	display: inline-block;
-    position: relative;
-    cursor: pointer;
-    width: 22px;
-    height: 22px;
-    border: 1px solid #d6d6d6;
-    text-align: center;
-    }
-    .operation_delete{
-    	color:#333;
-    	font-weight: bold;
-    	cursor: pointer;
-    }
-    .cart_price{
-    	color:#0099ff
-    }
-    .cart_bottom{
-    	    width: 100%;
-    height: 60px;
-    margin-top: 30px;
-     margin-bottom: 60px;
-    padding-left: 10px;
-    background-color: #fafafa;
-    border: 1px solid #e9e9e9;
-    position: relative;
-    line-height: 60px;
-    }
-    .cart_bottom .cart_sum_right {
-  float: right;
-}
-.cart_sum_delete{
-	 margin-left: 40px;
-	 cursor: pointer;
-}   
-.color_f60 {
-	display: inline-block;
-    padding: 0 3px;
-    color: #0099ff;
-    }
-    .cart_sum_price,.cart_sum_num{
-    	    margin-right: 40px;
-    }
-        .total_price_inner{
-        	color: #0099ff;
-    font-size: 18px;
-    font-weight: bolder;
-        }
-        .cart_sum_to_order{
-            width: 160px;
-    text-align: center;
-    font-size: 18px;
-    background-color: #0099ff;
-    color: #fff;
-    cursor: pointer;
-    }
-   .cart_sum_left,.cart_sum_choose, .cart_sum_delete ,.total_price,.cart_sum_to_order,.cart_sum_price,.cart_sum_num{
-    	float: left;
-    }
-    .cart_sum_left,.cart_sum_price{
-    	line-height: 60px;
-    }
-    .cart_empty{
-    text-align: center;
-    border: 1px solid #e6e6e6;
+.cartlist .cartTable{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto ;
     background-color: #fff;
-    img{
-    	width:90px
-    }
-    a{
-    	font-size: 14px;
-    	margin-top: 10px;
-    }
-    }
- 
+}
+.cartlist .cartTable table{
+    border-collapse: collapse;
+ }
+.cartlist .cartTable thead tr{
+    height: 70px;
+    border-bottom: 1px solid #888888;
+    color: #010000;
+    font-weight: 400;
+    font-size: 14px;
+}
+.cartlist .cartTable thead th{
+    font-weight: 400;
+}
+.cartlist .cartTable thead th:nth-of-type(2){
+    text-align: left;
+}
+.cartlist .cartTable tbody td{
+    height: 153px;
+    text-align: center;
+}
+.cartTable tbody tr{
+    border-top: 1px solid rgb(238, 238, 238);
+}
+.cartTable tbody tr td:nth-of-type(2){
+    text-align: left;
+}
+.cartTable .AllcheckBox{
+    width: 70px;
+    padding-left:29px;
+    margin-left: 24px;
+}
+.cartTable .left-checkBox{
+    position: relative;
+    left: -10px;
+}
+.cartTable .cartlistImg{
+    float: left;
+    width: 90px;
+
+}
+.cartTable .cartlistImg img{
+    vertical-align: middle;
+    width:80px;
+    height: 80px;
+}
+.cartTable .cartlisstText{
+    float: left;
+    width: 200px;
+}
+.cartTable .cartlisstText h6{
+    font-size: 18px;
+    color: #000000;
+    font-weight: 500;
+    line-height: 27px;
+    max-height: 54px;
+    overflow: hidden;
+}
+.cartTable tfoot {
+    border-top: 25px solid rgb(238, 238, 238);
+    height: 85px;
+}
+.cartTable .cartlisstText p{
+    font-size: 18px;
+    color: #000000;
+    font-weight: 300;
+    line-height: 27px;
+    max-height: 54px;
+    overflow: hidden;
+}
+.cartTable .cartlisstText img{
+    padding: 0px 10px;
+    vertical-align: middle;
+}
+.cartTable .salePrice{
+    font-size: 18px;
+    font-weight: 500;
+    color: #000000;
+}
+.cartTable .price{
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    text-decoration: line-through;
+}
+.cartTable .cartlistnum{
+    width: 150px;
+    position: relative;
+    border: 1px solid rgb(178, 178, 178);
+    left: 25px;
+}
+.cartTable tfoot{
+    border-top:  25px solid rgb(238, 238, 238);
+    height: 85px;
+}
+.cartTable .cartshopping {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    border-right: 1px solid rgb(141, 141, 141);
+    cursor: pointer;
+    color: #000000;
+    line-height: 15px;
+    padding-right: 40px;
+}
+.cartTable .totalnum {
+    padding-left: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+}
+.cartTable .totalprice {
+    font-size: 18px;
+    font-weight: 500;
+    color: #ff0037;
+    text-align: left;
+}
+.cartTable .cartPay {
+    text-align: center;
+    height: 60px;
+    width: 100%;
+    background-color: #ff0037;
+    display: block;
+    color: #fff;
+    line-height: 60px;
+    font-size: 24px;
+    cursor: pointer;
+}
+.cartlistnum .cartminus, .cartlistnum .cartadd{
+    position: absolute;
+    width: 43px;
+    height: 43px;
+    border: none;
+    color: #010000;
+    font-size: 18px;
+    font-size: 500;
+    cursor: pointer;
+}
+.cartlistnum .cartminus{
+    left: 0px;
+}
+.cartlistnum .cartadd{
+    right: 0px;
+}
+.cartlistnum .num{
+    width: 66px;
+    height: 43px;
+    border: none;
+    text-align: center;
+    font-size: 18px;
+    font-size: 500;
+}
+        .cartTablenull{
+            width: 650px;
+            height: 210px;
+            margin: 0 auto;
+            background-color: rgb(238, 238, 238);
+        }
+        .cartTablenull img{
+            opacity: 0.5;
+            width: 240px;
+        }
+        .cartTablenull span{
+            font-weight: 700;
+            font-style: normal;
+            font-size: 36px;
+            color: #999999;
+            float: right;
+            width: 360px;
+            margin-top: 35px;
+        }
+        .cartTablenull button{
+            width: 180px;
+            height: 50px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(255, 0, 0, 1);
+            border-radius: 0px;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            font-weight: 400;
+            font-size: 18px;
+            color: #FF0000;
+            text-align: center;
+            background-color: #ffffff;
+            margin-top: 15px;
+        }
 </style>
 <style>
-	.ivu-checkbox-wrapper span:nth-child(2){
+	.ivu-checkbox-wrapper + span, .ivu-checkbox + span{
 		display: none;
 	}
 </style>

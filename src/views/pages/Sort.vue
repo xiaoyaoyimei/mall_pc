@@ -134,9 +134,7 @@
 					method: 'GET',
 					url:'/product/search?catalog='+this.searchfilter.catalog+'&series='+this.searchfilter.series+'&type='+this.searchfilter.type+'&brand='+this.searchfilter.brand+'&startRow='+this.startRow+'&pageSize='+this.pageSize,
 				}).then((res)=>{
-					if(res.total>0){
 					this.productList = res.itemsList;
-					}
 					this.totalSize=res.total;
 				})
 			},

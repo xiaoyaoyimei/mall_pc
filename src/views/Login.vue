@@ -1,42 +1,29 @@
 <template>
-			<div class="login_wrap_main  flex-center-h">
-				<router-link :to="{ path: '/index'}" class="loginA">
-					<img class="aImg" src="../assets/img/3.jpg" alt="">
-				</router-link>
-			<div class="login_wrap">
-    			<div class="div">
-						<!--<h3 class="lTitle">使用合作号登录</h3>
-						<ul class="ul">
-							<li class="li">
-								<router-link :to="{  }">
-									<img src="../assets/img/link-qq.png" alt="QQ登录">
-								</router-link>
-							</li>
-							<li class="li">
-								<router-link :to="{  }" >
-									<img src="../assets/img/link-wx.png" alt="微信登录">
-								</router-link>
-							</li>
-						</ul>-->
-						<h3 class="lTitle">账号密码登录</h3>
-						<Form ref="loginForm" :model="loginForm" :rules="ruleInline" inline>
-								<FormItem prop="loginName">
-										<Input type="text" class="loginInput" v-model="loginForm.loginName" autoComplete="off" placeholder="手机号">
-										</Input>
-								</FormItem>
-								<FormItem prop="passWord">
-										<Input type="password" class="loginInput"  v-model="loginForm.passWord" placeholder="密码">
-										</Input>
-								</FormItem>
-								<Button  class="btn-40" type="primary" long :loading="loading"  @click="handleLogin()">登录</Button>
-						</Form>
-						<div class="login-link">
-							<router-link :to='{path:"/register"}'>注册</router-link>
-							 <router-link :to='{path:"/resetPassword"}' class='resetPassword '>找回密码</router-link> 
-						</div>
-					</div>
-		</div>
-		</div>
+	<div class="page-login">
+	<div class="nav">
+			<div class="main-width clearfix">
+				<router-link  to="/index" class="logo fl "><img   src="../assets/img/logo-red.png"></router-link>
+			</div>
+        </div>
+        <div class="signin">
+        	<div class="main-wdith pr">
+            <div class="signinImg">
+                <img  src="../assets/img/u108.jpg" alt="">
+            </div>
+           	<Form ref="loginForm" :model="loginForm" :rules="ruleInline" inline>
+                <h4>账号登录</h4>
+                <FormItem prop="loginName">
+                <input type="text" placeholder="请输入手机号" v-model="loginForm.loginName">
+                	</FormItem>
+                	<FormItem prop="passWord">
+                <input type="text" class="input" placeholder="请输入密码"  v-model="loginForm.passWord">
+                </FormItem>
+                <button class="btn"  @click="handleLogin()" :loading="loading">登录</button>
+                <p class="clearfix"><router-link :to='{path:"/resetPassword"}' >忘记密码?</router-link> <router-link :to='{path:"/register"}' class="a">没有账号?  去注册&gt;</router-link></p>
+            </form>
+        </div>
+        </div>
+        </div>
 </template>
 <script>
 	import store from '@/store/store';
@@ -46,7 +33,7 @@
       name: 'login',
       data() {
       	 const validatePhone = (rule, value, callback) => {
-      	 	if(value.length<0){
+      	 	if(value==undefined){
       	 		 callback(new Error('手机号不能为空'));
       	 	}
           else if (!validatePHONE(value)) {

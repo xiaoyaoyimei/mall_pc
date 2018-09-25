@@ -11,6 +11,7 @@ const routes = [{
 		path: '/',
 		redirect: '/index',
 		component: Full,
+		zname:'首页',
 		children: [{
 				path: '/index',
 				component: () =>

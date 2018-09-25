@@ -352,8 +352,6 @@
 	.w897 {
 		width: 897px;
 	}
-	
-
 	.minipro {
 		margin-top: 10px;
 	}

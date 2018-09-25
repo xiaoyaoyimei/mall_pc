@@ -22,8 +22,8 @@
                 <FormItem  prop="passWord">
                 <input type="text" class="input" placeholder="请输入密码" v-model="regiForm.passWord">
                     </FormItem>
-                      <FormItem  prop="confirmpass">
-                <input type="text" class="input" placeholder="请确认密码">
+                 <FormItem  prop="confirmpass">
+                <input type="text" class="input" placeholder="请确认密码" v-model="regiForm.confirmpass">
                 </FormItem>
                 	<FormItem  prop="shortMessage">
                   <input type="text" class="input w128" placeholder="短信验证码" v-model="regiForm.shortMessage">
@@ -46,7 +46,7 @@
         	       	      var validatePass = (rule, value, callback) => {            
                             if (value === '') {
                                 callback(new Error('请再次输入密码'));
-                              } else if (value !== this.addUserFormData.password) {
+                              } else if (value !== this.regiForm.password) {
                                 callback(new Error('两次输入密码不一致!'));
                               } else {
                                 callback();

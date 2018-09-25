@@ -42,7 +42,6 @@ import AppBreadcrumb from '@/components/BreadCrumb'
     float: left;
     width: 940px;
     background-color: #FFFFFF;
-    padding: 40px;
     position: relative;
 }.newcenter {
     width: 1200px;

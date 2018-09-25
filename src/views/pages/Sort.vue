@@ -1,8 +1,9 @@
 <template>
-<div class="sort">
-	<div class="main-wdith mt20 ">
-		<div class="selector mt20">
-		   <div class="wrap">
+	<div class="new">
+			<div class="selector mt20 main-wdith" >
+            <div >
+                <p>首页 &gt; 全部结果 </p>
+             		   <div class="wrap">
 	            <div class="dt">类型:</div>
 	            <div class="dd">
 	            	<span @click="getList('catalog','',-1)" :class="{active: '-1' == catalogindex}">全部</span>
@@ -29,25 +30,27 @@
           	 	<span v-for="(item,index) in brand"  @click="getList('brand',item.id,index)" :class="{active: index == brandindex}">{{item.brandName}}</span></div> 
         	</div>
         </div>
-        <ul class="search_list_wrap clearfix" >
-        	<div class="empty_result flex-center"  v-if="productList.length<1">
+                <ul class="clearfix mylike">
+                		<div class="empty_result flex-center"  v-if="productList.length<1">
                     <div class="icon icon_unit_notice"></div>
                     <span >该区域没有符合搜索条件的产品哦~</span>
              </div>
-            <li  v-for="(item, index) in productList" :key='index' v-else>
-               <router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }" tag="a" >
-                     <img :src='item.model_img |imgfilter'>
-                </router-link>
-                <div  class="title">{{item.model_no}}</div>
-                <div class="name">{{item.model_name}}</div>
-                <div  class="sku_tag"v-if="item.promotionTitle !=null">{{item.promotionTitle}}</div> 
-                <div class="price">{{item.sale_price}}</div>
-            </li>
-            </ul>
-            <Page :total="totalSize" size="small" show-elevator class="page" :page-size='this.pageSize' @on-change="handlePage" v-if="productList.length>0"></Page>
+                    <li v-for="(item, index) in productList" :key='index' v-else>
+                    	<router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }"  >  
+                        <i v-if="item.promotionTitle !=null">{{item.promotionTitle}}</i>
+                        
+                        	<img :src='item.model_img |imgfilter' alt="">
+                        <p class="ptitle">{{item.model_name}}</p>
+                        <p class="red">{{item.sale_price}}</p>
+                        </router-link>
+                    </li>
+          
+                </ul>
+                  <Page :total="totalSize" size="small" show-elevator class="page" :page-size='this.pageSize' @on-change="handlePage" v-if="productList.length>0"></Page>
+            </div>
+               <Spin size="large" fix v-if="spinShow"></Spin>
+            </div>
         </div>
-          <Spin size="large" fix v-if="spinShow"></Spin>
-       </div>
 </template>
 <script>
 	// 引入公共的bug，来做为中间传达的工具
@@ -173,29 +176,133 @@
 </script>
 
 <style lang="scss" scoped="scoped">
- .empty_result .icon_unit_notice {
-        display: inline-block;
-    width: 64px;
-    height: 64px;
-    background-position:  -104px -248px;
+.new{
+    width: 100%;
+    background-color: #F2F2F2;
+    padding: 29px 0px 75px;
 }
- .empty_result span{
- 	margin-top: 20px;
- 	font-size: 16px;
- }
-.page{
-	margin-top:40px;
-	text-align: center;
-	padding-bottom: 50px;
+            .mylike li{
+            	cursor: pointer;
+                float: left;
+                width:290px;
+                margin-right: 10px;
+                position: relative;
+                text-align: center;
+                margin-top: 15px;
+                background-color: #ffffff;
+            }
+            .mylike li:nth-of-type(4n){
+                margin-right: 0px;
+            }
+            .mylike img{
+                margin-top: 60px;
+                width: 260px;
+                height: 260px;
+            }
+            .mylike li span{
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                color: #c6c6c6;
+                font-weight: 400;
+                font-size: 24px;
+                border: none;
+                padding: 0px;
+                cursor: pointer;
+            }
+            .mylike li i{
+                position: absolute;
+                border: 1px solid #ff0000;
+                top: 15px;
+                left: 20px;
+                width: 60px;
+                height: 24px;
+                color: #FF0000;
+                font-weight: 400;
+                font-size: 13px;
+                text-align: center;
+                line-height: 20px;
+                cursor: pointer;
+            }
+            .mylike li span.red{
+                position: absolute;
+                top: 18px;
+                right: 10px;
+                color: #ff0000;
+                font-size: 24px;
+                margin: 0;
+            }
+            .mylike .ptitle{
+         font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    color: #333333;
+    height: 30px;
+    line-height: 30px;
+    margin: 0px;
+    padding: 0px;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+    padding: 0 20px;
 }
-.selector{
+            .new .mylike .ptitle:hover{
+                color: #333333;
+            }
+            .mylike .pt{
+                font-weight: 400;
+                font-size: 14px;
+                text-align: center;
+                color: #999999;
+                height: 21px;
+                line-height: 21px;
+                margin: 0px;
+                padding: 0px;
+            }
+            .new .mylike .pt:hover{
+                color: #999999;
+            }
+            .new .mylike .red:hover{
+                color: #FF0000;
+            }
+            .mylike .red{
+                height: 21px;
+                line-height: 21px;
+                margin: 0px;
+                padding: 0px;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 14px;
+                color: #FF0000;
+                text-align: center;
+                margin-bottom: 28px;
+            }
+            .shoppinglistnav{
+                margin-top: 25px;
+                margin-bottom: 0px;
+                height: 41px;
+            }
+            .shoppinglistnav span{
+                float: left;
+                width: 90px;
+                height: 41px;
+                text-align: center;
+                line-height: 41px;
+                font-weight: 400;
+                font-size: 14px;
+                color: #666666;
+            }
+            .shoppinglistnav span:hover{
+                color:#ff0000; 
+            }
+            
+            
+            .selector{
     line-height: 40px;
-    
     font-size: 14px;
      color:#333;
-}
-.selector{
-	border-top:1px solid #ccc
 }
 .selector dl{
 	 border-width: 0 0 1px ;
@@ -224,10 +331,13 @@
 	display: inline-block;
     }
     .selector .dd span:hover{
-    	color: #0099ff;
+    	color: #ff0037;
+    }
+    .mylike{
+    	margin-bottom: 20px;
     }
 .selector .active {
-  color: #0099ff;
+  color: #ff0037;
   font-weight: bold;
 }
 .search_list_wrap{
@@ -235,5 +345,8 @@
 }
 .wrap{
 	border-bottom: 1px solid #ddd;
+}
+.page{
+	text-align: center;
 }
 </style>

@@ -105,6 +105,7 @@ const routes = [{
 	{
 		path: '/user',
 		name: '/user',
+		zname:'个人中心',
 		component: UFull,
 		redirect: '/user/orderlist',
 		children: [{
@@ -113,6 +114,7 @@ const routes = [{
 				},
 				name: 'orderlist',
 				path: 'orderlist',
+				zname:'订单列表',
 				component: resolve => require(['@/views/pages/userCenter/OrderList.vue'], resolve),
 			},
 
@@ -120,6 +122,7 @@ const routes = [{
 				meta: {
 					requireAuth: true
 				},
+				zname:'订单详情',
 				name: '/order/detail',
 				path: '/order/detail',
 				component: resolve => require(['@/views/pages/userCenter/OrderDetail.vue'], resolve),
@@ -128,6 +131,7 @@ const routes = [{
 				meta: {
 					requireAuth: true
 				},
+				zname:'退款退货详情',
 				name: '/order/refund',
 				path: '/order/refund',
 				component: resolve => require(['@/views/pages/userCenter/RefundDetail.vue'], resolve),
@@ -136,6 +140,7 @@ const routes = [{
 				meta: {
 					requireAuth: true
 				},
+				zname:'我的地址',
 				name: '/user/address',
 				path: '/user/address',
 				component: resolve => require(['@/views/pages/userCenter/Address.vue'], resolve)
@@ -143,11 +148,13 @@ const routes = [{
 			{
 				name: 'mycoupon',
 				path: 'mycoupon',
+				zname:'我的优惠券',
 				component: resolve => require(['@/views/pages/userCenter/MyCoupon.vue'], resolve)
 			},
 			{
 				name: 'couponcenter',
 				path: 'couponcenter',
+				zname:'优惠券中心',
 				component: resolve => require(['@/views/pages/userCenter/CouponCenter.vue'], resolve)
 			},
 			{
@@ -156,6 +163,7 @@ const routes = [{
 				},
 				name: 'changePwd',
 				path: 'changePwd',
+				zname:'更改密码',
 				component: resolve => require(['@/views/pages/userCenter/ChangePwd.vue'], resolve)
 			},
 			{
@@ -164,11 +172,13 @@ const routes = [{
 				},
 				name: 'myinfo',
 				path: 'myinfo',
+				zname:'我的信息',
 				component: resolve => require(['@/views/pages/userCenter/MyInfo.vue'], resolve)
 			},
 			{
 				name: 'setting',
 				path: 'setting',
+							zname:'我的设置',
 				component: resolve => require(['@/views/pages/userCenter/MySetting.vue'], resolve)
 			}
 		]

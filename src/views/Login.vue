@@ -15,12 +15,13 @@
                 <FormItem prop="loginName">
                 <input type="text" placeholder="请输入手机号" v-model="loginForm.loginName">
                 	</FormItem>
-                	<FormItem prop="passWord">
+                <FormItem prop="passWord">
                 <input type="text" class="input" placeholder="请输入密码"  v-model="loginForm.passWord">
                 </FormItem>
-                <button class="btn"  @click="handleLogin()" :loading="loading">登录</button>
-                <p class="clearfix"><router-link :to='{path:"/resetPassword"}' >忘记密码?</router-link> <router-link :to='{path:"/register"}' class="a">没有账号?  去注册&gt;</router-link></p>
-            </form>
+                <Button  class="btn"   long :loading="loading"  @click="handleLogin()">登录</Button>
+                <p class="clearfix"><router-link :to='{path:"/resetPassword"}' >忘记密码?</router-link> 
+                	<router-link :to='{path:"/register"}' class="a">没有账号?  去注册&gt;</router-link></p>
+            </Form>
         </div>
         </div>
         </div>
@@ -74,12 +75,10 @@
 		        let routerParams = this.$route.params.loginName
 		        // 将数据放在当前组件的数据内
 		        this.loginForm.loginName = routerParams
-		        console.log(routerParams)
      	 	},
           handleLogin() {
           	var _this=this;
           	_this.loading=true;
-          
          	_this.$refs.loginForm.validate(valid => {
             if (valid) {
             	_this.loading = false;

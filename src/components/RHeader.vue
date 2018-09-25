@@ -17,8 +17,7 @@
 </template>
 <script>
 </script>
-
-<style>
+<style >
 	.btn-dxm{
 	background: #fff;
     width: 108px;
@@ -115,7 +114,7 @@
     font-size: 14px;
     color: #999999;
 }
-input.w128,.forget .w128{
+.signin input.w128,.signin .forget .w128{
 	width:128px
 }
 .forget .w207{

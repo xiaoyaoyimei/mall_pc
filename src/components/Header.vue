@@ -76,8 +76,8 @@
 					 <router-link  to="/register">注册</router-link></div>
 					<router-link  to="/user"  v-if="!nologin" style="width: 100px;">
 						{{account.nickName}}
-						<span v-if="account.nickName==''">{{account.customerMobile}}</span></router-link>
-					
+						<span v-if="account.nickName==''">{{account.customerMobile}}</span>
+					</router-link>
 					<hr class="spacer">
 					<a href="" class="message"><i class="icon-new icon-message"></i></a>
 					<router-link  to="/cart" class="mini-cart"><i class="icon-new icon-minicart"></i></router-link >
@@ -121,6 +121,7 @@
 					}).then((res)=>{
                         this.nologin=false;
                         this.account= Object.assign({},res);
+                       	Bus.$emit('nologin', this.nologin)
 					});
     	     	 }
             },
@@ -181,6 +182,7 @@
 		          	 this.getCartList();
 		         	 }
 		      });
+		      
             this.isLogin();
             this.getCartList();
 		}
@@ -188,6 +190,4 @@
 </script>
 
 <style scoped="scoped"  lang="scss">
-
-
 </style>

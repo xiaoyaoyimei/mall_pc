@@ -16,7 +16,7 @@
             	   <Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange" class="item_detail clearfix">
                 <table>
                     <thead>
-                        <tr><th width="150" ><!--<span class="cartIcon cartIcon-checkBox AllcheckBox"> 全选</span>-->
+                        <tr><th width="150" >
                         	<Checkbox :indeterminate="indeterminate"  :value="checkAll"   @click.prevent.native="handleCheckAll">全选</Checkbox>
                         </th>
                         <th width="400">商品名称</th>
@@ -66,13 +66,35 @@
                     </tfoot>
                 </table>
                 			</Checkbox-group>
-            </div>
-                    <div class="cartTablenull" v-else>
+        </div>
+        	  <div class="cartTablenull" v-else>
                         <img src="../../../assets/img/u15.png" alt="">
                         <span>您的购物车还是空的！<button>马上去购物</button></span>
                     </div>
         </div>
-	
+        <div class="Msucceess clearfix">
+            <div class="h5">
+                <h5>买购物车中商品的人还买了</h5>
+            </div>
+            <div class="likeList">
+                <ul class="clearfix">
+                    <li  v-for="(x,index) in tuijian" :key="index">
+                        <p class="stamp stampRed">{{}}</p>
+                        <img :src="x.model_img | imgfilter" alt="">
+                        <h5>{{x.model_no}}</h5>
+                        <p class="des">{{x.model_name}}</p>
+                        <p class="red">¥ {{x.sale_price | pricefilter}}</p>
+                        <button class="gocart"><span>加入购物车</span></button>
+                        
+                    </li>
+                </ul>
+                <div class="likebtn">
+                    <a class="gray">&lt;</a>
+                    <a>&gt;</a>
+                </div>
+            </div>
+            </div>
+
 	</div>
 </template>
 
@@ -91,13 +113,24 @@ export default {
 				zslcount:0,
 				temp:[],
 				sale:0,
-				totalnum:0
-				
+				totalnum:0,
+				zeroid:'',
+				tuijian:[]
             }
 		},
         methods: {
 				itemtotal(p,n){
 					return Number(p)*n;
+				},
+				gettuijian(){
+					 if(this.zeroid!=''){
+					        		this.$axios({
+							    method: 'post',
+							    url:`/product/other/${this.zeroid}`,
+								}).then((res)=>{
+										this.tuijian=res
+							});
+							}
 				},
         	 addcart(x){
               		this.$axios({
@@ -308,10 +341,17 @@ export default {
 				   this.sale+=(this.cartList[i].originSalePrice-this.cartList[i].salePrice) *100* parseInt(this.cartList[i].quantity);
 				});
 				 this.sale=this.sale/100
-            }
+            },
+            		getParams() {
+					// 取到路由带过来的参数 
+					 this.zeroid = this.$route.params.zeroid
+					// 将数据放在当前组件的数据内
+				}
         },
          mounted() {
 				this.getCartList();
+				this.gettuijian();
+				this.getParams();
 		}
     }
 </script>
@@ -515,6 +555,108 @@ export default {
             background-color: #ffffff;
             margin-top: 15px;
         }
+        .Msucceess{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0px auto;
+    margin-bottom: 56px;
+}
+.Msucceess .h5{
+    height: 1px; 
+    margin-top: 40px;
+    text-align: center; 
+    
+    border-top: 1px solid rgb(204, 204, 204);
+}
+.Msucceess .h5 h5{
+    position: relative;
+    top:-18px;
+    font-weight: 100;
+    background: #fff;
+    display: inline-block;
+    width: 320px;
+    text-align: center;
+    font-size: 24px;
+    color: rgb(110, 110, 110);
+}
+.Msucceess .likeList{
+    margin-top: 36px;
+}
+.Msucceess .likeList li{
+    float: left;
+    width: calc(25% - 12px);
+    padding: 15px;
+    background-color: rgb(246, 246, 246);
+    margin-right: 15px;
+    text-align: center;
+}
+.Msucceess .likeList li:nth-of-type(4){
+    margin-right: 0px;
+}
+.Msucceess .stamp{
+    width: 51px;
+    height: 22px;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-weight: 700;
+}
+.Msucceess .stampRed{
+    color: rgb(251,84,104);
+    border: 2px  solid rgb(226,24,24);
+}
+.Msucceess .likeList h5{
+    margin-top: 20px;
+    font-size: 13px;
+    color: black;
+    font-weight: 900;
+}
+.Msucceess .des{
+    color: #888888;
+    font-weight: 300;
+    overflow: hidden;
+    font-size: 13px;
+}
+.Msucceess  .red{
+    margin: 5px;
+    color: #ff0037;
+    font-size: 13px;
+    font-weight: 900;
+}
+.Msucceess .gocart{
+    width: 100px;
+    height: 25px;
+    box-sizing: border-box;
+    border: 0;
+    color: rgb(141, 141, 141);
+    font-size: 13px;
+    background-color: rgb(246, 246, 246);
+}
+.Msucceess .gocart span{
+    width: 100px;
+    height: 25px;
+    font-weight: 700;
+    border: 1px solid rgb(160, 160, 160);
+    padding: 4px 10px;
+
+}
+.Msucceess .likebtn{
+    margin: 21px auto;
+    width: 100px;
+    text-align: center;
+}
+.Msucceess .likebtn a{
+    padding:  7px 8px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(204, 204, 204);
+    font-weight: 900;
+    font-size: 13px;
+    color: black;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.Msucceess .likebtn .gray{
+    color: #888888;
+}
 </style>
 <style>
 	.ivu-checkbox-wrapper + span, .ivu-checkbox + span{

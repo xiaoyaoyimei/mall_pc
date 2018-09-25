@@ -4,7 +4,9 @@
              <app-header></app-header>
             <Layout >
                 <Content class='layout' :style="{ minHeight: '700px'}">
+                	
 				<div class="newcenter clearfix">
+					<app-breadcrumb></app-breadcrumb>
 					<user-left></user-left>
 					<div class="newcenterbody"> <router-view/></div>
 				</div>
@@ -16,10 +18,11 @@
 </template>
 
 <script>
+	//个人中心
 import AppHeader from '@/components/Header'
 import AppFooter from '@/components/Footer'
-import AppMenu from '@/components/Menu'
 import UserLeft from '@/components/UserLeft'
+import AppBreadcrumb from '@/components/BreadCrumb'
 	export default {
 	    data () {
 	        return {
@@ -28,8 +31,8 @@ import UserLeft from '@/components/UserLeft'
 		components:{
         	AppHeader,
         	AppFooter,
-        	AppMenu,
-        	UserLeft
+        	UserLeft,
+        	AppBreadcrumb
         },
     }
 </script>

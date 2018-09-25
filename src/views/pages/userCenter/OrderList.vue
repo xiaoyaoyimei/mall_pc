@@ -521,7 +521,7 @@
 			this.getOrder();
 			this.getRefundOrder();
 			this.getStatusEnum();
-			this.uploadList = this.$refs.upload.fileList;
+		//	this.uploadList = this.$refs.upload.fileList;
 		}
 	}
 </script>

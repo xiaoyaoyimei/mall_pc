@@ -9,7 +9,7 @@
 		</div>
 		<div class="successBtn">
 			<a class="goback" @click="$router.go(-1)">返回上一页</a>
-			<router-link :to="{ path: '/cart' }" class="gocart">去购物车结算</router-link>
+			<router-link :to="{ path: '/cart',query:{zeroid:routerParams.id} }" class="gocart">去购物车结算</router-link>
 		</div>
 	</div>
 </template>
@@ -25,9 +25,7 @@
 				getParams() {
 					// 取到路由带过来的参数 
 					 this.routerParams = this.$route.params.cartBefore
-					 console.log(	 this.routerParams );
 					// 将数据放在当前组件的数据内
-
 				}
 			},
 			mounted() {

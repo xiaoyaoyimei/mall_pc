@@ -16,7 +16,7 @@
                 <input type="text" placeholder="请输入手机号" v-model.trim="regiForm.loginName" v-on:blur.lazy="getTx">
                 </FormItem>
                 <FormItem  prop="verificationCode">
-                <input type="text" class="input w128" placeholder="请输入图形码" >
+                <input type="text" class="input w128" placeholder="请输入图形码" v-model.trim="regiForm.verificationCode" >
                 <img v-show="verimg!=''" :src="verimg" class="pic-yzm"><img src="../assets/img/refresh.png" class="refresh" @click="getTx">
                 </FormItem>
                 <FormItem  prop="passWord">
@@ -29,7 +29,7 @@
                   <input type="text" class="input w128" placeholder="短信验证码" v-model="regiForm.shortMessage">
                   <button class="btn-dxm" @click="getDx">获取短信码</button>
                    </FormItem>
-                <button class="btn" @click="handleSubmit('regiForm')">点击注册</button>
+                <Button class="btn" @click="handleSubmit('regiForm')">点击注册</Button>
                 <p class="p">点击注册，即表示您同意并愿意遵守dxacer公司</p>
                 <p class="pp"><span>《用户协议》</span> 和 <span>《隐私政策》</span></p>
             </Form>
@@ -155,7 +155,7 @@
 							}).then((res)=>{
 								if(res.code=='200'){
 									     this.txv++;
-									      this.verimg='http://10.0.0.53:8080/dxracer-mall-api/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+									      this.verimg='http://10.0.0.53:8080/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
 								         //this.verimg=this.$axios.defaults.baseURL+'/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
 										 //	let urlo=window.location.origin;
       										//this.verimg=urlo+'/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;

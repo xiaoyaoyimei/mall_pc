@@ -2,17 +2,17 @@
 <div class="layout">
         <Layout>
              <app-header></app-header>
-            <Layout >
-                <Content style="min-height: 520px;position:relative">
+          <Content style="min-height: 520px;position:relative">
                    <router-view/>
                 </Content>
-            </Layout>
+                <app-footer></app-footer>
         </Layout>
 </div>
 </template>
 
 <script>
 import AppHeader from '@/components/RHeader'
+import AppFooter from '@/components/RFooter'
 	export default {
 			data(){
 				return {
@@ -20,6 +20,7 @@ import AppHeader from '@/components/RHeader'
 			},
         components:{
         	AppHeader,
+        	AppFooter
         }
        }
 </script>

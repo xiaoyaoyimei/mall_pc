@@ -1,5 +1,15 @@
 <template>
 	<div class="homepage">
+			<div class="toolbar">
+			<ul>
+				<li ><i class="icon-new icon-user"></i>个人中心</li>
+				<li><i class="icon-new icon-kefu"></i>联系客服</li>
+				<li ><i class="icon-new icon-cart"></i>购物车</li>
+				<li class="mt15" @click="goback">
+        			<i class="icon-new icon-back"></i>回到顶部
+				</li>
+			</ul>
+		</div>
 		<div class="side_nav_wrap clear" style="">
 			<div class="main-wdith">
 				<Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots" :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow" class="banner">
@@ -192,6 +202,7 @@
 </template>
 
 <script>
+	   import Bus from '@/assets/js/bus.js'
 	export default {
 		data() {
 			return {
@@ -219,9 +230,11 @@
 				tableproduct:[],
 				cockpitproduct:[],
 				peripheryproduct:[],
+				toolbarNologin:{},//侧边栏个人中心是否登录
 			};
 		},
 		computed: {
+
 			token() {
 				//获取store里面的token
 				return this.$store.state.token;
@@ -233,6 +246,9 @@
 			}
 		},
 		methods: {
+				goback(){
+				document.documentElement.scrollTop = 0;
+			},
 			getBanner() {
 				//判断是否已经登录
 				if(this.token != null) {
@@ -321,6 +337,10 @@
 		},
 		mounted() {
 			this.getBanner();
+	      Bus.$on('nologin', (e) => {
+//	      	this.toolbarNologin=data
+　　　　　	console.log(`传来的数据是：${e}`)
+       })
 		}
 	};
 </script>

@@ -1,57 +1,50 @@
 <template>
-<div>
-	     <div class="details clearfix">
-	     	<h2 class="left">{{statusfilter(orderdetail.shippingOrder.orderStatus)}}</h2>
-	     	<div class="right"  v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">
-		 <span v-if='timerShow'>剩余支付时间{{protime}}</span>
-			 <button @click="cancel()">取消订单</button>
-			 <button class="btn-blue" @click="quzhifu()"   v-show="orderdetail.shippingOrder.orderStatus=='01'">去支付</button>
-	     		</div>
-	     </div>
-	<div class="order_situation">
-		<h2>订单概况</h2>
-		   		<p>订单编号:<span>{{orderdetail.shippingOrder.orderNo}}</span></p>
-		   		<p>下单时间:<span>{{orderdetail.shippingOrder.createTime | formatDate}}</span></p>
-		   		<p>收货信息:<span>{{orderdetail.shippingAddress.receiverName}}/{{orderdetail.shippingAddress.receiverMobile}}/{{orderdetail.shippingAddress.receiverState}}
-		   			{{orderdetail.shippingAddress.receiverCity}}{{orderdetail.shippingAddress.receiverDistrict}}{{orderdetail.shippingAddress.receiverAddress}}</span></p>
-		   		<p>发票抬头:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceTitle}} </span></p>
-				<p>发票类型:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceType}}</span>
-					   	<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit">新增</button>
-				 		<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit">编辑</button> 				</p>
-				   </div>
-		 <div class="order_goods clearfix">
-		   	<table class="order-tb">
-		   		<thead><tr><th>主图</th><th>商品</th><th>单价</th><th>数量</th><th>优惠</th><th>总价</th></tr></thead>
-		       <tbody>
-		       	<tr v-for="(item,index) in orderdetail.shippingOrderItems" :key="index">
-		   		<td class="goods_pic"><img :src="item.productItemImg | imgfilter"></td>
-		   		<td class="title">
-		   			<p >{{item.productTitle}}</p>
-		   			<p>{{item.productAttrs}}</p>
-		   		    <p>{{item.productItemNo}}</p></td>
-		   			<td>
-		   				<span class="color-blue font-14">￥{{orderFeejun(item)|pricefilter}}</span>
-		   			</td>
-		   			<td>{{item.quantity}}</td>
-		   			<td>￥{{discountFeejun(item)|pricefilter}}</td>
-		   			<td>￥{{item.productFee |pricefilter}}</td>
-		   	</tr></tbody>
-		   	</table>
-		   	<div class="order_price clearfix">
-		   <div  class="order_wrap">
-		   	<dl class="cf-wrap">
-		     	<dt>商品总额:</dt><dd>￥{{orderdetail.shippingOrder.productFee|pricefilter}}</dd>
-		   	 	<dt>商品优惠:</dt><dd><label  v-if="orderdetail.shippingOrder.discountFee!=''">￥{{orderdetail.shippingOrder.discountFee|pricefilter}}</label></dd>
-		    	<dt>实付款:</dt><dd><span class="font-24">￥{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</span></dd>
-		    </dl>
-		     <button  @click="quzhifu"  type="button" class="btn_pay" v-show="orderdetail.shippingOrder.orderStatus=='01'">
-				立即支付
-			</button>
-		   </div>
-		   </div>
-		</div>
-		<!-- 新增发票 -->
-		 <Modal v-model="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" :mask-closable='false'>
+	<div class="newcenterbody">
+                  <h2>订单详情</h2>
+                  <div class="orderdetailnum">
+                      订单号：201806221902121212 <span>已收货</span>
+                  </div>
+                  <ul>
+                      <li class="clearfix orderteail">
+                          <img src="image/dpro-small.png" alt="">
+                          <div class="orderdetailText">
+                                <span>销售价 x 数量</span>
+                                <span>美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色</span>
+                               
+                          </div>
+                      </li>
+                  </ul>
+                  <div class="orderdetailsend">
+                        <div class="h5">收货信息</div>
+                        <div class="p">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：  张晓明</div>
+                        <div class="p">联系电话：  158 5858 5858</div>
+                        <div class="p">收货地址：  江苏省 无锡市 惠山区 堰桥街道 五彩科技大厦504</div>
+                  </div>
+                  <div class="orderdetail">
+                      <div class="h5">支付方式</div>
+                      <div class="p">支付方式：在线支付</div>
+                  </div>
+                  <div class="orderdetailfapiao">
+                      <div class="h5">发票信息</div>
+                      <div class="p">发票类型：纸质发票</div>
+                      <div class="p">发票内容：购买商品明细</div>
+                      <div class="p">发票抬头：个人</div>
+                  </div>
+                  <div class="orderdetailtotal">
+                        <div class="orderdetailtotalAttr">
+                            <p>商品总价:</p>
+                            <p>活动优惠</p>
+                            <p>运费</p>
+                            <p>应付总额</p>
+                        </div>
+                        <div class="orderdetailtotalValue">
+                            <p>￥1699.00</p>
+                            <p>-￥200.00</p>
+                            <p>￥100.00</p>
+                            <p>￥ <span>1699.00</span></p>
+                        </div>
+                  </div>
+                   <Modal v-model="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" :mask-closable='false'>
 			<Form :model="addInvoice" ref="addInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" >
 					<FormItem label="订单编号" prop="orderNo">
 					<Input v-model="addInvoice.orderNo" placeholder="订单编号" autocomplete="off" disabled ></Input>
@@ -140,7 +133,60 @@
 		</Modal>
 
 		 <Spin size="large" fix v-if="spinShow"></Spin>
-	</div>
+                </div>
+<!--<div>
+	     <div class="details clearfix">
+	     	<h2 class="left">{{statusfilter(orderdetail.shippingOrder.orderStatus)}}</h2>
+	     	<div class="right"  v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">
+		 <span v-if='timerShow'>剩余支付时间{{protime}}</span>
+			 <button @click="cancel()">取消订单</button>
+			 <button class="btn-blue" @click="quzhifu()"   v-show="orderdetail.shippingOrder.orderStatus=='01'">去支付</button>
+	     		</div>
+	     </div>
+	<div class="order_situation">
+		<h2>订单概况</h2>
+		   		<p>订单编号:<span>{{orderdetail.shippingOrder.orderNo}}</span></p>
+		   		<p>下单时间:<span>{{orderdetail.shippingOrder.createTime | formatDate}}</span></p>
+		   		<p>收货信息:<span>{{orderdetail.shippingAddress.receiverName}}/{{orderdetail.shippingAddress.receiverMobile}}/{{orderdetail.shippingAddress.receiverState}}
+		   			{{orderdetail.shippingAddress.receiverCity}}{{orderdetail.shippingAddress.receiverDistrict}}{{orderdetail.shippingAddress.receiverAddress}}</span></p>
+		   		<p>发票抬头:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceTitle}} </span></p>
+				<p>发票类型:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceType}}</span>
+					   	<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit">新增</button>
+				 		<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit">编辑</button> 				</p>
+				   </div>
+		 <div class="order_goods clearfix">
+		   	<table class="order-tb">
+		   		<thead><tr><th>主图</th><th>商品</th><th>单价</th><th>数量</th><th>优惠</th><th>总价</th></tr></thead>
+		       <tbody>
+		       	<tr v-for="(item,index) in orderdetail.shippingOrderItems" :key="index">
+		   		<td class="goods_pic"><img :src="item.productItemImg | imgfilter"></td>
+		   		<td class="title">
+		   			<p >{{item.productTitle}}</p>
+		   			<p>{{item.productAttrs}}</p>
+		   		    <p>{{item.productItemNo}}</p></td>
+		   			<td>
+		   				<span class="color-blue font-14">￥{{orderFeejun(item)|pricefilter}}</span>
+		   			</td>
+		   			<td>{{item.quantity}}</td>
+		   			<td>￥{{discountFeejun(item)|pricefilter}}</td>
+		   			<td>￥{{item.productFee |pricefilter}}</td>
+		   	</tr></tbody>
+		   	</table>
+		   	<div class="order_price clearfix">
+		   <div  class="order_wrap">
+		   	<dl class="cf-wrap">
+		     	<dt>商品总额:</dt><dd>￥{{orderdetail.shippingOrder.productFee|pricefilter}}</dd>
+		   	 	<dt>商品优惠:</dt><dd><label  v-if="orderdetail.shippingOrder.discountFee!=''">￥{{orderdetail.shippingOrder.discountFee|pricefilter}}</label></dd>
+		    	<dt>实付款:</dt><dd><span class="font-24">￥{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</span></dd>
+		    </dl>
+		     <button  @click="quzhifu"  type="button" class="btn_pay" v-show="orderdetail.shippingOrder.orderStatus=='01'">
+				立即支付
+			</button>
+		   </div>
+		   </div>
+		</div>
+		
+	</div>-->
 </template>
 
 <script>

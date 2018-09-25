@@ -1,7 +1,6 @@
 <template>
 	<div class="account_address_wrap">
 		<button class="btn-add" @click="modaladdr=true">新增收货地址</button>
-		
          <Modal v-model="modaladdr" title="新增收货地址" @on-ok="add" :loading="loading"   :mask-closable='false'>
 				<Form :model="addForm" ref="addForm" label-position="left" :label-width="100" :rules="ruleValidate"  class="P15"> 
 					<FormItem label="收货人" prop="person">

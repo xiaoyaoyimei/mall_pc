@@ -103,12 +103,10 @@
 				<Button type="primary" size="large" long @click="submitLogisticsInfo">提交</Button>
 			</div>
 		</Modal>
-		
-<!--		
 			<Modal v-model="evaluationModal" width="600" :mask-closable="false">
 			<p slot="header" style="color:#f60;text-align:center">
 				<Icon type="ios-information-circle"></Icon>
-				<span>申请退货</span>
+				<span>评价</span>
 			</p>
 			<div>
 				<div class="refund">
@@ -148,7 +146,7 @@
 			<div slot="footer">
 				<Button type="primary" size="large" long @click="refund">提交</Button>
 			</div>
-		</Modal>-->
+		</Modal>
        </div>
                 
 	
@@ -165,6 +163,7 @@
 				reasonModel: '',
 				infoModal: false,
 				evaluationModal:false,
+				evaluationorder:'',
 				refundreason: '',
 				refundModal: false,
 				refundenums: [],
@@ -280,6 +279,10 @@
 			showrefund(value) {
 				this.refundModal = true
 				this.refundorder = value;
+			},
+			evaluation(value){
+				this.evaluationModal = true
+				this.evaluationorder = value;
 			},
 			showLogisticsInfo(value) {
 				this.infoModal = true,

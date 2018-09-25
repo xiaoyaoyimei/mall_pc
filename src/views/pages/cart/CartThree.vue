@@ -113,7 +113,7 @@
 									_this.$router.push({ name:'/order/detail',query:{orderNo:this.$route.query.orderNo}});
 								}
 							});
-							 _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
+							//  _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
         	},
         	cancelpay(){
         		this.payshow=true;
@@ -126,7 +126,8 @@
         	},
 	    	getParams () {
 	                // 取到路由带过来的参数 
-	                let routerParams = this.$route.query.orderNo;
+                    let routerParams = this.$route.query.ordermsg;
+                    console.log(JSON.parse(routerParams));
 	                // 将数据放在当前组件的数据内
 	                this.orderNo = routerParams;
 	          },

@@ -82,41 +82,38 @@
                 </div>
             </div>
         </div>
-                    <Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading">
-				<Form :model="addForm" ref="addForm" label-position="left" :label-width="110" :rules="ruleValidate" style="padding: 15px;"> 
-					<FormItem label="收货人" prop="person">
-						<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
-					</FormItem>
-					<FormItem label="手机号" prop="phone">
-						<Input v-model="addForm.phone" placeholder="联系电话" autocomplete="off"></Input>
-					</FormItem>
-			        <FormItem label="所在地区"  prop="selectedOptionsAddr">
-        		 <Cascader  v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
-        		</FormItem>
-					<FormItem label="详细地址" prop="address">
-						<Input v-model="addForm.address" placeholder="详细地址"></Input>
-					</FormItem>
-				</Form>
-				  </Modal>
-				  	   <Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading"  >
-					  	<Form :model="editForm" ref="editForm" label-position="left" :label-width="110" :rules="ruleValidate" style="padding: 15px;" > 
-				        <FormItem label="收货人" prop="person">
-				            <Input v-model="editForm.person" placeholder="收货人"></Input>
-				        </FormItem>
-				        <FormItem label="手机号" prop="phone">
-				            <Input v-model="editForm.phone" placeholder="联系电话"></Input>
-				        </FormItem>
-				        <FormItem label="固定电话" >
-				            <Input v-model="editForm.tel" placeholder="固定电话"></Input>
-				        </FormItem>
-				        <FormItem label="所在地区"  prop="selectedOptionsAddr">
-				        	 <Cascader  v-model="editForm.selectedOptionsAddr" :data="addressOption"></Cascader>
-				        </FormItem>
-				         <FormItem label="详细地址" prop="address">
-				            <Input v-model="editForm.address" placeholder="详细地址"></Input>
-				        </FormItem>
-				    </Form>
-			    </Modal>
+        <Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading" style="width:600px;">
+            <Form :model="addForm" ref="addForm" label-position="left"  :rules="ruleValidate" style="padding: 15px;"> 
+                <FormItem label="" prop="person" class="mdalText">
+                    <Input v-model="addForm.person"  placeholder="收货人" autocomplete="off"></Input>
+                </FormItem>
+                <FormItem label="" prop="phone" class="mdalTextphone">
+                    <Input v-model="addForm.phone"  placeholder="联系电话" autocomplete="off"></Input>
+                </FormItem>
+                <FormItem label=""  prop="selectedOptionsAddr">
+                    <Cascader  v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
+                </FormItem>
+                <FormItem label="" prop="address" class="modaladdress modaladdressaddr">
+                    <Input v-model="addForm.address" placeholder="详细地址"></Input>
+                </FormItem>
+            </Form>
+		</Modal>
+        <Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" style="width:600px;" :loading="loading"  >
+            <Form :model="editForm" ref="editForm" label-position="left"  :rules="ruleValidate" style="padding: 15px;" > 
+                <FormItem label="" prop="person" class="mdalText">
+                    <Input v-model="editForm.person" placeholder="收货人"></Input>
+                </FormItem>
+                <FormItem label="" prop="phone" class="mdalTextphone">
+                    <Input v-model="editForm.phone" placeholder="联系电话"></Input>
+                </FormItem>
+                <FormItem label=""  prop="selectedOptionsAddr">
+                        <Cascader  v-model="editForm.selectedOptionsAddr" :data="addressOption"></Cascader>
+                </FormItem>
+                    <FormItem label="" prop="address" class="modaladdress modaladdressaddr">
+                    <Input v-model="editForm.address" placeholder="详细地址"></Input>
+                </FormItem>
+            </Form>
+        </Modal>
         </div>
 </template>
 <script>
@@ -455,7 +452,7 @@
 						//						  订单提交以后清空列表
 						sessionStorage.removeItem("cart")
 						   Bus.$emit('cartmsg', "again");
-						 this.$router.push({name:'/cartthree',query: { orderNo: res.msg}});  
+						 this.$router.push({name:'/cartthree',query: { ordermsg: JSON.stringify(res.object)}});  
 					}else{
 					   this.$Modal.error({
 					   	title:'失败提示',
@@ -750,12 +747,13 @@
     width: 100%;
     background-color: #F2F2F2;
 }
-.placeorderModal h5{
-    float: left;
-    padding-left: 25px;
-    font-size: 18px;
-    font-weight: 400;
+
+.ivu-modal-close .ivu-icon-ios-close-empty{
     color: #000000;
+    padding-right: 25px;
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
 }
 .placeorderModal span{
     float: right;
@@ -768,45 +766,48 @@
 .placeorderModal .modalBody{
     padding: 15px 25px 45px;
 }
-.placeorderModal .mdalText{
+ .mdalText{
+    display: inline-block;
     width: 260px;
     margin-right: 10px;
     height: 45px;
-    line-height: 45px;
-    padding-left: 15px;
-    border: 1px solid #cccccc;
+    line-height: 45px;   
 }
-.placeorderModal .modaladdress{
+.mdalTextphone{
+    display: inline-block;
+    width: 260px;
+    height: 45px;
+    line-height: 45px;  
+}
+ .modaladdress{
     height: 45px;
     line-height: 45px;
-    padding-left: 15px;
     width: 535px;
     margin-top: 15px;
-    border: 1px solid #cccccc;
 }
-.placeorderModal  .modaladdressaddr{
+  .modaladdressaddr{
     height: 90px;
     line-height: 90px;
 }
-.placeorderModal .modalFoot{
+ .modalFoot{
     height: 90px;
     background-color: #F2F2F2;
     padding: 0px 25px;
     width: 100%;
     text-align: center;
 }
-.placeorderModal button{
-    margin-top: 20px;
-    margin-right: 15px;
-    padding: 10px 50px;
-    color: #FFFFFF;
-    border: none;
+//  button{
+//     margin-top: 20px;
+//     margin-right: 15px;
+//     padding: 10px 50px;
+//     color: #FFFFFF;
+//     border: none;
     
-}
-.placeorderModal .sure{
+// }
+ .sure{
     background-color: #ff0000;
 }
-.placeorderModal .cancel{
+ .cancel{
     background-color: #888888;
 }
 #placeorderModal{
@@ -945,3 +946,65 @@
 	display: inline-block;
 }
 </style>
+<style>
+.ivu-modal-header-inner{
+    font-size: 18px;
+    font-weight: 400;
+    color: #000000;
+    padding-left: 25px;
+    height:60px;
+    line-height: 60px;
+
+}
+.ivu-modal-close .ivu-icon-ios-close-empty{
+    color: #000000;
+    font-weight: 900;
+}
+.ivu-modal-header {
+    height:60px;
+    line-height: 60px;
+    width: 100%;
+    background-color: #F2F2F2;
+    padding: 0px;
+}
+.ivu-input{
+    height: 45px;
+    line-height: 45px;
+    border: 1px solid #cccccc;
+    border-radius: 0px;
+}
+.modaladdressaddr .ivu-input{
+    height: 90px;
+    line-height: 90px;
+    border-radius: 0px;
+}
+.ivu-modal{
+    width: 600px!important;
+}
+.ivu-modal-footer{
+    height: 90px;
+    background-color: #F2F2F2;
+    padding: 0px 25px;
+    width: 100%;
+    text-align: center;
+}
+.ivu-btn-text{
+    margin-top: 20px;
+    margin-right: 15px;
+    padding: 10px 50px;
+    color: #FFFFFF;
+    border: none;
+    background-color: #888888;
+    border-radius: 0px;
+}
+.ivu-btn-primary{
+    background-color: #ff0000;
+    margin-top: 20px;
+    margin-right: 15px;
+    padding: 10px 50px;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 0px;
+}
+</style>
+

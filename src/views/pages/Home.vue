@@ -1,6 +1,6 @@
 <template>
 	<div class="homepage">
-			<div class="toolbar">
+			<!--<div class="toolbar">
 			<ul>
 				<li ><i class="icon-new icon-user"></i>个人中心</li>
 				<li><i class="icon-new icon-kefu"></i>联系客服</li>
@@ -9,7 +9,7 @@
         			<i class="icon-new icon-back"></i>回到顶部
 				</li>
 			</ul>
-		</div>
+		</div>-->
 		<div class="side_nav_wrap clear" style="">
 			<div class="main-wdith">
 				<Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots" :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow" class="banner">

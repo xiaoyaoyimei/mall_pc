@@ -118,7 +118,15 @@ const routes = [{
 				zname:'订单列表',
 				component: resolve => require(['@/views/pages/userCenter/OrderList.vue'], resolve),
 			},
-
+			{
+				meta: {
+					requireAuth: true
+				},
+				zname:'评价晒单',
+				name: '/user/evaluate',
+				path: '/user/evaluate',
+				component: resolve => require(['@/views/pages/userCenter/Evaluate.vue'], resolve),
+			},
 			{
 				meta: {
 					requireAuth: true
@@ -137,6 +145,7 @@ const routes = [{
 				path: '/order/refund',
 				component: resolve => require(['@/views/pages/userCenter/RefundDetail.vue'], resolve),
 			},
+			
 			{
 				meta: {
 					requireAuth: true
@@ -176,6 +185,25 @@ const routes = [{
 				zname:'我的信息',
 				component: resolve => require(['@/views/pages/userCenter/MyInfo.vue'], resolve)
 			},
+				{
+				meta: {
+					requireAuth: true
+				},
+				name: 'news',
+				path: 'news',
+				zname:'消息通知',
+				component: resolve => require(['@/views/pages/userCenter/News.vue'], resolve)
+			},
+					{
+				meta: {
+					requireAuth: true
+				},
+				name: 'mylike',
+				path: 'mylike',
+				zname:'喜欢的商品',
+				component: resolve => require(['@/views/pages/userCenter/MyLike.vue'], resolve)
+			},
+					
 			{
 				name: 'setting',
 				path: 'setting',

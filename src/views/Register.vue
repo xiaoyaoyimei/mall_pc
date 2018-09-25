@@ -27,7 +27,13 @@
                 </FormItem>
                 	<FormItem  prop="shortMessage">
                   <input type="text" class="input w128" placeholder="短信验证码" v-model="regiForm.shortMessage">
-                  <button class="btn-dxm" @click="getDx">获取短信码</button>
+                   <button  class='btn-dxm'  v-if="sendMsgDisabled"  type="button">
+										{{time+'秒后获取'}}
+									</button>
+									<button  class='btn-dxm'  v-else @click="getDx"  type="button">
+										获取短信码
+									</button>
+                  
                    </FormItem>
                 <Button class="btn" @click="handleSubmit('regiForm')">点击注册</Button>
                 <p class="p">点击注册，即表示您同意并愿意遵守dxacer公司</p>
@@ -46,7 +52,7 @@
         	       	      var validatePass = (rule, value, callback) => {            
                             if (value === '') {
                                 callback(new Error('请再次输入密码'));
-                              } else if (value !== this.regiForm.password) {
+                              } else if (value !== this.regiForm.passWord) {
                                 callback(new Error('两次输入密码不一致!'));
                               } else {
                                 callback();
@@ -108,7 +114,6 @@
           			this.loadingDx = false;
           		}
           		else{
-	          	
           		this.$axios({
 					    method: 'post',
 					    url:'/customer/register/shortmessage',
@@ -172,6 +177,7 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                     	let para = Object.assign({}, this.regiForm);
+                    	delete para['confirmpass']
 		                    	this.$axios({
 							    method: 'post',
 							    url:'/customer/register',
@@ -215,4 +221,7 @@
 .page-reg form{
 	height: 630px;
 }
+</style>
+<style>
+	
 </style>

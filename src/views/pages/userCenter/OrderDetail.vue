@@ -1,34 +1,39 @@
 <template>
-	<div class="newcenterbody">
+	<div >
                   <h2>订单详情</h2>
+                     	<div  v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">
+		 <span v-if='timerShow'>剩余支付时间{{protime}}</span>
+			 <button @click="cancel()">取消订单</button>
+			 <button class="btn-blue" @click="quzhifu()"   v-show="orderdetail.shippingOrder.orderStatus=='01'">去支付</button>
+	     		</div>
                   <div class="orderdetailnum">
-                      订单号：201806221902121212 <span>已收货</span>
+                      订单号：{{orderNo}} <span>{{statusfilter(orderdetail.shippingOrder.orderStatus)}}</span>
                   </div>
                   <ul>
-                      <li class="clearfix orderteail">
-                          <img src="image/dpro-small.png" alt="">
+                      <li class="clearfix orderteail" v-for="(item,index) in orderdetail.shippingOrderItems" :key="index">
+                          <img :src="item.productItemImg | imgfilter" alt="">
                           <div class="orderdetailText">
-                                <span>销售价 x 数量</span>
-                                <span>美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色美队 FL186  经典黑白色</span>
-                               
+                                <span>{{orderFeejun(item)|pricefilter}} x {{item.quantity}}</span>
+                                <span>{{item.productTitle}}</span>
                           </div>
                       </li>
                   </ul>
                   <div class="orderdetailsend">
                         <div class="h5">收货信息</div>
-                        <div class="p">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：  张晓明</div>
-                        <div class="p">联系电话：  158 5858 5858</div>
-                        <div class="p">收货地址：  江苏省 无锡市 惠山区 堰桥街道 五彩科技大厦504</div>
-                  </div>
-                  <div class="orderdetail">
-                      <div class="h5">支付方式</div>
-                      <div class="p">支付方式：在线支付</div>
+                        <div class="p">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：  {{orderdetail.shippingAddress.receiverName}}</div>
+                        <div class="p">联系电话： {{orderdetail.shippingAddress.receiverMobile}}</div>
+                        <div class="p">收货地址：   {{orderdetail.shippingAddress.receiverState}}{{orderdetail.shippingAddress.receiverCity}} {{orderdetail.shippingAddress.receiverDistrict}}
+                        {{orderdetail.shippingAddress.address}}</div>
                   </div>
                   <div class="orderdetailfapiao">
-                      <div class="h5">发票信息</div>
-                      <div class="p">发票类型：纸质发票</div>
-                      <div class="p">发票内容：购买商品明细</div>
-                      <div class="p">发票抬头：个人</div>
+                      <div class="h5">
+                      	<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit fr">新增</button>
+				 		<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit fr">编辑</button> 	发票信息</div>
+                      <div class="p">发票类型：
+                      	<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceType}}</span>
+					   	
+				      </div>
+                      <div class="p">发票抬头：<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceTitle}} </span></div>
                   </div>
                   <div class="orderdetailtotal">
                         <div class="orderdetailtotalAttr">
@@ -38,10 +43,10 @@
                             <p>应付总额</p>
                         </div>
                         <div class="orderdetailtotalValue">
-                            <p>￥1699.00</p>
-                            <p>-￥200.00</p>
+                            <p>￥{{orderdetail.shippingOrder.productFee|pricefilter}}</p>
+                            <p>-￥<label  v-if="orderdetail.shippingOrder.discountFee!=''">{{orderdetail.shippingOrder.discountFee|pricefilter}}</label><label v-else>0</label></p>
                             <p>￥100.00</p>
-                            <p>￥ <span>1699.00</span></p>
+                            <p>￥ <span>{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</span></p>
                         </div>
                   </div>
                    <Modal v-model="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" :mask-closable='false'>
@@ -152,7 +157,8 @@
 		   		<p>发票抬头:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceTitle}} </span></p>
 				<p>发票类型:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceType}}</span>
 					   	<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit">新增</button>
-				 		<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit">编辑</button> 				</p>
+				 		<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit">编辑</button> 		
+				 				</p>
 				   </div>
 		 <div class="order_goods clearfix">
 		   	<table class="order-tb">
@@ -486,67 +492,127 @@
 </script>
 
 <style scoped="scoped" lang="scss">
-.title{
-	text-align: left;
-}
-.details{
-	    background-color: #fff;
-    position: relative;
-    padding: 26px 0 29px 19px;
-    border: 1px solid #e9e9e9;
-}
-.details .right{
-	float: right;
-	margin-right: 20px;
-	button{
-		cursor: pointer;
-		    width: 90px;
+    .newcenterbody{
+                padding: 0px;
+           }
+			.newcenterbody h2{
+                font-weight: 400;
+                font-size: 24px;
+                color: #666666;
+                padding: 0px 4px 35px;
+            }
+  .orderdetailnum{
+                margin: 0 4px;
+                margin-top: 70px;
+                font-weight: 400;
+                font-size: 18px;
+                color: #000000;
+                padding-bottom: 8px;
+                border-bottom: 1px solid #cccccc;
+            }
+            .orderdetailnum span{
+                float: right;
+                font-weight: 400;
+                font-size: 18px;
+                color: #666666;
+                text-align: right;
+            }
+            .orderteail{
+                margin:0px 4px;
+            }
+            .orderteail img{
+                height: 90px;
+                width: 90px;
+            }
+            .orderdetailText{
+                float: right;
+                width: 750px;
+            }
+            .orderdetailText span{
+                margin-top: 30px;
+                width: 50%;
+                text-align: left;
+                font-weight: 400;
+                font-size: 14px;
+                color: #000000;
+                height: 40px;
+                overflow: hidden;
+            }
+            .newcenterbody ul{
+                padding: 15px 0px;
+            }
+            .newcenterbody .orderteail{
+                padding-top: 15px;
+            }
+            .orderdetailsend{
+                margin: 15px 4px 0px;
+                padding: 40px 0px 40px;
+                border-bottom: 1px solid #cccccc;
+                border-top: 1px solid #cccccc;
+            }
+            .h5{
+                font-weight: 400;
+                font-size: 18px;
+                color: #000000;
+                height: 30px;
+                line-height: 30px;
+                margin-bottom: 12px;
+            }
+            .p{
+                font-weight: 400;
+                font-size: 14px;
+                color: #666666;
+                line-height: 30px;
+            }
+            .orderdetail{
+                margin: 15px 4px 0px;
+                padding: 25px 0px 40px;
+                border-bottom: 1px solid #cccccc;
+            }
+            .orderdetailfapiao{
+                margin: 15px 4px 0px;
+                padding: 25px 0px 40px;
+                border-bottom: 1px solid #cccccc;                
+            }
+            .orderdetailtotal{
+                padding: 55px 4px 88px;
+            }
+            .orderdetailtotal div{
+                float: left;
+                font-weight: 400;
+                font-size: 14px;
+                text-align: right;
+                line-height: 30px;
+                padding-bottom: 80px;
+            }
+            .orderdetailtotalAttr{
+                width: 550px;
+            }
+            .orderdetailtotalValue{
+                width: 300px;
+            }
+            .orderdetailtotal p{
+                margin-bottom: 6px;
+                color: #333333;
+            }
+            .orderdetailtotalValue p{
+                color: #ff0000;
+            }
+            .orderdetailtotalValue p span{
+                font-size: 30px
+            }
+            .orderdetailtotal p:hover{
+                color: #333333;
+            }
+            .orderdetailtotalValue p:hover{
+                color: #ff0000;
+            }
+            .addEdit{
+            	    width: 80px;
+    margin-right: 10px;
     height: 30px;
-    text-align: center;
     line-height: 30px;
-    border: 1px solid #c8c8c8;
-    border-radius: 2px;
-    margin-left: 10px;
-    background: #fff;
-	}
-	.btn-blue{
-		background: #0099ff;
-		color: #fff;
-		border-color:  #0099ff;
-	}
-}
-.order_situation{
-	margin-bottom: 20px;
-	    background-color: #fff;
-    padding: 26px 0 18px 19px;
-    border: solid #e9e9e9;
-    border-width: 0 1px 1px 1px;
-    h2{
-    	    color: #333;
-    font-size: 18px;
-    font-weight: normal;
-    margin-bottom: 22px;
-    }
-    p{
-    	margin-bottom: 9px;
-    	color:#333;
-    	span{
-    		color: #999;
-    		margin-left: 5px;
-    	}
-	}
-	.addEdit{
-		float: right;
-		padding: 5px 15px;
-		margin-right: 20px;
-		color: #fff;
-		background-color:#0099ff;
-		border: #0099ff 1px solid;
-		cursor: pointer;
-	}
-}
-.order_goods{
-	background: #fff;
-	margin-bottom: 50px;
-}
+    border: none;
+    background-color: #e1e1e1;
+            }
 </style>

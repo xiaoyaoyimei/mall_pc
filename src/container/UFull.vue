@@ -49,6 +49,6 @@ import AppBreadcrumb from '@/components/BreadCrumb'
     margin: 0 auto;
     margin-top: 7px;
     position: relative;
-    left: -3px;
+      margin-bottom:5px;
 }
 </style>

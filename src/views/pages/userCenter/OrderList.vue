@@ -68,7 +68,8 @@
 								<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 							</template>
 						</div>
-						<Upload ref="upload" :show-upload-list="false" :default-file-list="defaultList" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
+						<Upload ref="upload" :show-upload-list="false" :default-file-list="defaultList" :on-success="handleSuccess" 
+							:format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
 							<div style="width: 78px;height:78px;line-height: 78px;">
 								<Icon type="ios-camera" size="20"></Icon>
 							</div>
@@ -104,19 +105,22 @@
 			</div>
 		</Modal>
 		
-<!--		
+		
 			<Modal v-model="evaluationModal" width="600" :mask-closable="false">
 			<p slot="header" style="color:#f60;text-align:center">
 				<Icon type="ios-information-circle"></Icon>
-				<span>申请退货</span>
+				<span>评价</span>
 			</p>
 			<div>
 				<div class="refund">
-					<p>服务类型</p>
+					<p>商品</p>
 					<Select v-model="reasonModel" style="width:200px" @on-change='img_must'>
 						<Option v-for="item in reasonList" :value="item.causeId" :key="item.causeId"> {{ item.content }}</Option>
 					</Select>
 				</div>
+						<div class="refund">
+					<p>商品评价</p>
+					<textarea v-model="evaluationreason"></textarea></div>
 				<div class="refund">
 					<p>上传图片</p>
 					<div>
@@ -132,7 +136,7 @@
 								<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 							</template>
 						</div>
-						<Upload ref="upload" :show-upload-list="false" :default-file-list="defaultList" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
+						<Upload ref="upload" :show-upload-list="false" :default-file-list="evaluationList" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
 							<div style="width: 78px;height:78px;line-height: 78px;">
 								<Icon type="ios-camera" size="20"></Icon>
 							</div>
@@ -142,13 +146,12 @@
 						</Modal>
 					</div>
 				</div>
-				<div class="refund">
-					<p>退款说明</p><textarea v-model="refundreason"></textarea></div>
+		
 			</div>
 			<div slot="footer">
-				<Button type="primary" size="large" long @click="refund">提交</Button>
+				<Button type="primary" size="large" long @click="evaluation">提交</Button>
 			</div>
-		</Modal>-->
+		</Modal>
        </div>
                 
 	
@@ -164,7 +167,6 @@
 				imgmust: 'N',
 				reasonModel: '',
 				infoModal: false,
-				evaluationModal:false,
 				refundreason: '',
 				refundModal: false,
 				refundenums: [],
@@ -185,6 +187,10 @@
 				rfOrderNumer: '',
 				expressNo: '',
 				logistics: '',
+				//商品评价
+				evaluationModal:false,
+				evaluationreason:'',
+				evaluationList:[]
 			}
 		},
 		filters: {
@@ -281,6 +287,9 @@
 				this.refundModal = true
 				this.refundorder = value;
 			},
+			evaluation(value){
+				this.evaluationModal = true
+			},
 			showLogisticsInfo(value) {
 				this.infoModal = true,
 					this.rfOrderNumer = value;
@@ -291,16 +300,22 @@
 					return;
 				} else {
 					this.uploadList.forEach((item, index) => {
-						this.uploadImgs[index] = item.url
+						this.uploadImgs[index] = item.url+','
 					})
+					//将提交的图片数组转成字符串
+					var imgs="";
+					this.uploadImgs.forEach((item, index) => {
+						imgs += item
+					})
+						imgs = (imgs.slice(imgs.length - 1) == ',') ? imgs.slice(0, -1) : imgs;
 					let _this = this;
 					this.$axios({
 						method: 'post',
-						url: `/refund/creare`,
+						url: `/refund/create`,
 						data: {
 							orderNo: _this.refundorder,
 							refundCauseId: _this.reasonModel,
-							refundImgs: _this.uploadImgs,
+							refundImgs:imgs,
 							remarks: _this.refundreason,
 						}
 					}).then((res) => {

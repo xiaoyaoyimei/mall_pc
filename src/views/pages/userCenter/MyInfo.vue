@@ -1,4 +1,42 @@
 <template>
+	<div>    
+                    <div class="myaccountImg">
+                        <img src="image/dpro-small.png" alt="">
+                        <div>
+                            <h2>HI 用户名</h2>
+                            <button>修改个人信息</button>
+                        </div>
+                    </div>  
+                    <div class="myaccountText">
+                        <p class="p">绑定手机：158 ****** 58</p>
+                        <p class="p">绑定邮箱：<button class="red"><span>绑定</span></button></p>
+                        <p class="p">密码设置：用于保护帐号信息和登录安全 <button><span>修改</span> </button></p>
+                    </div>   
+                    <div class="placeorderaddress">
+                            <h5>收货地址</h5>
+                            <ul class="myaccountaddress clearfix">
+                                <li class="default">
+                                    <h6 class="name">姓名</h6>
+                                    <p class="phone">电话号码</p>
+                                    <div class="address">详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址址详细地址详细地址详细地址详细地址</div>
+                                    <button class="addressedit">修改</button>
+                                </li>
+                                <li class="">
+                                    <h6 class="name">姓名</h6>
+                                    <p class="phone">电话号码</p>
+                                    <div class="address">详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址址详细地址详细地址详细地址详细地址</div>
+                                    <button class="addressedit">修改</button>
+                                </li>
+                                <li>
+                                    <div class="addaddress">
+                                        <div>+</div>
+                                        <p>添加新地址</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>   
+                       </div>
+                <!--</div>
 		<div class="order page-myinfo">
 			<div class="order_h2">个人信息</div>
 				<Form ref="userinfo" :model="userinfo"  :label-width="150">
@@ -55,7 +93,7 @@
 				    <modal title="查看 头像大图" v-model="visible">
        				 <img :src="bigimg | imgfilter" v-if="visible" style="width: 100%">
    			 </modal>
-		</div>
+		</div>-->
 </template>
 
 <script>

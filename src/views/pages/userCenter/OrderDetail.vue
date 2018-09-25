@@ -300,8 +300,6 @@
 	   }
 	},
     methods: {
-    	
-  
 		getAddressOption(){
 			this.$axios({
 				method: 'post',

@@ -4,10 +4,11 @@
 						<div class="myorderspan" >
 							<span  :class="{red:'00' == numactive}">全部订单</span>
 							<!--<span class="red" v-for="(item,index) in statusList">{{item.value}}</span>-->
-							<span @click="changeStatus('06')" :class="{red:'06' == numactive}">已收货</span>
 							<span @click="changeStatus('01')" :class="{red:'01' == numactive}">待付款</span>
 							<span @click="changeStatus('05')" :class="{red:'05' == numactive}">待发货</span>
+							<span @click="changeStatus('06')" :class="{red:'06' == numactive}">已发货</span>
 							<span @click="changeStatus('04')" :class="{red:'04' == numactive}">已取消</span>
+							<span @click="changeStatus('07')" :class="{red:'04' == numactive}">已签收</span>
 						</div>
 					</h3>
                     <ul class="ul" v-if="pro.length>0">
@@ -24,145 +25,36 @@
 									</ul>
 									<div class="myorderp">
 										<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情	</router-link>
-										<button>查看物流</button>
-										<button>售后服务</button>
-										<button>去评价</button>
+									<!--	<button>售后服务</button>-->
+											<button  @click="showrefund(x.order.orderNo)" v-if="x.canRefund==true">售后服务</button>
+											<button  @click="evaluation(x.order.orderNo)" v-if="x.order.orderStatus=='07'">去评价</button>
 									</div>
 								</div>
 						</li>
                     </ul>
-                <div class="" v-else >暂无记录</div>
-                </div>
-	<!--<div class="mb30">
-		<Tabs value="name1">
-			<TabPane label="全部订单" name="name1">
-				<table class="order-tb">
-					<thead>
-						<tr>
-							<th width='100'>主图</th>
-							<th width="250">商品</th>
-							<th width='100'>单价</th>
-							<th width='50'>数量</th>
-							<th width='100'>总价</th>
-							<th width='100'>状态</th>
-							<th width='200'>操作</th>
-						</tr>
-					</thead>
-				</table>
-				<table class="order-tb orderitem-tb" v-for="(x,index) in pro" :key="index" v-if="pro.length>0">
-					<tbody>
-						<tr class="toptitle">
-							<td colspan="7">
-								<span>订单号:{{x.order.orderNo}}</span>
-								<span class="date">{{x.order.createTime | formatDate}}</span>
-								<span  v-if="x.refundOrderStatus!=''" style="color:#F60;margin-left: 10px;">售后状态:{{statusrufundfilter(x.refundOrderStatus)}}</span></span>
-								<span class="right"> {{statusfilter(x.order.orderStatus)}}</span>
-							</td>
-						</tr>
-						<tr>
-							<div v-for="(child,i) in x.orderItems" :key="i">
-							<td class="goods_pic" width='100'>
-								<a href="javascript:void(0)"><img :src="child.productItemImg | imgfilter" alt=""></a>
-							</td>
-							<td width="200">
-								<div class="goods_title">
-									<p>{{child.productTitle}}</p>
-									<p>{{child.productAttrs}} </p>
-								</div>
-							</td>
-							<td width='100'>￥{{unitprice(child.orderFee,child.quantity) | pricefilter}}</td>
-							<td width='50'> {{child.quantity}}</td>
-							<td width='100'> ￥{{child.orderFee| pricefilter}}</td>
-							</div>
-							<td width='100' >
-								<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情</router-link>
-							</td>
-							<td width='200'>
-								<div class="cz">
-									<button class="btn" @click="cancel(x.order.orderNo)" v-if="x.order.orderStatus=='01'||x.order.orderStatus=='02'||x.order.orderStatus=='05'">取消订单</button>
-									<button class="btn btn-dx" @click="quzhifu(x.order.orderNo)" v-if="x.order.orderStatus=='01'">去支付</button>
-									<button class="btn btn-dx" @click="qianshou(x.order.orderNo)" v-if="x.order.orderStatus=='06'">签收订单</button>
-									<button class="btn btn-dx" @click="showrefund(x.order.orderNo)" v-if="x.canRefund==true">退款退货</button>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="flex-center" v-else>
-					<img src="../../../assets/img/order_empty.png">
-					<p>没有订单哦,
-						<router-link :to="{path: '/index'}">去首页看看</router-link>
-					</p>
-				</div>
-			</TabPane>
-			<TabPane label="售后订单" name="name2">
-				<table class="order-tb">
-					<thead>
-						<tr>
-							<th width='100'>主图</th>
-							<th width='250'>商品</th>
-							<th width='100'>单价</th>
-							<th width='50'>数量</th>
-							<th width='100'>总价</th>
-							<th width='100'>状态</th>
-							<th width='150'>操作</th>
-						</tr>
-					</thead>
-				</table>
-				<table class="order-tb orderitem-tb" v-for="(x,index) in refundList" :key="index" v-if="refundList.length>0">
-					<tbody>
-						<tr class="toptitle">
-							<td colspan="7">
-								<span>退款退货订单号：{{x.refundOrder.refundOrderNo}}</span>
-								<span class="date">申请时间:{{x.refundOrder.createTime | formatDate}}</span>
-								<span class="right"> </span>
-							</td>
-						</tr>
-						<tr >
-							<div v-for="(child,i) in x.refundOrderItems" :key="i">
-							<td class="goods_pic" width='100'>
-								<a href="javascript:void(0)"><img :src="child.productItemImg | imgfilter" alt=""></a>
-							</td>
-							<td width='200'>
-								<div class="goods_title">
-									<p>{{child.productTitle}}</p>
-									<p>{{child.productAttrs}}</p>
-								</div>
-
-							</td>
-							<td width='100'>￥{{unitprice(child.refundOrderFee,child.quantity) | pricefilter}}</td>
-							<td width='50'> {{child.quantity}}</td>
-							<td width='100'> ￥{{child.refundOrderFee| pricefilter}}</td>
-							</div>
-							<td width='100'>
-								
-								<span style="color:#f60">{{statusrufundfilter(x.refundOrder.refundOrderStatus)}}</span>
-							</td>
-							<td width='150'>
-								<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='01'" @click="cancelrefund(x.refundOrder.refundOrderNo)">取消</button>
-								<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='02'" @click="showLogisticsInfo(x.refundOrder.refundOrderNo)">填写物流单号</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</TabPane>
-		</Tabs>
-		<Spin size="large" fix v-if="spinShow"></Spin>
-		<Modal v-model="refundModal" width="600" :mask-closable="false">
+                					<div class="myorderempty cartIcon iconIcon-order"  v-else >
+						<h6>暂无记录~</h6>
+							<router-link  to="/sort" >购物建议</router-link>
+							<router-link  to="/sort" >去下单</router-link>
+						
+					</div>
+                	<Spin size="large" fix v-if="spinShow"></Spin>
+	
+		
+			<Modal v-model="refundModal" width="600" :mask-closable="false">
 			<p slot="header" style="color:#f60;text-align:center">
 				<Icon type="ios-information-circle"></Icon>
 				<span>申请退货</span>
 			</p>
 			<div>
-
 				<div class="refund">
-					<p>退货原因</p>
+					<p>售后原因</p>
 					<Select v-model="reasonModel" style="width:200px" @on-change='img_must'>
 						<Option v-for="item in reasonList" :value="item.causeId" :key="item.causeId"> {{ item.content }}</Option>
 					</Select>
 				</div>
 				<div class="refund">
-					<p>上传退货凭证</p>
+					<p>上传图片</p>
 					<div>
 						<div class="demo-upload-list" v-for="item in uploadList">
 							<template v-if="item.status === 'finished'">
@@ -211,7 +103,55 @@
 				<Button type="primary" size="large" long @click="submitLogisticsInfo">提交</Button>
 			</div>
 		</Modal>
-	</div>-->
+		
+<!--		
+			<Modal v-model="evaluationModal" width="600" :mask-closable="false">
+			<p slot="header" style="color:#f60;text-align:center">
+				<Icon type="ios-information-circle"></Icon>
+				<span>申请退货</span>
+			</p>
+			<div>
+				<div class="refund">
+					<p>服务类型</p>
+					<Select v-model="reasonModel" style="width:200px" @on-change='img_must'>
+						<Option v-for="item in reasonList" :value="item.causeId" :key="item.causeId"> {{ item.content }}</Option>
+					</Select>
+				</div>
+				<div class="refund">
+					<p>上传图片</p>
+					<div>
+						<div class="demo-upload-list" v-for="item in uploadList">
+							<template v-if="item.status === 'finished'">
+								<img :src="item.url  | imgfilter">
+								<div class="demo-upload-list-cover">
+									<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+									<Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+								</div>
+							</template>
+							<template v-else>
+								<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+							</template>
+						</div>
+						<Upload ref="upload" :show-upload-list="false" :default-file-list="defaultList" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
+							<div style="width: 78px;height:78px;line-height: 78px;">
+								<Icon type="ios-camera" size="20"></Icon>
+							</div>
+						</Upload>
+						<Modal title="查看大图" v-model="visible" class="imglarger">
+							<img :src="imgName | imgfilter" v-if="visible" style="width: 100%">
+						</Modal>
+					</div>
+				</div>
+				<div class="refund">
+					<p>退款说明</p><textarea v-model="refundreason"></textarea></div>
+			</div>
+			<div slot="footer">
+				<Button type="primary" size="large" long @click="refund">提交</Button>
+			</div>
+		</Modal>-->
+       </div>
+                
+	
 </template>
 
 <script>
@@ -224,6 +164,7 @@
 				imgmust: 'N',
 				reasonModel: '',
 				infoModal: false,
+				evaluationModal:false,
 				refundreason: '',
 				refundModal: false,
 				refundenums: [],
@@ -293,10 +234,10 @@
 				});
 			},
 			handleBeforeUpload() {
-				const check = this.uploadList.length < 9;
+				const check = this.uploadList.length < 5;
 				if(!check) {
 					this.$Notice.warning({
-						title: '最多可上传9张图片.'
+						title: '最多可上传5张图片.'
 					});
 				}
 				return check;
@@ -521,7 +462,7 @@
 			this.getOrder();
 			this.getRefundOrder();
 			this.getStatusEnum();
-		//	this.uploadList = this.$refs.upload.fileList;
+			this.uploadList = this.$refs.upload.fileList;
 		}
 	}
 </script>
@@ -647,7 +588,7 @@
 				right: -10px;
 
 			}
-			.myorderImg .myorderp a{
+			.myorderImg .myorderp a,.myorderp button{
 				display: inline-block;
 				width: 80px;
 				margin-right: 10px;
@@ -668,6 +609,68 @@
 				border: 1px solid #f2191a;
 				color: #FF0000;
 			}
+				.myorderempty{
+				width: 400px;
+				margin: 140px  auto;
+				display: block;
+				padding-left: 80px;
+			}
+			.myorderempty h6{
+				font-weight: 700;
+				font-style: normal;
+				color: #777777;
+				font-size: 24px;
+				text-align: left;
+			}
+			.myorderempty a{
+				font-size: 18px;
+				color: #777777;
+				font-weight: 400;
+				text-align: center;
+				margin-right: 8px;
+				background-color: #d7d7d7;
+				width: 111px;
+				height: 24px;
+				display: inline-block;
+				line-height: 24px;
+			}
+		 .demo-upload-list{
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        text-align: center;
+        line-height: 80px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+        margin-right: 4px;
+    }
+    .demo-upload-list img{
+        width: 100%;
+        height: 100%;
+    }
+    .demo-upload-list-cover{
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,.6);
+    }
+    .demo-upload-list:hover .demo-upload-list-cover{
+        display: block;
+    }
+    .demo-upload-list-cover i{
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 0 2px;
+    }
+
 </style>
 <style>
 	.imglarger .ivu-modal-wrap {

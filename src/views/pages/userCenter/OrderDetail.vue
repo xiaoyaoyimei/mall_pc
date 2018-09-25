@@ -25,6 +25,11 @@
                         <div class="p">收货地址：   {{orderdetail.shippingAddress.receiverState}}{{orderdetail.shippingAddress.receiverCity}} {{orderdetail.shippingAddress.receiverDistrict}}
                         {{orderdetail.shippingAddress.address}}</div>
                   </div>
+                  <div class="orderdetail">
+                      <div class="h5">查看物流 </div>
+                       <div class="p">物流公司：{{orderdetail.shippingOrder.logistics}}</div>
+                      <div class="p">物流单号：{{orderdetail.shippingOrder.expressNo}}<a href="https://www.kuaidi100.com/" target="_blank" style="margin-left: 20px;color:#0099ff">去查看</a></div>
+                  </div>
                   <div class="orderdetailfapiao">
                       <div class="h5">
                       	<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit fr">新增</button>

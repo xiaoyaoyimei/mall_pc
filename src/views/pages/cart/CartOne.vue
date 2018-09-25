@@ -69,10 +69,10 @@
         </div>
         	  <div class="cartTablenull" v-else>
                         <img src="../../../assets/img/u15.png" alt="">
-                        <span>您的购物车还是空的！<button>马上去购物</button></span>
+                        <span>您的购物车还是空的！<router-link  to="/sort" >马上去购物</router-link></span>
                     </div>
         </div>
-        <div class="Msucceess clearfix">
+        <div class="Msucceess clearfix" v-if="tuijian.length>0">
             <div class="h5">
                 <h5>买购物车中商品的人还买了</h5>
             </div>
@@ -84,7 +84,7 @@
                         <h5>{{x.model_no}}</h5>
                         <p class="des">{{x.model_name}}</p>
                         <p class="red">¥ {{x.sale_price | pricefilter}}</p>
-                        <button class="gocart"><span>加入购物车</span></button>
+                        <button class="gocart">加入购物车</button>
                         
                     </li>
                 </ul>
@@ -123,9 +123,10 @@ export default {
 					return Number(p)*n;
 				},
 				gettuijian(){
+					 this.zeroid = this.$route.query.zeroid;
 					 if(this.zeroid!=''){
 					        		this.$axios({
-							    method: 'post',
+							    method: 'get',
 							    url:`/product/other/${this.zeroid}`,
 								}).then((res)=>{
 										this.tuijian=res
@@ -342,16 +343,10 @@ export default {
 				});
 				 this.sale=this.sale/100
             },
-            		getParams() {
-					// 取到路由带过来的参数 
-					 this.zeroid = this.$route.params.zeroid
-					// 将数据放在当前组件的数据内
-				}
         },
          mounted() {
 				this.getCartList();
 				this.gettuijian();
-				this.getParams();
 		}
     }
 </script>
@@ -538,22 +533,22 @@ export default {
             width: 360px;
             margin-top: 35px;
         }
-        .cartTablenull button{
-            width: 180px;
-            height: 50px;
-            border-width: 1px;
-            border-style: solid;
-            border-color: rgba(255, 0, 0, 1);
-            border-radius: 0px;
-            -moz-box-shadow: none;
-            -webkit-box-shadow: none;
-            box-shadow: none;
-            font-weight: 400;
-            font-size: 18px;
-            color: #FF0000;
-            text-align: center;
-            background-color: #ffffff;
-            margin-top: 15px;
+        .cartTablenull a{
+       width: 180px;
+    height: 50px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: red;
+    border-radius: 0px;
+    box-shadow: none;
+    font-weight: 400;
+    font-size: 18px;
+    color: #FF0000;
+    text-align: center;
+    background-color: #ffffff;
+    margin-top: 15px;
+    display: inline-block;
+    line-height: 50px;
         }
         .Msucceess{
     width: 100%;

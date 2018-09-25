@@ -103,17 +103,16 @@
 				<Button type="primary" size="large" long @click="submitLogisticsInfo">提交</Button>
 			</div>
 		</Modal>
-			<Modal v-model="evaluationModal" width="600" :mask-closable="false">
+			<Modal v-model="evaluationModal" width="660" class="evaluationModal" :mask-closable="false">
 			<p slot="header" style="color:#f60;text-align:center">
 				<Icon type="ios-information-circle"></Icon>
-				<span>评价</span>
 			</p>
-			<div>
-				<div class="refund">
-					<p>服务类型</p>
-					<Select v-model="reasonModel" style="width:200px" @on-change='img_must'>
-						<Option v-for="item in reasonList" :value="item.causeId" :key="item.causeId"> {{ item.content }}</Option>
-					</Select>
+			<div class="evaluation">
+				<div class="refund clearfix">
+					<p>商品名字</p>
+					<div class="refundImg">
+						<img src="../../../assets/img/404.png" alt="">
+					</div>
 				</div>
 				<div class="refund">
 					<p>上传图片</p>
@@ -673,10 +672,32 @@
         cursor: pointer;
         margin: 0 2px;
     }
+	.evaluationModal .evaluation{
+		margin-top: 17px;
+	}
+	.evaluationModal .refund{
+		width: 500px;
+		margin: 0 auto;
+	}
+	.refund p{
+		float: left;
+		width: 100px;
 
+	}
+	.refund .refundImg{
+		width: 400px;
+	}
+	.evaluationModal .refundImg img{
+		width: 64px;
+		height: 64px;
+	}
 </style>
 <style>
 	.imglarger .ivu-modal-wrap {
 		z-index: 1001;
+	}
+	.evaluationModal .ivu-modal-content{
+		background-color: #f0f0f0;
+		border-radius: 0px;
 	}
 </style>

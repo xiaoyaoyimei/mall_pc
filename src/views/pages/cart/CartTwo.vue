@@ -452,7 +452,7 @@
 						//						  订单提交以后清空列表
 						sessionStorage.removeItem("cart")
 						   Bus.$emit('cartmsg', "again");
-						 this.$router.push({name:'/cartthree',query: { ordermsg: JSON.stringify(res.object)}});  
+						 this.$router.push({name:'/cartthree',query: { orderNo: res.object.orderAddress.orderNo}});  
 					}else{
 					   this.$Modal.error({
 					   	title:'失败提示',

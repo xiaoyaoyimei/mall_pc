@@ -1,5 +1,5 @@
 <template>
-<div >
+<div style="padding:40px;">
                     <h3 class="myorder">我的订单
 						<div class="myorderspan" >
 							<span  :class="{red:'00' == numactive}">全部订单</span>

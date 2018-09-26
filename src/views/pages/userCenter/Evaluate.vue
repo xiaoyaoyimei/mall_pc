@@ -6,14 +6,20 @@
 				<div class="evaluateImg">
 					<img :src="item.list.iconUrl" alt="">
 					<span>{{item.list.productItemNo}}</span>
-					<span class="fubiao">副标题副标题副标题副标题</span>
-					<span class="">{{item.list.productFee}}</span>
+					<span class="fubiao">{{item.list.productTitle}}</span>
+					<span class="">￥{{item.list.productFee}}</span>
 					<!--   <span class="red">活动信息展示区域</span>-->
 				</div>
 				<div class="evaluateText">
-					<div class="zan">
-						<span class="fr"><i class="icon-new icon-zan" :class="{'icon-zan-active':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)' ></i>{{item.number}}</span>{{item.list.commentTime | formatDate}}</div>
-					<div class="fabulous">{{item.number}} <i class="cartIcon iconIcon-zan-red"></i></div>
+					<!--<div class="zan">
+						<span class="fr">
+							<i class="icon-new icon-zan" :class="{'icon-zan-active':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)' ></i>
+							{{item.number}}</span>
+					</div>-->
+					<div class="fabulous">
+						{{item.number}} 
+						<i class="cartIcon iconIcon-zan-gray"  :class="{'iconIcon-zan-red':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)'></i>
+					</div>
 					<div class="fabulousText">
 						{{item.list.commentContent}}
 					</div>
@@ -21,7 +27,7 @@
 						<img :src="child | imgfilter" v-for="(child, index) in item.imgList">
 					</div>
 					<div class="fabulousTime">
-						{{item.list.commentTime}} <i class="cartIcon iconIcon-del"></i>
+						{{item.list.commentTime  | formatDate}} <!--<i class="cartIcon iconIcon-del"></i>-->
 					</div>
 				</div>
 			</li>
@@ -38,7 +44,7 @@
 				evaluateList: [],
 			}
 		},
-				filters: {
+			filters: {
 			formatDate(time) {
 				var date = new Date(time);
 				return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
@@ -54,8 +60,27 @@
 						this.evaluateList = res.object;
 					}
 				});
-			}
-
+			},
+			//点赞
+			zan(value, isZan) {
+				let zanid = value;
+				let Like = isZan;
+				if(Like == 'N') {
+					Like = 'Y'
+				} else {
+					Like = 'N'
+				}
+				this.$axios({
+					method: 'post',
+					url: `/comment/beLike/${zanid}/${Like}`,
+				}).then((res) => {
+					if(res.code == '200') {
+						this.getEvaluate()
+					}
+				})
+			},
+			//删除评论
+			
 		},
 		mounted() {
 			this.getEvaluate();
@@ -63,7 +88,7 @@
 	}
 </script>
 
-<style scoped="scoped">
+<style  scoped="scoped">
 	.eval-page {
 		background-color: #f2f2f2;
 	}
@@ -109,17 +134,18 @@
 	}
 	
 	.evaluateImg span {
-		padding: 0px;
-		display: block;
-		width: 100%;
-		text-align: center;
-		font-weight: 400;
-		font-size: 14px;
-		color: #000000;
-		height: 25px;
-		line-height: 25px;
-	}
-	
+	padding: 0px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: 400;
+    font-size: 14px;
+    height: 25px;
+    line-height: 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 	.evaluateImg .fubiao {
 		color: #666666;
 	}
@@ -151,7 +177,9 @@
 		height: 144px;
 		overflow: hidden;
 	}
-	
+	.fabulous i{
+		cursor: pointer;
+	}
 	.fabulousImg {
 		margin-top: 15px;
 	}

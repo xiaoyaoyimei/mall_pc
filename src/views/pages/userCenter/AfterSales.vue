@@ -7,7 +7,7 @@
 				<h3 class="red">{{statusrufundfilter(x.refundOrder.refundOrderStatus)}}</h3>
 				<div class="myorderinformation clearfix">
 					<span class="myorderOrder clearfix">
-						{{x.refundOrder.createTime | formatDate}}} 丨{{x.refundOrder.refundOrderNo}}丨{{x.refundOrder.refundOrderType}}  <span class="span">退款金额: ￥<strong>{{x.refundOrder.refundOrderTotalFee|pricefilter}}</strong></span></span>
+						{{x.refundOrder.createTime | formatDate}} 丨{{x.refundOrder.refundOrderNo}}丨{{x.refundOrder.refundOrderType}}  <span class="span">退款金额: ￥<strong>{{x.refundOrder.refundOrderTotalFee|pricefilter}}</strong></span></span>
 				</div>
 				<div class="myorderImg clearfix">
 					<ul>

@@ -230,6 +230,15 @@
 			}
 		},
 		methods: {
+			      	//设为默认
+       	   updateDefault(value){
+       	   	this.$axios({
+						    method: 'post',
+						    url:'/address/updateDefault?id='+value+'&isDefault=Y',
+						}).then((res)=>{
+								this.getAddress();
+						})
+       	   },
 			//修改密码
 			handleOkpwd() {
 				this.loading = false

@@ -337,10 +337,7 @@
 		},
 		mounted() {
 			this.getBanner();
-	      Bus.$on('nologin', (e) => {
-//	      	this.toolbarNologin=data
-　　　　　	console.log(`传来的数据是：${e}`)
-       })
+
 		}
 	};
 </script>

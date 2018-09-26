@@ -123,6 +123,8 @@
                         this.account= Object.assign({},res);
                        	Bus.$emit('nologin', this.nologin)
 					});
+    	     	 }else{
+    	     	 	 	Bus.$emit('nologin', this.nologin)
     	     	 }
             },
             getCartList(){
@@ -182,7 +184,6 @@
 		          	 this.getCartList();
 		         	 }
 		      });
-		      
             this.isLogin();
             this.getCartList();
 		}

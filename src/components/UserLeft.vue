@@ -9,7 +9,7 @@
 					<router-link :to="{path: '/user/myinfo'}" tag="p">我的账户</router-link>
 					<!-- <router-link :to="{path: '/user/news'}" tag="p">消息通知</router-link>-->
                      <router-link :to="{path: '/user/mylike'}" tag="p">喜欢的商品</router-link>
-                    <!-- <router-link class="h4" :to="{path: '/user/complain'}" tag="h4">投诉建议</router-link> -->
+                    <router-link class="h4" :to="{path: '/user/complain'}" tag="h4">投诉建议</router-link>
                     <router-link class="last h4" :to="{path: '/user/contactus'}" tag="h4">联系我们</router-link>
                 </div>
 </template>

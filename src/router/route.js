@@ -207,7 +207,7 @@ const routes = [{
 				zname:'消息通知',
 				component: resolve => require(['@/views/pages/userCenter/News.vue'], resolve)
 			},
-					{
+			{
 				meta: {
 					requireAuth: true
 				},
@@ -222,16 +222,16 @@ const routes = [{
 				zname:'联系我们',
 				component: resolve => require(['@/views/pages/userCenter/Contactus.vue'], resolve)
 			},
-			// {
-			// 	name: 'complain',
-			// 	path: 'complain',
-			// 	zname:'投诉建议',
-			// 	component: resolve => require(['@/views/pages/userCenter/Complain.vue'], resolve)
-			// },	
+			{
+				name: 'complain',
+				path: 'complain',
+				zname:'投诉建议',
+				component: resolve => require(['@/views/pages/userCenter/Complain.vue'], resolve)
+			},	
 			{
 				name: 'setting',
 				path: 'setting',
-							zname:'我的设置',
+				zname:'我的设置',
 				component: resolve => require(['@/views/pages/userCenter/MySetting.vue'], resolve)
 			}
 		]

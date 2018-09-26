@@ -43,65 +43,96 @@
                 	<Spin size="large" fix v-if="spinShow"></Spin>
 	
 		
-			<Modal v-model="refundModal" width="600" :mask-closable="false">
-			<p slot="header" style="color:#f60;text-align:center">
+			<Modal v-model="refundModal" class="refundModal" width="600" :mask-closable="false">
+			<p slot="header">
 				<Icon type="ios-information-circle"></Icon>
-				<span>申请退货</span>
+				<span class="tuihuo">申请售后</span>
 			</p>
 			<div>
-				<div class="refund">
-					<p>售后原因</p>
-					<Select v-model="reasonModel" style="width:200px" @on-change='img_must'>
-						<Option v-for="item in reasonList" :value="item.causeId" :key="item.causeId"> {{ item.content }}</Option>
-					</Select>
-				</div>
-				<div class="refund">
-					<p>上传图片</p>
-					<div>
-						<div class="demo-upload-list" v-for="item in uploadList">
-							<template v-if="item.status === 'finished'">
-								<img :src="item.url  | imgfilter">
-								<div class="demo-upload-list-cover">
-									<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-									<Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-								</div>
-							</template>
-							<template v-else>
-								<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-							</template>
-						</div>
-						<Upload ref="upload" :show-upload-list="false" :default-file-list="defaultList" :on-success="handleSuccess" 
-							:format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
-							<div style="width: 78px;height:78px;line-height: 78px;">
-								<Icon type="ios-camera" size="20"></Icon>
+				<div class="refundname clearfix">
+					<p>售后商品:</p>
+					<ul>
+						<li class="clearfix">
+							<img class="refundImg" src="../../../assets/img/404.png" alt="">
+							<div class="refundText">
+								<p class="p">商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题</p>
+								<p class="p">商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题</p>
 							</div>
-						</Upload>
-						<Modal title="查看大图" v-model="visible" class="imglarger">
-							<img :src="imgName | imgfilter" v-if="visible" style="width: 100%">
-						</Modal>
-					</div>
+						</li>
+						<li class="clearfix">
+							<img class="refundImg" src="../../../assets/img/404.png" alt="">
+							<div class="refundText">
+								<p class="p">商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题</p>
+								<p class="p">商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题</p>
+							</div>
+						</li>
+					</ul>
 				</div>
-				<div class="refund">
-					<p>退款说明</p><textarea v-model="refundreason"></textarea></div>
+				<Form :model="refundForm" ref="refundForm" class="refundForm" :label-width="70">
+					<FormItem label="服务类型:">
+						<Select v-model="refundForm.reasonModel" class='select' @on-change='img_must'>
+							<Option v-for="item in reasonList" :value="item.causeId" :key="item.causeId"> {{ item.content }}</Option>
+						</Select>
+					</FormItem>
+					<FormItem label="售后原因:">
+						<Select v-model="refundForm.refundreason" class='select' @on-change='img_must'>
+							<Option v-for="item in reasonList" :value="item.causeId" :key="item.causeId"> {{ item.content }}</Option>
+						</Select>
+					</FormItem>
+					<FormItem label="退款说明:">
+							<i-input v-model="refundForm.product" class="refundFormPro" placeholder=""></i-input>
+					</FormItem>
+					<FormItem label="上传图片:">
+						<div class="user-con-wrap ">
+							<div class="demo-upload-list" v-for="item in uploadList">
+								<template v-if="item.status === 'finished'">
+									<img :src="item.url  | imgfilter">
+									<div class="demo-upload-list-cover">
+										<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+										<Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+									</div>
+								</template>
+								<template v-else>
+									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+								</template>
+							</div>
+							
+							<Upload ref="upload" :show-upload-list="false" :default-file-list="defaultList" :on-success="handleSuccess" 
+								:format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
+								<div style="width: 78px;height:78px;line-height: 78px;">
+									<Icon type="ios-camera" size="20"></Icon>
+								</div>
+							</Upload>
+						</div>
+					</FormItem>
+					<FormItem label="上传视频:">
+					</FormItem>
+				</Form>
 			</div>
 			<div slot="footer">
 				<Button type="primary" size="large" long @click="refund">提交</Button>
 			</div>
 		</Modal>
 			<Modal v-model="evaluationModal" width="660" class="evaluationModal" :mask-closable="false">
-			<p slot="header" style="color:#f60;text-align:center">
+			<p slot="header" style="">
 				<Icon type="ios-information-circle"></Icon>
+				<span>商品评价</span>
 			</p>
 			<div class="evaluation">
 				<div class="refund clearfix">
 					<p>商品名字</p>
 					<div class="refundImg">
 						<img src="../../../assets/img/404.png" alt="">
+						<div class="evaluationText">
+							<p class="p">商品名字商品名字商品名字商品名字商品名字商品名字商品名字</p>
+							<p class="p">商品名字商品名字商品名字商品名字商品名字商品名字商品名字商品名字商品名字</p>
+						</div>
 					</div>
 				</div>
-						<div class="refund">
+				<div class="refund ">
 					<p>商品评价</p>
-					<textarea v-model="evaluationreason"></textarea></div>
+					<i-input class="evaluationreason" v-model="evaluationreason"></i-input>
+				</div>
 				<div class="refund">
 					<p>上传图片</p>
 					<div>
@@ -127,10 +158,9 @@
 						</Modal>
 					</div>
 				</div>
-		
 			</div>
 			<div slot="footer">
-				<Button type="primary" size="large" long @click="evaluation">提交</Button>
+				<Button type="primary" size="" long @click="evaluation">提交</Button>
 			</div>
 		</Modal>
        </div>
@@ -169,7 +199,13 @@
 				//商品评价
 				evaluationModal:false,
 				evaluationreason:'',
-				evaluationList:[]
+				evaluationList:[],
+				refundForm:{
+					reasonModel:'',
+					refundreason:'',
+					prodcut:''
+
+				}
 			}
 		},
 		filters: {
@@ -471,9 +507,94 @@
 	.refund .refundImg{
 		width: 400px;
 	}
+	.refundname p{
+		float: left;
+		width: 60px;
+		font-weight: 400;
+		font-size: 14px;
+		color: #666666;
+		text-align: right;
+	}
+	.refundname{
+		margin-bottom: 20px;
+	}
+	.refundname ul{
+		float: left;
+		width: 400px;
+	}
+	.refundname ul li{
+		margin-bottom: 20px;
+	}
+	.refundname .refundImg{
+		width: 65px;
+	}
+	.refundText{
+		width: 335px;
+		float: right;
+		margin-top: 10px;
+	}
+	.refundText .p{
+		width: 100%;
+		text-align: left;
+		height: 20px;
+		font-weight: 400;
+		font-size: 14px;
+		color: #666666;
+		line-height: 20px;
+		overflow: hidden;
+	}
+	.refundModal .tuihuo{
+		font-weight: 400;
+		font-size: 18px;
+		text-align: left;
+		color: #333333;
+		padding-left:27px; 
+	}
 	.evaluationModal .refundImg img{
 		width: 64px;
 		height: 64px;
+	}
+	.refund p{
+		height: 45px;
+		line-height: 45px;
+	
+	}
+	.refund{
+		margin-bottom: 20px;
+	}
+	.refund .select{
+		width: 300px;
+		border-radius: 0px;
+		height: 45px;
+		line-height: 45px;
+	}
+	.refundFormPro{
+		height: 125px;
+		line-height: 125px;
+	}
+	.evaluation .evaluationText{
+		margin-top: 10px;
+		float: right;
+		width: 320px;
+		margin-bottom: 40px;
+	}
+	.evaluationText .p{
+		width: 320px;
+		height: 20px;
+		line-height: 20px;
+		overflow: hidden;
+	}
+	.evaluation .refundImg{
+		width: 500px;
+	}
+	.evaluationreason{
+		width: 400px;
+		height: 125px;
+		line-height: 125px;
+		margin-bottom: 20px;
+	}
+	.evaluation{
+		margin-bottom: 50px;
 	}
 </style>
 <style>
@@ -483,5 +604,60 @@
 	.evaluationModal .ivu-modal-content{
 		background-color: #f0f0f0;
 		border-radius: 0px;
+	}
+	.refundModal .ivu-modal-body{
+		margin: 0 auto;
+		width: 500px;
+	}
+	.refundForm .ivu-select-single .ivu-select-selection{
+		height: 45px;
+		line-height: 45px;
+		border-radius: 0px;
+	}
+	.refundForm .ivu-select-single .ivu-select-selection .ivu-select-placeholder, .refundForm  .ivu-select-single .ivu-select-selection .ivu-select-selected-value{
+		height: 45px;
+		line-height: 45px;	
+	}
+	.refundFormPro .ivu-input{
+		height: 125px;
+		line-height: 125px;
+	}
+	.evaluationreason .ivu-input{
+		height: 125px;
+		line-height: 125px;
+	}
+	.refundModal .ivu-modal-footer{
+		border-top: none;
+		padding-bottom: 50px;
+		text-align:center;
+	}
+	.refundModal .ivu-btn-primary{
+		font-weight: 400;
+		font-size: 18px;
+		color: #FFFFFF;
+		background-color: #f2191a;
+		width: 254px;
+		height: 41px;
+		line-height: 41px;
+		padding: 0px;
+	}
+	.evaluationModal .ivu-modal-footer{
+		border-top: none;
+		padding-bottom: 50px;
+		text-align:center;
+		background-color: #FFFFFF;
+	}
+	.evaluationModal .ivu-btn-primary{
+		font-weight: 400;
+		font-size: 18px;
+		color: #FFFFFF;
+		background-color: #f2191a;
+		width: 254px;
+		height: 41px;
+		line-height: 41px;
+		padding: 0px;
+	}
+	.evaluationModal .ivu-modal-body {
+		background-color: #FFFFFF;		
 	}
 </style>

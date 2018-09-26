@@ -4,7 +4,7 @@
 					<h4>订单中心</h4>
                     <router-link :to="{path: '/user/orderlist'}" tag="p">我的订单</router-link>
                     <router-link :to="{path: '/user/evaluate'}" tag="p">评价晒单</router-link>
-                    <p>售后服务</p>
+                    <router-link :to="{path: '/user/aftersales'}" tag="p">售后服务</router-link>
                     <h4>个人中心</h4>
 					<router-link :to="{path: '/user/myinfo'}" tag="p">我的账户</router-link>
 					<!-- <router-link :to="{path: '/user/news'}" tag="p">消息通知</router-link>-->

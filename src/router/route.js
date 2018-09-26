@@ -64,6 +64,9 @@ const routes = [{
 				component: resolve => require(['@/views/pages/cart/CartZero.vue'], resolve)
 			},
 			{
+				meta: {
+					requireAuth: true
+				},
 				name: '/cart',
 				path: '/cart',
 				component: resolve => require(['@/views/pages/cart/CartOne.vue'], resolve),
@@ -127,6 +130,16 @@ const routes = [{
 				path: '/user/evaluate',
 				component: resolve => require(['@/views/pages/userCenter/Evaluate.vue'], resolve),
 			},
+				{
+				meta: {
+					requireAuth: true
+				},
+				zname:'售后服务',
+				name: '/user/aftersales',
+				path: '/user/aftersales',
+				component: resolve => require(['@/views/pages/userCenter/AfterSales.vue'], resolve),
+			},
+			
 			{
 				meta: {
 					requireAuth: true

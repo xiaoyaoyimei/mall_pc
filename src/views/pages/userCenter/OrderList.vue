@@ -25,7 +25,6 @@
 									</ul>
 									<div class="myorderp">
 										<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情	</router-link>
-									<!--	<button>售后服务</button>-->
 											<button  @click="showrefund(x.order.orderNo)" v-if="x.canRefund==true">售后服务</button>
 											<button  @click="evaluation(x.order.orderNo)" v-if="x.order.orderStatus=='07'">去评价</button>
 									</div>
@@ -104,19 +103,16 @@
 				<Button type="primary" size="large" long @click="submitLogisticsInfo">提交</Button>
 			</div>
 		</Modal>
-		
-		
-			<Modal v-model="evaluationModal" width="600" :mask-closable="false">
+			<Modal v-model="evaluationModal" width="660" class="evaluationModal" :mask-closable="false">
 			<p slot="header" style="color:#f60;text-align:center">
 				<Icon type="ios-information-circle"></Icon>
-				<span>评价</span>
 			</p>
-			<div>
-				<div class="refund">
-					<p>商品</p>
-					<Select v-model="reasonModel" style="width:200px" @on-change='img_must'>
-						<Option v-for="item in reasonList" :value="item.causeId" :key="item.causeId"> {{ item.content }}</Option>
-					</Select>
+			<div class="evaluation">
+				<div class="refund clearfix">
+					<p>商品名字</p>
+					<div class="refundImg">
+						<img src="../../../assets/img/404.png" alt="">
+					</div>
 				</div>
 						<div class="refund">
 					<p>商品评价</p>
@@ -167,6 +163,8 @@
 				imgmust: 'N',
 				reasonModel: '',
 				infoModal: false,
+				evaluationModal:false,
+				evaluationorder:'',
 				refundreason: '',
 				refundModal: false,
 				refundenums: [],
@@ -289,6 +287,7 @@
 			},
 			evaluation(value){
 				this.evaluationModal = true
+				this.evaluationorder = value;
 			},
 			showLogisticsInfo(value) {
 				this.infoModal = true,
@@ -444,13 +443,16 @@
 				});
 			},
 			getOrder() {
-				let status='';
+				let status='',url='';
 				if(this.orderStatus!='00'){
 					status=this.orderStatus;
+					url=`/order/list?orderStatus=${status}`
+				}else{
+					url='/order/list'
 				}
 				this.$axios({
 					method: 'get',
-					url: `/order/list?orderStatus=${status}`,
+					url: url,
 				}).then((res) => {
 					if(res.code == '200') {
 						this.cartList = res.object;
@@ -464,14 +466,14 @@
 				});
 
 			},
-			getRefundOrder(){
-				this.$axios({
-					method: 'get',
-					url: '/refund/getRefundOrderList',
-				}).then((res) => {
-					this.refundList = res;
-				});
-			}
+//			getRefundOrder(){
+//				this.$axios({
+//					method: 'get',
+//					url: '/refund/getRefundOrderList',
+//				}).then((res) => {
+//					this.refundList = res;
+//				});
+//			}
 		},
 		mounted() {
 			this.getOrder();
@@ -685,10 +687,32 @@
         cursor: pointer;
         margin: 0 2px;
     }
+	.evaluationModal .evaluation{
+		margin-top: 17px;
+	}
+	.evaluationModal .refund{
+		width: 500px;
+		margin: 0 auto;
+	}
+	.refund p{
+		float: left;
+		width: 100px;
 
+	}
+	.refund .refundImg{
+		width: 400px;
+	}
+	.evaluationModal .refundImg img{
+		width: 64px;
+		height: 64px;
+	}
 </style>
 <style>
 	.imglarger .ivu-modal-wrap {
 		z-index: 1001;
+	}
+	.evaluationModal .ivu-modal-content{
+		background-color: #f0f0f0;
+		border-radius: 0px;
 	}
 </style>

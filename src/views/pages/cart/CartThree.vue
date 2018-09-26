@@ -13,12 +13,12 @@
                     <div class="payInformation">
                         <h4>订单提交成功，去付款！</h4>
                         <p>请在 <span class="red">0小时30分</span> 内完成支付，超时后将取消订单</p>
-                        <p>收货信息：姓名 手机号码  地址</p>
-                        <div class="payorderdetail">
+                        <p>收货信息：{{pro.receiverName}} {{pro.receiverMobile}} {{pro.receiverState}}  {{pro.receiverCity}} {{pro.receiverDistrict}} {{pro.receiverAddress}}</p>
+                        <div class="payorderdetail" v-if="orderdetail == true">
                             <p>订单详情</p>
                             <p class="clearfix">
                                 <span class="detailname">交易金额：</span>
-                                <span class="detailvalue"> 1699.00元</span>
+                                <span class="detailvalue">￥ {{orderTotalFee}}</span>
                             </p>
                             <p class="clearfix">
                                 <span class="detailname">订单号：</span>
@@ -26,13 +26,13 @@
                             </p>
                             <p class="clearfix">
                                 <span class="detailname">购买时间：</span>
-                                <span class="detailvalue"> 2018年09月12日 16:01:39</span>
+                                <span class="detailvalue"> {{ordertime}}</span>
                             </p>
                         </div>
                     </div>
                     <div class="payprice">
-                        <p>应付总额：<span class="red"><strong>1966</strong>元</span></p>
-                        <router-link  :to="{name:'/order/detail',query:{orderNo:this.orderNo}}"> 订单详情</router-link>
+                        <p>应付总额：<span class="red">￥<strong> {{orderTotalFee}}</strong></span></p>
+                        <button @click="orderdetailshow('alipay')" :to="{name:'/order/detail',query:{orderNo:this.orderNo}}"> 订单详情</button>
                     </div>
                 </div>
                 <div class="paymethod">
@@ -41,14 +41,28 @@
                         <span class="cartIcon iconIcon-weixin" @click="toggletab(1)"></span>
                         <span class="cartIcon iconIcon-zhifubao" @click="handleSubmit('alipay')"></span>
                     </div>
-<div v-show=" 1 == num" >
+                    <div v-show=" 1 == num" >
                 		<img :src="verimg"/>
                 	</div>
                 </div>
             </div>
 
         </div>
-		</div>
+
+        <Modal v-model="weixinModal" width="400" class="weixinModal" :mask-closable="false">
+			<p slot="header" style="text-align:left">
+				<Icon type="ios-information-circle"></Icon>
+				<span>微信支付</span>
+			</p>
+			<div>
+                <img src="../../../assets/img/wei.png" alt="">
+                <p>请使用 <span style="color:#f60;">微信</span> 扫一扫</p>
+                <p>二维码完成支付</p>
+			</div>
+
+		</Modal>
+	</div>
+      
 	<!--<div class='zhifu' >
 		<div class="pay_info_wrap">
 			<div class="scan_code_wrap ">
@@ -79,6 +93,8 @@
                 </div>
    	 	</div>
      </div>-->
+
+
 </template>
 
 <script>
@@ -90,17 +106,25 @@
             	num:0,
             	verimg:'',
             	pay:this.$axios.defaults.baseURL+'order/alipay/'+this.$route.query.orderNo,
-            	t:'',
+                t:'',
+                pro:'',
+                ordertime:'',
+                orderTotalFee:"",
+                orderdetail:false,
+                weixinModal:false
             }
         },
         methods:{
         	//切换num的值切换支付方式
         	toggletab(num){
-        		this.num=num;
-        		if(num==1){
-        				let urlo=window.location.origin;
-        			this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
-        		}
+                // debugger
+        		// this.num=num;
+        		// if(num==1){
+                //         // let urlo=window.location.origin;
+                //       let  urlo = 'http://10.0.0.53:8080/';
+        		// 	this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
+                // }
+                this.weixinModal = true
         	},
         	wexinpaycheck(){
         		var _this=this;
@@ -113,7 +137,7 @@
 									_this.$router.push({ name:'/order/detail',query:{orderNo:this.$route.query.orderNo}});
 								}
 							});
-							 _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
+							//  _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
         	},
         	cancelpay(){
         		this.payshow=true;
@@ -123,14 +147,27 @@
         	},
         	level(){
         		this.$router.push({name:'/order/detail',query:{orderNo:this.orderNo}});  
-        	},
+            },
+            orderdetailshow(){
+                this.orderdetail = !this.orderdetail;
+            },
 	    	getParams () {
 	                // 取到路由带过来的参数 
-	                let routerParams = this.$route.query.orderNo;
+                    let routerParams = this.$route.query.orderNo;
+                    console.log(routerParams);
 	                // 将数据放在当前组件的数据内
-	                this.orderNo = routerParams;
-	          },
+                    this.orderNo = routerParams;
+                    this.$axios({
+                        method: 'get',
+                        url:'/order/'+this.orderNo,
+                    }).then((res)=>{
+                        this.ordertime = res.shippingOrder.createTime;
+                        this.orderTotalFee = res.shippingOrder.orderTotalFee;
+                        this.pro = res.shippingAddress;
+                    });
+            },
         	handleSubmit (name) {
+                 debugger
                 this.$axios({
 				    method: 'post',
 				    url:'/order/'+name+'/'+this.$route.query.orderNo,
@@ -143,8 +180,9 @@
             },
         },
            mounted() {
-           	   this.wexinpaycheck();
+           	//    this.wexinpaycheck();
                this.getParams();
+            //    this.getOrder();
           },
           //离开页面时，清空检验支付的计时器
         destroyed: function () {
@@ -265,4 +303,16 @@
     margin-right: 15px;
     cursor: pointer;
 }
+.weixinModal div{
+    text-align: center;
+}
+.weixinModal div img{
+    margin-bottom: 20px;
+}
 </style>
+<style>
+.weixinModal .ivu-modal-footer{
+    display: none;
+}
+</style>
+

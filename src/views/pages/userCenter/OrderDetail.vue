@@ -1,5 +1,5 @@
 <template>
-	<div >
+	<div class="padding40">
                   <h2>订单详情</h2>
                      	<div  v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">
 		 <span v-if='timerShow'>剩余支付时间{{protime}}</span>
@@ -28,7 +28,8 @@
                   <div class="orderdetail">
                       <div class="h5">查看物流 </div>
                        <div class="p">物流公司：{{orderdetail.shippingOrder.logistics}}</div>
-                      <div class="p">物流单号：{{orderdetail.shippingOrder.expressNo}}<a href="https://www.kuaidi100.com/" target="_blank" style="margin-left: 20px;color:#0099ff">去查看</a></div>
+                      <div class="p">物流单号：{{orderdetail.shippingOrder.expressNo}}
+                      	<a href="https://www.kuaidi100.com/" target="_blank" style="margin-left: 20px;color:#0099ff">去查看</a></div>
                   </div>
                   <div class="orderdetailfapiao">
                       <div class="h5">
@@ -144,60 +145,6 @@
 
 		 <Spin size="large" fix v-if="spinShow"></Spin>
                 </div>
-<!--<div>
-	     <div class="details clearfix">
-	     	<h2 class="left">{{statusfilter(orderdetail.shippingOrder.orderStatus)}}</h2>
-	     	<div class="right"  v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">
-		 <span v-if='timerShow'>剩余支付时间{{protime}}</span>
-			 <button @click="cancel()">取消订单</button>
-			 <button class="btn-blue" @click="quzhifu()"   v-show="orderdetail.shippingOrder.orderStatus=='01'">去支付</button>
-	     		</div>
-	     </div>
-	<div class="order_situation">
-		<h2>订单概况</h2>
-		   		<p>订单编号:<span>{{orderdetail.shippingOrder.orderNo}}</span></p>
-		   		<p>下单时间:<span>{{orderdetail.shippingOrder.createTime | formatDate}}</span></p>
-		   		<p>收货信息:<span>{{orderdetail.shippingAddress.receiverName}}/{{orderdetail.shippingAddress.receiverMobile}}/{{orderdetail.shippingAddress.receiverState}}
-		   			{{orderdetail.shippingAddress.receiverCity}}{{orderdetail.shippingAddress.receiverDistrict}}{{orderdetail.shippingAddress.receiverAddress}}</span></p>
-		   		<p>发票抬头:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceTitle}} </span></p>
-				<p>发票类型:<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceType}}</span>
-					   	<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit">新增</button>
-				 		<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit">编辑</button> 		
-				 				</p>
-				   </div>
-		 <div class="order_goods clearfix">
-		   	<table class="order-tb">
-		   		<thead><tr><th>主图</th><th>商品</th><th>单价</th><th>数量</th><th>优惠</th><th>总价</th></tr></thead>
-		       <tbody>
-		       	<tr v-for="(item,index) in orderdetail.shippingOrderItems" :key="index">
-		   		<td class="goods_pic"><img :src="item.productItemImg | imgfilter"></td>
-		   		<td class="title">
-		   			<p >{{item.productTitle}}</p>
-		   			<p>{{item.productAttrs}}</p>
-		   		    <p>{{item.productItemNo}}</p></td>
-		   			<td>
-		   				<span class="color-blue font-14">￥{{orderFeejun(item)|pricefilter}}</span>
-		   			</td>
-		   			<td>{{item.quantity}}</td>
-		   			<td>￥{{discountFeejun(item)|pricefilter}}</td>
-		   			<td>￥{{item.productFee |pricefilter}}</td>
-		   	</tr></tbody>
-		   	</table>
-		   	<div class="order_price clearfix">
-		   <div  class="order_wrap">
-		   	<dl class="cf-wrap">
-		     	<dt>商品总额:</dt><dd>￥{{orderdetail.shippingOrder.productFee|pricefilter}}</dd>
-		   	 	<dt>商品优惠:</dt><dd><label  v-if="orderdetail.shippingOrder.discountFee!=''">￥{{orderdetail.shippingOrder.discountFee|pricefilter}}</label></dd>
-		    	<dt>实付款:</dt><dd><span class="font-24">￥{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</span></dd>
-		    </dl>
-		     <button  @click="quzhifu"  type="button" class="btn_pay" v-show="orderdetail.shippingOrder.orderStatus=='01'">
-				立即支付
-			</button>
-		   </div>
-		   </div>
-		</div>
-		
-	</div>-->
 </template>
 
 <script>
@@ -425,9 +372,6 @@
                     }
                 });
             },
-    	quzhifu(){
-    		this.$router.push({name:'/cartthree',query:{orderNo: this.orderNo}});
-    	},
     	//详情页均值
     	discountFeejun(item){
     		return item.discountFee/item.quantity

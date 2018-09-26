@@ -1,14 +1,14 @@
 <template>
-<div style="padding:40px;">
+<div class="padding40">
                     <h3 class="myorder">我的订单
 						<div class="myorderspan" >
-							<span  :class="{red:'00' == numactive}">全部订单</span>
+							<span  @click="changeStatus('00')" :class="{red:'00' == numactive}" >全部订单</span>
 							<!--<span class="red" v-for="(item,index) in statusList">{{item.value}}</span>-->
 							<span @click="changeStatus('01')" :class="{red:'01' == numactive}">待付款</span>
 							<span @click="changeStatus('05')" :class="{red:'05' == numactive}">待发货</span>
 							<span @click="changeStatus('06')" :class="{red:'06' == numactive}">已发货</span>
 							<span @click="changeStatus('04')" :class="{red:'04' == numactive}">已取消</span>
-							<span @click="changeStatus('07')" :class="{red:'04' == numactive}">已签收</span>
+							<span @click="changeStatus('07')" :class="{red:'07' == numactive}">已签收</span>
 						</div>
 					</h3>
                     <ul class="ul" v-if="pro.length>0">
@@ -26,16 +26,19 @@
 									<div class="myorderp">
 										<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情	</router-link>
 											<button  @click="showrefund(x.order.orderNo)" v-if="x.canRefund==true">售后服务</button>
-											<button  @click="evaluation(x.order.orderNo)" v-if="x.order.orderStatus=='07'">去评价</button>
+											<button  class="btn-red-outline" @click="evaluation(x.order.orderNo)" v-if="x.order.orderStatus=='07'">去评价</button>
+											<button  class="btn-red" @click="qianshou(x.order.orderNo)" v-if="x.order.orderStatus=='06'">确认收货</button>
+												<button  class="btn-red" @click="paynow(x.order.orderNo)" v-if="x.order.orderStatus=='01'">立即支付</button>
 									</div>
 								</div>
 						</li>
                     </ul>
-                					<div class="myorderempty cartIcon iconIcon-order"  v-else >
-						<h6>暂无记录~</h6>
+                	<div class="myorderempty "  v-else >
+                		<i class="cartIcon iconIcon-order"></i>
+						<div><h6>暂无记录~</h6>
 							<router-link  to="/sort" >购物建议</router-link>
 							<router-link  to="/sort" >去下单</router-link>
-						
+							</div>
 					</div>
                 	<Spin size="large" fix v-if="spinShow"></Spin>
 	
@@ -83,24 +86,6 @@
 			</div>
 			<div slot="footer">
 				<Button type="primary" size="large" long @click="refund">提交</Button>
-			</div>
-		</Modal>
-		<Modal v-model="infoModal" width="500" :mask-closable="false">
-			<p slot="header" style="color:#f60;text-align:center">
-				<Icon type="ios-information-circle"></Icon>
-				<span>填写物流单号</span>
-			</p>
-			<div>
-				<div class="refund">
-					<p>退款退货订单号</p><span>{{rfOrderNumer}}</span></div>
-				<div class="refund">
-					<p>物流单号</p><input placeholder="物流单号" v-model="expressNo">
-				</div>
-				<div class="refund">
-					<p>物流公司</p><input placeholder="物流公司" v-model="logistics"></div>
-			</div>
-			<div slot="footer">
-				<Button type="primary" size="large" long @click="submitLogisticsInfo">提交</Button>
 			</div>
 		</Modal>
 			<Modal v-model="evaluationModal" width="660" class="evaluationModal" :mask-closable="false">
@@ -162,7 +147,6 @@
 				orderStatus:'00',
 				imgmust: 'N',
 				reasonModel: '',
-				infoModal: false,
 				evaluationModal:false,
 				evaluationorder:'',
 				refundreason: '',
@@ -182,9 +166,6 @@
 				uploadList: [],
 				uploadUrl: this.$axios.defaults.baseURL + '/upload/upload?path=account',
 				uploadImgs: [],
-				rfOrderNumer: '',
-				expressNo: '',
-				logistics: '',
 				//商品评价
 				evaluationModal:false,
 				evaluationreason:'',
@@ -198,6 +179,10 @@
 			}
 		},
 		methods: {
+			//去支付
+			paynow(value){
+    		this.$router.push({name:'/cartthree',query:{orderNo: value}});
+    	},
 			changeStatus(v){
 				this.numactive=v;
 				this.orderStatus=v;
@@ -289,10 +274,7 @@
 				this.evaluationModal = true
 				this.evaluationorder = value;
 			},
-			showLogisticsInfo(value) {
-				this.infoModal = true,
-					this.rfOrderNumer = value;
-			},
+	
 			refund() {
 				if(this.imgmust == 'Y' && this.uploadList.length == 0) {
 					this.$Message.warning('请上传退货凭证');
@@ -332,24 +314,7 @@
 				}
 
 			},
-			//提交物流信息
-			submitLogisticsInfo() {
-				var _this = this;
-				_this.$axios({
-					method: 'post',
-					url: `/refund/submitLogisticsInfo?refundOrderNo=${_this.rfOrderNumer}&expressNo=${_this.expressNo}&logistics=${_this.logistics}`,
-				}).then((res) => {
-					if(res.code == '200') {
-						_this.$Message.info(res.msg);
-						_this.infoModal = false;
-						_this.getOrder();
-					} else {
-						_this.$Message.error(res.msg);
-						_this.infoModal = false;
-						_this.getOrder();
-					}
-				});
-			},
+
 			getStatusEnum() {
 				this.$axios({
 					method: 'get',
@@ -397,28 +362,7 @@
 					}
 				});
 			},
-				cancelrefund(value) {
-				this.$Modal.confirm({
-					content: '<p>确定取消该售后订单？</p>',
-					onOk: () => {
-						this.$axios({
-							method: 'post',
-							url: '/refund/cancel?refundOrderNo=' + value,
-						}).then((res) => {
-							if(res.code == '200') {
-								this.$Message.info(res.msg);
-								this.getRefundOrder();
-							} else {
-								this.$Message.info(res.msg);
-								this.getRefundOrder();
-							}
-						});
-					},
-					onCancel: () => {
-						this.$Message.info('放弃取消');
-					}
-				});
-			},
+
 			
 			qianshou(value) {
 				this.$Modal.confirm({
@@ -466,18 +410,9 @@
 				});
 
 			},
-//			getRefundOrder(){
-//				this.$axios({
-//					method: 'get',
-//					url: '/refund/getRefundOrderList',
-//				}).then((res) => {
-//					this.refundList = res;
-//				});
-//			}
 		},
 		mounted() {
 			this.getOrder();
-			this.getRefundOrder();
 			this.getStatusEnum();
 			this.uploadList = this.$refs.upload.fileList;
 		}
@@ -485,172 +420,6 @@
 </script>
 
 <style scoped="scoped" lang="scss">
-.newcenter h3{
-    font-weight: 400;
-    font-size: 24px;
-    color: #999999;
-    width: 100%;
-    border-bottom: 1px solid #c6c6c6;
-    padding-bottom: 18px;
-}
-	.newcenterbody{
-    float: left;
-    width: 940px;
-    background-color: #FFFFFF;
-    padding: 40px;
-    position: relative;
-}
-.newcenterbody .myorder{
-				color: #333333;
-				padding-bottom: 0px;
-			}
-			.myorder .myorderspan{
-				margin-top: 35px;
-			}
-			.myorder .myorderspan span{
-				display: inline-block;
-				width: 125px;
-				height: 40px;
-				font-weight: 400;
-				font-style: normal;
-				font-size: 16px;
-				color: #666666;
-				text-align: center;
-				line-height: 40px;
-				cursor: pointer;
-			}
-			.myorder .myorderspan .red, .myorder .myorderspan span:hover{
-				color: #FF0000;
-			}
-			.ul{
-				padding: 0px;
-			}
-			 .ul li{
-				padding: 28px 0px;
-			}
-		 .ul>li{
-				border-bottom: 1px solid #c6c6c6;
-				padding-bottom: 0px;
-			}
-			.ul .myorderinformation{
-				height: 20px;
-				font-weight: 400;
-				font-size: 14px;
-				color: #666666;
-			}
-			.ul .myorderOrder{
-				float: left;
-				width: 100%;
-				height: 20px;
-				font-weight: 400;
-				font-size: 14px;
-				color: #666666;
-				text-align: left;
-				margin: 0px 0px 10px;
-			}
-			.ul .span{
-				float: right;
-				background-color: #ffffff;
-				color: #666666;
-				padding: 0px;
-			}
-			.ul .span strong{
-				font-weight: 400;
-				font-style: normal;
-				font-size: 30px;
-				color: #1E1E1E;
-				text-align: right;
-			}
-			.ul .red{
-				border: none;
-			}
-			.myorderImg ul{
-				padding: 0px;
-				padding-top: 28px;
-			}
-			.ul .myorderImg li{
-				float: left;
-				width: 470px;
-				padding-bottom: 0px;
-				padding-top: 0px;
-
-			}
-			.myorderImg  img{
-				display: inline-block;
-				height: 60px;
-				vertical-align: middle;
-			}
-			.ul .myorderImg{
-				position: relative;
-			}
-			.ul .myorderImg span{
-				float: right;
-				width: 390px;
-				font-weight: 400;
-				height: 20px;
-				overflow: hidden;
-				font-style: normal;
-				font-size: 14px;
-				color: #666666;
-			}
-			.ul .myorderImg span:nth-of-type(2){
-				position: relative;
-				top: -30px;
-			}
-			.myorderImg .myorderp{
-				/* float: right; */
-				position: absolute;
-				width: 375px;
-				top: 40px;
-				right: -10px;
-
-			}
-			.myorderImg .myorderp a,.myorderp button{
-				display: inline-block;
-				width: 80px;
-				margin-right: 10px;
-				height: 30px;
-				line-height: 30px;
-				border: none;
-				background-color: #e1e1e1;
-				font-weight: 400;
-				font-size: 13px;
-				color: #333333;
-				text-align: center;
-			}
-			.myorderImg .myorderp button:nth-last-of-type(n+2):hover{
-				background-color: #cccccc;
-			}
-			.myorderImg .myorderp button:nth-last-of-type(1){
-				background-color: #ffffff;
-				border: 1px solid #f2191a;
-				color: #FF0000;
-			}
-				.myorderempty{
-				width: 400px;
-				margin: 140px  auto;
-				display: block;
-				padding-left: 80px;
-			}
-			.myorderempty h6{
-				font-weight: 700;
-				font-style: normal;
-				color: #777777;
-				font-size: 24px;
-				text-align: left;
-			}
-			.myorderempty a{
-				font-size: 18px;
-				color: #777777;
-				font-weight: 400;
-				text-align: center;
-				margin-right: 8px;
-				background-color: #d7d7d7;
-				width: 111px;
-				height: 24px;
-				display: inline-block;
-				line-height: 24px;
-			}
 		 .demo-upload-list{
         display: inline-block;
         width: 80px;

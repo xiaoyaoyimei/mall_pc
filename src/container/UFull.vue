@@ -6,7 +6,10 @@
                 <Content class='layout' :style="{ minHeight: '700px'}">
                 	
 				<div class="newcenter clearfix">
-					<app-breadcrumb></app-breadcrumb>
+					<Breadcrumb separator=">" style="margin-top:20px;margin-bottom: 10px;">
+				        <BreadcrumbItem to="/">首页</BreadcrumbItem>
+				        <BreadcrumbItem>个人中心</BreadcrumbItem>
+				    </Breadcrumb>
 					<user-left></user-left>
 					<div class="newcenterbody"> <router-view/></div>
 				</div>

@@ -76,7 +76,24 @@
             <Button type="error" size="large" long  @click="refund">提交</Button>
         </div>
     </Modal>
-				 
+					<Modal v-model="infoModal" width="500" :mask-closable="false">
+			<p slot="header" style="color:#f60;text-align:center">
+				<Icon type="ios-information-circle"></Icon>
+				<span>填写物流单号</span>
+			</p>
+			<div>
+				<div class="refund">
+					<p>退款退货订单号</p><span>{{rfOrderNumer}}</span></div>
+				<div class="refund">
+					<p>物流单号</p><input placeholder="物流单号" v-model="expressNo">
+				</div>
+				<div class="refund">
+					<p>物流公司</p><input placeholder="物流公司" v-model="logistics"></div>
+			</div>
+			<div slot="footer">
+				<Button type="primary" size="large" long @click="submitLogisticsInfo">提交</Button>
+			</div>
+		</Modal>	 
         </div>
 </template>
 
@@ -85,6 +102,7 @@
 	export default {
 	    data() {
 	      return {
+	      	infoModal: false,
 	      	refundreason:'',
 	      	refundModal:false,
 	      	refundenums:[],
@@ -93,6 +111,9 @@
 		    statusList:[],
 		    pro:[],
 		    refundorder:'',
+		    	rfOrderNumer: '',
+				expressNo: '',
+				logistics: '',
 	    	}
 	   	 },
 	   filters: {
@@ -102,6 +123,50 @@
 	   }
 	},
     methods: {
+    	//				cancelrefund(value) {
+//				this.$Modal.confirm({
+//					content: '<p>确定取消该售后订单？</p>',
+//					onOk: () => {
+//						this.$axios({
+//							method: 'post',
+//							url: '/refund/cancel?refundOrderNo=' + value,
+//						}).then((res) => {
+//							if(res.code == '200') {
+//								this.$Message.info(res.msg);
+//								this.getRefundOrder();
+//							} else {
+//								this.$Message.info(res.msg);
+//								this.getRefundOrder();
+//							}
+//						});
+//					},
+//					onCancel: () => {
+//						this.$Message.info('放弃取消');
+//					}
+//				});
+//			},
+    			showLogisticsInfo(value) {
+				this.infoModal = true,
+					this.rfOrderNumer = value;
+			},
+						//提交物流信息
+			submitLogisticsInfo() {
+				var _this = this;
+				_this.$axios({
+					method: 'post',
+					url: `/refund/submitLogisticsInfo?refundOrderNo=${_this.rfOrderNumer}&expressNo=${_this.expressNo}&logistics=${_this.logistics}`,
+				}).then((res) => {
+					if(res.code == '200') {
+						_this.$Message.info(res.msg);
+						_this.infoModal = false;
+						_this.getOrder();
+					} else {
+						_this.$Message.error(res.msg);
+						_this.infoModal = false;
+						_this.getOrder();
+					}
+				});
+			},
     	unitprice(p,q){
     		return p/q;
     	},

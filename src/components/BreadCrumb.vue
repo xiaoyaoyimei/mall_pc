@@ -5,10 +5,10 @@
         <BreadcrumbItem>Breadcrumb</BreadcrumbItem>
     </Breadcrumb>-->
    
-    	  <Breadcrumb separator=">">
-      <!--  <BreadcrumbItem to="/">首页</BreadcrumbItem>-->
- <!--       <BreadcrumbItem  v-for="item in $route.matched" :key="item.path">{{item.path}}</BreadcrumbItem>-->
-    </Breadcrumb>
+    	  <!--<Breadcrumb separator=">">
+        <BreadcrumbItem to="/">首页</BreadcrumbItem>
+        <BreadcrumbItem  v-for="item in $route.matched" :key="item.path">{{item.path}}</BreadcrumbItem>
+    </Breadcrumb>-->
 </template>
 
 

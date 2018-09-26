@@ -60,7 +60,7 @@
 				</div>
 				<div class="opt">
 					<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi" v-if="!xiajia"><i class="icon-new icon-minicart"></i>加入购物车</button>
-					<button class="btn-xorder" v-show="!wuhuotongzhi" @click="buynow"><i class="icon-new icon-minicart"  ></i>立即下单</button>
+					<button class="btn-xorder" v-show="!wuhuotongzhi" @click="buynow(0)"><i class="icon-new icon-minicart"  ></i>立即下单</button>
 					<button v-if="wuhuotongzhi" size="large" class="btn-nopro" disabled="disabled">暂时无货，到货通知</button>
 					<button class="btn-like" @click="likepro" :class="{'btn-like-active':likeshow}">
 					<i class="icon-new icon-like"></i>喜欢</button>
@@ -69,7 +69,7 @@
 		</div>
 		<div class="recommend" v-if="recomm.length>0">
 			<div class="main-width clearfix">
-				<h6><span>推荐搭配</span></h6>
+				<h6><span>推荐搭配</span><em>温馨提示:购买组合时,组合内各商品只能单个购买</em></h6>
 				<div class="rec-con">
 					<div class="li-pro" v-if="choosesp.price==0">
 						<img :src="shangp.product.modelImg | imgfilter">
@@ -88,12 +88,13 @@
 					<ul class="pro">
 						<CheckboxGroup v-model="compine" @on-change="checkAllGroupChange">
 							<li v-for="(item,index) in recomm " :key="index">
-								<router-link :to="{ path: '/sort/sortDetail',query:{id:item.product_bind_id} }" target="_blank">
-									<img :src="item.list_img | imgfilter">
-									<p>{{item.model_no}}</p>
+								<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_bind_id} }" target="_blank">
+									<img :src="item.list.list_img | imgfilter">
+									<p>{{item.list.model_no}}</p>
 								</router-link>
 								<Checkbox :label="index" :key="index">
-									<span>¥{{item.sale_price | pricefilter}}</span>
+									<span v-if="JSON.stringify(item.promotion)=='{}'">¥{{item.list.sale_price | pricefilter}}</span>
+									<span v-else>¥{{item.promotion.onSalePrice | pricefilter}} <em  class="abandoned" >{{item.list.sale_price | pricefilter}}</em></span>
 								</Checkbox>
 
 							</li>
@@ -107,7 +108,7 @@
 							<span v-if="choosesp.cuxiaoprice>0&&dpjiage==0" class="color-newred">{{choosesp.cuxiaoprice}}</span>
 							<span class="color-newred" v-if="choosesp.cuxiaoprice==0&&dpjiage==0">{{choosesp.price}}</span>
 							<span class="color-newred" v-if="dpjiage>0">{{dpjiage}}</span></p>
-						<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi">加入购物车</button><button class="btn-xorder" v-show="!wuhuotongzhi" @click="buynowCompine">立即下单</button>
+						<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi">加入购物车</button><button class="btn-xorder" v-show="!wuhuotongzhi" @click="buynow(1)">立即下单</button>
 						<button class="btn-nopro" v-show="wuhuotongzhi">暂时无货</button></div>
 				</div>
 			</div>
@@ -130,7 +131,7 @@
 					</div>
 					<div class="eval pt50 " v-show=" 2 == num">
 						<div class="clearfix">
-							<div class="fl eval-fl">
+							<div class="eval-fl">
 								<h5><span class="big-title">商品评价</span>
 							<span class="onlyimg" @click="toggleimg()">
 							<i class="icon-new icon-onlyimg"  :class="{'icon-allimg':!onlyimg }"></i>只显示到带图评价
@@ -145,7 +146,7 @@
 								</ul>
 							</div>
 						</div>
-						<p class="moreeval">查看更多评价</p>
+						<p class="moreeval" v-if="commentList.length>5">查看更多评价</p>
 					</div>
 
 				</div>
@@ -167,10 +168,11 @@
 					originSalePrice:0,
 					productName:'',
 					quantity:1,
-					salePrice:0
+					salePrice:0,
+					productType:'',
 				},
-				cartList:[],
 				compine: [],
+				compineList:[],
 				onlyimg: false, //0为img为空。1显示图片
 				//库存是否为0添加购物车显示按钮
 				num: 0,
@@ -244,19 +246,32 @@
 		},
 		methods: {
 			checkAllGroupChange(data) {
-				//recomm
 				var _this = this;
 				_this.dpnum = data.length;
 				_this.dpjiage = 0;
-				data.forEach((i) => {
-					this.dpjiage += parseFloat(this.recomm[i].sale_price);
-					this.compineId.push(this.recomm[i].id)
+				this.compineList=[];
+				data.forEach((item,index) => {
+					if(JSON.stringify(this.recomm[item].promotion)=="{}"){
+						this.compineList.push({id:this.recomm[item].list.id,image:this.recomm[item].list.list_img,
+							productName:this.recomm[item].list.item_no,quantity:1,originSalePrice:this.recomm[item].list.sale_price,
+							salePrice:this.recomm[item].list.sale_price,
+							productType:this.recomm[item].list.catalogId})
+						this.dpjiage += parseFloat(this.recomm[item].list.sale_price);
+					}else{
+						this.compineList.push({id:this.recomm[item].list.id,image:this.recomm[item].list.list_img,
+							productName:this.recomm[item].list.item_no,quantity:1,originSalePrice:this.recomm[item].list.sale_price,
+							salePrice:this.recomm[item].promotion.onSalePrice,promotionTitle:this.recomm[item].promotion.activityName,
+							productType:this.recomm[item].list.catalogId})
+						this.dpjiage += parseFloat(this.recomm[item].promotion.onSalePrice);
+					}
+					this.compineId.push(this.recomm[item].list.id)
 				});
 				if(this.choosesp.cuxiaoprice > 0) {
 					this.dpjiage += parseFloat(this.choosesp.cuxiaoprice);
 				} else {
 					this.dpjiage += parseFloat(this.choosesp.price);
 				}
+				
 			},
 			//喜欢
 			likepro() {
@@ -363,23 +378,24 @@
 
 				}
 			},
-			buynowCompine(){
-				console.log(this.compine)
-			},
-			buynow() {
+			buynow(v) {
 				if(this.productItemId == "") {
 					this.$Message.error('请选择商品属性');
 					return
 				}
-				console.log(this.choosesp)
 				this.cartOne.id=this.choosesp.id;
 				this.cartOne.image=this.choosesp.img;
-				this.cartOne.productName=this.choosesp.itmNo;
+				this.cartOne.productName=this.choosesp.itemNo;
 				this.cartOne.quantity=this.quantity;
 				this.cartOne.originSalePrice=this.choosesp.price;
 				this.cartOne.salePrice=this.choosesp.cuxiaoprice;
 				this.cartOne.promotionTitle=this.choosesp.activityName;
+				this.cartOne.productType=this.shangp.product.catalogId;
 				this.cartList[0]=this.cartOne;
+				//0为单个立即下单，1为推荐组合中的立即下单
+				if(v==1){
+					this.cartList=this.cartList.concat(this.compineList)
+				}
 				sessionStorage.removeItem('cart');
 				sessionStorage.setItem('cart', JSON.stringify(this.cartList));
 				this.$router.push({ name:'/carttwo'});
@@ -432,7 +448,7 @@
 				var chooseId = "",
 					jishu = 0;
 				let dditem = this.$refs['dditem'];
-				if(dditem.length > 0) {
+				if(dditem!=null) {
 					for(let n = 0; n < dditem.length; n++) {
 						if(dditem[n].getAttribute("class") == 'active') {
 							chooseId += dditem[n].getAttribute("titleid") + ',';
@@ -576,7 +592,10 @@
 					method: "GET",
 					url: "/product/match/" + this.productId,
 				}).then(res => {
-					this.recomm = res;
+					if(res.code==200){
+							this.recomm = res.object;
+					}
+				
 				});
 				this.$axios({
 					method: 'post',
@@ -632,6 +651,7 @@
 		padding: 20px;
 		line-height: 30px;
 		overflow: hidden;
+		font-size: 14px;
 		p {
 			width: 50%;
 			float: left;
@@ -838,6 +858,7 @@
 		border-bottom: 1px solid #FF0030;
 		padding-bottom: 5px;
 		font-weight: normal;
+		margin-right:10px;
 	}
 	
 	.li-pro {
@@ -938,9 +959,9 @@
 	}
 	
 	.eval-fl {
-		width: 840px;
+	/*	width: 840px;*/
 		padding-left: 40px;
-		border-right: 1px solid #777;
+		/*border-right: 1px solid #777;*/
 	}
 	
 	.eval-fr {

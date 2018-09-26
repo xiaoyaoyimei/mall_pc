@@ -15,7 +15,7 @@
 			<h5>收货地址</h5>
 			<ul class="myaccountaddress clearfix">
 				<li class="default" v-for="(item,index) in addressList" :key="index">
-					<h6 class="name">{{item.person}} <span class="default" v-if="item.isDefault=='Y'">默认地址</span></h6>
+					<h6 class="name">{{item.person}} <span class="active" v-if="item.isDefault=='Y'">默认地址</span></h6>
 					<p class="phone">{{item.phone}}</p>
 					<div class="address">{{item.receiveProvince}}{{item.receiveCity}}{{item.receiveDistrict}}{{item.address}}</div>
 					<button class="addressedit" @click="editmodal(item)">修改</button>
@@ -546,7 +546,11 @@
 	.placeorderaddress .default {
 		border: 1px solid #FF0000;
 	}
-	
+	span.active{
+		    font-size: 12px;
+    color: #0099ff;
+    font-weight: bold;
+	}
 	.placeorderaddress li {
 		float: left;
 		width: 250px;

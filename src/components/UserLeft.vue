@@ -17,6 +17,7 @@
 <script>
 </script>
 <style scoped="scoped" lang="scss">
+
 	.newcenternav{
     float: left;
     width: 240px;
@@ -57,3 +58,7 @@
      color: rgb(255, 0, 0);
 }
 </style>
+<style>
+	p.router-link-active{
+	color: #ff0037;
+}</style>

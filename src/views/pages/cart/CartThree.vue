@@ -32,7 +32,7 @@
                     </div>
                     <div class="payprice">
                         <p>应付总额：<span class="red">￥<strong> {{orderTotalFee}}</strong></span></p>
-                        <button @click="orderdetailshow('alipay')" :to="{name:'/order/detail',query:{orderNo:this.orderNo}}"> 订单详情</button>
+                        <button @click="orderdetailshow('alipay')" :to="{name:'/order/detail',query:{orderNo:this.orderNo}}">订单详情<i></i></button>
                     </div>
                 </div>
                 <div class="paymethod">
@@ -220,7 +220,6 @@
 }
 .pay .payprice{
     float: right;
-    width: 200px;
 }
 .payInformation h4{
     font-size: 24px;

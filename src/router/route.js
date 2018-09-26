@@ -203,7 +203,18 @@ const routes = [{
 				zname:'喜欢的商品',
 				component: resolve => require(['@/views/pages/userCenter/MyLike.vue'], resolve)
 			},
-					
+			{
+				name: 'contactus',
+				path: 'contactus',
+				zname:'联系我们',
+				component: resolve => require(['@/views/pages/userCenter/Contactus.vue'], resolve)
+			},
+			// {
+			// 	name: 'complain',
+			// 	path: 'complain',
+			// 	zname:'投诉建议',
+			// 	component: resolve => require(['@/views/pages/userCenter/Complain.vue'], resolve)
+			// },	
 			{
 				name: 'setting',
 				path: 'setting',

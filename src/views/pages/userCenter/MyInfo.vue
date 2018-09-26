@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="padding:40px;">
 		<div class="myaccountImg">
 			<img :src="userinfo.iconUrl | imgfilter" alt="">
 			<div>
@@ -19,8 +19,8 @@
 					<p class="phone">{{item.phone}}</p>
 					<div class="address">{{item.receiveProvince}}{{item.receiveCity}}{{item.receiveDistrict}}{{item.address}}</div>
 					<button class="addressedit" @click="editmodal(item)">修改</button>
-					<button @click="deleteAddr(item.id)">删除</button>
-					<button v-if="item.isDefault=='N'" @click="updateDefault(item.id)">设为默认</button>
+					<button class="addressedel" @click="deleteAddr(item.id)">删除</button>
+					<button class="addressemo" v-if="item.isDefault=='N'" @click="updateDefault(item.id)">设为默认</button>
 
 				</li>
 				<li>
@@ -32,61 +32,55 @@
 			</ul>
 		</div>
 
-		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="add" :loading="loading" :mask-closable='false'>
-			<Form :model="addForm" ref="addForm" label-position="left" :label-width="100" :rules="ruleValidate" class="P15">
-				<FormItem label="收货人" prop="person">
-					<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="手机号" prop="phone">
-					<Input v-model="addForm.phone" placeholder="手机号" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="固定电话">
-					<Input v-model="addForm.tel" placeholder="固定电话" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="所在地区" prop="selectedOptionsAddr">
-					<Cascader v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
-				</FormItem>
-				<FormItem label="详细地址" prop="address">
-					<Input v-model="addForm.address" placeholder="详细地址"></Input>
-				</FormItem>
+		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="add" :loading="loading" :mask-closable='false' style="width:600px;">
+            <Form :model="addForm" ref="addForm" label-position="left"  :rules="ruleValidate" style="padding: 15px;"> 
+                <FormItem label="" prop="person" class="mdalText">
+                    <Input v-model="addForm.person"  placeholder="收货人" autocomplete="off"></Input>
+                </FormItem>
+                <FormItem label="" prop="phone" class="mdalTextphone">
+                    <Input v-model="addForm.phone"  placeholder="联系电话" autocomplete="off"></Input>
+                </FormItem>
+                <FormItem label=""  prop="selectedOptionsAddr">
+                    <Cascader  v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
+                </FormItem>
+                <FormItem label="" prop="address" class="modaladdress modaladdressaddr">
+                    <Input v-model="addForm.address" placeholder="详细地址"></Input>
+                </FormItem>
+            </Form>
+		</Modal>
+
+		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading" style="width:600px;" :mask-closable='false'>
+			<Form :model="editForm" ref="editForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
+				<FormItem label="" prop="person" class="mdalText">
+                    <Input v-model="editForm.person" placeholder="收货人"></Input>
+                </FormItem>
+                <FormItem label="" prop="phone" class="mdalTextphone">
+                    <Input v-model="editForm.phone" placeholder="联系电话"></Input>
+                </FormItem>
+                <FormItem label=""  prop="selectedOptionsAddr">
+                        <Cascader  v-model="editForm.selectedOptionsAddr" :data="addressOption"></Cascader>
+                </FormItem>
+                    <FormItem label="" prop="address" class="modaladdress modaladdressaddr">
+                    <Input v-model="editForm.address" placeholder="详细地址"></Input>
+                </FormItem>
 			</Form>
 		</Modal>
 
-		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading" :mask-closable='false'>
-			<Form :model="editForm" ref="editForm" label-position="left" :label-width="100" :rules="ruleValidate" class="P15">
-				<FormItem label="收货人" prop="person">
-					<Input v-model="editForm.person" placeholder="收货人"></Input>
-				</FormItem>
-				<FormItem label="手机号" prop="phone">
-					<Input v-model="editForm.phone" placeholder="手机号"></Input>
-				</FormItem>
-				<FormItem label="固定电话">
-					<Input v-model="editForm.tel" placeholder="固定电话"></Input>
-				</FormItem>
-				<FormItem label="所在地区" prop="selectedOptionsAddr">
-					<Cascader v-model="editForm.selectedOptionsAddr" :data="addressOption"></Cascader>
-				</FormItem>
-				<FormItem label="详细地址" prop="address">
-					<Input v-model="editForm.address" placeholder="详细地址"></Input>
-				</FormItem>
-			</Form>
-		</Modal>
-
-		<Modal ref='modalpwd' v-model="modalpwd" title="修改密码" @on-ok="handleOkpwd" :loading="loading" :mask-closable='false'>
-			<Form ref="pwd" :model="pwd" :label-width="150" :rules="pwdValidate">
-				<FormItem label="新密码:" prop="newpass">
+		<Modal ref='modalpwd' class="modalpwd" v-model="modalpwd" title="修改密码" @on-ok="handleOkpwd" :loading="loading" :mask-closable='false'>
+			<Form ref="pwd" :model="pwd" :label-width="30" :rules="pwdValidate">
+				<FormItem label="" prop="newpass">
 					<i-input v-model="pwd.newpass" placeholder="请输入新密码" type="password"></i-input>
 				</FormItem>
-				<FormItem label="确认密码:" prop="newpassagian">
+				<FormItem label="" prop="newpassagian">
 					<i-input v-model="pwd.newpassagian" placeholder="请确认新密码" type="password"></i-input>
 				</FormItem>
 			</Form>
 		</Modal>
 
-		<Modal ref='modalaccout' v-model="modalaccout" title="修改个人信息" @on-ok="handleOk" :loading="loading" :mask-closable='false'>
+		<Modal ref='modalaccout' v-model="modalaccout" title="修改个人信息" @on-ok="handleOk" class="modalaccout clearfix" :loading="loading" :mask-closable='false'>
 			<Form ref="userinfo" :model="userinfo" :label-width="150">
-				<FormItem label="当前头像 :">
-					<div class="user-con-wrap">
+				<FormItem label="设置头像" class="conWrap">
+					<div class="user-con-wrap ">
 						<div class="demo-upload-list" v-for="item in uploadList">
 							<template v-if="item.status === 'finished'">
 								<img :src="item.url  " class="origin_tx" />
@@ -108,6 +102,9 @@
 				<FormItem label="用户名:" prop="nickName">
 					<i-input v-model="userinfo.nickName" placeholder="请输入用户名"></i-input>
 				</FormItem>
+				<FormItem label="生日:" prop="birthday">
+						<DatePicker type="date" placeholder="Select date" :value="userinfo.birthday" formate="yyyy-MM-dd" @on-change="handleChange"></DatePicker>
+				</FormItem>	
 				<FormItem label="性别:" prop="sex">
 					<radio-group v-model="userinfo.sex">
 						<radio label="M">男</radio>
@@ -115,11 +112,7 @@
 						<radio label="S">保密</radio>
 					</radio-group>
 				</FormItem>
-				<FormItem label="出生日期:">
-					<FormItem prop="birthday">
-						<DatePicker type="date" placeholder="Select date" :value="userinfo.birthday" formate="yyyy-MM-dd" @on-change="handleChange"></DatePicker>
-					</FormItem>
-				</FormItem>
+
 			</Form>
 		</Modal>
 		<modal title="查看 头像大图" v-model="visible">
@@ -583,7 +576,24 @@
 		background-color: #fff;
 		color: #ff0000;
 	}
-	
+	.placeorderaddress .addressedel{
+		position: absolute;
+		bottom: 5px;
+		right: 50px;
+		width: 50px;
+		border: none;
+		background-color: #fff;
+		color: #ff0000;
+	}
+	.placeorderaddress .addressemo{
+		position: absolute;
+		bottom: 5px;
+		right: 100px;
+		width: 50px;
+		border: none;
+		background-color: #fff;
+		color: #ff0000;
+	}
 	.placeorderaddress .addaddress {
 		width: 60%;
 		margin: 80px auto;
@@ -619,4 +629,212 @@
 		color: #999999;
 		text-align: center;
 	}
+	 .mdalText{
+		display: inline-block;
+		width: 260px;
+		margin-right: 10px;
+		height: 45px;
+		line-height: 45px;   
+	}
+	.mdalTextphone{
+		display: inline-block;
+		width: 260px;
+		height: 45px;
+		line-height: 45px;  
+	}
+	.modaladdress{
+		height: 45px;
+		line-height: 45px;
+		width: 535px;
+		margin-top: 15px;
+	}
+	.modaladdressaddr{
+		height: 90px;
+		line-height: 90px;
+	}
+	.modalFoot{
+		height: 90px;
+		background-color: #F2F2F2;
+		padding: 0px 25px;
+		width: 100%;
+		text-align: center;
+	}
+	.conWrap{
+		position: relative;
+		width: 120px!important;
+		height: 150px!important;
+		float: left!important;
+	}
+	.origin_tx{
+		width: 107px;
+		height: 107px;
+		border-radius: 50%;
+		
+	}
+</style>
+<style>
+.ivu-modal-header-inner{
+    font-size: 18px;
+    font-weight: 400;
+    color: #000000;
+    padding-left: 25px;
+    height:60px;
+    line-height: 60px;
+
+}
+.ivu-modal-close .ivu-icon-ios-close-empty{
+    color: #000000;
+    font-weight: 900;
+}
+.ivu-modal-header {
+    height:60px;
+    line-height: 60px;
+    width: 100%;
+    background-color: #F2F2F2;
+    padding: 0px;
+}
+.ivu-input{
+    height: 45px;
+    line-height: 45px;
+    border: 1px solid #cccccc;
+    border-radius: 0px;
+}
+.modaladdressaddr .ivu-input{
+    height: 90px;
+    line-height: 90px;
+    border-radius: 0px;
+}
+.ivu-modal{
+    width: 600px!important;
+}
+.ivu-modal-footer{
+    height: 90px;
+    background-color: #F2F2F2;
+    padding: 0px 25px;
+    width: 100%;
+    text-align: center;
+}
+.ivu-btn-text{
+    margin-top: 20px;
+    margin-right: 15px;
+    padding: 10px 50px;
+    color: #FFFFFF;
+    border: none;
+    background-color: #888888;
+    border-radius: 0px;
+}
+.ivu-btn-primary{
+    background-color: #ff0000;
+    margin-top: 20px;
+    margin-right: 15px;
+    padding: 10px 50px;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 0px;
+}
+.modalaccout .ivu-modal-header{
+	display: none;
+}
+
+.modalaccout .ivu-modal-close{
+	width: 34px;
+	height: 33px;
+	font-weight: 700;
+	font-size: 14px;
+	color: #999999;
+	 border-radius: 50%;
+	 background-color:#f0f0f0;
+	 text-align:center;
+}
+.conWrap .ivu-upload{
+	position: absolute ;
+	top:0px;
+	left:0px;
+	width:107px;
+	height:107px;
+	opacity: 0;
+}
+.conWrap .ivu-form-item-content{
+}
+.conWrap  .ivu-form-item-label{
+	position: absolute;
+	bottom:0px;
+	width:100%;
+	left:0px;
+	text-align:center;
+	font-size: 14px;
+	color: #333333;
+	font-weight: 400;
+}
+.conWrap .demo-upload-list-cover{
+	display: none;
+
+}
+.modalaccout .ivu-form-item {
+    float: right;
+    width: 400px;
+}
+.modalaccout .ivu-modal-body{
+	height: 300px;
+	padding:100px 30px;
+}
+.conWrap .ivu-form-item-label{
+	width:107px!important;
+}
+.conWrap .ivu-form-item-content{
+	margin-left:0px!important;
+}
+.modalaccout .ivu-modal-footer{
+	background-color:#fff;
+	border-top: none;
+	padding:0px;
+	border-radius:6px;
+}
+.modalaccout .ivu-date-picker{
+	width:250px;
+}
+.modalaccout .ivu-btn-text, .modalpwd .ivu-btn-text{
+	display: none;
+}
+
+.modalpwd .ivu-modal-header{
+	height: 50px;
+	background-color:#fff;
+	border-bottom: none;
+	border-radius:6px;
+}
+.modalpwd .ivu-modal-footer{
+	background-color:#fff;
+	border-top: none;
+	padding:0px;
+	border-radius:6px;
+	text-align:left;
+	padding-left:30px;
+	height:50px;
+}
+.modalpwd .ivu-modal-header-inner{
+	padding:0px 50px 0px;
+	height: 50px;
+	font-size: 24px;
+	color: #999999;
+}
+.modalpwd .ivu-modal-content{
+	padding:50px;
+}
+.modalpwd .ivu-modal-close{
+	width: 34px;
+	height: 33px;
+	font-weight: 700;
+	font-size: 14px;
+	color: #999999;
+	 border-radius: 50%;
+	 background-color:#f0f0f0;
+	 text-align:center;
+}
+.modalpwd  .ivu-modal-body{
+	padding-bottom:0px;
+}
+.modalpwd .ivu-btn-primary{
+	margin-top:0px;
+}
 </style>

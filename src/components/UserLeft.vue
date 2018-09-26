@@ -9,8 +9,8 @@
 					<router-link :to="{path: '/user/myinfo'}" tag="p">我的账户</router-link>
 					<!-- <router-link :to="{path: '/user/news'}" tag="p">消息通知</router-link>-->
                      <router-link :to="{path: '/user/mylike'}" tag="p">喜欢的商品</router-link>
-                    <h4>投诉建议</h4>
-                    <h4 class="last">联系我们</h4>
+                    <!-- <router-link class="h4" :to="{path: '/user/complain'}" tag="h4">投诉建议</router-link> -->
+                    <router-link class="last h4" :to="{path: '/user/contactus'}" tag="h4">联系我们</router-link>
                 </div>
 </template>
 
@@ -49,5 +49,11 @@
 .newcenternav .last{
     position: relative;
     top: -29px;
+}
+.h4{
+    cursor: pointer;
+}
+.h4:hover{
+     color: rgb(255, 0, 0);
 }
 </style>

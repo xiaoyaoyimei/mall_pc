@@ -53,7 +53,7 @@
 						<div class="title">
 							<div class="seemore fr" > 
 								查看更多
-							<i   class="icon-new icon-more" ></i>
+							<i class="icon-new icon-more" ></i>
 							</div>
 							<span>电竞</span></div>
 						<div class="two clearfix">
@@ -86,9 +86,8 @@
 							</ul>
 						</div>
 						<div class="title">
-							<div class="seemore fr" @mouseover="bangongfunction()"  @mouseout="bangongfunction()"> 查看更多
-								<i v-if="bangong == true"  class="icon-new icon-more" ></i>
-								<i v-else class="cartIcon iconIcon-more-red" ></i>
+							<div class="seemore fr" > 查看更多
+								<i   class="icon-new icon-more" ></i>
 							</div>
 							<span>办公</span></div>
 						<div class=" three clearfix">
@@ -121,9 +120,9 @@
 							</ul>
 						</div>
 						<div class="title">
-						<div class="seemore fr" @mouseover="jiajufunction()"  @mouseout="jiajufunction()"> 查看更多
-							<i v-if="jiaju == true"  class="icon-new icon-more" ></i>
-								<i v-else class="cartIcon iconIcon-more-red" ></i>
+						<div class="seemore fr" > 查看更多
+							<i class="icon-new icon-more" ></i>
+							
 							</div>
 						<span>家居</span></div>
 									<div class=" three clearfix">
@@ -185,9 +184,9 @@
 						</div>
 					</div>
 					<div class="title">
-						<div class="seemore fr" @mouseover="zhoubianfunction()"  @mouseout="zhoubianfunction()"> 查看更多
-							<i v-if="zhoubian == true"  class="icon-new icon-more" ></i>
-								<i v-else class="cartIcon iconIcon-more-red" ></i>
+						<div class="seemore fr"> 查看更多
+							<i class="icon-new icon-more" ></i>
+							
 						</div>
 						<span>座椅周边</span></div>
 					
@@ -446,8 +445,8 @@
 	.seemore:hover {
 		color: #FF0037;
 	}
-		.seemore:hover i{
-	 background-position: -178px -325px;
+	.seemore:hover i{
+	 background-position: -172px 1px;
 	}
 	.ad-wrap {
 		position: relative;

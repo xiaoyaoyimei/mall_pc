@@ -1,6 +1,6 @@
 <template>
 	<div class="newcenternav">
-					<h4>我的购物车</h4>
+					   <router-link :to="{path: '/cart'}" tag="h4" style="cursor: pointer;">我的购物车</router-link>
 					<h4>订单中心</h4>
                     <router-link :to="{path: '/user/orderlist'}" tag="p">我的订单</router-link>
                     <router-link :to="{path: '/user/evaluate'}" tag="p">评价晒单</router-link>
@@ -9,7 +9,7 @@
 					<router-link :to="{path: '/user/myinfo'}" tag="p">我的账户</router-link>
 					<!-- <router-link :to="{path: '/user/news'}" tag="p">消息通知</router-link>-->
                      <router-link :to="{path: '/user/mylike'}" tag="p">喜欢的商品</router-link>
-                    <router-link class="h4" :to="{path: '/user/complain'}" tag="h4">投诉建议</router-link>
+                  <!--  <router-link class="h4" :to="{path: '/user/complain'}" tag="h4">投诉建议</router-link>-->
                     <router-link class="last h4" :to="{path: '/user/contactus'}" tag="h4">联系我们</router-link>
                 </div>
 </template>
@@ -59,6 +59,6 @@
 }
 </style>
 <style>
-	p.router-link-active{
+	.newcenternav p.router-link-active{
 	color: #ff0037;
 }</style>

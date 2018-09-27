@@ -33,8 +33,8 @@
                     <div class="payprice">
                         <p>应付总额：<span class="red">￥<strong> {{orderTotalFee}}</strong></span></p>
                         <router-link :to="{path:'/user/orderlist'}" tag="button">订单中心 <Icon type="chevron-right"></Icon></router-link>
-                        <button @click="orderdetailshow('alipay')" :to="{name:'/order/detail',query:{orderNo:this.orderNo}}">订单详情 
-                        
+                        <button @click="orderdetailshow('alipay')" :to="{name:'/order/detail',query:{orderNo:this.orderNo}}">订单详情
+
                         <Icon type="chevron-down" v-if="chevrondown == true"></Icon>
                          <Icon type="chevron-left" v-else></Icon>
                         </button>
@@ -67,7 +67,7 @@
 
 		</Modal>
 	</div>
-      
+
 	<!--<div class='zhifu' >
 		<div class="pay_info_wrap">
 			<div class="scan_code_wrap ">
@@ -83,7 +83,7 @@
 	            </li>
                 <li class="wechat" data-target="wechat" @click="toggletab(1)" :class="{checked:1 == num}"  >
 	                <i class="icon icon-wechat"></i>
-	                                    微信支付  
+	                                    微信支付
 	            </li>
        			 </ul>
                 <div class="pay_content">
@@ -143,7 +143,7 @@
 									_this.$router.push({ name:'/order/detail',query:{orderNo:this.$route.query.orderNo}});
 								}
 							});
-							//  _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
+							  _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
         	},
         	cancelpay(){
         		this.payshow=true;
@@ -152,14 +152,14 @@
         		this.payshow=false;
         	},
         	level(){
-        		this.$router.push({name:'/order/detail',query:{orderNo:this.orderNo}});  
+        		this.$router.push({name:'/order/detail',query:{orderNo:this.orderNo}});
             },
             orderdetailshow(){
                 this.orderdetail = !this.orderdetail;
                 this.chevrondown =!this.chevrondown;
             },
 	    	getParams () {
-	                // 取到路由带过来的参数 
+	                // 取到路由带过来的参数
                     let routerParams = this.$route.query.orderNo;
                     console.log(routerParams);
 	                // 将数据放在当前组件的数据内
@@ -174,7 +174,6 @@
                     });
             },
         	handleSubmit (name) {
-                 debugger
                 this.$axios({
 				    method: 'post',
 				    url:'/order/'+name+'/'+this.$route.query.orderNo,
@@ -187,9 +186,8 @@
             },
         },
            mounted() {
-           	//    this.wexinpaycheck();
+           	    this.wexinpaycheck();
                this.getParams();
-            //    this.getOrder();
           },
           //离开页面时，清空检验支付的计时器
         destroyed: function () {
@@ -201,7 +199,7 @@
 <style scoped="scoped" lang="scss">
 	.pay{
    width:100%;
-   padding: 90px 0px; 
+   padding: 90px 0px;
    background-color: #f2f2f2;
 }
 .paylist{
@@ -321,4 +319,3 @@
     display: none;
 }
 </style>
-

@@ -1,26 +1,3 @@
-<<<<<<< HEAD
-# mall
-
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-=======
 # mall_pc
 迪瑞克斯科技商城---方方大魔王
 IVIEW
@@ -42,4 +19,3 @@ router配置history模式时会导致npm run build以后有bug.没有解决。�
 加入购物车的方法没有使用到VUEX，没有单独拎除localstorage.login中的token在VUEX中维护。
 
 router带参数时跳到下一界面不使用name中params的传参，一刷新就会丢失参数。故一直使用query的方法传参。
->>>>>>> 09c0766f84be9c4447836d7143f93c57d91de668

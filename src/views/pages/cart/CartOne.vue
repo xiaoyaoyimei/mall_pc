@@ -471,6 +471,11 @@ export default {
     font-size: 500;
     cursor: pointer;
 }
+.cartlist-red {
+    color: #ff0000;
+    font-size: 18px;
+    font-size: 500;
+}
 .cartlistnum .cartminus{
     left: 0px;
 }
@@ -485,26 +490,29 @@ export default {
     font-size: 18px;
     font-size: 500;
 }
-        .cartTablenull{
-            width: 650px;
-            height: 210px;
-            margin: 0 auto;
-            background-color: rgb(238, 238, 238);
-        }
-        .cartTablenull img{
-            opacity: 0.5;
-            width: 240px;
-        }
-        .cartTablenull span{
-            font-weight: 700;
-            font-style: normal;
-            font-size: 36px;
-            color: #999999;
-            float: right;
-            width: 360px;
-            margin-top: 35px;
-        }
-        .cartTablenull a{
+.cartTable .totalnum span {
+    color: #ff0037;
+}
+.cartTablenull{
+    width: 650px;
+    height: 210px;
+    margin: 0 auto;
+    background-color: rgb(238, 238, 238);
+}
+.cartTablenull img{
+    opacity: 0.5;
+    width: 240px;
+}
+.cartTablenull span{
+    font-weight: 700;
+    font-style: normal;
+    font-size: 36px;
+    color: #999999;
+    float: right;
+    width: 360px;
+    margin-top: 35px;
+}
+.cartTablenull a{
        width: 180px;
     height: 50px;
     border-width: 1px;
@@ -520,8 +528,8 @@ export default {
     margin-top: 15px;
     display: inline-block;
     line-height: 50px;
-        }
-        .Msucceess{
+}
+.Msucceess{
     width: 100%;
     max-width: 1200px;
     margin: 0px auto;
@@ -535,7 +543,6 @@ export default {
     height: 1px; 
     margin-top: 40px;
     text-align: center; 
-    
     border-top: 1px solid rgb(204, 204, 204);
 }
 .Msucceess .h5 h5{

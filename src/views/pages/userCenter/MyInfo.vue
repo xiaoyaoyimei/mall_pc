@@ -855,7 +855,7 @@
 	height:50px;
 }
 .modalpwd .ivu-modal-header-inner{
-	padding:0px 50px 0px;
+	padding:0px 54px 0px;
 	height: 50px;
 	font-size: 24px;
 	color: #999999;
@@ -878,5 +878,6 @@
 }
 .modalpwd .ivu-btn-primary{
 	margin-top:0px;
+	margin-left:16px;
 }
 </style>

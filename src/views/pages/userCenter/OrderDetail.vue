@@ -97,7 +97,7 @@
 			</Form>
 		</Modal>
 				<!-- 编辑发票 -->
-		 <Modal v-model="modaleditorderNo" ref='modaleditorderNo' title="编辑发票信息" @on-ok="editinvoice" :loading="loading" :mask-closable='false'>
+		 <Modal v-model="modaleditorderNo"  class="modaladdorderNo"  ref='modaleditorderNo' title="编辑发票信息" @on-ok="editinvoice" :loading="loading" :mask-closable='false'>
 			<Form :model="editInvoice" ref="editInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" >
 				 <FormItem label="订单编号" prop="orderNo">
 					<Input v-model="editInvoice.orderNo" placeholder="订单编号" autocomplete="off" disabled ></Input>

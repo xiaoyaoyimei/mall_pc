@@ -304,6 +304,15 @@
 				}
 
 			},
+			getlikepro(){
+				let	id = this.shangp.product.id
+				this.$axios({
+						method: 'post',
+						url: `/like/queryIsLiked/${id}`,
+					}).then((res) => {
+						this.likeshow = res;
+					})
+			},
 			//点赞
 			zan(value, isZan) {
 				let zanid = value;
@@ -534,6 +543,7 @@
 					} else {
 						this.wuhuotongzhi = false;
 					}
+					// this.getlikepro(this.productItemId);
 
 				} else {
 					return;
@@ -565,6 +575,7 @@
 				let routerParams = this.$route.query.id
 				this.productId = routerParams;
 			},
+
 			//获取该商品信息
 			getProduct() {
 				let _this = this;
@@ -602,6 +613,7 @@
 						}
 
 					}
+						this.getlikepro();
 				});
 			},
 			getProductDesc() {
@@ -656,6 +668,7 @@
 				this.detail();
 			}, 1000)
 			this.getProductDesc();
+		
 		},
 	}
 </script>

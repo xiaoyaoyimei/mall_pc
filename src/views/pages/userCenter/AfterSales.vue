@@ -2,7 +2,7 @@
 	<div class="padding40">
 		<h3 class="myorder" style="padding-bottom: 48px;">售后服务
 					</h3>
-		<ul class="ul">
+		<ul class="ul"  v-if="refundList.length>0">
 			<li class="" v-for="(x,index) in refundList" :key="index">
 				<h3 class="red">{{statusrufundfilter(x.refundOrder.refundOrderStatus)}}</h3>
 				<div class="myorderinformation clearfix">
@@ -19,18 +19,24 @@
 					<div class="myorderp">
 						<router-link :to="{name:'/order/detail',query:{orderNo:x.refundOrder.orderNo}}">订单详情 </router-link>
 						<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='01'" @click="cancelrefund(x.refundOrder.refundOrderNo)">取消</button>
-						<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='02'||x.refundOrder.refundOrderStatus=='05'"   @click="show(x.refundOrder.refundOrderNo)">显示处理结果</button>
+						<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='02'||x.refundOrder.refundOrderStatus=='05'"   @click="show(x.refundOrder)">显示处理结果</button>
 						<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='02'" @click="showLogisticsInfo(x.refundOrder.refundOrderNo)">填写物流单号</button>
 					</div>
 				</div>
 
 			</li>
 		</ul>
-	
-						<Modal v-model="infoModal" width="500" :mask-closable="false">
-			<p slot="header" style="color:#f60;text-align:center">
+		<div class="myorderempty "  v-else >
+			<i class="cartIcon iconIcon-order"></i>
+			<div><h6>暂无记录~</h6>
+				<router-link  to="/sort" >购物建议</router-link>
+				<router-link  to="/sort" >去下单</router-link>
+			</div>
+		</div>
+		<Modal v-model="infoModal" class="aftersalemodal" width="500" :mask-closable="false">
+			<p slot="header">
 				<Icon type="ios-information-circle"></Icon>
-				<span>填写物流单号</span>
+				<span class="expressNo">填写物流单号</span>
 			</p>
 			<div>
 				<div class="refund">
@@ -46,17 +52,18 @@
 				<Button type="primary" size="large" long @click="submitLogisticsInfo">提交</Button>
 			</div>
 		</Modal>
-				<Modal v-model="dealModal" width="500" :mask-closable="false">
-			<p slot="header" style="color:#f60;text-align:center">
+		<Modal v-model="dealModal" class="aftersaledealModal" width="500" :mask-closable="false">
+			<p slot="header">
 				<Icon type="ios-information-circle"></Icon>
-				<span>审核结果</span>
+				<span class="expressNo" style="padding-left:25px;">审核结果</span>
 			</p>
-			<div>
+			<div style="padding-bottom:30px;">
 				<div class="refund">
-					<p>退款金额</p><span>{{refundAmount}}</span></div>
-					<div class="refund">
-					<p>退款说明</p><textarea>{{dealremark}}</textarea></div>
-				
+					<p>退款金额 :</p> <span>{{refundAmount | pricefilter}}</span>
+				</div>
+				<div class="refund">
+					<p>退款说明 : </p>{{dealremark}}
+				</div>
 			</div>
 			<div slot="footer">
 				<Button type="primary" size="large" long @click="submitLogisticsInfo">提交</Button>
@@ -112,7 +119,18 @@
 				});
 			},
 			show(v){
-				this.dealModal = true
+				this.dealModal = true;
+				this.refundAmount=v.refundOrderTotalFee;
+				this.dealremark=v.remarks;
+				console.log(v)
+				// this.$axios({
+				// 	method: 'get',
+				// 	url: '/refund/getRefundOrderList?refundOrderNo='+v,
+				// }).then((res) => {
+				// 	console.log(res)
+				// 	alert(JSON.stringify(res))
+				// 	this.refundList = res;
+				// });
 			},
 			showLogisticsInfo(value) {
 				this.infoModal = true;
@@ -173,7 +191,8 @@
 				}).then((res) => {
 					this.refundList = res;
 				});
-			}
+			},
+				
 		},
 		mounted() {
 			this.getRefundOrder();
@@ -183,5 +202,63 @@
 </script>
 
 <style scoped="scoped">
+	.expressNo{
+		font-weight: 400;
+		font-size: 18px;
+		color: #333333;
+	}
+	.aftersalemodal .refund{
+		width: 450px;
+		margin: 10px auto;
+	}
+	.refund p{
+		font-weight: 400;
+		font-size: 14px;
+		color: #666666;
+		text-align: right;
+		line-height: 48px;
+		display: inline-block;
+		margin-right: 25px;
+		width:100px;
+	}
+	.refund span{
+		display: inline-block;
+		width: 300px;
+	}
+	.refund input{
+		width: 300px;
+		padding-left: 30px;
+		height: 41px;
+		line-height: 41px;
+	}
+	.aftersaledealModal refund{
+		height: 45px;
+		line-height: 45px;
+	}
+</style>
+<style>
+.aftersalemodal .ivu-modal-header{
+	background-color:#f0f0f0;
+}
+.aftersalemodal  .ivu-modal-footer{
+	border-top:none;
+	text-align:center;
+	border-radius:0px;
+	padding-bottom:50px;
 
+}
+.aftersalemodal .ivu-btn-primary{
+	width: 252px;
+	height: 41px;
+	font-weight: 400;
+	font-size: 18px;
+	color: #FFFFFF;
+	border-radius:0px;
+}
+.aftersalemodal .ivu-modal-content{
+	border-radius:0px;	
+}
+.aftersaledealModal .ivu-modal-footer{
+	display: none;
+}
 </style>

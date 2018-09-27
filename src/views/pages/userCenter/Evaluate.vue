@@ -1,7 +1,7 @@
 <template>
 	<div class="eval-page">
 		<h3>我的评价<span class="span">评价详情 快乐的你分享完美的使用心得~</span></h3>
-		<ul class="evaluate">
+		<ul class="evaluate"  v-if="evaluateList.length>0">
 			<li class="li clearfix" v-for="(item,index) in evaluateList" :key="index">
 				<div class="evaluateImg">
 					<img :src="item.list.iconUrl" alt="">
@@ -32,6 +32,13 @@
 				</div>
 			</li>
 		</ul>
+		<div class="myorderempty "  v-else >
+			<i class="cartIcon iconIcon-order"></i>
+			<div><h6>暂无记录~</h6>
+				<router-link  to="/sort" >购物建议</router-link>
+				<router-link  to="/sort" >去下单</router-link>
+			</div>
+		</div>
 	</div>
 
 </template>
@@ -199,6 +206,10 @@
 	
 	.fabulousTime i {
 		float: right;
+	}
+	.eval-page .myorderempty {
+		background-color: #ffffff;
+		margin-top: 10px;
 	}
 </style>
 <style>

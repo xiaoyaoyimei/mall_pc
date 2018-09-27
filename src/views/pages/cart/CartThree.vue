@@ -32,7 +32,12 @@
                     </div>
                     <div class="payprice">
                         <p>应付总额：<span class="red">￥<strong> {{orderTotalFee}}</strong></span></p>
-                        <button @click="orderdetailshow('alipay')" :to="{name:'/order/detail',query:{orderNo:this.orderNo}}">订单详情<i></i></button>
+                        <router-link :to="{path:'/user/orderlist'}" tag="button">订单中心 <Icon type="chevron-right"></Icon></router-link>
+                        <button @click="orderdetailshow('alipay')" :to="{name:'/order/detail',query:{orderNo:this.orderNo}}">订单详情 
+                        
+                        <Icon type="chevron-down" v-if="chevrondown == true"></Icon>
+                         <Icon type="chevron-left" v-else></Icon>
+                        </button>
                     </div>
                 </div>
                 <div class="paymethod">
@@ -111,7 +116,8 @@
                 ordertime:'',
                 orderTotalFee:"",
                 orderdetail:false,
-                weixinModal:false
+                weixinModal:false,
+                chevrondown:true
             }
         },
         methods:{
@@ -150,6 +156,7 @@
             },
             orderdetailshow(){
                 this.orderdetail = !this.orderdetail;
+                this.chevrondown =!this.chevrondown;
             },
 	    	getParams () {
 	                // 取到路由带过来的参数 

@@ -227,12 +227,6 @@ const routes = [{
 				path: 'complain',
 				zname:'投诉建议',
 				component: resolve => require(['@/views/pages/userCenter/Complain.vue'], resolve)
-			},	
-			{
-				name: 'setting',
-				path: 'setting',
-				zname:'我的设置',
-				component: resolve => require(['@/views/pages/userCenter/MySetting.vue'], resolve)
 			}
 		]
 	},

@@ -446,9 +446,6 @@
 	.seemore:hover {
 		color: #FF0037;
 	}
-		.seemore:hover i{
-	 background-position: -178px -325px;
-	}
 	.ad-wrap {
 		position: relative;
 		cursor: pointer;

@@ -458,7 +458,8 @@
 						}).then((res) => {
 							if(res.code == '200') {
 								this.$Message.success('个人信息修改成功');
-								this.loading = false
+								this.loading = false;
+								this.getUser();
 							}
 						});
 					}

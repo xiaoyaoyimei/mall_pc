@@ -125,7 +125,9 @@ export default {
 			        if(!n.test(obj.value)){
 			            this.$Message.warning('商品数量须大于0个，请输入正整数');
 			            obj.value=1
-			            return ;
+			            x.quantity=1
+			           this.getCartList()
+			            return false;
 			        }
 					x.quantity = parseInt(obj.value);
 					 if(this.temp.indexOf(index)<0){

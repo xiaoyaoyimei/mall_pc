@@ -423,11 +423,11 @@
 					}).then((res) => {
 						if(res.code == '200') {
 							this.$Message.info(res.msg);
-							this.refundModal = false;
+							this.evaluationModal = false;
 							this.getOrder();
 						} else {
 							this.$Message.error(res.msg);
-							this.refundModal = false;
+							this.evaluationModal = false;
 							this.getOrder();
 						}
 					});
@@ -479,8 +479,6 @@
 					}
 				});
 			},
-
-			
 			qianshou(value) {
 				this.$Modal.confirm({
 					content: '<p>确定签收该订单？</p>',
@@ -526,7 +524,6 @@
 				}).then((res) => {
 					if(res.code == '200') {
 						this.cartList = res.object;
-						console.log(this.cartList);
 						for(let i=0;i<this.cartList.length;i++){
 							this.maopao(this.cartList[i])
 						}

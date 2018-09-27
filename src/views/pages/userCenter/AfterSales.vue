@@ -12,8 +12,9 @@
 				<div class="myorderImg clearfix">
 					<ul>
 						<li v-for="(child,i) in x.refundOrderItems" :key="i">
-							<img :src="child.productItemImg | imgfilter" alt=""> <span>{{child.productTitle}}   {{child.productAttrs}} </span>
-							<span>{{child.refundOrderFee}} x{{child.quantity}}  </span>
+							<img :src="child.productItemImg | imgfilter" alt=""> 
+								<div><div>{{child.productTitle}}   {{child.productAttrs}} </div>
+							<span>{{child.refundOrderFee}} x{{child.quantity}}  </span></div>
 						</li>
 					</ul>
 					<div class="myorderp">

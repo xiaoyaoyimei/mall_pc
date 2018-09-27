@@ -2,6 +2,7 @@
 <div class="layout">
         <Layout>
              <app-header></app-header>
+             <app-nav style="background: #fff;"></app-nav>
             <Layout >
                 <Content class='layout' :style="{ minHeight: '700px'}">
                 	
@@ -25,6 +26,7 @@
 import AppHeader from '@/components/Header'
 import AppFooter from '@/components/Footer'
 import UserLeft from '@/components/UserLeft'
+import AppNav from '@/components/Nav'
 import AppBreadcrumb from '@/components/BreadCrumb'
 	export default {
 	    data () {
@@ -35,7 +37,8 @@ import AppBreadcrumb from '@/components/BreadCrumb'
         	AppHeader,
         	AppFooter,
         	UserLeft,
-        	AppBreadcrumb
+        	AppBreadcrumb,
+        	AppNav
         },
     }
 </script>

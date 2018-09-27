@@ -7,7 +7,7 @@
 					<img :src="item.list.iconUrl | imgfilter" alt="">
 					<span>{{item.list.productItemNo}}</span>
 					<span class="fubiao">{{item.list.productTitle}}</span>
-					<span class="">￥{{item.list.productFee}}</span>
+					<span class="">￥{{item.list.productFee |pricefilter}}</span>
 					<!--   <span class="red">活动信息展示区域</span>-->
 				</div>
 				<div class="evaluateText">

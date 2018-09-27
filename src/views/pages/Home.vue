@@ -53,7 +53,6 @@
 							<div class="seemore fr" @mouseover="dianjingfunction()"  @mouseout="dianjingfunction()"> 查看更多
 							<i v-if="dianjing == true"  class="icon-new icon-more" ></i>
 							<i v-else class="cartIcon iconIcon-more-red" ></i>
-								
 							</div>
 							<span>电竞</span></div>
 						<div class="two clearfix">

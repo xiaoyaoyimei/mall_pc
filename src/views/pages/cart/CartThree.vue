@@ -18,7 +18,7 @@
                             <p>订单详情</p>
                             <p class="clearfix">
                                 <span class="detailname">交易金额：</span>
-                                <span class="detailvalue">￥ {{orderTotalFee}}</span>
+                                <span class="detailvalue">￥ {{orderTotalFee | pricefilter}}</span>
                             </p>
                             <p class="clearfix">
                                 <span class="detailname">订单号：</span>
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="payprice">
-                        <p>应付总额：<span class="red">￥<strong> {{orderTotalFee}}</strong></span></p>
+                        <p>应付总额：<span class="red">￥<strong> {{orderTotalFee | pricefilter}}</strong></span></p>
                         <router-link :to="{path:'/user/orderlist'}" tag="button">订单中心 <Icon type="chevron-right"></Icon></router-link>
                         <button @click="orderdetailshow('alipay')" :to="{name:'/order/detail',query:{orderNo:this.orderNo}}">订单详情
 

@@ -1,10 +1,8 @@
 <template>
 	<div class="padding40">
                   <h2>订单详情</h2>
-                     	<div  v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">
-		 <span v-if='timerShow'>剩余支付时间{{protime}}</span>
-			 <button @click="cancel()">取消订单</button>
-			 <button class="btn-blue" @click="quzhifu()"   v-show="orderdetail.shippingOrder.orderStatus=='01'">去支付</button>
+                     	<div class="font-14" v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">
+		 <span v-if='timerShow'>订单将在 <span class="color-red">{{protime}}</span>后 自动关闭，请及时付款~</span>
 	     		</div>
                   <div class="orderdetailnum">
                       订单号：{{orderNo}} <span>{{statusfilter(orderdetail.shippingOrder.orderStatus)}}</span>
@@ -25,7 +23,7 @@
                         <div class="p">收货地址：   {{orderdetail.shippingAddress.receiverState}}{{orderdetail.shippingAddress.receiverCity}} {{orderdetail.shippingAddress.receiverDistrict}}
                         {{orderdetail.shippingAddress.address}}</div>
                   </div>
-                  <div class="orderdetail">
+                  <div class="orderdetail"  v-if="orderdetail.shippingOrder.orderStatus=='05'||orderdetail.shippingOrder.orderStatus=='06'">
                       <div class="h5">查看物流 </div>
                        <div class="p">物流公司：{{orderdetail.shippingOrder.logistics}}</div>
                       <div class="p">物流单号：{{orderdetail.shippingOrder.expressNo}}
@@ -41,7 +39,7 @@
 				      </div>
                       <div class="p">发票抬头：<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceTitle}} </span></div>
                   </div>
-                  <div class="orderdetailtotal">
+                  <div class="orderdetailtotal" >
                         <div class="orderdetailtotalAttr">
                             <p>商品总价:</p>
                             <p>活动优惠</p>
@@ -446,7 +444,6 @@
                 font-weight: 400;
                 font-size: 24px;
                 color: #666666;
-                padding: 0px 4px 35px;
             }
   .orderdetailnum{
                 margin: 0 4px;

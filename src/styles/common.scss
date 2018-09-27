@@ -1,4 +1,4 @@
-.P15 {
+ .P15 {
     padding: 15px;
 }
 .color-red{
@@ -674,7 +674,8 @@ header a {
 
 .floor li a>img {
     max-height: 290px;
-    max-width: 290px
+    max-width: 290px;
+    display: block;
 }
 
 .floor .ad-wrap a>img {

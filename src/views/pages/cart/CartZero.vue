@@ -10,7 +10,7 @@
 		</div>
 		<div class="successBtn">
 			<a class="goback" @click="$router.go(-1)">返回上一页</a>
-			<router-link :to="{ path: '/cart',query:{zeroid:routerParams.id} }" class="gocart">去购物车结算</router-link>
+			<router-link :to="{ path: '/cart' }" class="gocart">去购物车结算</router-link>
 		</div>
 	</div>
 	    <div class="Msucceess clearfix" v-if="tuijian.length>0">
@@ -20,12 +20,14 @@
             <div class="likeList">
                 <ul class="clearfix">
                     <li  v-for="(x,index) in tuijian" :key="index">
-                        <p class="stamp stampRed">{{}}</p>
-                        <img class="likeListImg" :src="x.model_img | imgfilter" alt="">
+                    	<router-link :to="{ path: '/sort/sortDetail',query:{id:x.list.id} }" >
+                        <p class="stamp stampRed" v-if="x.activity!=''">{{x.activity}}</p>
+                        <img class="likeListImg" :src="x.list.model_img | imgfilter" alt="">
                         <h5>{{x.model_no}}</h5>
-                        <p class="des">{{x.model_name}}</p>
-                        <p class="red">¥ {{x.sale_price | pricefilter}}</p>
-                        <button class="gocart">加入购物车</button>
+                        <p class="des">{{x.list.model_name}}</p>
+                        <p class="red">¥ {{x.list.sale_price | pricefilter}}</p>
+                        <!--<button class="gocart">加入购物车</button>-->
+                        </router-link>
                         
                     </li>
                 </ul>
@@ -51,16 +53,18 @@
 			methods: {
 				getParams() {
 					// 取到路由带过来的参数 
-					 this.routerParams = this.$route.params.cartBefore
+					 this.routerParams = this.$route.query.cartBefore
 					// 将数据放在当前组件的数据内
 				},
 				gettuijian(){
 					 if(this.routerParams.id!=''){
 					        		this.$axios({
 							    method: 'get',
-							    url:`/product/other/${this.routerParams.id}`,
+							    url:`/product/other/${this.routerParams}`,
 								}).then((res)=>{
-										this.tuijian=res
+									if(res.code=='200'){
+											this.tuijian=res.object
+									}
 							});
 							}
 				},
@@ -177,6 +181,7 @@
     background-color: rgb(246, 246, 246);
     margin-right: 15px;
     text-align: center;
+    margin-bottom: 10px;
 }
 .Msucceess .likeList li:nth-of-type(4){
     margin-right: 0px;

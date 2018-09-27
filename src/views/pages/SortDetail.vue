@@ -417,7 +417,7 @@
 				}
 				sessionStorage.removeItem('cart');
 				sessionStorage.setItem('cart', JSON.stringify(this.cartList));
-				this.$router.push({ name:'/carttwo'});
+				this.$router.push({ name:'/carttwo',query:{orderfrom:'A'}});
 			},
 			//加入购物车addtocart
 			atc() {
@@ -445,8 +445,8 @@
 							//this.$router.push({name:'/cartthree',query: { orderNo: res.msg}});  
 							this.$router.push({
 								name: '/cartzero',
-								params: {
-									cartBefore: this.choosesp
+								query: {
+									cartBefore: this.choosesp.id
 								}
 							});
 						} else {

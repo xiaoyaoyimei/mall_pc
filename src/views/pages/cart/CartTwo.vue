@@ -228,6 +228,7 @@
 					num: 0
 				},
 				freight: 0,
+				orderfrom:'B',
 			}
 		},
 		methods: {
@@ -504,7 +505,9 @@
 					addressId: this.addressList[this.selectItem].id,
 					productItemIds: this.productItemIds,
 					couponCode: this.couponCode,
-					remark: this.beizhu
+					remark: this.beizhu,
+					type:this.orderfrom,
+					
 				};
 				this.$axios({
 					method: 'post',
@@ -568,6 +571,8 @@
 			}
 		},
 		mounted() {
+			//获取from类型A为立即下单，B为来自购物车1
+			this.orderfrom = this.$route.query.orderfrom;
 			this.cartList = JSON.parse(sessionStorage.getItem('cart'));
 			if(this.cartList ==null){
 						this.$router.push({

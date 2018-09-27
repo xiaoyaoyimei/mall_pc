@@ -95,10 +95,6 @@ export default {
             }
 		},
         methods: {
-//      	   atc(v){
-//      	   	 let pro={id:v,quantity:1};
-//      	   	 this.addcart(pro);
-//      	   },
 				itemtotal(p,n){
 					return Number(p)*n;
 				},
@@ -200,7 +196,7 @@ export default {
 				});
 				 sessionStorage.removeItem('cart'); 
 		         sessionStorage.setItem('cart', JSON.stringify(goumai)); 
-				 this.$router.push({ name:'/carttwo'});
+				 this.$router.push({ name:'/carttwo',query:{orderfrom: 'B'}});
 			},
 			
 				remove(id){

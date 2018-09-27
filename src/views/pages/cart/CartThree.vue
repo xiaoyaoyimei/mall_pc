@@ -114,7 +114,7 @@
                 t:'',
                 pro:'',
                 ordertime:'',
-                orderTotalFee:"",
+                orderTotalFee:0,
                 orderdetail:false,
                 weixinModal:false,
                 chevrondown:true

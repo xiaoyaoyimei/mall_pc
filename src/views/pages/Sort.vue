@@ -79,6 +79,7 @@
                		series:'',
                 	brand:'',
                 },
+                flag:true,
 			}
         },
 		methods:{
@@ -160,12 +161,24 @@
                 this.getList();
             },
 		},
-		 mounted(){
-		 	var vm = this
-           // 用$on事件来接收参数
-		      Bus.$on('val', (data) => {
+		created(){
+				      Bus.$on('val', (data) => {
+		      		this.flag=false;
 		           this.getTopList(data);
+		           console.log('cre'+this.flag)
 		      });
+		},
+		 mounted(){
+		// 	var vm = this
+           // 用$on事件来接收参数
+	
+		      console.log('mou'+this.flag)
+		      
+		      
+		      
+		      if(this.flag){
+		      	this.getTopList('')
+		      }
 		      //得到顶部分类
 		      this.getTop();
 		      //首页点击左侧分类

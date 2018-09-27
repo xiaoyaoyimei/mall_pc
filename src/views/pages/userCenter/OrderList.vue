@@ -28,7 +28,7 @@
 											<button  @click="showrefund(x.order.orderNo)" v-if="x.canRefund==true">售后服务</button>
 											<button  class="btn-red-outline" @click="evaluation(x.order.orderNo)" v-if="x.order.orderStatus=='07'">去评价</button>
 											<button  class="btn-red" @click="qianshou(x.order.orderNo)" v-if="x.order.orderStatus=='06'">确认收货</button>
-												<button  class="btn-red" @click="paynow(x.order.orderNo)" v-if="x.order.orderStatus=='01'">立即支付</button>
+											<button  class="btn-red" @click="paynow(x.order.orderNo)" v-if="x.order.orderStatus=='01'">立即支付</button>
 									</div>
 								</div>
 						</li>

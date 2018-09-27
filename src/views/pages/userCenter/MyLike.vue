@@ -1,16 +1,24 @@
 <template>
-<ul class="clearfix mylike">
-                            <li v-for="(item,index) in likeList" :key="index">
-                                <span @click="deletelike(item.id)" >❤</span>
-                                <router-link :to="{ path: '/sort/sortDetail',query:{id:item.product_id} }" >
-                                <img :src="item.model_img | imgfilter" alt="">
-                                <p class="ptitle">{{item.model_no}}</p>
-                                <p class="pt">{{item.model_name}}</p>
-                                <p class="red">{{item.sale_price | pricefilter}}</p>
-                                </router-link>
-                            </li>
-
-                        </ul>
+    <div>
+        <ul class="clearfix mylike"  v-if="likeList.length>0">
+            <li v-for="(item,index) in likeList" :key="index">
+                <span @click="deletelike(item.id)" >❤</span>
+                <router-link :to="{ path: '/sort/sortDetail',query:{id:item.product_id} }" >
+                    <img :src="item.model_img | imgfilter" alt="">
+                    <p class="ptitle">{{item.model_no}}</p>
+                    <p class="pt">{{item.model_name}}</p>
+                    <p class="red">{{item.sale_price | pricefilter}}</p>
+                </router-link>
+            </li>
+        </ul>
+        <div class="myorderempty "  v-else >
+			<i class="cartIcon iconIcon-order"></i>
+			<div><h6>暂无记录~</h6>
+				<router-link  to="/sort" >购物建议</router-link>
+				<router-link  to="/sort" >去下单</router-link>
+			</div>
+		</div>
+    </div>
 </template>
 
 <script>

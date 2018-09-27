@@ -55,7 +55,7 @@
                             <p>￥ <span>{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</span></p>
                         </div>
                   </div>
-                   <Modal v-model="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" :mask-closable='false'>
+                   <Modal v-model="modaladdorderNo" class="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" :mask-closable='false'>
 			<Form :model="addInvoice" ref="addInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="ruleValidate" >
 					<FormItem label="订单编号" prop="orderNo">
 					<Input v-model="addInvoice.orderNo" placeholder="订单编号" autocomplete="off" disabled ></Input>
@@ -555,11 +555,73 @@
                 color: #ff0000;
             }
             .addEdit{
-            	    width: 80px;
-    margin-right: 10px;
-    height: 30px;
-    line-height: 30px;
-    border: none;
-    background-color: #e1e1e1;
-            }
+				width: 80px;
+				margin-right: 10px;
+				height: 30px;
+				line-height: 30px;
+				border: none;
+				background-color: #e1e1e1;
+			}
+	.modaladdorderNo{
+		margin-bottom: 100px;
+	}
+</style>
+<style>
+	.modaladdorderNo .ivu-form-item-label{
+		font-size: 14px;
+		height: 45px;
+		line-height: 45px;
+		padding: 0px;
+	}
+	.modaladdorderNo .ivu-input{
+		font-size: 14px;
+		height: 45px;
+		line-height: 45px;
+		border-radius: 0px;
+	}
+	.modaladdorderNo .ivu-radio-group{
+		font-size: 14px;
+		height: 45px;
+		line-height: 45px;		
+	}
+	.modaladdorderNo .ivu-modal-close {  
+		width: 30px;
+		height: 30px;
+		border: 1px solid #d5d5d5;
+		text-align: center;
+		border-radius: 50%;
+		line-height: 30px;
+	}
+	.modaladdorderNo .ivu-modal-header{
+		border: none;
+		background-color: #f0f0f0;
+	}
+	.modaladdorderNo .ivu-modal-header-inner{
+		font-size: 18px;
+		color: #333333;
+	}
+	.modaladdorderNo .ivu-modal-footer{
+		border-top: none;
+		text-align: center;
+		padding-bottom: 40px;
+		border-radius: 0px;
+	}
+	.modaladdorderNo .ivu-btn-text{
+		width: 152px;
+		height: 41px;
+		font-weight: 400;
+		font-size: 18px;
+		border-radius:0px;
+	}
+	.modaladdorderNo .ivu-btn-primary{
+		width: 152px;
+		height: 41px;
+		font-weight: 400;
+		font-size: 18px;
+		color: #FFFFFF;
+		border-radius:0px;
+	}
+	.modaladdorderNo .ivu-modal-content{
+		border-radius: 0px;
+	}
 </style>

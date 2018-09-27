@@ -100,7 +100,7 @@
 							</li>
 						</CheckboxGroup>
 					</ul>
-					<div class="changepage fl"><i>&lt;</i> <i>&gt;</i></div>
+					<div class="changepage fl"><i @click="prev()">&lt;</i> <i @click="next()">&gt;</i></div>
 					<div class="compine fr">
 						<p>已选择{{dpnum}}个配件
 						</p>
@@ -109,7 +109,8 @@
 							<span class="color-newred" v-if="choosesp.cuxiaoprice==0&&dpjiage==0">{{choosesp.price}}</span>
 							<span class="color-newred" v-if="dpjiage>0">{{dpjiage}}</span></p>
 						<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi">加入购物车</button><button class="btn-xorder" v-show="!wuhuotongzhi" @click="buynow(1)">立即下单</button>
-						<button class="btn-nopro" v-show="wuhuotongzhi">暂时无货</button></div>
+						<button class="btn-nopro" v-show="wuhuotongzhi">暂时无货</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -231,6 +232,7 @@
 				choosepPrice: false,
 				productImageListNew: [],
 				recomm: [],
+				poprecomm:[],
 				commentList: [],
 				dpjiage: 0,
 				dpnum: 0,
@@ -348,6 +350,22 @@
 				} else {
 					this.quantity = parseInt(this.quantity) - 1;
 				}
+			},
+			prev(){
+				if(this.recomm.length > 5){
+				this.poprecomm.push(this.recomm[0]);
+				this.recomm.shift();
+				}
+
+			},
+			next(){
+				if(this.poprecomm.length > 0 ){
+				let i = this.poprecomm.length;
+				this.recomm.unshift(this.poprecomm[i - 1]);
+				this.poprecomm.pop();
+				}
+
+					
 			},
 			getIndex(imgUrl, index) {
 				this.videoshow = false;

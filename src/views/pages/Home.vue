@@ -50,7 +50,11 @@
 				<div class="main-width">
 					<div class="floor">
 						<div class="title">
-							<div class="seemore fr"> 查看更多<i class="icon-new icon-more"></i></div>
+							<div class="seemore fr" @mouseover="dianjingfunction()"  @mouseout="dianjingfunction()"> 查看更多
+							<i v-if="dianjing == true"  class="icon-new icon-more" ></i>
+							<i v-else class="cartIcon iconIcon-more-red" ></i>
+								
+							</div>
 							<span>电竞</span></div>
 						<div class="two clearfix">
 							<div class="ad-wrap fl">
@@ -82,7 +86,10 @@
 							</ul>
 						</div>
 						<div class="title">
-							<div class="seemore fr"> 查看更多<i class="icon-new icon-more"></i></div>
+							<div class="seemore fr" @mouseover="bangongfunction()"  @mouseout="bangongfunction()"> 查看更多
+								<i v-if="bangong == true"  class="icon-new icon-more" ></i>
+								<i v-else class="cartIcon iconIcon-more-red" ></i>
+							</div>
 							<span>办公</span></div>
 						<div class=" three clearfix">
 							<ul class=" fl  office">
@@ -114,7 +121,10 @@
 							</ul>
 						</div>
 						<div class="title">
-						<div class="seemore fr"> 查看更多<i class="icon-new icon-more"></i></div>
+						<div class="seemore fr" @mouseover="jiajufunction()"  @mouseout="jiajufunction()"> 查看更多
+							<i v-if="jiaju == true"  class="icon-new icon-more" ></i>
+								<i v-else class="cartIcon iconIcon-more-red" ></i>
+							</div>
 						<span>家居</span></div>
 									<div class=" three clearfix">
 							<ul class=" fl  office">
@@ -175,7 +185,10 @@
 						</div>
 					</div>
 					<div class="title">
-						<div class="seemore fr"> 查看更多<i class="icon-new icon-more"></i></div>
+						<div class="seemore fr" @mouseover="zhoubianfunction()"  @mouseout="zhoubianfunction()"> 查看更多
+							<i v-if="zhoubian == true"  class="icon-new icon-more" ></i>
+								<i v-else class="cartIcon iconIcon-more-red" ></i>
+						</div>
 						<span>座椅周边</span></div>
 					
 					<ul class="clearfix bgli-white mb105">
@@ -231,6 +244,10 @@
 				cockpitproduct:[],
 				peripheryproduct:[],
 				toolbarNologin:{},//侧边栏个人中心是否登录
+				dianjing:true,
+				jiaju:true,
+				bangong:true,
+				zhoubian:true,
 			};
 		},
 		computed: {
@@ -246,9 +263,22 @@
 			}
 		},
 		methods: {
-				goback(){
+			goback(){
 				document.documentElement.scrollTop = 0;
 			},
+			dianjingfunction(){
+				this.dianjing = !this.dianjing
+			},
+			jiajufunction(){
+				this.jiaju = !this.jiaju
+			},
+			bangongfunction(){
+				this.bangong = !this.bangong
+			},
+			zhoubianfunction(){
+				this.zhoubian = !this.zhoubian
+			}
+			,
 			getBanner() {
 				//判断是否已经登录
 				if(this.token != null) {
@@ -287,7 +317,7 @@
 						this.gameproductone = this.gameproduct[0].list;
 					}
 				});
-						this.$axios({
+				this.$axios({
 					method: 'GET',
 					url: '/index/officeproduct',
 				}).then((res) => {
@@ -305,7 +335,7 @@
 						this.houseproductone = this.houseproduct[0].list;
 					}
 				});
-					this.$axios({
+				this.$axios({
 					method: 'GET',
 					url: '/index/tableproduct',
 				}).then((res) => {
@@ -313,7 +343,7 @@
 						this.tableproduct = res.object;
 					}
 				});
-							this.$axios({
+				this.$axios({
 					method: 'GET',
 					url: '/index/cockpitproduct',
 				}).then((res) => {
@@ -321,7 +351,7 @@
 						this.cockpitproduct = res.object;
 					}
 				});
-							this.$axios({
+				this.$axios({
 					method: 'GET',
 					url: '/index/peripheryproduct',
 				}).then((res) => {

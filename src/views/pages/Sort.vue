@@ -166,7 +166,6 @@
 		      Bus.$on('val', (data) => {
 		           this.getTopList(data);
 		      });
-		      this.getTopList('');
 		      //得到顶部分类
 		      this.getTop();
 		      //首页点击左侧分类
@@ -198,6 +197,7 @@
                 margin-top: 60px;
                 width: 260px;
                 height: 260px;
+                display: inline-block;
             }
             .mylike li span{
                 position: absolute;

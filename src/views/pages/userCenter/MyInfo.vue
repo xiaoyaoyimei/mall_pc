@@ -468,7 +468,7 @@
 		},
 		mounted() {
 			this.getUser(),
-				this.getAddressOption();
+			this.getAddressOption();
 			this.getAddress();
 		}
 	}

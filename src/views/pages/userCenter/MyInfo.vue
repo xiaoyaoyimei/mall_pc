@@ -84,7 +84,7 @@
 					<div class="user-con-wrap ">
 						<div class="demo-upload-list" v-for="item in uploadList">
 							<template v-if="item.status === 'finished'">
-								<img :src="item.url  " class="origin_tx" />
+								<img :src="item.url |imgfilter " class="origin_tx" />
 								<div class="demo-upload-list-cover">
 									<Icon type="ios-eye-outline" @click.native="handleView(item)"></Icon>
 								</div>
@@ -433,13 +433,13 @@
 					url: '/account',
 				}).then((res) => {
 					this.userinfo = Object.assign({}, res);
-					this.uploadList[0].url = this.global_.imgurl+this.userinfo.iconUrl;
+					this.uploadList[0].url = this.userinfo.iconUrl;
 				});
 			},
 			//上传图片
 			handleSuccess(res) {
 				if(res.code == '200') {
-					this.uploadList[0].url = this.global_.imgurl + res.msg
+					this.uploadList[0].url = res.msg
 				}
 			},
 			handleOk() {

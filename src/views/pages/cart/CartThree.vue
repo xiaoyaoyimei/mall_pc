@@ -36,7 +36,7 @@
                         <button @click="orderdetailshow('alipay')" :to="{name:'/order/detail',query:{orderNo:this.orderNo}}">订单详情
 
                         <Icon type="chevron-down" v-if="chevrondown == true"></Icon>
-                         <Icon type="chevron-left" v-else></Icon>
+                         <Icon type="chevron-up" v-else></Icon>
                         </button>
                     </div>
                 </div>

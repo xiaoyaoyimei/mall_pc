@@ -838,7 +838,7 @@
 	}
 	
 	.btn-like-active {
-		background: #de5b19;
+		background: #FF0000;
 	}
 	
 	.recommend {

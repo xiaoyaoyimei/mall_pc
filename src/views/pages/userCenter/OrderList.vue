@@ -2,31 +2,35 @@
 <div class="padding40">
                     <h3 class="myorder">我的订单
 						<div class="myorderspan" >
-							<span @click="changeStatus('07')" :class="{red:'07' == numactive}">已签收</span>
 							<span  @click="changeStatus('00')" :class="{red:'00' == numactive}" >全部订单</span>
-							<!--<span class="red" v-for="(item,index) in statusList">{{item.value}}</span>-->
 							<span @click="changeStatus('01')" :class="{red:'01' == numactive}">待付款</span>
 							<span @click="changeStatus('05')" :class="{red:'05' == numactive}">待发货</span>
 							<span @click="changeStatus('06')" :class="{red:'06' == numactive}">已发货</span>
 							<span @click="changeStatus('04')" :class="{red:'04' == numactive}">已取消</span>
+							<span @click="changeStatus('07')" :class="{red:'07' == numactive}">已签收</span>
 						</div>
 					</h3>
                     <ul class="ul" v-if="pro.length>0">
                         <li v-for="(x,index) in pro" :key="index" >
 							<h3 class="red"> {{statusfilter(x.order.orderStatus)}}</h3>
 								<div class="myorderinformation clearfix">
-									<span class="myorderOrder clearfix">{{x.order.createTime | formatDate}} 丨 {{x.order.orderNo}} <span class="span">订单金额: ￥<strong>{{x.order.orderTotalFee | pricefilter}}</strong></span></span>	
+									<span class="myorderOrder clearfix">{{x.order.createTime | formatDate}} 丨 {{x.orderAddress.receiverMobile }} 丨{{x.order.orderNo}} 
+										<span class="span">订单金额: ￥<strong>{{x.order.orderTotalFee | pricefilter}}</strong></span></span>	
 								</div>	
 								<div class="myorderImg clearfix">
 									<ul>
 										<li v-for="(child,i) in x.orderItems" :key="i">
-											<img :src="child.productItemImg | imgfilter" alt=""> <span>{{child.productTitle}}   {{child.productAttrs}}</span><span>￥{{child.orderFee | pricefilter}} x {{child.quantity}}</span>
+											<img :src="child.productItemImg | imgfilter" alt=""> 
+											<div><span>{{child.productTitle}}   {{child.productAttrs}}</span>
+											<div>￥{{child.orderFee | pricefilter}} x {{child.quantity}}
+												<span  v-if="x.order.orderStatus=='07'&&!child.pinglun" class="color-red pingjia" @click="showevaluation(child,x.order.orderNo)" >去评价</span>
+											</div>
+											</div>
 										</li>
 									</ul>
 									<div class="myorderp">
 										<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情	</router-link>
 											<button  @click="showrefund(x.orderItems,x.order.orderNo)" v-if="x.canRefund==true">售后服务</button>
-											<button  class="btn-red-outline" @click="showevaluation(x.orderItems,x.order.orderNo)" v-if="x.order.orderStatus=='07'">去评价</button>
 											<button  class="btn-red" @click="qianshou(x.order.orderNo)" v-if="x.order.orderStatus=='06'">确认收货</button>
 											<button  class="btn-red" @click="paynow(x.order.orderNo)" v-if="x.order.orderStatus=='01'">立即支付</button>
 									</div>
@@ -109,20 +113,25 @@
 				<Button type="primary" size="large" long @click="refund">提交</Button>
 			</div>
 		</Modal>
-			<!--评价-->
+		
+			<Modal title="查看大图" v-model="visible" class="imglarger">
+							<img :src="imgName | imgfilter" v-if="visible" style="width: 100%">
+						</Modal>
+		
+		<!--评价-->
 			<Modal v-model="evaluationModal" width="660" class="evaluationModal" :mask-closable="false">
 			<p slot="header" style="">
 				<Icon type="ios-information-circle"></Icon>
 				<span>商品评价</span>
 			</p>
-			<div class="evaluation"  v-for="(child,i) in evaItem" :key="i">
+			<div class="evaluation"  >
 				<div class="refund clearfix">
 					<p>商品名称</p>
-					<div class="refundImg" >
-						<img :src="child.productItemImg | imgfilter" alt="">
+					<div class="refundImg"  >
+						<img :src="evaItem.productItemImg | imgfilter" alt="">
 						<div class="evaluationText">
-							<p class="p">{{child.productTitle}}</p>
-							<p class="p">{{child.productAttrs}}</p>
+							<p class="p">{{evaItem.productTitle}}</p>
+							<p class="p">{{evaItem.productAttrs}}</p>
 						</div>
 					</div>
 				</div>
@@ -147,7 +156,7 @@
 						</div>
 						<Upload ref="evaupload" :show-upload-list="false" 
 							:default-file-list="evaluationList" 
-							:on-success="handleSuccess" :format="['jpg','jpeg','png']" 
+							:on-success="evauploadhandleSuccess" :format="['jpg','jpeg','png']" 
 							:max-size="2048" :on-format-error="handleFormatError" 
 							:on-exceeded-size="handleMaxSize" 
 							:before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
@@ -162,11 +171,6 @@
 				<Button type="primary"  long @click="evaluation">提交</Button>
 			</div>
 		</Modal>
-			<Modal title="查看大图" v-model="visible" class="imglarger">
-							<img :src="imgName | imgfilter" v-if="visible" style="width: 100%">
-						</Modal>
-		
-	
        </div>
                 
 	
@@ -200,6 +204,9 @@
 				uploadList: [],
 				uploadUrl: this.$axios.defaults.baseURL + '/upload/upload?path=account',
 				uploadImgs: [],
+				//评论图片
+				evauploadList:[],
+				evaImgs:[],
 				//商品评价
 				evaluationModal:false,
 				evaluationreason:'',
@@ -211,7 +218,7 @@
 					refundVideo:''
 				},
 				refunditem:[],
-				evaItem:[],//评论弹窗
+				evaItem:{},//评论弹窗
 				evaItemId:'',
 				evaProId:'',
 			}
@@ -259,6 +266,12 @@
 			},
 			handleSuccess(res, file) {
 				if(res.code == '200') {
+					file.url = res.msg;
+					file.name = res.msg;
+				}
+			},
+			evauploadhandleSuccess(res, file){
+					if(res.code == '200') {
 					file.url = res.msg;
 					file.name = res.msg;
 				}
@@ -333,8 +346,8 @@
 			//显示评论
 			showevaluation(item,value){
 				this.evaItem=item;
-				this.evaItemId=item[0].orderItemsId;
-				this.evaProId=item[0].productItemId;
+				this.evaItemId=item.orderItemsId;
+				this.evaProId=item.productItemId;
 				this.evaluationModal = true;
 				this.evaluationorder = value;
 			},
@@ -381,12 +394,18 @@
 			},
 			//提交评价
 	       evaluation() {
-					this.uploadList.forEach((item, index) => {
-						this.uploadImgs[index] = item.url+','
+	       		  let isimgs=0;
+	       		  if(this.evauploadList.length>0){
+	       		  	isimgs=1
+	       		  }else{
+	       		  	isimgs=0;
+	       		  }
+					this.evauploadList.forEach((item, index) => {
+						this.evaImgs[index] = item.url+','
 					})
 					//将提交的图片数组转成字符串
 					var imgs="";
-					this.uploadImgs.forEach((item, index) => {
+					this.evaImgs.forEach((item, index) => {
 						imgs += item
 					})
 						imgs = (imgs.slice(imgs.length - 1) == ',') ? imgs.slice(0, -1) : imgs;
@@ -399,10 +418,11 @@
 							commentPics:imgs,
 							orderItemsId: _this.evaItemId,
 							productId: _this.evaProId,
+							isImg:isimgs
 						}
 					}).then((res) => {
 						if(res.code == '200') {
-							this.$Message.info(res.object);
+							this.$Message.info(res.msg);
 							this.refundModal = false;
 							this.getOrder();
 						} else {
@@ -483,6 +503,15 @@
 					}
 				});
 			},
+			maopao(item){
+				 for(let j=0;j<item.commentList.length;j++){
+							 	for(let n=0;n<item.orderItems.length;n++){
+							 		if(item.commentList[j].orderItemsId==item.orderItems[n].orderItemsId){
+							 		    item.orderItems[n].pinglun=item.commentList[j].canComment
+							 		}
+							 	}
+							 }
+			},
 			getOrder() {
 				let status='',url='';
 				if(this.orderStatus!='00'){
@@ -497,6 +526,11 @@
 				}).then((res) => {
 					if(res.code == '200') {
 						this.cartList = res.object;
+						console.log(this.cartList);
+						for(let i=0;i<this.cartList.length;i++){
+							this.maopao(this.cartList[i])
+						}
+						
 						var ssss = this.cartList;
 						this.pro = ssss;
 					}else{
@@ -656,6 +690,10 @@
 	}
 	.evaluation{
 		margin-bottom: 50px;
+	}
+	.pingjia{
+		cursor: pointer;
+		margin-left:20px;
 	}
 </style>
 <style>

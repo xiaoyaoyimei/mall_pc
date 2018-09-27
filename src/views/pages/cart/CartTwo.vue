@@ -69,72 +69,74 @@
 							</tr>
 						</tbody>
 					</table>
-						<div class="placeorderActivity clearfix">
-							<div class="shipping">参与活动</div>
-							<div class="information">
-								<div class="placeorderInformation">
-									使用优惠码
-									<div v-for="(item,index) in inputlist" class="inlineBlock"> <input class="input" type="text" ref="couponitem" onKeyUp="if(this.value.length>4){this.value=this.value.substr(0,4)}">-</div>
-									<button class="btn" @click='usecoupon'>确定</button>
-									<span class="cost">-￥{{(origintotal.price -total.price)|pricefilter}}</span>
-								</div>
+					<div class="placeorderActivity clearfix">
+						<div class="shipping">参与活动</div>
+						<div class="information">
+							<div class="placeorderInformation">
+								使用优惠码
+								<div v-for="(item,index) in inputlist" class="inlineBlock">
+									<input class="input" type="text" ref="couponitem" onKeyUp="if(this.value.length>4){this.value=this.value.substr(0,4)}">
+									<span>-</span></div>
+								<button class="btn" @click='usecoupon'>确定</button>
+								<span class="cost">-￥{{(origintotal.price -total.price)|pricefilter}}</span>
 							</div>
-							
 						</div>
-							<div class="placeorderSend">
-								<span class="shipping">配送方式</span>
-								<span class="information"><span class="doubt">?</span>了解运费信息</span>
-								<span class="cost">快递费用 ￥{{freight | pricefilter}}</span>
-							</div>
-							<div class="placeorderzhubei clearfix">
-								<span class="span">备注留言</span>
-								<textarea v-model.trim="beizhu" cols="80" rows="2"></textarea>
-								<div class="placeorderTotal">
-									<p class="heji"><span class="num">商品件数：</span><span class="red">{{total.num}} 件</span></p>
-									<p class="heji"><span class="num">商品总价：</span><span class="red">￥{{origintotal.price|pricefilter}}</span></p>
-									<p class="heji"><span class="num">活动优惠：</span><span class="red">-￥{{(origintotal.price -total.price)|pricefilter}}</span></p>
-									<p class="heji"><span class="num">运费： </span><span class="red">￥{{freight | pricefilter}}</span></p>
-									<div class="heji totalPrice"><span class="num">应付总额：</span><span class="red"><strong>￥{{total.price+freight|pricefilter}}</strong> </span></div>
-									<div class="heji gopay" @click="confirm">去结算</div>
-								</div>
-							</div>
+
+					</div>
+					<div class="placeorderSend">
+						<span class="shipping">配送方式</span>
+						<span class="information"><span class="doubt">?</span>了解运费信息</span>
+						<span class="cost">快递费用 ￥{{freight | pricefilter}}</span>
+					</div>
+					<div class="placeorderzhubei clearfix">
+						<span class="span">备注留言</span>
+						<textarea v-model.trim="beizhu" cols="80" rows="2"></textarea>
+						<div class="placeorderTotal">
+							<p class="heji"><span class="num">商品件数：</span><span class="red">{{total.num}} 件</span></p>
+							<p class="heji"><span class="num">商品总价：</span><span class="red">￥{{origintotal.price|pricefilter}}</span></p>
+							<p class="heji"><span class="num">活动优惠：</span><span class="red">-￥{{(origintotal.price -total.price)|pricefilter}}</span></p>
+							<p class="heji"><span class="num">运费： </span><span class="red">￥{{freight | pricefilter}}</span></p>
+							<div class="heji totalPrice"><span class="num">应付总额：</span><span class="red"><strong>￥{{total.price+freight|pricefilter}}</strong> </span></div>
+							<div class="heji gopay" @click="confirm">去结算</div>
 						</div>
 					</div>
 				</div>
-			
-					<Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading" style="width:600px;">
-						<Form :model="addForm" ref="addForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
-							<FormItem label="" prop="person" class="mdalText">
-								<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
-							</FormItem>
-							<FormItem label="" prop="phone" class="mdalTextphone">
-								<Input v-model="addForm.phone" placeholder="联系电话" autocomplete="off"></Input>
-							</FormItem>
-							<FormItem label="" prop="selectedOptionsAddr">
-								<Cascader v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
-							</FormItem>
-							<FormItem label="" prop="address" class="modaladdress modaladdressaddr">
-								<Input v-model="addForm.address" placeholder="详细地址"></Input>
-							</FormItem>
-						</Form>
-					</Modal>
-					<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" style="width:600px;" :loading="loading">
-						<Form :model="editForm" ref="editForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
-							<FormItem label="" prop="person" class="mdalText">
-								<Input v-model="editForm.person" placeholder="收货人"></Input>
-							</FormItem>
-							<FormItem label="" prop="phone" class="mdalTextphone">
-								<Input v-model="editForm.phone" placeholder="联系电话"></Input>
-							</FormItem>
-							<FormItem label="" prop="selectedOptionsAddr">
-								<Cascader v-model="editForm.selectedOptionsAddr" :data="addressOption"></Cascader>
-							</FormItem>
-							<FormItem label="" prop="address" class="modaladdress modaladdressaddr">
-								<Input v-model="editForm.address" placeholder="详细地址"></Input>
-							</FormItem>
-						</Form>
-					</Modal>
-				</div>
+			</div>
+		</div>
+
+		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading" style="width:600px;">
+			<Form :model="addForm" ref="addForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
+				<FormItem label="" prop="person" class="mdalText">
+					<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="" prop="phone" class="mdalTextphone">
+					<Input v-model="addForm.phone" placeholder="联系电话" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="" prop="selectedOptionsAddr">
+					<Cascader v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
+				</FormItem>
+				<FormItem label="" prop="address" class="modaladdress modaladdressaddr">
+					<Input v-model="addForm.address" placeholder="详细地址"></Input>
+				</FormItem>
+			</Form>
+		</Modal>
+		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" style="width:600px;" :loading="loading">
+			<Form :model="editForm" ref="editForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
+				<FormItem label="" prop="person" class="mdalText">
+					<Input v-model="editForm.person" placeholder="收货人"></Input>
+				</FormItem>
+				<FormItem label="" prop="phone" class="mdalTextphone">
+					<Input v-model="editForm.phone" placeholder="联系电话"></Input>
+				</FormItem>
+				<FormItem label="" prop="selectedOptionsAddr">
+					<Cascader v-model="editForm.selectedOptionsAddr" :data="addressOption"></Cascader>
+				</FormItem>
+				<FormItem label="" prop="address" class="modaladdress modaladdressaddr">
+					<Input v-model="editForm.address" placeholder="详细地址"></Input>
+				</FormItem>
+			</Form>
+		</Modal>
+	</div>
 </template>
 <script>
 	import Bus from '@/assets/js/bus.js'
@@ -383,105 +385,113 @@
 			//总价计算
 			jisuan(value) {
 				let _this = this;
-				//刚进入购物车页面
-				if(value == undefined) {
-					_this.total.num = 0;
-					this.cartList.forEach(function(item, index) {
-						_this.origintotal.price += item.salePrice * item.quantity;
-						_this.total.price += item.salePrice * item.quantity;
-						_this.total.num += item.quantity;
-					});
-				}
-				//使用优惠券
-				else {
-					_this.total.num = 0;
-					this.cartList.forEach(function(item, index) {
-						_this.total.num += item.quantity;
-					});
-					let couponmethod = value;
-					if(couponmethod.availableSku == "" && couponmethod.availableCatalog == "") {
-						_this.total.price = 0;
-						if(couponmethod.couponMode == 'rate') {
-							this.cartList.forEach(function(item, index) {
-								if(item.promotionTitle != '' && item.promotionTitle != null && item.promotionTitle != undefined) {
-									_this.total.price += item.salePrice * item.quantity;
-								} else {
-									item.salePrice = item.salePrice * (1 - couponmethod.modeValue);
-									_this.total.price += item.salePrice * item.quantity;
-								}
-							});
-						} else {
-							this.cartList.forEach(function(item, index) {
-								if(item.promotionTitle != '' && item.promotionTitle != null && item.promotionTitle != undefined) {
-									_this.total.price += item.salePrice * item.quantity;
-								} else {
-									item.salePrice = item.salePrice - couponmethod.modeValue;
-									_this.total.price += item.salePrice * item.quantity;
-								}
-							});
-						}
-					} else if(couponmethod.availableSku != "") {
-						_this.total.price = 0;
-						if(couponmethod.couponMode == 'rate') {
-							this.cartList.forEach(function(item, index) {
-								if(item.id == couponmethod.availableSku) {
-									item.salePrice = item.salePrice * (1 - couponmethod.modeValue);
-									_this.total.price += item.salePrice * item.quantity
-								} else {
-									_this.total.price += item.salePrice * item.quantity;
-								}
-							});
-						} else {
-							this.cartList.forEach(function(item, index) {
-								if(item.id == couponmethod.availableSku) {
-									item.salePrice = item.salePrice - couponmethod.modeValue
-									_this.total.price += item.salePrice * item.quantity
-								} else {
-									_this.total.price += item.salePrice * item.quantity;
-								}
+				if(this.cartList == null) {
+					return
+				} else {
 
-							});
-						}
-					} else {
-						_this.total.price = 0;
-						if(couponmethod.couponMode == 'rate') {
-							this.cartList.forEach(function(item, index) {
-								if(item.productType == couponmethod.availableCatalog) {
-									item.salePrice = item.salePrice * (1 - couponmethod.modeValue);
-									_this.total.price += item.salePrice * item.quantity
-								} else {
-									_this.total.price += item.salePrice * item.quantity;
-								}
-							});
+					//刚进入购物车页面
+					if(value == undefined) {
+						_this.total.num = 0;
+						this.cartList.forEach(function(item, index) {
+							_this.origintotal.price += item.salePrice * item.quantity;
+							_this.total.price += item.salePrice * item.quantity;
+							_this.total.num += item.quantity;
+						});
+					}
+					//使用优惠券
+					else {
+						_this.total.num = 0;
+						this.cartList.forEach(function(item, index) {
+							_this.total.num += item.quantity;
+						});
+						let couponmethod = value;
+						if(couponmethod.availableSku == "" && couponmethod.availableCatalog == "") {
+							_this.total.price = 0;
+							if(couponmethod.couponMode == 'rate') {
+								this.cartList.forEach(function(item, index) {
+									if(item.promotionTitle != '' && item.promotionTitle != null && item.promotionTitle != undefined) {
+										_this.total.price += item.salePrice * item.quantity;
+									} else {
+										item.salePrice = item.salePrice * (1 - couponmethod.modeValue);
+										_this.total.price += item.salePrice * item.quantity;
+									}
+								});
+							} else {
+								this.cartList.forEach(function(item, index) {
+									if(item.promotionTitle != '' && item.promotionTitle != null && item.promotionTitle != undefined) {
+										_this.total.price += item.salePrice * item.quantity;
+									} else {
+										item.salePrice = item.salePrice - couponmethod.modeValue;
+										_this.total.price += item.salePrice * item.quantity;
+									}
+								});
+							}
+						} else if(couponmethod.availableSku != "") {
+							_this.total.price = 0;
+							if(couponmethod.couponMode == 'rate') {
+								this.cartList.forEach(function(item, index) {
+									if(item.id == couponmethod.availableSku) {
+										item.salePrice = item.salePrice * (1 - couponmethod.modeValue);
+										_this.total.price += item.salePrice * item.quantity
+									} else {
+										_this.total.price += item.salePrice * item.quantity;
+									}
+								});
+							} else {
+								this.cartList.forEach(function(item, index) {
+									if(item.id == couponmethod.availableSku) {
+										item.salePrice = item.salePrice - couponmethod.modeValue
+										_this.total.price += item.salePrice * item.quantity
+									} else {
+										_this.total.price += item.salePrice * item.quantity;
+									}
+
+								});
+							}
 						} else {
-							this.cartList.forEach(function(item, index) {
-								if(item.productType == couponmethod.availableCatalog) {
-									item.salePrice = item.salePrice - couponmethod.modeValue;
-									_this.total.price += item.salePrice * item.quantity
-								} else {
-									_this.total.price += item.salePrice * item.quantity;
-								}
-							});
+							_this.total.price = 0;
+							if(couponmethod.couponMode == 'rate') {
+								this.cartList.forEach(function(item, index) {
+									if(item.productType == couponmethod.availableCatalog) {
+										item.salePrice = item.salePrice * (1 - couponmethod.modeValue);
+										_this.total.price += item.salePrice * item.quantity
+									} else {
+										_this.total.price += item.salePrice * item.quantity;
+									}
+								});
+							} else {
+								this.cartList.forEach(function(item, index) {
+									if(item.productType == couponmethod.availableCatalog) {
+										item.salePrice = item.salePrice - couponmethod.modeValue;
+										_this.total.price += item.salePrice * item.quantity
+									} else {
+										_this.total.price += item.salePrice * item.quantity;
+									}
+								});
+							}
 						}
 					}
 				}
-
 			},
 			getCartList() {
 				this.cartList = JSON.parse(sessionStorage.getItem('cart'));
-				var _this = this;
-				_this.productItemIds = [];
-				let n = 0;
-				this.cartList.forEach(function(item, index) {
-					if(item.promotionTitle != '' && item.promotionTitle != null) {
-						n += 1;
+				if(this.cartList != null) {
+					var _this = this;
+					_this.productItemIds = [];
+					let n = 0;
+					this.cartList.forEach(function(item, index) {
+						if(item.promotionTitle != '' && item.promotionTitle != null) {
+							n += 1;
+						}
+						_this.productItemIds.push(item.id);
+					});
+					if(this.cartList.length == n) {
+						this.couponshow = false
+					} else {
+						this.couponshow = true
 					}
-					_this.productItemIds.push(item.id);
-				});
-				if(this.cartList.length == n) {
-					this.couponshow = false
 				} else {
-					this.couponshow = true
+
 				}
 			},
 			//提交表单
@@ -504,7 +514,7 @@
 					if(res.code == '200') {
 
 						//						  订单提交以后清空列表
-						sessionStorage.removeItem("cart") 
+						sessionStorage.removeItem("cart")
 						Bus.$emit('cartmsg', "again");
 						this.$router.push({
 							name: '/cartthree',
@@ -516,7 +526,7 @@
 						this.$Modal.error({
 							title: '失败提示',
 							content: res.msg,
-						}); 
+						});
 					}
 				});
 			},
@@ -558,10 +568,18 @@
 			}
 		},
 		mounted() {
+			this.cartList = JSON.parse(sessionStorage.getItem('cart'));
+			if(this.cartList ==null){
+						this.$router.push({
+								name: '/cart'
+								
+							});
+			}else{
 			this.getAddress();
 			this.getAddressOption();
 			this.getCartList();
 			this.jisuan();
+			}
 		}
 	}
 </script>
@@ -1012,7 +1030,7 @@
 	}
 	
 	.placeorderTotal .heji {
-		width: 260px;
+		width: 290px;
 		float: right;
 	}
 	
@@ -1026,7 +1044,7 @@
 	
 	.placeorderTotal .red {
 		float: right;
-		width: 140px;
+		width: 170px;
 		text-align: right;
 		padding-right: 10px;
 		color: #FF0000;
@@ -1065,6 +1083,9 @@
 	
 	.inlineBlock {
 		display: inline-block;
+	}
+	.placeorderInformation div:nth-last-child(2) {
+		background: red;
 	}
 </style>
 <style>

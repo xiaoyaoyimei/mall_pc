@@ -79,13 +79,14 @@
             <div class="likeList">
                 <ul class="clearfix">
                     <li  v-for="(x,index) in tuijian" :key="index">
+                    		<router-link :to="{ path: '/sort/sortDetail',query:{id:x.id} }" >
                         <p class="stamp stampRed">{{}}</p>
                         <img :src="x.model_img | imgfilter" alt="">
                         <h5>{{x.model_no}}</h5>
                         <p class="des">{{x.model_name}}</p>
                         <p class="red">¥ {{x.sale_price | pricefilter}}</p>
-                        <button class="gocart">加入购物车</button>
-                        
+                        </router-link>
+                       <!-- <button @click="atc(x.id)" class="gocart"><span>加入购物车</span></button>-->
                     </li>
                 </ul>
                 <div class="likebtn">
@@ -119,6 +120,10 @@ export default {
             }
 		},
         methods: {
+//      	   atc(v){
+//      	   	 let pro={id:v,quantity:1};
+//      	   	 this.addcart(pro);
+//      	   },
 				itemtotal(p,n){
 					return Number(p)*n;
 				},
@@ -134,6 +139,7 @@ export default {
 							}
 				},
         	 addcart(x){
+        	 	console.log(x)
               		this.$axios({
 							    method: 'post',
 							    url:'/order/shopping/add',
@@ -556,6 +562,10 @@ export default {
     margin: 0px auto;
     margin-bottom: 56px;
 }
+.Msucceess img{
+	max-width: 260px;
+	max-height: 260px;
+}
 .Msucceess .h5{
     height: 1px; 
     margin-top: 40px;
@@ -606,10 +616,13 @@ export default {
     font-weight: 900;
 }
 .Msucceess .des{
-    color: #888888;
+      color: #888888;
     font-weight: 300;
-    overflow: hidden;
     font-size: 13px;
+    height: 22px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .Msucceess  .red{
     margin: 5px;

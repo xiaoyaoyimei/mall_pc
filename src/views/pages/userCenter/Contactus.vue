@@ -36,8 +36,6 @@
         color: #333333;
     }
     .contactusdiv{
-        margin-top: 40px;
-        border-top: 1px solid #c6c6c6;
         padding-top: 45px;
     }
     .contactusdiv .h6{

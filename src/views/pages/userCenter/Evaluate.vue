@@ -4,18 +4,13 @@
 		<ul class="evaluate"  v-if="evaluateList.length>0">
 			<li class="li clearfix" v-for="(item,index) in evaluateList" :key="index">
 				<div class="evaluateImg">
-					<img :src="item.list.iconUrl" alt="">
+					<img :src="item.list.iconUrl | imgfilter" alt="">
 					<span>{{item.list.productItemNo}}</span>
 					<span class="fubiao">{{item.list.productTitle}}</span>
 					<span class="">￥{{item.list.productFee}}</span>
 					<!--   <span class="red">活动信息展示区域</span>-->
 				</div>
 				<div class="evaluateText">
-					<!--<div class="zan">
-						<span class="fr">
-							<i class="icon-new icon-zan" :class="{'icon-zan-active':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)' ></i>
-							{{item.number}}</span>
-					</div>-->
 					<div class="fabulous">
 						{{item.number}} 
 						<i class="cartIcon iconIcon-zan-gray"  :class="{'iconIcon-zan-red':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)'></i>
@@ -33,10 +28,9 @@
 			</li>
 		</ul>
 		<div class="myorderempty "  v-else >
-			<i class="cartIcon iconIcon-order"></i>
-			<div><h6>暂无记录~</h6>
-				<router-link  to="/sort" >购物建议</router-link>
-				<router-link  to="/sort" >去下单</router-link>
+			<img src="../../../assets/img/eval.png">
+			<div><h6>暂无任何评价记录~</h6>
+				<router-link  to="/" >去首页</router-link>
 			</div>
 		</div>
 	</div>

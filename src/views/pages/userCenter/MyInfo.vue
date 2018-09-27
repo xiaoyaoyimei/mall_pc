@@ -5,6 +5,7 @@
 			<div>
 				<h2>HI {{userinfo.nickName}}</h2>
 				<button @click="modalaccout=true">修改个人信息</button>
+				<button @click="logout" style="margin-left: 20px;color:#333">退出登录</button>
 			</div>
 		</div>
 		<div class="myaccountText">
@@ -230,6 +231,33 @@
 			}
 		},
 		methods: {
+			//退出登录
+				logout: function () {
+				var _this = this;
+				   this.$Modal.confirm({
+                    title: '提示',
+                    content: '<p>确认退出吗?</p>',
+                    onOk: () => {
+		                    this.$axios({
+							    method: 'post',
+							    url:'/customer/logout',
+							}).then((res)=>{
+								     if (res.code !== 200) {
+				                 		 this.$Message.error(res.msg);
+				              		} 
+				              		else{
+										sessionStorage.removeItem('token');
+				                       	sessionStorage.removeItem('userId');
+				    					_this.$router.push('/login');
+			    					}
+							});
+		                       
+                    },
+                    onCancel: () => {
+                        this.$Message.info('取消退出');
+                    }
+                });
+			},
 			      	//设为默认
        	   updateDefault(value){
        	   	this.$axios({

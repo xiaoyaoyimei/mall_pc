@@ -2,13 +2,13 @@
 <div class="padding40">
                     <h3 class="myorder">我的订单
 						<div class="myorderspan" >
+							<span @click="changeStatus('07')" :class="{red:'07' == numactive}">已签收</span>
 							<span  @click="changeStatus('00')" :class="{red:'00' == numactive}" >全部订单</span>
 							<!--<span class="red" v-for="(item,index) in statusList">{{item.value}}</span>-->
 							<span @click="changeStatus('01')" :class="{red:'01' == numactive}">待付款</span>
 							<span @click="changeStatus('05')" :class="{red:'05' == numactive}">待发货</span>
 							<span @click="changeStatus('06')" :class="{red:'06' == numactive}">已发货</span>
 							<span @click="changeStatus('04')" :class="{red:'04' == numactive}">已取消</span>
-							<span @click="changeStatus('07')" :class="{red:'07' == numactive}">已签收</span>
 						</div>
 					</h3>
                     <ul class="ul" v-if="pro.length>0">
@@ -25,7 +25,7 @@
 									</ul>
 									<div class="myorderp">
 										<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情	</router-link>
-											<button  @click="showrefund(x.order.orderNo)" v-if="x.canRefund==true">售后服务</button>
+											<button  @click="showrefund(x.orderItems,x.order.orderNo)" v-if="x.canRefund==true">售后服务</button>
 											<button  class="btn-red-outline" @click="evaluation(x.order.orderNo)" v-if="x.order.orderStatus=='07'">去评价</button>
 											<button  class="btn-red" @click="qianshou(x.order.orderNo)" v-if="x.order.orderStatus=='06'">确认收货</button>
 											<button  class="btn-red" @click="paynow(x.order.orderNo)" v-if="x.order.orderStatus=='01'">立即支付</button>
@@ -41,8 +41,6 @@
 							</div>
 					</div>
                 	<Spin size="large" fix v-if="spinShow"></Spin>
-	
-		
 			<Modal v-model="refundModal" class="refundModal" width="600" :mask-closable="false">
 			<p slot="header">
 				<Icon type="ios-information-circle"></Icon>
@@ -52,35 +50,26 @@
 				<div class="refundname clearfix">
 					<p>售后商品:</p>
 					<ul>
-						<li class="clearfix">
-							<img class="refundImg" src="../../../assets/img/404.png" alt="">
+						<li class="clearfix" v-for="(child,i) in refunditem" :key="i">
+							<img class="refundImg" :src="child.productItemImg | imgfilter" alt="">
 							<div class="refundText">
-								<p class="p">商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题</p>
-								<p class="p">商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题</p>
-							</div>
-						</li>
-						<li class="clearfix">
-							<img class="refundImg" src="../../../assets/img/404.png" alt="">
-							<div class="refundText">
-								<p class="p">商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题商品主标题</p>
-								<p class="p">商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题商品副标题</p>
+								<p class="p">{{child.productTitle}} </p>
+								<p class="p">{{child.productAttrs}}</p>
 							</div>
 						</li>
 					</ul>
 				</div>
 				<Form :model="refundForm" ref="refundForm" class="refundForm" :label-width="70">
 					<FormItem label="服务类型:">
-						<Select v-model="refundForm.reasonModel" class='select' @on-change='img_must'>
-							<Option v-for="item in reasonList" :value="item.causeId" :key="item.causeId"> {{ item.content }}</Option>
-						</Select>
+						<span  >退款退货</span>
 					</FormItem>
 					<FormItem label="售后原因:">
-						<Select v-model="refundForm.refundreason" class='select' @on-change='img_must'>
+						<Select v-model="refundForm.refundCauseId" class='select' @on-change='img_must'>
 							<Option v-for="item in reasonList" :value="item.causeId" :key="item.causeId"> {{ item.content }}</Option>
 						</Select>
 					</FormItem>
 					<FormItem label="退款说明:">
-							<i-input v-model="refundForm.product" class="refundFormPro" placeholder=""></i-input>
+							<i-input v-model="refundForm.refundreason" class="refundFormPro" placeholder=""  type="textarea"></i-input>
 					</FormItem>
 					<FormItem label="上传图片:">
 						<div class="user-con-wrap ">
@@ -96,9 +85,12 @@
 									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 								</template>
 							</div>
-							
 							<Upload ref="upload" :show-upload-list="false" :default-file-list="defaultList" :on-success="handleSuccess" 
-								:format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
+								:format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" 
+								:on-exceeded-size="handleMaxSize" 
+								:before-upload="handleBeforeUpload" 
+								multiple type="drag" :action="uploadUrl" 
+								style="display: inline-block;width:78px;">
 								<div style="width: 78px;height:78px;line-height: 78px;">
 									<Icon type="ios-camera" size="20"></Icon>
 								</div>
@@ -106,14 +98,27 @@
 						</div>
 					</FormItem>
 					<FormItem label="上传视频:">
+								<Upload ref="video"  :action="uploadUrl" :on-success="videoSuccess"  :on-format-error="videohandleFormatError"  style="display: inline-block;width:78px;">
+									<Icon type="ios-camera" size="20"></Icon>
+								</Upload>
+						 <!--<Upload :action="uploadUrl"  ref="video">
+					        <Button icon="ios-cloud-upload-outline">Upload files</Button>
+					    </Upload>-->
 					</FormItem>
+					
 				</Form>
 			</div>
 			<div slot="footer">
 				<Button type="primary" size="large" long @click="refund">提交</Button>
 			</div>
 		</Modal>
-			<Modal v-model="evaluationModal" width="660" class="evaluationModal" :mask-closable="false">
+		
+			<Modal title="查看大图" v-model="visible" class="imglarger">
+							<img :src="imgName | imgfilter" v-if="visible" style="width: 100%">
+						</Modal>
+		
+		<!--评价-->
+			<!--<Modal v-model="evaluationModal" width="660" class="evaluationModal" :mask-closable="false">
 			<p slot="header" style="">
 				<Icon type="ios-information-circle"></Icon>
 				<span>商品评价</span>
@@ -160,9 +165,9 @@
 				</div>
 			</div>
 			<div slot="footer">
-				<Button type="primary" size="" long @click="evaluation">提交</Button>
+				<Button type="primary"  long @click="evaluation">提交</Button>
 			</div>
-		</Modal>
+		</Modal>-->
        </div>
                 
 	
@@ -201,11 +206,12 @@
 				evaluationreason:'',
 				evaluationList:[],
 				refundForm:{
-					reasonModel:'',
-					refundreason:'',
-					prodcut:''
-
-				}
+					refundCauseId:'',
+					refundImgs:'',
+					remarks:'',
+					refundVideo:''
+				},
+				refunditem:[],
 			}
 		},
 		filters: {
@@ -227,7 +233,6 @@
 			img_must(v) {
 				for(var i = 0; i < this.reasonList.length; i++) {
 					if(this.reasonList[i].causeId == v) {
-
 						this.imgmust = this.reasonList[i].isImg;
 					}
 				}
@@ -240,16 +245,29 @@
 				const fileList = this.$refs.upload.fileList;
 				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
 			},
+			videoSuccess(res, file) {
+				if(res.code == '200') {
+					file.url = res.msg;
+					this.refundForm.refundVideo=res.msg
+				}
+			},
 			handleSuccess(res, file) {
 				if(res.code == '200') {
 					file.url = res.msg;
 					file.name = res.msg;
 				}
+				
 			},
 			handleFormatError(file) {
 				this.$Notice.warning({
 					title: '文件格式不正确',
 					desc: '文件格式不正确,请选择 jpg 或 png.'
+				});
+			},
+			videohandleFormatError(file) {
+				this.$Notice.warning({
+					title: '文件格式不正确',
+					desc: '文件格式不正确,请选择 mp4 或 avi 或flv.'
 				});
 			},
 			handleMaxSize(file) {
@@ -302,8 +320,9 @@
 					}
 				});
 			},
-			showrefund(value) {
-				this.refundModal = true
+			showrefund(item,value) {
+				this.refunditem=item;
+				this.refundModal = true;
 				this.refundorder = value;
 			},
 			evaluation(value){
@@ -331,9 +350,10 @@
 						url: `/refund/create`,
 						data: {
 							orderNo: _this.refundorder,
-							refundCauseId: _this.reasonModel,
+							refundCauseId: _this.refundForm.refundCauseId,
 							refundImgs:imgs,
-							remarks: _this.refundreason,
+							remarks: _this.refundForm.refundreason,
+							refundVideo:_this.refundForm.refundVideo
 						}
 					}).then((res) => {
 						if(res.code == '200') {
@@ -570,7 +590,6 @@
 	}
 	.refundFormPro{
 		height: 125px;
-		line-height: 125px;
 	}
 	.evaluation .evaluationText{
 		margin-top: 10px;
@@ -620,11 +639,9 @@
 	}
 	.refundFormPro .ivu-input{
 		height: 125px;
-		line-height: 125px;
 	}
 	.evaluationreason .ivu-input{
 		height: 125px;
-		line-height: 125px;
 	}
 	.refundModal .ivu-modal-footer{
 		border-top: none;

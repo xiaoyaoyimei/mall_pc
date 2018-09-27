@@ -26,7 +26,7 @@
 									<div class="myorderp">
 										<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情	</router-link>
 											<button  @click="showrefund(x.orderItems,x.order.orderNo)" v-if="x.canRefund==true">售后服务</button>
-											<button  class="btn-red-outline" @click="evaluation(x.order.orderNo)" v-if="x.order.orderStatus=='07'">去评价</button>
+											<button  class="btn-red-outline" @click="showevaluation(x.orderItems,x.order.orderNo)" v-if="x.order.orderStatus=='07'">去评价</button>
 											<button  class="btn-red" @click="qianshou(x.order.orderNo)" v-if="x.order.orderStatus=='06'">确认收货</button>
 											<button  class="btn-red" @click="paynow(x.order.orderNo)" v-if="x.order.orderStatus=='01'">立即支付</button>
 									</div>
@@ -101,9 +101,6 @@
 								<Upload ref="video"  :action="uploadUrl" :on-success="videoSuccess"  :on-format-error="videohandleFormatError"  style="display: inline-block;width:78px;">
 									<Icon type="ios-camera" size="20"></Icon>
 								</Upload>
-						 <!--<Upload :action="uploadUrl"  ref="video">
-					        <Button icon="ios-cloud-upload-outline">Upload files</Button>
-					    </Upload>-->
 					</FormItem>
 					
 				</Form>
@@ -112,62 +109,64 @@
 				<Button type="primary" size="large" long @click="refund">提交</Button>
 			</div>
 		</Modal>
-		
-			<Modal title="查看大图" v-model="visible" class="imglarger">
-							<img :src="imgName | imgfilter" v-if="visible" style="width: 100%">
-						</Modal>
-		
-		<!--评价-->
-			<!--<Modal v-model="evaluationModal" width="660" class="evaluationModal" :mask-closable="false">
+			<!--评价-->
+			<Modal v-model="evaluationModal" width="660" class="evaluationModal" :mask-closable="false">
 			<p slot="header" style="">
 				<Icon type="ios-information-circle"></Icon>
 				<span>商品评价</span>
 			</p>
-			<div class="evaluation">
+			<div class="evaluation"  v-for="(child,i) in evaItem" :key="i">
 				<div class="refund clearfix">
-					<p>商品名字</p>
-					<div class="refundImg">
-						<img src="../../../assets/img/404.png" alt="">
+					<p>商品名称</p>
+					<div class="refundImg" >
+						<img :src="child.productItemImg | imgfilter" alt="">
 						<div class="evaluationText">
-							<p class="p">商品名字商品名字商品名字商品名字商品名字商品名字商品名字</p>
-							<p class="p">商品名字商品名字商品名字商品名字商品名字商品名字商品名字商品名字商品名字</p>
+							<p class="p">{{child.productTitle}}</p>
+							<p class="p">{{child.productAttrs}}</p>
 						</div>
 					</div>
 				</div>
 				<div class="refund ">
 					<p>商品评价</p>
-					<i-input class="evaluationreason" v-model="evaluationreason"></i-input>
+					<i-input class="evaluationreason" v-model="evaluationreason" type="textarea"></i-input>
 				</div>
 				<div class="refund">
 					<p>上传图片</p>
 					<div>
-						<div class="demo-upload-list" v-for="item in uploadList">
+						<div class="demo-upload-list" v-for="item in evauploadList">
 							<template v-if="item.status === 'finished'">
 								<img :src="item.url  | imgfilter">
 								<div class="demo-upload-list-cover">
 									<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-									<Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+									<Icon type="ios-trash-outline" @click.native="evahandleRemove(item)"></Icon>
 								</div>
 							</template>
 							<template v-else>
 								<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 							</template>
 						</div>
-						<Upload ref="upload" :show-upload-list="false" :default-file-list="evaluationList" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
+						<Upload ref="evaupload" :show-upload-list="false" 
+							:default-file-list="evaluationList" 
+							:on-success="handleSuccess" :format="['jpg','jpeg','png']" 
+							:max-size="2048" :on-format-error="handleFormatError" 
+							:on-exceeded-size="handleMaxSize" 
+							:before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
 							<div style="width: 78px;height:78px;line-height: 78px;">
 								<Icon type="ios-camera" size="20"></Icon>
 							</div>
 						</Upload>
-						<Modal title="查看大图" v-model="visible" class="imglarger">
-							<img :src="imgName | imgfilter" v-if="visible" style="width: 100%">
-						</Modal>
 					</div>
 				</div>
 			</div>
 			<div slot="footer">
 				<Button type="primary"  long @click="evaluation">提交</Button>
 			</div>
-		</Modal>-->
+		</Modal>
+			<Modal title="查看大图" v-model="visible" class="imglarger">
+							<img :src="imgName | imgfilter" v-if="visible" style="width: 100%">
+						</Modal>
+		
+	
        </div>
                 
 	
@@ -212,6 +211,9 @@
 					refundVideo:''
 				},
 				refunditem:[],
+				evaItem:[],//评论弹窗
+				evaItemId:'',
+				evaProId:'',
 			}
 		},
 		filters: {
@@ -245,6 +247,10 @@
 				const fileList = this.$refs.upload.fileList;
 				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
 			},
+			evahandleRemove(file) {
+				const fileList = this.$refs.eva.fileList;
+				this.$refs.eva.fileList.splice(fileList.indexOf(file), 1);
+			},
 			videoSuccess(res, file) {
 				if(res.code == '200') {
 					file.url = res.msg;
@@ -256,7 +262,6 @@
 					file.url = res.msg;
 					file.name = res.msg;
 				}
-				
 			},
 			handleFormatError(file) {
 				this.$Notice.warning({
@@ -325,8 +330,12 @@
 				this.refundModal = true;
 				this.refundorder = value;
 			},
-			evaluation(value){
-				this.evaluationModal = true
+			//显示评论
+			showevaluation(item,value){
+				this.evaItem=item;
+				this.evaItemId=item[0].orderItemsId;
+				this.evaProId=item[0].productItemId;
+				this.evaluationModal = true;
 				this.evaluationorder = value;
 			},
 	
@@ -370,7 +379,39 @@
 				}
 
 			},
-
+			//提交评价
+	       evaluation() {
+					this.uploadList.forEach((item, index) => {
+						this.uploadImgs[index] = item.url+','
+					})
+					//将提交的图片数组转成字符串
+					var imgs="";
+					this.uploadImgs.forEach((item, index) => {
+						imgs += item
+					})
+						imgs = (imgs.slice(imgs.length - 1) == ',') ? imgs.slice(0, -1) : imgs;
+					let _this = this;
+					this.$axios({
+						method: 'post',
+						url: `/comment/create`,
+						data: {
+							commentContent: _this.evaluationreason,
+							commentPics:imgs,
+							orderItemsId: _this.evaItemId,
+							productId: _this.evaProId,
+						}
+					}).then((res) => {
+						if(res.code == '200') {
+							this.$Message.info(res.object);
+							this.refundModal = false;
+							this.getOrder();
+						} else {
+							this.$Message.error(res.msg);
+							this.refundModal = false;
+							this.getOrder();
+						}
+					});
+			},
 			getStatusEnum() {
 				this.$axios({
 					method: 'get',
@@ -471,6 +512,7 @@
 			this.getOrder();
 			this.getStatusEnum();
 			this.uploadList = this.$refs.upload.fileList;
+			this.evauploadList=this.$refs.evaupload.fileList;
 		}
 	}
 </script>

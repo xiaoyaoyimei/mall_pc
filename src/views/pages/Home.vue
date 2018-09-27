@@ -39,7 +39,8 @@
 							</router-link>
 							<div class="mn">
 								<div class="mn-wrap">
-									<div v-for="(child,index) in item.image" @click="switchimg($event,child.listImg,item.list.id)"><img :src="child.smallImg | imgfilter"></div>
+									<div v-for="(child,index) in item.image" @click="switchimg($event,child.listImg,item.list.id)">
+										<img :src="child.smallImg | imgfilter"></div>
 								</div>
 							</div>
 						</li>
@@ -50,9 +51,9 @@
 				<div class="main-width">
 					<div class="floor">
 						<div class="title">
-							<div class="seemore fr" @mouseover="dianjingfunction()"  @mouseout="dianjingfunction()"> 查看更多
-							<i v-if="dianjing == true"  class="icon-new icon-more" ></i>
-							<i v-else class="cartIcon iconIcon-more-red" ></i>
+							<div class="seemore fr" > 
+								查看更多
+							<i   class="icon-new icon-more" ></i>
 							</div>
 							<span>电竞</span></div>
 						<div class="two clearfix">
@@ -445,7 +446,9 @@
 	.seemore:hover {
 		color: #FF0037;
 	}
-	
+		.seemore:hover i{
+	 background-position: -178px -325px;
+	}
 	.ad-wrap {
 		position: relative;
 		cursor: pointer;
@@ -609,4 +612,5 @@
 	.office li:nth-child(4) {
 		margin-left: 0;
 	}
+
 </style>

@@ -31,7 +31,7 @@ export default {
     display: inline-block;
 }
 .cartIcon {
-	    background-image: url(./assets/img/icon.png) ;
+	  background-image: url(./assets/img/icon.png) ;
     background-repeat: no-repeat;
     background-attachment: scroll;
     display: inline-block;

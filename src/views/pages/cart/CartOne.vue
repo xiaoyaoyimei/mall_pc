@@ -72,29 +72,6 @@
                         <span>您的购物车还是空的！<router-link  to="/sort" >马上去购物</router-link></span>
                     </div>
         </div>
-        <div class="Msucceess clearfix" v-if="tuijian.length>0">
-            <div class="h5">
-                <h5>买购物车中商品的人还买了</h5>
-            </div>
-            <div class="likeList">
-                <ul class="clearfix">
-                    <li  v-for="(x,index) in tuijian" :key="index">
-                        <p class="stamp stampRed">{{}}</p>
-                        <img :src="x.model_img | imgfilter" alt="">
-                        <h5>{{x.model_no}}</h5>
-                        <p class="des">{{x.model_name}}</p>
-                        <p class="red">¥ {{x.sale_price | pricefilter}}</p>
-                        <button class="gocart">加入购物车</button>
-                        
-                    </li>
-                </ul>
-                <div class="likebtn">
-                    <a class="gray">&lt;</a>
-                    <a>&gt;</a>
-                </div>
-            </div>
-            </div>
-
 	</div>
 </template>
 
@@ -114,24 +91,11 @@ export default {
 				temp:[],
 				sale:0,
 				totalnum:0,
-				zeroid:'',
-				tuijian:[]
             }
 		},
         methods: {
 				itemtotal(p,n){
 					return Number(p)*n;
-				},
-				gettuijian(){
-					 this.zeroid = this.$route.query.zeroid;
-					 if(this.zeroid!=''){
-					        		this.$axios({
-							    method: 'get',
-							    url:`/product/other/${this.zeroid}`,
-								}).then((res)=>{
-										this.tuijian=res
-							});
-							}
 				},
         	 addcart(x){
               		this.$axios({
@@ -346,7 +310,6 @@ export default {
         },
          mounted() {
 				this.getCartList();
-				this.gettuijian();
 		}
     }
 </script>
@@ -610,6 +573,8 @@ export default {
     font-weight: 300;
     overflow: hidden;
     font-size: 13px;
+    height: 20px;
+    
 }
 .Msucceess  .red{
     margin: 5px;
@@ -651,6 +616,9 @@ export default {
 }
 .Msucceess .likebtn .gray{
     color: #888888;
+}
+.likeListImg{
+    width: 80%;
 }
 </style>
 <style>

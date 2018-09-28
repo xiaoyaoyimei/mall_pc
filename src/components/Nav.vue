@@ -12,7 +12,7 @@
 					<li>配件</li>
 					<li>选款建议</li>
 				</ul>
-				<div class="search_wrap fr"><input v-model="keyword" @keyup.enter="gosearch()">
+				<div class="search_wrap fr"><input v-model="keyword">
 					<button class="search_btn" @click="gosearch()"><i class="icon-new icon-search"></i></button></div>
 			</div>
 		</div>
@@ -28,11 +28,18 @@
             }
         },
 		methods:{
+			
 			gosearch(){
-			    Bus.$emit('val', this.keyword)
+				 console.log('离开A页面了。')
+//     Bus.$emit('get', {
+//      keyword:this.keyword
+//    })
+ Bus.$emit('get', this.keyword)
+
                 this.$router.push({path: '/sort',query:{keyword:this.keyword}});  
             },
         },
+
     }
 </script>
 

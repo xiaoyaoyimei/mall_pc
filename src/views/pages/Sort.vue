@@ -58,6 +58,7 @@
     export default {
         data () {
             return {
+            	searchdate:'',
             	spinShow:true,
 				productList:[],
 				startRow:0,
@@ -162,23 +163,26 @@
             },
 		},
 		created(){
+			
 				      Bus.$on('val', (data) => {
+				      	this.searchdate=data;
 		      		this.flag=false;
-		           this.getTopList(data);
+//		           this.getTopList(data);
 		           console.log('cre'+this.flag)
 		      });
 		},
 		 mounted(){
 		// 	var vm = this
            // 用$on事件来接收参数
-	
-		      console.log('mou'+this.flag)
-		      
-		      
-		      
-		      if(this.flag){
-		      	this.getTopList('')
-		      }
+           console.log(data)
+		this.getTopList(data)
+//		      console.log('mou'+this.flag)
+//		      
+//		      
+//		      
+//		      if(this.flag){
+//		      	this.getTopList('')
+//		      }
 		      //得到顶部分类
 		      this.getTop();
 		      //首页点击左侧分类

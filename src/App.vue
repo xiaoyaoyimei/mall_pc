@@ -46,4 +46,11 @@ export default {
 ul,li{
 	list-style: none;
 }
+
 </style>
+<style>
+
+.ivu-icon:before,
+.ivu-icon:after {
+    font-family: Ionicons !important;
+}</style>

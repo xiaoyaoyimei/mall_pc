@@ -151,6 +151,9 @@
 				if(this.$route.query.typeid != undefined) {
 					return;
 				}
+				if( searchdata == undefined){
+					searchdata =	this.$route.query.keyword
+				}
 				this.$axios({
 					method: 'GET',
 					url: '/product/search?keyWord=' + searchdata + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
@@ -167,16 +170,16 @@
 		},
 		created() {
 			//	this.getTopList(this.searchdate)
+					this.$bus.$on('val', (data) => {
+				this.getTopList(data);
+			});
 
 		},
 		beforeDestroy () {
 				this.$bus.$off('val')
 		},
 		mounted() {
-			this.$bus.$on('val', (data) => {
-				console.log(data)
-				this.getTopList(data);
-			});
+	
 			// 	var vm = this
 			// 用$on事件来接收参数
 			//  console.log(this.searchdate)
@@ -192,6 +195,7 @@
 			this.getTop();
 			//首页点击左侧分类
 			this.getParams();
+				this.getTopList();
 		},
 	}
 </script>

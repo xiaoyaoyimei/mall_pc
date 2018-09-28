@@ -6,22 +6,16 @@
 				<a href="" class="fl mycart">确认订单</a>
 				<ul class="navCart">
 					<li>
-						<a href="">
 							<p class="cartIcon iconIcon-successorder"></p>
 							<p>成功提交订单</p>
-						</a>
 					</li>
-					<li>
-						<a class="red" href="">
+					<li class="red">
 							<p class="cartIcon iconIcon-order-red"></p>
 							<p>填写核对订单</p>
-						</a>
 					</li>
 					<li>
-						<a class="" href="">
 							<p class="cartIcon iconIcon-cart"></p>
 							<p>我的购物车</p>
-						</a>
 					</li>
 				</ul>
 			</div>

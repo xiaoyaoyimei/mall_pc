@@ -12,6 +12,7 @@ const routes = [{
 		redirect: '/index',
 		component: Full,
 		zname:'首页',
+		name:'首页',
 		children: [{
 				path: '/index',
 				component: () =>
@@ -64,9 +65,6 @@ const routes = [{
 				component: resolve => require(['@/views/pages/cart/CartZero.vue'], resolve)
 			},
 			{
-				meta: {
-					requireAuth: true
-				},
 				name: '/cart',
 				path: '/cart',
 				component: resolve => require(['@/views/pages/cart/CartOne.vue'], resolve),
@@ -414,6 +412,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 	if(to.matched.some(r => r.meta.requireAuth)) {
+		
 		if(store.state.token) {
 			next();
 		} else {

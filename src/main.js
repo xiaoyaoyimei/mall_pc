@@ -7,7 +7,9 @@ import store from '@/store/store'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import axios from './http';
-import moment from 'moment/moment'
+import moment from 'moment/moment';
+import VueBus from 'vue-bus';
+Vue.use(VueBus);
 
 //设置全局变量
 import global_ from '@/base/baseParam';

@@ -12,14 +12,14 @@
 					<li>配件</li>
 					<li>选款建议</li>
 				</ul>
-				<div class="search_wrap fr"><input v-model="keyword">
+				<div class="search_wrap fr"><input v-model="keyword" >
 					<button class="search_btn" @click="gosearch()"><i class="icon-new icon-search"></i></button></div>
 			</div>
 		</div>
 </template>
 
 <script>
-   import Bus from '@/assets/js/bus.js'
+//    import Bus from '@/assets/js/bus.js'
 	 export default {
         data () {
             return {
@@ -30,16 +30,25 @@
 		methods:{
 			
 			gosearch(){
-				 console.log('离开A页面了。')
-//     Bus.$emit('get', {
-//      keyword:this.keyword
-//    })
- Bus.$emit('get', this.keyword)
+//<<<<<<< HEAD
+//				 console.log('离开A页面了。')
+////     Bus.$emit('get', {
+////      keyword:this.keyword
+////    })
+// Bus.$emit('get', this.keyword)
+//
+//              this.$router.push({path: '/sort',query:{keyword:this.keyword}});  
+//          },
+//      },
 
-                this.$router.push({path: '/sort',query:{keyword:this.keyword}});  
+				this.$router.push({path: '/sort',query:{keyword:this.keyword}});
+				console.log('A页面'+this.keyword);
+				this.$bus.$emit('val', this.keyword)  
             },
-        },
-
+		},
+		beforeDestroy () {
+				this.$bus.$off('val')
+		},
     }
 </script>
 

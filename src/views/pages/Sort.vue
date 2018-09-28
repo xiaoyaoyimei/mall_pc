@@ -4,11 +4,8 @@
 			<p>
 				<router-link to="/">首页</router-link> &gt; 全部结果 </p>
 {{totalSize}}{{productList}}
-			<div class="empty_result flex-center" v-if="totalSize<1">
-				<Icon type="ios-warning" />
-				<span>该区域没有符合搜索条件的产品哦,试试其他关键字~</span>
-			</div>
-			<div v-else>
+	
+			<div v-if="totalSize>0">
 				<div class="wrap">
 					<div class="dt">类型:</div>
 					<div class="dd">
@@ -48,7 +45,10 @@
 				</ul>
 				<Page :total="totalSize" size="small" show-elevator class="page" :page-size='this.pageSize' @on-change="handlePage" v-if="productList.length>0"></Page>
 			</div>
-
+		<div class="empty_result flex-center"   v-else>
+				<Icon type="ios-warning" />
+				<span>该区域没有符合搜索条件的产品哦,试试其他关键字~</span>
+			</div>
 		</div>
 		<Spin size="large" fix v-if="spinShow"></Spin>
 	</div>
@@ -148,17 +148,14 @@
 	
 			//点击header的搜索
 			getTopList(searchdata) {
-				alert("进入方法了")
 				//首页若传typeid,则跳出。走getParams
 				if(this.$route.query.typeid != undefined) {
 					return;
 				}
-				Bus.$off('val', this.getTopList)
 				this.$axios({
 					method: 'GET',
 					url: '/product/search?keyWord=' + searchdata + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
 				}).then((res) => {
-					
 					this.productList = res.itemsList;
 					this.totalSize = res.total;
 				})
@@ -172,25 +169,40 @@
 		      console.log(val, '这是从上个页面传递过来的参数')
 		   },
 		},
-		created () { 
-			Bus.$on('get', (data) => {
-				console.log('B页面接受'+data);
-				//this.getTopList(data);
-			});
+//<<<<<<< HEAD
+//		created () { 
+//			Bus.$on('get', (data) => {
+//				console.log('B页面接受'+data);
+//				//this.getTopList(data);
+//=======
+		created() {
+			//	this.getTopList(this.searchdate)
+			console.log('进入该方法');
+			this.$bus.$off('val');
+				this.$bus.$on('val', (data) => {
+					console.log('B页面接受'+data);
+					this.getTopList(data);
+				});
+		},
+		beforeDestroy () {
+				this.$bus.$off('val')
+		},
+		mounted() {
+		     
 		//	Bus.$on('get', this.myhandle)
 			},
 //			updated(){
 //				console.log("update")
 //				 Bus.$off('get', this.myhandle)
 //			},
-		mounted() {
-			//得到顶部分类
-			//Bus.$off('val', this.getTopList)
-			Bus.$off('val')
-			this.getTop();
-			//首页点击左侧分类
-			this.getParams();
-		},
+//		mounted() {
+//			//得到顶部分类
+//			//Bus.$off('val', this.getTopList)
+//			Bus.$off('val')
+//			this.getTop();
+//			//首页点击左侧分类
+//			this.getParams();
+//		},
 		     beforeDestroy () {
 		     	console.log('beforeDestroy离开B页面');
 	     Bus.$off('get', this.myhandle)

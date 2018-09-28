@@ -734,6 +734,12 @@ evahandleBeforeUpload(){
 		padding-bottom: 50px;
 		text-align:center;
 	}
+	.evaluationModal .demo-upload-list:nth-of-type(4n+1){
+		margin-left: 100px;
+	}
+		.evaluationModal .demo-upload-list:nth-of-type(1){
+		margin-left: 0px;
+	}
 	.refundModal .ivu-btn-primary{
 		font-weight: 400;
 		font-size: 18px;

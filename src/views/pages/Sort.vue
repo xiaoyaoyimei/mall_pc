@@ -168,8 +168,12 @@
 			//	this.getTopList(this.searchdate)
 
 		},
+		beforeDestroy () {
+				this.$bus.$off('val')
+		},
 		mounted() {
-			Bus.$on('val', (data) => {
+			this.$bus.$on('val', (data) => {
+				console.log(data)
 				this.getTopList(data);
 			});
 			// 	var vm = this

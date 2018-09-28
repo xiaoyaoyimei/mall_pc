@@ -127,17 +127,21 @@
 		width: 260px;
 		text-align: center;
 		border-right: 1px solid #e1e1e1;
+		position: relative;
+		left: -40px;
+
 	}
 	
 	.evaluateImg img {
 		height: 175px;
+		width:175px;
 		margin-bottom: 10px;
 	}
 	
 	.evaluateImg span {
 	padding: 0px;
     display: block;
-    width: 100%;
+    width: 90%;
     text-align: center;
     font-weight: 400;
     font-size: 14px;
@@ -187,7 +191,9 @@
 	
 	.fabulousImg img {
 		height: 60px;
+		width: 60px;
 		margin-right: 15px;
+		margin-bottom: 15px;
 	}
 	
 	.fabulousTime {

@@ -243,10 +243,6 @@
 				cockpitproduct:[],
 				peripheryproduct:[],
 				toolbarNologin:{},//侧边栏个人中心是否登录
-				dianjing:true,
-				jiaju:true,
-				bangong:true,
-				zhoubian:true,
 			};
 		},
 		computed: {
@@ -265,19 +261,6 @@
 			goback(){
 				document.documentElement.scrollTop = 0;
 			},
-			dianjingfunction(){
-				this.dianjing = !this.dianjing
-			},
-			jiajufunction(){
-				this.jiaju = !this.jiaju
-			},
-			bangongfunction(){
-				this.bangong = !this.bangong
-			},
-			zhoubianfunction(){
-				this.zhoubian = !this.zhoubian
-			}
-			,
 			getBanner() {
 				//判断是否已经登录
 				if(this.token != null) {

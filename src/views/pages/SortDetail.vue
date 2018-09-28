@@ -88,7 +88,7 @@
 					<i class="icon-new icon-recadd"></i>
 					<ul class="pro">
 						<CheckboxGroup v-model="compine" @on-change="checkAllGroupChange">
-							<li v-for="(item,index) in recomm " :key="index">
+							<li v-for="(item,index) in recomm " :key="index" :class="{none:item.show}" style="display:none">
 								<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_bind_id} }" target="_blank">
 									<img :src="item.list.list_img | imgfilter">
 									<p>{{item.list.model_no}}</p>
@@ -233,12 +233,12 @@
 				choosepPrice: false,
 				productImageListNew: [],
 				recomm: [],
-				poprecomm:[],
 				commentList: [],
 				dpjiage: 0,
 				dpnum: 0,
 				compineId: [],
 				likeshow: false,
+				index:4,
 			}
 		},
 		filters: {
@@ -361,22 +361,22 @@
 					this.quantity = parseInt(this.quantity) - 1;
 				}
 			},
-			prev(){
-				if(this.recomm.length > 5){
-				this.poprecomm.push(this.recomm[0]);
-				this.recomm.shift();
-				}
-
-			},
-			next(){
-				if(this.poprecomm.length > 0 ){
-				let i = this.poprecomm.length;
-				this.recomm.unshift(this.poprecomm[i - 1]);
-				this.poprecomm.pop();
-				}
-
-					
-			},
+			    next(){
+                    if(this.index < this.recomm.length){
+                        let i =this.index-4
+                        this.recomm[this.index].show = true;
+                        this.recomm[i].show =false;
+                        this.index++;
+                    }
+              },
+              prev(){
+                if(this.index > 4){
+                    let i = this.index-5;
+                    this.recomm[this.index-1].show = false;
+                    this.recomm[i].show =true;
+                    this.index--
+                }
+              },
 			getIndex(imgUrl, index) {
 				this.videoshow = false;
 				this.ImgUrl = imgUrl;
@@ -624,6 +624,14 @@
 					url: "/product/match/" + this.productId,
 				}).then(res => {
 					if(res.code==200){
+						for(let i =0; i<res.object.length;i++){
+							if(i<4){
+								res.object[i].show = true;
+							}else{
+								res.object[i].show =false
+							}
+						}
+						console.log(res.object)
 							this.recomm = res.object;
 					}
 				
@@ -779,7 +787,9 @@
 	.summary {
 		width: 640px;
 	}
-	
+	.none{
+		display: block!important;
+	}
 	.act {
 		width: 65px;
 		height: 25px;

@@ -3,11 +3,11 @@
 	<div class="nav Nav">
 			<div class="main-width clearfix">
 				<router-link  to="/index" class="logo fl navcart"><img   src="../../../assets/img/logo-red.png"></router-link>
-                <a href="" class="fl mycart">我的购物车</a>
+                <a href="#" class="fl mycart">我的购物车</a>
                 <ul class="navCart">
-                    <li><a href=""><p class="cartIcon iconIcon-successorder"></p><p>成功提交订单</p></a></li>
-                    <li><a href=""><p class="cartIcon iconIcon-cart-order"></p><p>填写核对订单</p></a></li>
-                    <li><a class="red" href=""><p class="cartIcon iconIcon-cart-red"></p><p>我的购物车</p></a></li>
+                    <li><p ><p class="cartIcon iconIcon-successorder"></p><p>成功提交订单</p></p></li>
+                    <li><p ><p class="cartIcon iconIcon-cart-order"></p><p>填写核对订单</p></p></li>
+                    <li><p  class="red" ><p class="cartIcon iconIcon-cart-red"></p><p>我的购物车</p></p></li>
                 </ul>
 			</div>
 		</div>

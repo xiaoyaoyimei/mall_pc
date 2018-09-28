@@ -22,7 +22,7 @@
 										<li v-for="(child,i) in x.orderItems" :key="i">
 											<img :src="child.productItemImg | imgfilter" alt=""> 
 											<div><span>{{child.productTitle}}   {{child.productAttrs}}</span>
-											<div>￥{{child.orderFee | pricefilter}} x {{child.quantity}}
+											<div>￥{{unitprice(child.orderFee, child.quantity)| pricefilter}} x {{child.quantity}}
 												<span  v-if="x.order.orderStatus=='07'&&!child.pinglun" class="color-red pingjia" @click="showevaluation(child,x.order.orderNo)" >去评价</span>
 											</div>
 											</div>
@@ -159,7 +159,7 @@
 							:on-success="evauploadhandleSuccess" :format="['jpg','jpeg','png']" 
 							:max-size="2048" :on-format-error="handleFormatError" 
 							:on-exceeded-size="handleMaxSize" 
-							:before-upload="handleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
+							:before-upload="evahandleBeforeUpload" multiple type="drag" :action="uploadUrl" style="display: inline-block;width:78px;">
 							<div style="width: 78px;height:78px;line-height: 78px;">
 								<Icon type="ios-camera" size="20"></Icon>
 							</div>
@@ -295,7 +295,8 @@
 				});
 			},
 			handleBeforeUpload() {
-				const check = this.uploadList.length < 5;
+				let check = this.uploadList.length < 5;
+				
 				if(!check) {
 					this.$Notice.warning({
 						title: '最多可上传5张图片.'
@@ -303,7 +304,15 @@
 				}
 				return check;
 			},
-
+evahandleBeforeUpload(){
+	let checkeva = this.evauploadList.length < 5;
+			if(!checkeva) {
+					this.$Notice.warning({
+						title: '最多可上传5张图片.'
+					});
+				}
+				return checkeva;
+},
 			//切换refund
 			unitprice(p, q) {
 				return p / q;

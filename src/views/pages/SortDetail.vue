@@ -544,7 +544,7 @@
 					} else {
 						this.wuhuotongzhi = false;
 					}
-					// this.getlikepro(this.productItemId);
+					 this.getlikepro(this.productItemId);
 
 				} else {
 					return;
@@ -614,7 +614,7 @@
 						}
 
 					}
-						this.getlikepro();
+					//	this.getlikepro();
 				});
 			},
 			getProductDesc() {

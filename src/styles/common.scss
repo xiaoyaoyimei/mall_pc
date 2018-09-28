@@ -21,10 +21,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     height: 480px;
 }
-
+.flex-center i{
+    font-size: 40px;
+    color: orange;
+}
 .btn-40 {
     height: 40px;
     color: #fff;
@@ -670,6 +672,12 @@ header a {
     float: left;
     border: 1px solid #fff;
     transition: border-color .1s ease;
+}
+.floor li a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .floor li a>img {

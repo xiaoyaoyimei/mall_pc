@@ -157,6 +157,7 @@
 				}).then((res) => {
 					this.productList = res.itemsList;
 					this.totalSize = res.total;
+					console.log(this.productList)
 				})
 			},
 			handlePage(value) {

@@ -3,9 +3,10 @@
 		<div class="nav Nav">
 			<div class="main-width clearfix">
 				<router-link to="/index" class="logo fl navcart"><img src="../../../assets/img/logo-red.png"></router-link>
-				<a href="" class="fl mycart">确认订单</a>
+				<a href="#" class="fl mycart">确认订单</a>
 				<ul class="navCart">
 					<li>
+<<<<<<< HEAD
 							<p class="cartIcon iconIcon-successorder"></p>
 							<p>成功提交订单</p>
 					</li>
@@ -16,6 +17,24 @@
 					<li>
 							<p class="cartIcon iconIcon-cart"></p>
 							<p>我的购物车</p>
+=======
+						<p href="">
+							<p class="cartIcon iconIcon-successorder"></p>
+							<p>成功提交订单</p>
+						</p>
+					</li>
+					<li>
+						<p class="red" href="">
+							<p class="cartIcon iconIcon-order-red"></p>
+							<p>填写核对订单</p>
+						</p>
+					</li>
+					<li>
+						<p class="" href="">
+							<p class="cartIcon iconIcon-cart"></p>
+							<p>我的购物车</p>
+						</p>
+>>>>>>> ac0de3193c83d7335e48390a3c005bdebdcef96f
 					</li>
 				</ul>
 			</div>

@@ -18,8 +18,8 @@
                 <h5>买购物车中商品的人还买了</h5>
             </div>
             <div class="likeList">
-                <ul class="clearfix">
-                    <li  v-for="(x,index) in tuijian" :key="index">
+                <ul class="clearfix" >
+                    <li  v-for="(x,index) in tuijian" :key="index" :class="{none:x.show}" style="display:none">
                     	<router-link :to="{ path: '/sort/sortDetail',query:{id:x.list.id} }" >
                         <p class="stamp stampRed" v-if="x.activity!=''">{{x.activity}}</p>
                         <img class="likeListImg" :src="x.list.model_img | imgfilter" alt="">
@@ -46,7 +46,9 @@
 			return {
 				routerParams:{},
 				tuijian:[],
-				poptuijian:[],
+                poptuijian:[],
+                pushtuijian:[],
+                index:4,
 				// zeroid:'',
 			}
 			},
@@ -63,22 +65,32 @@
 							    url:`/product/other/${this.routerParams}`,
 								}).then((res)=>{
 									if(res.code=='200'){
-											this.tuijian=res.object
+                                            for(let i=0;i<res.object.length;i++){
+                                                if(i<4){
+                                                   res.object[i].show = true;
+                                                }else{
+                                                   res.object[i].show = false;
+                                                }
+                                            }
+                                            this.tuijian = res.object;
 									}
 							});
 							}
 				},
-				 next(){
-                  if(this.poptuijian.length > 0){
-                    let i = this.poptuijian.length;
-                    this.tuijian.unshift(this.poptuijian[i - 1]);
-                    this.poptuijian.pop();
-                  }
+			    next(){
+                    if(this.index < this.tuijian.length){
+                        let i =this.index-4
+                        this.tuijian[this.index].show = true;
+                        this.tuijian[i].show =false;
+                        this.index++;
+                    }
               },
               prev(){
-                if(this.tuijian.length > 4){
-                    this.poptuijian.push(this.tuijian[0]);
-                    this.tuijian.shift();
+                if(this.index > 4){
+                    let i = this.index-5;
+                    this.tuijian[this.index-1].show = false;
+                    this.tuijian[i].show =true;
+                    this.index--
                 }
               },
 			},
@@ -136,7 +148,9 @@
 		box-sizing: border-box;
 		font-size: 16px;
 	}
-	
+	.none{
+        display: block!important;
+    }
 	.successCart .goback {
 		border: 1px solid rgb(210, 210, 210);
 		color: rgb(160, 160, 160);
@@ -176,15 +190,12 @@
 }
 .Msucceess .likeList li{
     float: left;
-    width: calc(25% - 12px);
+    width: calc(25% - 15px);
     padding: 15px;
     background-color: rgb(246, 246, 246);
     margin-right: 15px;
     text-align: center;
     margin-bottom: 10px;
-}
-.Msucceess .likeList li:nth-of-type(4){
-    margin-right: 0px;
 }
 .Msucceess .stamp{
     width: 51px;

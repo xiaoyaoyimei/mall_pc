@@ -34,7 +34,7 @@
 						<tbody>
 							<tr v-for="(x,index) in cartList" :key="index">
 								<td>
-									<span :label="index" :key="index" class="cartIcon cartIcon-checkBox left-checkBox"></span>
+										<Checkbox :label="index" :key="index"></Checkbox>
 								</td>
 
 								<td>

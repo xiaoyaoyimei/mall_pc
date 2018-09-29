@@ -115,7 +115,6 @@
                 });
 			},
 			qiehuanfunction(){
-				console.log(this.qiehuan)
 				this.qiehuan = !this.qiehuan
 			},
             isLogin(){

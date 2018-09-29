@@ -47,7 +47,7 @@
                 	<Spin size="large" fix v-if="spinShow"></Spin>
 			<Modal v-model="refundModal" class="refundModal" width="600" :mask-closable="false">
 			<p slot="header">
-				<Icon type="ios-information-circle"></Icon>
+				<!--<Icon type="ios-information-circle"></Icon>-->
 				<span class="tuihuo">申请售后</span>
 			</p>
 			<div>

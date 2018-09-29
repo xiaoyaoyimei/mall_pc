@@ -1,15 +1,5 @@
 <template>
 	<div class="homepage">
-			<!--<div class="toolbar">
-			<ul>
-				<li ><i class="icon-new icon-user"></i>个人中心</li>
-				<li><i class="icon-new icon-kefu"></i>联系客服</li>
-				<li ><i class="icon-new icon-cart"></i>购物车</li>
-				<li class="mt15" @click="goback">
-        			<i class="icon-new icon-back"></i>回到顶部
-				</li>
-			</ul>
-		</div>-->
 		<div class="side_nav_wrap clear" style="">
 			<div class="main-wdith">
 				<Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots" :radius-dot="setting.radiusDot" :trigger="setting.trigger" :arrow="setting.arrow" class="banner">
@@ -27,7 +17,7 @@
 				</ul>
 				<div class="floor">
 					<div class="title">
-						<!--<div class="changepage fr"><i>&lt;</i> <i>&gt;</i></div>-->
+						
 						<span>热销单品</span></div>
 					<ul class="clearfix one">
 						<li v-for="(item, index) in hotitem" :key='index'><em>NEW</em>

@@ -3,16 +3,14 @@
 			<div class="main-width clearfix">
 				<router-link  to="/index" class="logo fl"><img   src="../assets/img/logo-red.png"></router-link>
 				<ul class="nav_title fl">
-					<li v-for="(item,index) in type" :key="index" >
-					 <router-link :to="{ path: '/sort',query:{typeid:item.id,typeindex:index} }"  >{{item.typeName}}</router-link>
-					</li>
-					<!--<li>电竞座椅</li>
+					<li>LPL赛事用椅</li>
+					<li>电竞座椅</li>
 					<li>办公座椅</li>
 					<li>家居座椅</li>
 					<li>新品</li>
 					<li>电脑桌</li>
 					<li>配件</li>
-					<li>选款建议</li>-->
+					<li>选款建议</li>
 				</ul>
 				<div class="search_wrap fr"><input v-model="keyword" >
 					<button class="search_btn" @click="gosearch()"><i class="icon-new icon-search"></i></button></div>
@@ -27,27 +25,31 @@
             return {
               keyword: '',
               opt_search_hover:false,
-              type:[]
             }
         },
 		methods:{
-			getType(){
-				     this.$axios({
-					method: 'GET',
-					url:'/product/type',
-				}).then((res)=>{
-					this.type = res;
-				})
-			},
+			
 			gosearch(){
+			
+//<<<<<<< HEAD
+//				 console.log('离开A页面了。')
+////     Bus.$emit('get', {
+////      keyword:this.keyword
+////    })
+// Bus.$emit('get', this.keyword)
+//
+//              this.$router.push({path: '/sort',query:{keyword:this.keyword}});  
+//          },
+//      },
+              //this.$bus.$emit('val', this.keyword)  
 				this.$router.push({path: '/sort',query:{keyword:this.keyword}});
+				console.log('A页面'+this.keyword);
 				Bus.$emit('val', this.keyword)
             },
 		},
 			mounted() {
 				console.log('A页面mounted')
 			Bus.$emit('val', this.keyword)
-			this.getType();
 			},
 		beforeDestroy () {
 				console.log('A页面beforeDestroy')

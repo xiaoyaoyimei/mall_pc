@@ -63,23 +63,20 @@
 				<hr>
 				<dl><dt>服务支持</dt>
 					<dd><a href="javascript:void(0)">关于运输</a></dd>
-					<dd><a href="javascript:void(0)">
-						安装方式</a></dd>
-					<dd><a href="javascript:void(0)">
-						售后政策</a></dd>
+					<dd><router-link :to="{path: '/help/azsp'}">
+						安装方式</router-link></dd>
+					<dd><router-link :to="{path: '/help/shfw'}">
+						售后政策</router-link></dd>
 				</dl>
 				<dl><dt>帮助中心</dt>
 					<dd><a href="javascript:void(0)">账户管理</a></dd>
-					<dd><a href="javascript:void(0)">
-
-						购物指南</a></dd>
+					<dd><router-link :to="{path: '/help/gwzn'}" >购物指南</router-link></dd>
 					<dd><a href="javascript:void(0)">
 						关于发票</a></dd>
 				</dl>
 				<dl><dt>关于品牌</dt>
-					<dd><a href="javascript:void(0)">了解迪瑞克斯</a></dd>
+					<dd><router-link :to="{path: '/help/scjj'}">了解迪瑞克斯</router-link></dd>
 					<dd><a href="javascript:void(0)">
-
 						加入迪瑞克斯</a></dd>
 				</dl>
 				<dl><dt>特色服务</dt>

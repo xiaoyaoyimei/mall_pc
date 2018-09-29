@@ -3,7 +3,8 @@
 		<div class="selector mt20 main-wdith">
 			<p>
 				<router-link to="/">首页</router-link> &gt; 全部结果 </p>
-			<div >
+				{{totalSize}}{{productList}}
+			<div v-if="totalSize>0">
 				<div class="wrap">
 					<div class="dt">类型:</div>
 					<div class="dd">
@@ -30,8 +31,7 @@
 						<span @click="getList('brand','',-1)" :class="{active: '-1' == brandindex}">全部</span>
 						<span v-for="(item,index) in brand" @click="getList('brand',item.id,index)" :class="{active: index == brandindex}">{{item.brandName}}</span></div>
 				</div>
-			</div>
-				<div v-if="totalSize>0">	<ul class="clearfix mylike" >
+				<ul class="clearfix mylike">
 					<li v-for="(item, index) in productList" :key='index'>
 						<router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
 							<i v-if="item.promotionTitle !=null">{{item.promotionTitle}}</i>
@@ -43,7 +43,7 @@
 					</li>
 				</ul>
 				<Page :total="totalSize" size="small" show-elevator class="page" :page-size='this.pageSize' @on-change="handlePage" v-if="productList.length>0"></Page>
-		</div>
+			</div>
 		<div class="empty_result flex-center"   v-else>
 				<Icon type="ios-warning" />
 				<span>该区域没有符合搜索条件的产品哦,试试其他关键字~</span>
@@ -147,14 +147,14 @@
 
 			//点击header的搜索
 			getTopList(searchdata) {
-				console.log(searchdata)
+				//console.log(searchdata)
 				//首页若传typeid,则跳出。走getParams
 				if(this.$route.query.typeid != undefined) {
 					return;
 				}
-				if( searchdata == undefined){
-					searchdata =	this.$route.query.keyword
-				}
+//				if( searchdata == undefined){
+//					searchdata =	this.$route.query.keyword
+//				}
 				this.$axios({
 					method: 'GET',
 					url: '/product/search?keyWord=' + searchdata + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
@@ -192,7 +192,7 @@
 				   Bus.$on('val', (data) => {
 							console.log('B页面mounted'+data)
 							})
-				this.getTopList();
+				//this.getTopList();
 		},
 		beforeUpdate(){
 		//	Bus.$off('val')

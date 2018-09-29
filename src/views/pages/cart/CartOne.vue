@@ -2,111 +2,101 @@
 	<div class='cart1 cartpage'>
 		<div class="nav Nav">
 			<div class="main-width clearfix">
-<<<<<<< HEAD
 				<router-link to="/index" class="logo fl navcart"><img src="../../../assets/img/logo-red.png"></router-link>
-				<a href="" class="fl mycart">我的购物车</a>
-				<ul class="navCart">
-					<li>
+					<a href="" class="fl mycart">我的购物车</a>
+					<ul class="navCart">
+						<li>
 							<p class="cartIcon iconIcon-successorder"></p>
 							<p>成功提交订单</p>
-					</li>
-					<li>
+						</li>
+						<li>
 							<p class="cartIcon iconIcon-cart-order"></p>
 							<p>填写核对订单</p>
-					</li>
-					<li class="red">
+						</li>
+						<li class="red">
 							<p class="cartIcon iconIcon-cart-red"></p>
 							<p>我的购物车</p>
-					</li>
-				</ul>
-=======
-				<router-link  to="/index" class="logo fl navcart"><img   src="../../../assets/img/logo-red.png"></router-link>
-                <a href="#" class="fl mycart">我的购物车</a>
-                <ul class="navCart">
-                    <li><p ><p class="cartIcon iconIcon-successorder"></p><p>成功提交订单</p></p></li>
-                    <li><p ><p class="cartIcon iconIcon-cart-order"></p><p>填写核对订单</p></p></li>
-                    <li><p  class="red" ><p class="cartIcon iconIcon-cart-red"></p><p>我的购物车</p></p></li>
-                </ul>
->>>>>>> ac0de3193c83d7335e48390a3c005bdebdcef96f
+						</li>
+					</ul>
 			</div>
 		</div>
-		<div  class="cartlist clearfix" > 
-			<div class="cartTablenull"  v-if="cartnologin">
+		<div class="cartlist clearfix">
+			<div class="cartTablenull" v-if="cartnologin">
 				<span>您尚未登录！<router-link  to="/login" >去登录</router-link></span>
 			</div>
-		<div class="cartlist clearfix"  v-else>
-			<div class="cartTable" v-if="cartList.length>0">
-				<Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange" class="item_detail clearfix">
-					<table>
-						<thead>
-							<tr>
-								<th width="150">
-									<Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
-								</th>
-								<th width="400">商品名称</th>
-								<th width="150">单价</th>
-								<th width="200">数量</th>
-								<th width="150">小计</th>
-								<th width="150">操作</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="(x,index) in cartList" :key="index">
-								<td>
-									<Checkbox :label="index" :key="index"></Checkbox>
-									<!--<span class="cartIcon cartIcon-checkBox left-checkBox"></span>--></td>
+			<div class="cartlist clearfix" v-else>
+				<div class="cartTable" v-if="cartList.length>0">
+					<Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange" class="item_detail clearfix">
+						<table>
+							<thead>
+								<tr>
+									<th width="150">
+										<Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
+									</th>
+									<th width="400">商品名称</th>
+									<th width="150">单价</th>
+									<th width="200">数量</th>
+									<th width="150">小计</th>
+									<th width="150">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(x,index) in cartList" :key="index">
+									<td>
+										<Checkbox :label="index" :key="index"></Checkbox>
+										<!--<span class="cartIcon cartIcon-checkBox left-checkBox"></span>--></td>
 
-								<td>
-									<div class="cartlistImg">
-										<img :src="x.image |imgfilter">
-									</div>
-									<div class="cartlisstText">
-										<h6>{{x.productName}}</h6>
-										<p>{{x.productAttr}}</p>
-									</div>
-								</td>
-								<td>
-									<p class="salePrice">￥{{x.originSalePrice|pricefilter}}</p>
-									<p class="price" v-if="x.promotionTitle!=null">￥{{x.salePrice|pricefilter}}</p>
-								</td>
-								<td>
-									<div class="cartlistnum">
-										<input class="cartminus" value="-" type="button" @click="jian(x,index)">
-										<input class="num" value="1" type="text" v-model.lazy="x.quantity" v-on:blur="changeNumber($event,x,index)">
-										<input class="cartadd" value="+" type="button" @click="jia(x,index)">
-									</div>
+									<td>
+										<div class="cartlistImg">
+											<img :src="x.image |imgfilter">
+										</div>
+										<div class="cartlisstText">
+											<h6>{{x.productName}}</h6>
+											<p>{{x.productAttr}}</p>
+										</div>
+									</td>
+									<td>
+										<p  class="salePrice" v-if="x.promotionTitle!=null">￥{{x.salePrice|pricefilter}}</p>
+										<p class="price" >￥{{x.originSalePrice|pricefilter}}</p>
+									</td>
+									<td>
+										<div class="cartlistnum">
+											<input class="cartminus" value="-" type="button" @click="jian(x,index)">
+											<input class="num" value="1" type="text" v-model.lazy="x.quantity" v-on:blur="changeNumber($event,x,index)">
+											<input class="cartadd" value="+" type="button" @click="jia(x,index)">
+										</div>
 
-								</td>
-								<td>
-									<p class="cartlist-red">￥{{itemtotal(x.salePrice,x.quantity)|pricefilter}}</p>
-								</td>
-								<td><span class="cartIcon cartIcon-delete" @click="remove(x.id)"></span></td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<td align="center">
-									<Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox> <span class="operation_delete" @click="removeall()">删除</span></td>
-								<td colspan="2">
-									<router-link :to="{ path: '/index' }" class="cartshopping">继续购物</router-link>
-									<span class="totalnum">共 <span>{{totalnum}}</span> 件商品，已选择 <span>{{zslcount}}</span> 件</span>
-								</td>
-								<td colspan="2">
-									<p class="totalprice"><span class="span">共计优惠￥{{sale}}</span> 合计：
-										<span class="total">    ￥{{totalPrice |pricefilter}}        </span></p>
-								</td>
-								<td><span class="cartPay" @click="paymoney">去结算</span></td>
-							</tr>
-						</tfoot>
-					</table>
-				</Checkbox-group>
-			</div>
-			<div class="cartTablenull" v-else>
-				<img src="../../../assets/img/u15.png" alt="">
-				<span>您的购物车还是空的！<router-link  to="/sort" >马上去购物</router-link></span>
+									</td>
+									<td>
+										<p class="cartlist-red">￥{{itemtotal(x.salePrice,x.quantity)|pricefilter}}</p>
+									</td>
+									<td><span class="cartIcon cartIcon-delete" @click="remove(x.id)"></span></td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td align="center">
+										<Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox> <span class="operation_delete" @click="removeall()">删除</span></td>
+									<td colspan="2">
+										<router-link :to="{ path: '/index' }" class="cartshopping">继续购物</router-link>
+										<span class="totalnum">共 <span>{{totalnum}}</span> 件商品，已选择 <span>{{zslcount}}</span> 件</span>
+									</td>
+									<td colspan="2">
+										<p class="totalprice"><span class="span">共计优惠￥{{sale}}</span> 合计：
+											<span class="total">    ￥{{totalPrice |pricefilter}}        </span></p>
+									</td>
+									<td><span class="cartPay" @click="paymoney">去结算</span></td>
+								</tr>
+							</tfoot>
+						</table>
+					</Checkbox-group>
+				</div>
+				<div class="cartTablenull" v-else>
+					<img src="../../../assets/img/u15.png" alt="">
+					<span>您的购物车还是空的！<router-link  :to="{ path: '/sort',query:{keyword:''} }">马上去购物</router-link></span>
+				</div>
 			</div>
 		</div>
-</div>
 	</div>
 </template>
 
@@ -126,7 +116,7 @@
 				temp: [],
 				sale: 0,
 				totalnum: 0,
-				cartnologin:true,//未登录
+				cartnologin: true, //未登录
 			}
 		},
 		methods: {
@@ -211,14 +201,14 @@
 								this.sale = 0;
 								this.cartList.forEach((item, index) => {
 									_this.totalnum += parseInt(item.quantity);
-									_this.sale += (item.originSalePrice - item.salePrice) * 100 * parseInt(item.quantity)
+									_this.sale += parseInt(item.originSalePrice - item.salePrice) * 100 * parseInt(item.quantity)
 								});
-								_this.sale = _this.sale / 100
+								_this.sale = (_this.sale / 100).toFixed(2)
 								this.handleCheckAll()
 							}
 						});
-				}else{
-					this.cartnologin=true;
+				} else {
+					this.cartnologin = true;
 					return false;
 				}
 			},
@@ -318,7 +308,7 @@
 						_this.zslcount += parseFloat(item.quantity)
 						_this.sale += (item.originSalePrice - item.salePrice) * parseFloat(item.quantity) * 100
 					});
-					_this.sale = _this.sale / 100;
+					_this.sale = (_this.sale / 100).toFixed(2);
 				} else {
 					_this.checkAllGroup = [];
 					_this.temp = [];

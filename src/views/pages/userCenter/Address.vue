@@ -249,7 +249,6 @@
 						});
               },
             handleReset (name) {
-            	console.log( this.$refs[name]);
                 this.$refs[name].resetFields();
             },
             secAdd(item){

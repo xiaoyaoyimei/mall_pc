@@ -122,7 +122,6 @@
 				this.dealModal = true;
 				this.refundAmount=v.refundOrderTotalFee;
 				this.dealremark=v.remarks;
-				console.log(v)
 				// this.$axios({
 				// 	method: 'get',
 				// 	url: '/refund/getRefundOrderList?refundOrderNo='+v,

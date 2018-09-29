@@ -160,7 +160,6 @@
 				}).then((res) => {
 					this.productList = res.itemsList;
 					this.totalSize = res.total;
-					console.log(this.productList)
 				})
 			},
 			handlePage(value) {
@@ -169,7 +168,6 @@
 			},
 		},
 		created() {
-			//	this.getTopList(this.searchdate)
 					this.$bus.$on('val', (data) => {
 				this.getTopList(data);
 			});
@@ -179,18 +177,6 @@
 				this.$bus.$off('val')
 		},
 		mounted() {
-	
-			// 	var vm = this
-			// 用$on事件来接收参数
-			//  console.log(this.searchdate)
-
-			//		      console.log('mou'+this.flag)
-			//		      
-			//		      
-			//		      
-			//		      if(this.flag){
-			//		      	this.getTopList('')
-			//		      }
 			//得到顶部分类
 			this.getTop();
 			//首页点击左侧分类

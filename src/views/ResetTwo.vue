@@ -23,7 +23,6 @@
 	  export default {
         data () {
         	      var validatePass = (rule, value, callback) => {    
-        	      	console.log(this.regiForm);
                             if (value === '') {
                                 callback(new Error('请输入确认密码'));
                               } else if (value !== this.regiForm.passWord) {

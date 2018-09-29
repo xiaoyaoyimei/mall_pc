@@ -429,7 +429,7 @@
 	}
 	
 	.cartTable .cartlisstText p {
-		font-size: 18px;
+		font-size: 14px;
 		color: #000000;
 		font-weight: 300;
 		line-height: 27px;

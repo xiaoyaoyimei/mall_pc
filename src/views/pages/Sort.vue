@@ -36,6 +36,7 @@
 					<Icon type="ios-warning" />
 					<span>请检查您的输入是否有误 ,如有任何意见或建议，期待您反馈给我们</span>
 				</div>
+				
 				<ul v-else class="clearfix mylike">
 					<li v-for="(item, index) in productList" :key='index'>
 						<router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
@@ -49,10 +50,7 @@
 				</ul>
 				<Page :total="totalSize" size="small" show-elevator class="page" :page-size='this.pageSize' @on-change="handlePage" v-if="productList.length>0"></Page>
 			</div>
-		<div class="empty_result flex-center"   v-else>
-				<Icon type="ios-warning" />
-				<span>该区域没有符合搜索条件的产品哦,试试其他关键字~</span>
-			</div>
+
 		</div>
 		<Spin size="large" fix v-if="spinShow"></Spin>
 	</div>
@@ -194,11 +192,7 @@
 				this.$bus.$off('val')
 		},
 		mounted() {
-<<<<<<< HEAD
 			//得到顶部分类
-=======
-
->>>>>>> 33619aec9e10ba325b307672dc6b2ddb01faa084
 			this.getTop();
 			//首页点击左侧分类
 			this.getParams();

@@ -3,8 +3,7 @@
 		<div class="selector mt20 main-wdith">
 			<p>
 				<router-link to="/">首页</router-link> &gt; 全部结果 </p>
-{{totalSize}}{{productList}}
-	
+				{{totalSize}}{{productList}}
 			<div v-if="totalSize>0">
 				<div class="wrap">
 					<div class="dt">类型:</div>
@@ -145,13 +144,17 @@
 //					this.totalSize = res.total;
 //				})
 			},
-	
+
 			//点击header的搜索
 			getTopList(searchdata) {
+				console.log(searchdata)
 				//首页若传typeid,则跳出。走getParams
 				if(this.$route.query.typeid != undefined) {
 					return;
 				}
+//				if( searchdata == undefined){
+//					searchdata =	this.$route.query.keyword
+//				}
 				this.$axios({
 					method: 'GET',
 					url: '/product/search?keyWord=' + searchdata + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
@@ -159,7 +162,7 @@
 					this.productList = res.itemsList;
 					this.totalSize = res.total;
 				})
-				 
+
 			},
 			handlePage(value) {
 				this.startRow = (value - 1) * this.pageSize;
@@ -169,45 +172,30 @@
 		      console.log(val, '这是从上个页面传递过来的参数')
 		   },
 		},
-//<<<<<<< HEAD
-//		created () { 
-//			Bus.$on('get', (data) => {
-//				console.log('B页面接受'+data);
-//				//this.getTopList(data);
-//=======
+		beforeCreated(){
+						this.$bus.$on('val', (data) => {
+						console.log(data)
+				this.getTopList(data);
+			});
+		},
 		created() {
 			//	this.getTopList(this.searchdate)
-			console.log('进入该方法');
-			this.$bus.$off('val');
-				this.$bus.$on('val', (data) => {
-					console.log('B页面接受'+data);
-					this.getTopList(data);
-				});
+					this.$bus.$on('val', (data) => {
+						console.log(data)
+				this.getTopList(data);
+			});
+
 		},
 		beforeDestroy () {
 				this.$bus.$off('val')
 		},
 		mounted() {
-		     
-		//	Bus.$on('get', this.myhandle)
-			},
-//			updated(){
-//				console.log("update")
-//				 Bus.$off('get', this.myhandle)
-//			},
-//		mounted() {
-//			//得到顶部分类
-//			//Bus.$off('val', this.getTopList)
-//			Bus.$off('val')
-//			this.getTop();
-//			//首页点击左侧分类
-//			this.getParams();
-//		},
-		     beforeDestroy () {
-		     	console.log('beforeDestroy离开B页面');
-	     Bus.$off('get', this.myhandle)
-	  },
 
+			this.getTop();
+			//首页点击左侧分类
+			this.getParams();
+				//this.getTopList();
+		},
 	}
 </script>
 
@@ -217,7 +205,7 @@
 		background-color: #F2F2F2;
 		padding: 29px 0px 75px;
 	}
-	
+
 	.mylike li {
 		cursor: pointer;
 		float: left;
@@ -228,18 +216,18 @@
 		margin-top: 15px;
 		background-color: #ffffff;
 	}
-	
+
 	.mylike li:nth-of-type(4n) {
 		margin-right: 0px;
 	}
-	
+
 	.mylike img {
 		margin-top: 60px;
 		width: 260px;
 		height: 260px;
 		display: inline-block;
 	}
-	
+
 	.mylike li span {
 		position: absolute;
 		top: 10px;
@@ -251,7 +239,7 @@
 		padding: 0px;
 		cursor: pointer;
 	}
-	
+
 	.mylike li i {
 		position: absolute;
 		border: 1px solid #ff0000;
@@ -266,7 +254,7 @@
 		line-height: 20px;
 		cursor: pointer;
 	}
-	
+
 	.mylike li span.red {
 		position: absolute;
 		top: 18px;
@@ -275,7 +263,7 @@
 		font-size: 24px;
 		margin: 0;
 	}
-	
+
 	.mylike .ptitle {
 		font-weight: 400;
 		font-size: 14px;
@@ -292,11 +280,10 @@
 		text-align: center;
 		padding: 0 20px;
 	}
-	
+
 	.new .mylike .ptitle:hover {
 		color: #333333;
 	}
-	
 	.mylike .pt {
 		font-weight: 400;
 		font-size: 14px;
@@ -307,15 +294,15 @@
 		margin: 0px;
 		padding: 0px;
 	}
-	
+
 	.new .mylike .pt:hover {
 		color: #999999;
 	}
-	
+
 	.new .mylike .red:hover {
 		color: #FF0000;
 	}
-	
+
 	.mylike .red {
 		height: 21px;
 		line-height: 21px;
@@ -328,13 +315,13 @@
 		text-align: center;
 		margin-bottom: 28px;
 	}
-	
+
 	.shoppinglistnav {
 		margin-top: 25px;
 		margin-bottom: 0px;
 		height: 41px;
 	}
-	
+
 	.shoppinglistnav span {
 		float: left;
 		width: 90px;
@@ -345,23 +332,23 @@
 		font-size: 14px;
 		color: #666666;
 	}
-	
+
 	.shoppinglistnav span:hover {
 		color: #ff0000;
 	}
-	
+
 	.selector {
 		line-height: 40px;
 		font-size: 14px;
 		color: #333;
 	}
-	
+
 	.selector dl {
 		border-width: 0 0 1px;
 		border-style: solid;
 		border-color: #ddd;
 	}
-	
+
 	.selector .dt {
 		font-weight: bold;
 		float: left;
@@ -371,42 +358,42 @@
 		overflow: hidden;
 		background: #f1f1f1;
 	}
-	
+
 	.selector .dd {
 		margin-left: 110px;
 		padding-left: 10px;
 		overflow: hidden;
 		zoom: 1;
 	}
-	
+
 	.selector .dd span {
 		cursor: pointer;
 		text-align: center;
 		padding: 0 20px;
 		display: inline-block;
 	}
-	
+
 	.selector .dd span:hover {
 		color: #ff0037;
 	}
-	
+
 	.mylike {
 		margin-bottom: 20px;
 	}
-	
+
 	.selector .active {
 		color: #ff0037;
 		font-weight: bold;
 	}
-	
+
 	.search_list_wrap {
 		margin-top: 30px;
 	}
-	
+
 	.wrap {
 		border-bottom: 1px solid #ddd;
 	}
-	
+
 	.page {
 		text-align: center;
 	}

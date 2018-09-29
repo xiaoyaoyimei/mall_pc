@@ -28,8 +28,21 @@
             }
         },
 		methods:{
+			
 			gosearch(){
+//<<<<<<< HEAD
+//				 console.log('离开A页面了。')
+////     Bus.$emit('get', {
+////      keyword:this.keyword
+////    })
+// Bus.$emit('get', this.keyword)
+//
+//              this.$router.push({path: '/sort',query:{keyword:this.keyword}});  
+//          },
+//      },
+
 				this.$router.push({path: '/sort',query:{keyword:this.keyword}});
+				console.log('A页面'+this.keyword);
 				this.$bus.$emit('val', this.keyword)  
             },
 		},

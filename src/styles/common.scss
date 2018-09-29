@@ -714,7 +714,7 @@ h3.red {
 }
 
 .myorder .myorderspan {
-    margin-top: 35px;
+    margin-top: 13px;
 }
 
 .myorder .myorderspan span {
@@ -771,6 +771,8 @@ h3.red {
     background-color: #ffffff;
     color: #666666;
     padding: 0px;
+    position: relative;
+    top: -20px;
 }
 
 .ul .span strong {
@@ -816,11 +818,11 @@ h3.red {
 }
 
 
-     .btn-red-outline {
-        background-color: #ffffff;
-        border: 1px solid #f2191a;
-        color: #FF0000;
-    }
+.btn-red-outline {
+    background-color: #ffffff;
+    border: 1px solid #f2191a;
+    color: #FF0000;
+}
  .myorderp button,
  .myorderp a {
     display: inline-block;
@@ -835,7 +837,9 @@ h3.red {
     color: #333333;
     text-align: center;
 }
-
+.myorderImg .myorderp{
+    text-align: right;
+}
 
 .myorderImg .myorderp button:nth-last-of-type(n+2):hover {
     background-color: #cccccc;
@@ -861,20 +865,26 @@ h3.red {
     font-size: 24px;
     text-align: left;
 }
-
+.myorderempty h6{
+    font-size: 18px;
+    columns: #999999;
+}
 .myorderempty a {
     font-size: 18px;
     color: #777777;
     font-weight: 400;
     text-align: center;
     margin-right: 8px;
-    background-color: #d7d7d7;
+    background-color: #cccccc;
     width: 111px;
     height: 24px;
     display: inline-block;
     line-height: 24px;
 }
-
+.myorderempty a.red{
+    background-color: #ff0000;
+    color: #fff;
+}
 .ul>li {
     border-bottom: 1px solid #c6c6c6;
     padding-top: 28px;

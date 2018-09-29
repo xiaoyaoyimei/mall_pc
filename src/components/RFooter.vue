@@ -30,6 +30,7 @@
 	.footer-link a{
 		margin-left: 25px;
 		margin-right: 25px;
+		color: #999999;
 	}
 	.foot{
 		padding-bottom: 20px;

@@ -30,7 +30,7 @@
 		<div class="myorderempty "  v-else >
 			<i class="cartIcon iconIcon-order"></i>
 			<div><h6>暂无售后记录~</h6>
-				<router-link  to="/sort" >随便看看</router-link>
+				<router-link class='red'  to="/sort" >随便看看</router-link>
 			</div>
 		</div>
 		<Modal v-model="infoModal" class="aftersalemodal" width="500" :mask-closable="false">

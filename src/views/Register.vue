@@ -210,9 +210,12 @@
 }
 .register .btn {
 	margin-top: 10px;
-    background-color: rgba(51, 153, 255, 1);
+  background-color: rgba(51, 153, 255, 1);
 }
-
+.register .btn:hover {
+	margin-top: 10px;
+  background-color: rgba(51, 153, 255, 1)!important;
+}
 .refresh{
 	cursor: pointer;
 	margin-left:40px;
@@ -224,6 +227,6 @@
 </style>
 <style>
 	.ivu-form-item{
-		margin-bottom: 15px;
+		margin-bottom: 25px;
 	}
 </style>

@@ -34,8 +34,8 @@
 						<tbody>
 							<tr v-for="(x,index) in cartList" :key="index">
 								<td>
-									<Checkbox :label="index" :key="index"></Checkbox>
-									<!--<span class="cartIcon cartIcon-checkBox left-checkBox"></span>--></td>
+									<span :label="index" :key="index" class="cartIcon cartIcon-checkBox left-checkBox"></span>
+								</td>
 
 								<td>
 									<div class="cartlistImg">
@@ -47,8 +47,8 @@
 									</div>
 								</td>
 								<td>
-									<p class="salePrice">￥{{x.originSalePrice|pricefilter}}</p>
-									<p class="price" v-if="x.promotionTitle!=null">￥{{x.salePrice|pricefilter}}</p>
+									<p class="salePrice">￥{{x.salePrice|pricefilter}}</p>
+									<p class="price" v-if="x.promotionTitle!=null">￥{{x.originSalePrice|pricefilter}}</p>
 								</td>
 								<td>
 									<div class="cartlistnum">

@@ -564,7 +564,7 @@
 	
 	.mn-wrap {
 		width: 100%;
-		padding: 10px 0;
+		padding: 15px 0;
 		background: #fff;
 	}
 	

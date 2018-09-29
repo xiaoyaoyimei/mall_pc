@@ -2,24 +2,6 @@
 	<div class='cart1 cartpage'>
 		<div class="nav Nav">
 			<div class="main-width clearfix">
-<<<<<<< HEAD
-				<router-link to="/index" class="logo fl navcart"><img src="../../../assets/img/logo-red.png"></router-link>
-				<a href="" class="fl mycart">我的购物车</a>
-				<ul class="navCart">
-					<li>
-							<p class="cartIcon iconIcon-successorder"></p>
-							<p>成功提交订单</p>
-					</li>
-					<li>
-							<p class="cartIcon iconIcon-cart-order"></p>
-							<p>填写核对订单</p>
-					</li>
-					<li class="red">
-							<p class="cartIcon iconIcon-cart-red"></p>
-							<p>我的购物车</p>
-					</li>
-				</ul>
-=======
 				<router-link  to="/index" class="logo fl navcart"><img   src="../../../assets/img/logo-red.png"></router-link>
                 <a href="#" class="fl mycart">我的购物车</a>
                 <ul class="navCart">
@@ -27,7 +9,6 @@
                     <li><p ><p class="cartIcon iconIcon-cart-order"></p><p>填写核对订单</p></p></li>
                     <li><p  class="red" ><p class="cartIcon iconIcon-cart-red"></p><p>我的购物车</p></p></li>
                 </ul>
->>>>>>> ac0de3193c83d7335e48390a3c005bdebdcef96f
 			</div>
 		</div>
 		<div  class="cartlist clearfix" > 

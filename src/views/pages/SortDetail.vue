@@ -614,7 +614,7 @@
 						}
 
 					}
-					//	this.getlikepro();
+						this.getlikepro();
 				});
 			},
 			getProductDesc() {

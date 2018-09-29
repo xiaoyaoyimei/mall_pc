@@ -2,70 +2,60 @@
 	<div class='cart1 cartpage'>
 		<div class="nav Nav">
 			<div class="main-width clearfix">
-				<router-link to="/index" class="logo fl navcart"><img src="../../../assets/img/logo-red.png"></router-link>
-					<a href="" class="fl mycart">我的购物车</a>
-					<ul class="navCart">
-						<li>
-							<p class="cartIcon iconIcon-successorder"></p>
-							<p>成功提交订单</p>
-						</li>
-						<li>
-							<p class="cartIcon iconIcon-cart-order"></p>
-							<p>填写核对订单</p>
-						</li>
-						<li class="red">
-							<p class="cartIcon iconIcon-cart-red"></p>
-							<p>我的购物车</p>
-						</li>
-					</ul>
+				<router-link  to="/index" class="logo fl navcart"><img   src="../../../assets/img/logo-red.png"></router-link>
+                <a href="#" class="fl mycart">我的购物车</a>
+                <ul class="navCart">
+                    <li><p class="cartIcon iconIcon-successorder"></p><p>成功提交订单</p></li>
+                    <li><p class="cartIcon iconIcon-cart-order"></p><p>填写核对订单</p></li>
+                    <li class="red" ><p class="cartIcon iconIcon-cart-red"></p><p>我的购物车</p></li>
+                </ul>
 			</div>
 		</div>
 		<div class="cartlist clearfix">
 			<div class="cartTablenull" v-if="cartnologin">
 				<span>您尚未登录！<router-link  to="/login" >去登录</router-link></span>
 			</div>
-			<div class="cartlist clearfix" v-else>
-				<div class="cartTable" v-if="cartList.length>0">
-					<Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange" class="item_detail clearfix">
-						<table>
-							<thead>
-								<tr>
-									<th width="150">
-										<Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
-									</th>
-									<th width="400">商品名称</th>
-									<th width="150">单价</th>
-									<th width="200">数量</th>
-									<th width="150">小计</th>
-									<th width="150">操作</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="(x,index) in cartList" :key="index">
-									<td>
-										<Checkbox :label="index" :key="index"></Checkbox>
-										<!--<span class="cartIcon cartIcon-checkBox left-checkBox"></span>--></td>
+		<div class="cartlist clearfix"  v-else>
+			<div class="cartTable" v-if="cartList.length>0">
+				<Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange" class="item_detail clearfix">
+					<table>
+						<thead>
+							<tr>
+								<th width="150">
+									<Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
+								</th>
+								<th width="400">商品名称</th>
+								<th width="150">单价</th>
+								<th width="200">数量</th>
+								<th width="150">小计</th>
+								<th width="150">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(x,index) in cartList" :key="index">
+								<td>
+									<span :label="index" :key="index" class="cartIcon cartIcon-checkBox left-checkBox"></span>
+								</td>
 
-									<td>
-										<div class="cartlistImg">
-											<img :src="x.image |imgfilter">
-										</div>
-										<div class="cartlisstText">
-											<h6>{{x.productName}}</h6>
-											<p>{{x.productAttr}}</p>
-										</div>
-									</td>
-									<td>
-										<p  class="salePrice" v-if="x.promotionTitle!=null">￥{{x.salePrice|pricefilter}}</p>
-										<p class="price" >￥{{x.originSalePrice|pricefilter}}</p>
-									</td>
-									<td>
-										<div class="cartlistnum">
-											<input class="cartminus" value="-" type="button" @click="jian(x,index)">
-											<input class="num" value="1" type="text" v-model.lazy="x.quantity" v-on:blur="changeNumber($event,x,index)">
-											<input class="cartadd" value="+" type="button" @click="jia(x,index)">
-										</div>
-
+								<td>
+									<div class="cartlistImg">
+										<img :src="x.image |imgfilter">
+									</div>
+									<div class="cartlisstText">
+										<h6>{{x.productName}}</h6>
+										<p>{{x.productAttr}}</p>
+									</div>
+								</td>
+								<td>
+									<p class="salePrice">￥{{x.salePrice|pricefilter}}</p>
+									<p class="price" v-if="x.promotionTitle!=null">￥{{x.originSalePrice|pricefilter}}</p>
+								</td>
+								<td>
+									<div class="cartlistnum">
+										<input class="cartminus" value="-" type="button" @click="jian(x,index)">
+										<input class="num" value="1" type="text" v-model.lazy="x.quantity" v-on:blur="changeNumber($event,x,index)">
+										<input class="cartadd" value="+" type="button" @click="jia(x,index)">
+									</div>
 									</td>
 									<td>
 										<p class="cartlist-red">￥{{itemtotal(x.salePrice,x.quantity)|pricefilter}}</p>
@@ -438,7 +428,7 @@
 	}
 	
 	.cartTable .cartlisstText p {
-		font-size: 18px;
+		font-size: 14px;
 		color: #000000;
 		font-weight: 300;
 		line-height: 27px;

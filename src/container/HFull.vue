@@ -2,6 +2,7 @@
 <div class="layout">
         <Layout>
              <app-header></app-header>
+			 <app-nav></app-nav>
             <Layout >
                 <Content class='layout' :style="{ minHeight: '700px',background:'#ffffff'}">
 				<div class="inner_help">
@@ -17,6 +18,7 @@
 
 <script>
 import AppHeader from '@/components/Header'
+import AppNav from '@/components/Nav'
 import AppFooter from '@/components/Footer'
 import AppMenu from '@/components/Menu'
 import HelpLeft from '@/components/HelpLeft'
@@ -26,7 +28,8 @@ import HelpLeft from '@/components/HelpLeft'
 	        }
 		  },
 		components:{
-        	AppHeader,
+			AppHeader,
+			AppNav,
         	AppFooter,
         	AppMenu,
         	HelpLeft
@@ -42,10 +45,14 @@ import HelpLeft from '@/components/HelpLeft'
     width: 1190px;
     margin: 0 auto;
 }
+.side_bar_wrap{
+	margin-bottom: 50px;
+}
 .help_wrap{
 	    float: left;
     width: 990px;
     margin-left: 60px;
+	margin-bottom: 50px;
 }
 .help_wrap h6{
 	 font-size: 14px;

@@ -614,7 +614,7 @@
 						}
 
 					}
-					this.getlikepro();
+						this.getlikepro();
 				});
 			},
 			getProductDesc() {
@@ -631,7 +631,6 @@
 								res.object[i].show =false
 							}
 						}
-						console.log(res.object)
 							this.recomm = res.object;
 					}
 				

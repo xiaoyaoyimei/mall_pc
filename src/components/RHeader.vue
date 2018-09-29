@@ -43,7 +43,7 @@
     right: 0;
     z-index: 100;
     width: 410px;
-    height:530px;
+    min-height:530px;
     background-color: #ffffff;
     padding: 53px 46px;
 }
@@ -84,6 +84,9 @@
     font-size: 18px;
     color: #FFFFFF;
     border: none;
+}
+.signin .btn:hover{
+    background-color: rgba(255, 0, 0, 1)!important;
 }
 .signin p a{
     float: left;

@@ -39,9 +39,9 @@
                     </ul>
                 	<div class="myorderempty "  v-else >
                 		<i class="cartIcon iconIcon-order"></i>
-						<div><h6>暂无记录~</h6>
+						<div><h6>您还没有下过订单哦~</h6>
 							<router-link  to="/sort" >购物建议</router-link>
-							<router-link  to="/sort" >去下单</router-link>
+							<router-link class="red" to="/sort" >去下单</router-link>
 							</div>
 					</div>
                 	<Spin size="large" fix v-if="spinShow"></Spin>

@@ -6,13 +6,7 @@
 					<li v-for="(item,index) in type" :key="index" >
 					 <router-link :to="{ path: '/sort',query:{typeid:item.id,typeindex:index} }"  >{{item.typeName}}</router-link>
 					</li>
-					<!--<li>电竞座椅</li>
-					<li>办公座椅</li>
-					<li>家居座椅</li>
-					<li>新品</li>
-					<li>电脑桌</li>
-					<li>配件</li>
-					<li>选款建议</li>-->
+					<li>选款建议</li>
 				</ul>
 				<div class="search_wrap fr"><input v-model="keyword" >
 					<button class="search_btn" @click="gosearch()"><i class="icon-new icon-search"></i></button></div>

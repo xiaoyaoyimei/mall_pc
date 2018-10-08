@@ -148,7 +148,7 @@
 								</ul>
 							</div>
 						</div>
-						<p class="moreeval" v-if="commentList.length>5">查看更多评价</p>
+						<!-- <p class="moreeval" @click="getcommentList" v-if="commentList.length>1">查看更多评价</p> -->
 					</div>
 
 				</div>
@@ -666,7 +666,10 @@
 						this.commentList = res.object;
 					}
 				});
-			}
+			},
+			// getcommentList(){
+			// 	d
+			// }
 		},
 		mounted() {
 			this.getParams();

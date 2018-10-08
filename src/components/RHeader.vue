@@ -87,6 +87,7 @@
 }
 .signin .btn:hover{
     background-color: rgba(255, 0, 0, 1)!important;
+    color: #FFFFFF;
 }
 .signin p a{
     float: left;

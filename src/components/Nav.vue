@@ -3,10 +3,10 @@
 			<div class="main-width clearfix">
 				<router-link  to="/index" class="logo fl"><img   src="../assets/img/logo-red.png"></router-link>
 				<ul class="nav_title fl">
-					<li v-for="(item,index) in type" :key="index" >
-					 <router-link :to="{ path: '/sort',query:{typeid:item.id,typeindex:index} }"  >{{item.typeName}}</router-link>
+					<li v-for="(item,index) in type" :key="index" :class="{'none':!item.status}" >
+					 <router-link   :to="{ path: '/sort',query:{typeid:item.id,typeindex:index} }"  >{{item.typeName}}</router-link>
 					</li>
-					<li>选款建议</li>
+					<li> <router-link tag="">选款建议</router-link></li>
 				</ul>
 				<div class="search_wrap fr"><input v-model="keyword" >
 					<button class="search_btn" @click="gosearch()"><i class="icon-new icon-search"></i></button></div>
@@ -30,7 +30,15 @@
 					method: 'GET',
 					url:'/product/type',
 				}).then((res)=>{
+					for(let i=0;i<res.length;i++){
+						if(res[i].status == "Y"){
+							res[i].status = true
+						}else{
+							res[i].status = false
+						}
+					}
 					this.type = res;
+					console.log(this.type)
 				})
 			},
 			gosearch(){
@@ -50,4 +58,7 @@
 </script>
 
 <style>
+.none{
+	display: none!important;
+}
 </style>

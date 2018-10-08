@@ -14,7 +14,7 @@
 					<hr class="spacer">
 					 <router-link  to="/register">注册</router-link></div>
 					<div @mouseover="qiehuanfunction()" class="qiehuan" @mouseout="qiehuanfunction()"  v-if="!nologin" style="">
-						{{account.nickName}}
+						<span class="a">{{account.nickName}}</span>
 						<span v-if="account.nickName==''">{{account.customerMobile}}</span>
 						<div :class="{'none':qiehuan}" style="display:none">
 						<router-link tag='a' class="a" to='/user'>个人中心</router-link>	
@@ -115,7 +115,6 @@
                 });
 			},
 			qiehuanfunction(){
-				console.log(this.qiehuan)
 				this.qiehuan = !this.qiehuan
 			},
             isLogin(){
@@ -215,10 +214,14 @@
 	position: relative;
 	cursor: pointer;
 }
+
 .qiehuan .a{
 	width: 120px;
 	display: inline-block;
 	height: 50px;
 	cursor: pointer;
+}
+.qiehuan .a:hover{
+	color: #ff0000;
 }
 </style>

@@ -6,7 +6,7 @@
 					<li v-for="(item,index) in type" :key="index" :class="{'none':!item.status}" >
 					 <router-link   :to="{ path: '/sort',query:{typeid:item.id,typeindex:index} }"  >{{item.typeName}}</router-link>
 					</li>
-					<li> <router-link tag="">选款建议</router-link></li>
+				<!--	<li> <router-link >选款建议</router-link></li>-->
 				</ul>
 				<div class="search_wrap fr"><input v-model="keyword" >
 					<button class="search_btn" @click="gosearch()"><i class="icon-new icon-search"></i></button></div>
@@ -38,7 +38,6 @@
 						}
 					}
 					this.type = res;
-					console.log(this.type)
 				})
 			},
 			gosearch(){

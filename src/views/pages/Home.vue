@@ -17,7 +17,6 @@
 				</ul>
 				<div class="floor">
 					<div class="title">
-						
 						<span>热销单品</span></div>
 					<ul class="clearfix one">
 						<li v-for="(item, index) in hotitem" :key='index'><em>NEW</em>

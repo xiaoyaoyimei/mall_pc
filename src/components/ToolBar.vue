@@ -1,8 +1,8 @@
 <template>
 	<div class="toolbar">
 		<ul>
-			<router-link v-if="sfloging" to="/login" tag="li"><i class="icon-new icon-user"></i>去登录</router-link>
-			<router-link v-else to="/user" tag="li"><i class="icon-new icon-user"></i>个人中心</router-link>
+			<router-link v-if="sfloging" to="/login" tag="li"><!--<i class="icon-new icon-user"></i>--><img src="../assets/img/nologin.png">  去登录</router-link>
+			<router-link v-else to="/user" tag="li" class="color-dx"><!--<i class="icon-new icon-user"></i>--> <img src="../assets/img/yeslogin.png"> 个人中心</router-link>
 			</li>
 			<!--<li><i class="icon-new icon-kefu"></i>联系客服</li>-->
 			<router-link to="/cart" tag="li"><i class="icon-new icon-cart"></i>购物车</router-link>
@@ -79,7 +79,10 @@
 		background: #fff;
 		cursor: pointer;
 	}
-	
+		.toolbar li img{
+			width:30px;
+			height: 30px;
+		}
 	.detailtoolbar li {
 		background: #999;
 		color: #fff;

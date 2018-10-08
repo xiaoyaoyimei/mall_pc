@@ -62,7 +62,7 @@
 				</ul>
 				<hr>
 				<dl><dt>服务支持</dt>
-					<dd><a href="javascript:void(0)">关于运输</a></dd>
+					<dd><router-link :to="{path: '/help/psfs'}" >关于运输</router-link></dd>
 					<dd><router-link :to="{path: '/help/azsp'}">
 						安装方式</router-link></dd>
 					<dd><router-link :to="{path: '/help/shfw'}">
@@ -104,8 +104,8 @@
 			<div class="main-width bottom-con"><img class="fl"  src="../assets/img/logo-red.png">
 				<div class="bottom-dtl">
 					<p>
-						<a href="">服务协议 </a> |
-						<a href="" class="ml10"> 隐私声明</a>© 2018 迪瑞克斯DXRacer</p>
+						<router-link :to="{path: '/help/fwtk'}">服务协议 </router-link>|
+					<router-link :to="{path: '/help/yszc'}"  class="ml10"> 隐私声明</router-link>© 2018 迪瑞克斯DXRacer</p>
 					<p>本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</p>
 				</div>
 			</div>

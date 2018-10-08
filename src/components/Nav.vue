@@ -39,13 +39,12 @@
             },
 		},
 			mounted() {
-				console.log('A页面mounted')
 			Bus.$emit('val', this.keyword)
 			this.getType();
 			},
 		beforeDestroy () {
 				console.log('A页面beforeDestroy')
-				//this.$bus.$off('val')
+				this.$bus.$off('val')
 		},
     }
 </script>

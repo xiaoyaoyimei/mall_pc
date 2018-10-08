@@ -98,7 +98,7 @@
 			</div>
 		</div>
 
-		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading" style="width:600px;">
+		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading" width="600px">
 			<Form :model="addForm" ref="addForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
 				<FormItem label="" prop="person" class="mdalText">
 					<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
@@ -114,7 +114,7 @@
 				</FormItem>
 			</Form>
 		</Modal>
-		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" style="width:600px;" :loading="loading">
+		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr"  width="600px" :loading="loading">
 			<Form :model="editForm" ref="editForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
 				<FormItem label="" prop="person" class="mdalText">
 					<Input v-model="editForm.person" placeholder="收货人"></Input>

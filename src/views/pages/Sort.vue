@@ -171,23 +171,12 @@
 				this.startRow = (value - 1) * this.pageSize;
 				this.getList();
 			},
-			myhandle(val) {
-				console.log(val, '这是从上个页面传递过来的参数')
-			},
-		},
-		beforeCreate() {
-			console.log("beforeCreate")
-
 		},
 		created() {
 			this.$bus.$on('val', (data) => {
-				console.log(data)
 				this.getTopList(data);
 			});
 
-		},
-		beforeMount() {
-			console.log("beforeMount")
 		},
 		mounted() {
 			//得到顶部分类
@@ -195,21 +184,10 @@
 			//首页点击左侧分类
 			this.getParams();
 			Bus.$on('val', (data) => {
-				console.log('B页面mounted' + data)
 			})
 			this.getTopList();
 		},
-		beforeUpdate() {
-			//	Bus.$off('val')
-			console.log("beforeUpdate")
-		},
-		updated() {
-			console.log("updated")
-		},
-		beforeDestroy() {
-			console.log("beforeDestroy")
-			Bus.$off('val')
-		}
+
 	}
 </script>
 

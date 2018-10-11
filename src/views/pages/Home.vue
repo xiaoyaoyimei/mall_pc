@@ -28,8 +28,9 @@
 							</router-link>
 							<div class="mn">
 								<div class="mn-wrap">
-									<div v-for="(child,index) in item.image" @click="switchimg($event,child.listImg,item.list.id)">
-										<img :src="child.smallImg | imgfilter"></div>
+									<div v-for="(child,index) in item.image" @click="switchimg($event,child.listImg,item.list.id)" v-show="child.smallImg!=''"> 
+										<img :src="child.smallImg | imgfilter"  >
+										</div>
 								</div>
 							</div>
 						</li>
@@ -567,7 +568,6 @@
 		margin-right: 5px;
 		margin-bottom: 5px;
 	}
-	
 	.mn-wrap img {
 		width: 40px;
 		height: 40px;

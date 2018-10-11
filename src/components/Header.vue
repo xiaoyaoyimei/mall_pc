@@ -14,8 +14,8 @@
 					<hr class="spacer">
 					 <router-link  to="/register">注册</router-link></div>
 					<div @mouseover="qiehuanfunction()" class="qiehuan" @mouseout="qiehuanfunction()"  v-if="!nologin" style="">
-						<span class="a">{{account.nickName}}</span>
-						<span v-if="account.nickName==''">{{account.customerMobile}}</span>
+						<span class="a overflow">{{account.nickName}}</span>
+						<span class="overflow" v-if="account.nickName==''">{{account.customerMobile}}</span> <Icon type="ios-arrow-forward" />
 						<div :class="{'none':qiehuan}" style="display:none">
 						<router-link tag='a' class="a" to='/user'>个人中心</router-link>	
 						<router-link tag='a' class="a" to='/user/mylike'>我的喜欢</router-link>	
@@ -210,18 +210,41 @@
 	width: 120px;
 	display:inline-block;
 	background-color:#1b1b1b;
-	text-align: center;
 	position: relative;
 	cursor: pointer;
+	min-height: 50px;
 }
 
 .qiehuan .a{
 	width: 120px;
 	display: inline-block;
-	height: 50px;
+	text-align: center;
+	height: 31px;
 	cursor: pointer;
+	line-height: 31px;
 }
+.qiehuan .overflow{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline-block;
+	width: 100px;
+	height: 31px;
+	line-height: 30px;
+	position: relative;
+	top: 10px;
+}
+
 .qiehuan .a:hover{
 	color: #ff0000;
 }
 </style>
+<style>
+.qiehuan:hover .ivu-icon-ios-arrow-forward{
+	transform: rotate(90deg);
+	transition: transform 0.5s;
+}
+.overflow:hover + .ivu-icon:before{
+	color: #ff0000!important;
+}
+</style>
+

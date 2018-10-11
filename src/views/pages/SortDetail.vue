@@ -10,9 +10,13 @@
 					<img v-show="!videoshow" :src="ImgUrl |imgfilter" style="width: 100%;height: 100%">
 					<img class="videoIcon" v-if='videoIcon' v-show="!videoshow" @click='getVideo(shangp.product.video)' src="../../assets/img/video.png"></div>
 				<ul class="small">
-					<li v-for="(item, index) in shangp.productImageList" :key="index" @click='getIndex(item.listImg,index)' :class="{active:item.clickItem}" v-if="index<5">
+					<li class="nextp" @click="pervlist()"><Icon type="ios-arrow-back" /></li>
+					<li v-for="(item, index) in shangp.productImageList" :key="index" @click='getIndex(item.listImg,index)' 
+					:class="{active:item.clickItem}" >
+						{{item.show}}----{{item.clickItem}}
 						<img :src="item.smallImg |imgfilter">
 					</li>
+					<li class="nextp"  @click="nextlist()"><Icon type="ios-arrow-forward" /></li>
 				</ul>
 			</div>
 			<div class="fl iteminfo ml40">
@@ -239,6 +243,7 @@
 				compineId: [],
 				likeshow: false,
 				index:4,
+				listindex:5,
 			}
 		},
 		filters: {
@@ -361,22 +366,43 @@
 					this.quantity = parseInt(this.quantity) - 1;
 				}
 			},
-			    next(){
-                    if(this.index < this.recomm.length){
-                        let i =this.index-4
-                        this.recomm[this.index].show = true;
-                        this.recomm[i].show =false;
-                        this.index++;
-                    }
+			pervlist(){
+
+                if(this.listindex > 5){
+				//	debugger
+                    let i = this.listindex-6;
+                    this.shangp.productImageList[this.listindex-1].show = false;
+                    this.shangp.productImageList[i].show =true;
+					this.listindex--
+				}
+				console.log( this.shangp.productImageList);
+			},
+			nextlist(){
+		this.shangp.productImageList[1].show = false;
+					this.shangp.productImageList[0].show =false;
+				// if(this.listindex < this.shangp.productImageList.length){
+				// 	let i =this.listindex-5
+					
+				// 	this.listindex++;
+				// }
+				// 	console.log( this.shangp.productImageList);
+			},
+			next(){
+				if(this.index < this.recomm.length){
+					let i =this.index-4
+					this.recomm[this.index].show = true;
+					this.recomm[i].show =false;
+					this.index++;
+				}
               },
-              prev(){
+            prev(){
                 if(this.index > 4){
                     let i = this.index-5;
                     this.recomm[this.index-1].show = false;
                     this.recomm[i].show =true;
                     this.index--
                 }
-              },
+            },
 			getIndex(imgUrl, index) {
 				this.videoshow = false;
 				this.ImgUrl = imgUrl;
@@ -388,6 +414,7 @@
 					}
 
 				}
+				console.log(this.shangp.productImageList);
 			},
 			close() {
 				this.videoshow = false;
@@ -604,6 +631,11 @@
 						}
 						for(let a = 0; a < _this.shangp.productImageList.length; a++) {
 							_this.shangp.productImageList[a].clickItem = false;
+							if(a<5){
+								_this.shangp.productImageList[a].show = true
+							}else{
+								_this.shangp.productImageList[a].show =false
+							}
 						}
 						_this.ImgUrl = _this.shangp.product.modelImg;
 						if(_this.shangp.productImageList.length > 0) {
@@ -614,6 +646,7 @@
 						}
 
 					}
+					console.log(	_this.shangp.productImageList);
 						this.getlikepro();
 				});
 			},
@@ -728,19 +761,26 @@
 	}
 	
 	.small li img {
-		width: 95px;
-		height: 95px;
+		width: 84px;
+		height: 84px;
 	}
-	
+	.small .nextp{
+		width: 20px;
+		text-align: center;
+		line-height: 80px;
+		font-size: 18px;
+	}
+
 	.small li:nth-child(n+2) {
 		margin-left: 8px;
 	}
-	
 	.small li:hover,
 	.small .active {
 		border-color: #000000;
 	}
-	
+	.small .nextp:hover{
+		border: none;
+	}	
 	.iteminfo {
 		font-size: 15px;
 	}
@@ -1164,4 +1204,5 @@
 	.pro li a {
 		display: block;
 	}
+
 </style>

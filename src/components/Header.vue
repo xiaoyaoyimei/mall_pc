@@ -14,8 +14,9 @@
 					<hr class="spacer">
 					 <router-link  to="/register">注册</router-link></div>
 					<div @mouseover="qiehuanfunction()" class="qiehuan" @mouseout="qiehuanfunction()"  v-if="!nologin" style="">
-						<span class="a overflow">{{account.nickName}}</span>
-						<span class="overflow" v-if="account.nickName==''">{{account.customerMobile}}</span> <Icon type="ios-arrow-forward" />
+						
+						<span class="overflow" v-if="account.nickName==''">{{account.customerMobile}}</span>
+						<span class="a overflow" v-else>{{account.nickName}}</span> <Icon type="ios-arrow-forward" />
 						<div :class="{'none':qiehuan}" style="display:none">
 						<router-link tag='a' class="a" to='/user'>个人中心</router-link>	
 						<router-link tag='a' class="a" to='/user/mylike'>我的喜欢</router-link>	
@@ -235,6 +236,9 @@
 }
 
 .qiehuan .a:hover{
+	color: #ff0000;
+}
+.qiehuan .overflow:hover{
 	color: #ff0000;
 }
 </style>

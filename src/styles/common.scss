@@ -444,10 +444,11 @@ header a {
 }
 
 .nav_title li {
-    display: inline-block;
+    display: inline;
     cursor: pointer;
     text-align: right;
-    width: 100px;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 .nav_title li  a{
     color: #666;

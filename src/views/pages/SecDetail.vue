@@ -361,8 +361,8 @@
 			                 	this.jsqtime = this.detail.crush["endTime"];
 			                 }
 			            	//计时器
-			            	 this.countdown();
-						this.detail.productItem.clickItem =true;
+							 this.countdown();
+							 this.detail.productItem.clickItem =true;
 						if(this.detail.product.video != ''){
 							this.videoIcon = true;
 						}

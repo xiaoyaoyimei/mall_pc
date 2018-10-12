@@ -42,8 +42,9 @@
 					<div class="floor">
 						<div class="title">
 							<div class="seemore fr" > 
-								查看更多
+							 <router-link :to="{ path: '/sort',query:{homeKeyword:'电竞'} }" >	查看更多
 							<i class="icon-new icon-more" ></i>
+							 </router-link>
 							</div>
 							<span>电竞</span></div>
 						<div class="two clearfix">
@@ -76,8 +77,10 @@
 							</ul>
 						</div>
 						<div class="title">
-							<div class="seemore fr" > 查看更多
-								<i   class="icon-new icon-more" ></i>
+							<div class="seemore fr" >
+								<router-link :to="{ path: '/sort',query:{homeKeyword:'办公'} }" > 查看更多
+											<i   class="icon-new icon-more" ></i>
+								</router-link>
 							</div>
 							<span>办公</span></div>
 						<div class=" three clearfix">
@@ -110,9 +113,10 @@
 							</ul>
 						</div>
 						<div class="title">
-						<div class="seemore fr" > 查看更多
-							<i class="icon-new icon-more" ></i>
-							
+							<div class="seemore fr" >
+								<router-link :to="{ path: '/sort',query:{homeKeyword:'家居'} }" > 查看更多
+											<i   class="icon-new icon-more" ></i>
+								</router-link>
 							</div>
 						<span>家居</span></div>
 									<div class=" three clearfix">
@@ -174,10 +178,11 @@
 						</div>
 					</div>
 					<div class="title">
-						<div class="seemore fr"> 查看更多
-							<i class="icon-new icon-more" ></i>
-							
-						</div>
+								<div class="seemore fr" >
+								<router-link :to="{ path: '/sort',query:{homeKeyword:'座椅周边'} }" > 查看更多
+											<i   class="icon-new icon-more" ></i>
+								</router-link>
+							</div>
 						<span>座椅周边</span></div>
 					
 					<ul class="clearfix bgli-white mb105">
@@ -204,7 +209,7 @@
 </template>
 
 <script>
-	   import Bus from '@/assets/js/bus.js'
+	import Bus from '@/assets/js/bus.js'
 	export default {
 		data() {
 			return {
@@ -286,7 +291,9 @@
 				}).then((res) => {
 					if(res.code == '200') {
 						this.gameproduct = res.object;
-						this.gameproductone = this.gameproduct[0].list;
+						if(this.gameproduct.length>0){
+							this.gameproductone = this.gameproduct[0].list;
+						}
 					}
 				});
 				this.$axios({
@@ -295,7 +302,9 @@
 				}).then((res) => {
 					if(res.code == '200') {
 						this.officeproduct = res.object;
-						this.officeproductone = this.officeproduct[0].list;
+						if(this.officeproduct.length>0){
+							this.officeproductone = this.officeproduct[0].list;
+						}
 					}
 				});
 				this.$axios({
@@ -304,7 +313,9 @@
 				}).then((res) => {
 					if(res.code == '200') {
 						this.houseproduct = res.object;
-						this.houseproductone = this.houseproduct[0].list;
+						if(this.houseproductone.length>0){
+							this.houseproductone = this.houseproductone[0].list;
+						}
 					}
 				});
 				this.$axios({

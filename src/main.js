@@ -9,9 +9,7 @@ import 'iview/dist/styles/iview.css';
 import './my-theme/index.less';  
 import axios from './http';
 import moment from 'moment/moment';
-import VueBus from 'vue-bus';
-Vue.use(VueBus);
-
+console.log(process.env)
 //设置全局变量
 import global_ from '@/base/baseParam';
 
@@ -30,6 +28,7 @@ var app =new Vue({
   el: '#app',
   router,
   store,//使用store
+  // render: h => h(App)
   components: { App },
   template: '<App/>'
 })

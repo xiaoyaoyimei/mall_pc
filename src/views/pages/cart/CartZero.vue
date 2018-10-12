@@ -50,9 +50,8 @@
                         
                     </li>
                 </ul>
-                <div class="likebtn">
-                    <a class="gray" @click="prev()">&lt;</a>
-                    <a @click="next()">&gt;</a>
+                <div class="likebtn changepage">
+                    <Icon type="ios-arrow-back"  @click="prev()"/><Icon type="ios-arrow-forward"  @click="next()"/>
                 </div>
             </div>
         </div>

@@ -29,10 +29,10 @@
 					<span @click="getList('brand','',-1)" :class="{active: '-1' == brandindex}">全部</span>
 					<span v-for="(item,index) in brand" @click="getList('brand',item.id,index)" :class="{active: index == brandindex}">{{item.brandName}}</span></div>
 			</div>
-			<div class="empty_result flex-center" v-if="productList.length<1">
+			<!--<div class="empty_result flex-center" v-if="productList.length<1">
 				<Icon type="ios-warning" />
 				<span>请检查您的输入是否有误 ,如有任何意见或建议，期待您反馈给我们</span>
-			</div>
+			</div>-->
 			<div v-if="productList.length>0">
 				<ul class="clearfix mylike" >
 					<li v-for="(item, index) in productList" :key='index'>
@@ -58,7 +58,6 @@
 </template>
 <script>
 	// 引入公共的bug，来做为中间传达的工具
-	import Bus from '@/assets/js/bus.js';
 	export default {
 		data() {
 			return {
@@ -90,8 +89,17 @@
 		methods: {
 			//获取顶部筛选
 			getParams() {
+				//首页查看更多（直接通过关键字查找）
+				console.log(this.$route.query.keyword )
 				if(this.$route.query.typeid != undefined) {
 					this.getList('type', this.$route.query.typeid, this.$route.query.typeindex)
+				}
+//			    if(this.$route.query.homeKeyword != undefined) {
+//					this.getTopList(this.$route.query.homeKeyword)
+//				}
+			     if(this.$route.query.keyword != undefined) {
+			     	this.keyword=this.$route.query.keyword;
+					this.getTopList()
 				}
 			},
 			getTop() {
@@ -149,43 +157,36 @@
 			},
 
 			//点击header的搜索
-			getTopList(searchdata) {
-				console.log(searchdata)
-				//首页若传typeid,则跳出。走getParams
-				if(this.$route.query.typeid != undefined) {
-					return;
-				}
-				if(searchdata == undefined) {
-					searchdata = this.$route.query.keyword
-				}
-				this.$axios({
+			getTopList() {
+					this.$axios({
 					method: 'GET',
-					url: '/product/search?keyWord=' + searchdata + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
+					url: '/product/search?keyWord=' + this.keyword + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
 				}).then((res) => {
 					this.productList = res.itemsList;
 					this.totalSize = res.total;
 				})
-
 			},
 			handlePage(value) {
 				this.startRow = (value - 1) * this.pageSize;
 				this.getList();
 			},
 		},
-		created() {
-			this.$bus.$on('val', (data) => {
-				this.getTopList(data);
-			});
-
-		},
+//	    computed: {
+//			searchkeyword() {
+//				//获取store里面的token
+//				console.log(this.$store.state.searchkeyword);
+//				return this.$store.state.searchkeyword;
+//			}
+//		},
+	  watch: {
+    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+      '$route': 'getParams',
+    },
 		mounted() {
 			//得到顶部分类
 			this.getTop();
 			//首页点击左侧分类
 			this.getParams();
-			Bus.$on('val', (data) => {
-			})
-			this.getTopList();
 		},
 
 	}

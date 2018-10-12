@@ -73,7 +73,7 @@
 		</div>
 		<div class="recommend" v-if="recomm.length>0">
 			<div class="main-width clearfix">
-				<h6><span>推荐搭配</span><em>温馨提示:购买组合时,组合内各商品只能单个购买</em></h6>
+				<h6><span>推荐搭配</span><em>温馨提示:购买组合时,组合内各商品购买数量为1</em></h6>
 				<div class="rec-con">
 					<div class="li-pro" v-if="choosesp.price==0">
 						<img :src="shangp.product.modelImg | imgfilter">
@@ -92,7 +92,7 @@
 					<ul class="pro">
 						<CheckboxGroup v-model="compine" @on-change="checkAllGroupChange">
 							<li v-for="(item,index) in recomm " :key="index" :class="{none:item.show}" style="display:none">
-								<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_bind_id} }" target="_blank">
+								{{item.show}}<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_bind_id} }" target="_blank">
 									<img :src="item.list.list_img | imgfilter">
 									<p>{{item.list.model_no}}</p>
 								</router-link>
@@ -104,7 +104,8 @@
 							</li>
 						</CheckboxGroup>
 					</ul>
-					<div class="changepage fl"><i @click="prev()">&lt;</i> <i @click="next()">&gt;</i></div>
+					<div class="changepage fl"> <Icon type="ios-arrow-back"  @click="prev()"/><Icon type="ios-arrow-forward"  @click="next()"/>
+						</div>
 					<div class="compine fr">
 						<p>已选择{{dpnum}}个配件
 						</p>

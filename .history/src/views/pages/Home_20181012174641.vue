@@ -19,7 +19,7 @@
 					<div class="title">
 						<span>热销单品</span></div>
 					<ul class="clearfix one">
-						<li class="seckill" v-if="seckill" >
+						<li class="seckill" >
 							<h1>秒杀专场</h1>
 							<img src="" alt="">
 							<p>距离结束还有:</p>
@@ -83,6 +83,7 @@
 										</div>
 									</div>
 								</li>
+
 							</ul>
 						</div>
 						<div class="title">

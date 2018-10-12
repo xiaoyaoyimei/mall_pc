@@ -19,15 +19,8 @@
 					<div class="title">
 						<span>热销单品</span></div>
 					<ul class="clearfix one">
-						<li class="seckill" v-if="seckill" >
+						<li class="seckill" v-if='seckill'>
 							<h1>秒杀专场</h1>
-							<img src="" alt="">
-							<p>距离结束还有:</p>
-							<p>
-								<span></span> ：
-								<span></span> ：
-								<span></span> ：
-							</p>
 						</li>
 						<li v-for="(item, index) in hotitem" :key='index'><em>NEW</em>
 							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
@@ -83,6 +76,7 @@
 										</div>
 									</div>
 								</li>
+
 							</ul>
 						</div>
 						<div class="title">
@@ -604,7 +598,5 @@
 	.office li:nth-child(4) {
 		margin-left: 0;
 	}
-	.seckill{
-		padding: 63px 
-	}
+
 </style>

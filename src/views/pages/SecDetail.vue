@@ -58,7 +58,7 @@
 		</div>
 		<div class="recommend" v-if="recomm.length>0">
 			<div class="main-width clearfix">
-				<h6><span>店长推荐</span><em></em></h6>
+				<h6><span>粉丝推荐</span><em></em></h6>
 				<div class="rec-con">
 					<ul class="pro">
 							<li v-for="(item,index) in recomm " :key="index" :class="{none:item.show}" style="display:none">

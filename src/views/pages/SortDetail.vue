@@ -12,8 +12,7 @@
 				<ul class="small">
 					<li class="nextp" @click="pervlist()"><Icon type="ios-arrow-back" /></li>
 					<li v-for="(item, index) in shangp.productImageList" :key="index" @click='getIndex(item.listImg,index)' 
-					:class="{active:item.clickItem}" >
-						{{item.show}}----{{item.clickItem}}
+					:class="{active:item.clickItem,none:item.show}"  style="display:none">
 						<img :src="item.smallImg |imgfilter">
 					</li>
 					<li class="nextp"  @click="nextlist()"><Icon type="ios-arrow-forward" /></li>
@@ -367,25 +366,23 @@
 				}
 			},
 			pervlist(){
-
+				this.$forceUpdate();
                 if(this.listindex > 5){
-				//	debugger
+					debugger
                     let i = this.listindex-6;
                     this.shangp.productImageList[this.listindex-1].show = false;
                     this.shangp.productImageList[i].show =true;
 					this.listindex--
 				}
-				console.log( this.shangp.productImageList);
 			},
 			nextlist(){
-		this.shangp.productImageList[1].show = false;
-					this.shangp.productImageList[0].show =false;
-				// if(this.listindex < this.shangp.productImageList.length){
-				// 	let i =this.listindex-5
-					
-				// 	this.listindex++;
-				// }
-				// 	console.log( this.shangp.productImageList);
+				this.$forceUpdate();
+				if(this.listindex < this.shangp.productImageList.length){
+					let i =this.listindex-5
+					this.shangp.productImageList[this.listindex].show = true;
+					this.shangp.productImageList[i].show =false;
+					this.listindex++;
+				}
 			},
 			next(){
 				if(this.index < this.recomm.length){
@@ -414,7 +411,6 @@
 					}
 
 				}
-				console.log(this.shangp.productImageList);
 			},
 			close() {
 				this.videoshow = false;
@@ -768,9 +764,11 @@
 		width: 20px;
 		text-align: center;
 		line-height: 80px;
-		font-size: 18px;
+		font-size: 50px;
 	}
-
+	.small li:nth-last-of-type(1) {
+			float: right;
+	}
 	.small li:nth-child(n+2) {
 		margin-left: 8px;
 	}

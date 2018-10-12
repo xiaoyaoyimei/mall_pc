@@ -15,7 +15,7 @@
 </template>
 
 <script>
-	import store from '@/store/store';
+	//import store from '@/store/store';
 	export default {
 		data() {
 			return {
@@ -40,7 +40,7 @@
 						keyword: this.keyword
 					}
 				});
-				store.commit('GETSORT', this.keyword);
+			//	store.commit('GETSORT', this.keyword);
 			},
 		},
 		mounted() {

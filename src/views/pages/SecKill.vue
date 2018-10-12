@@ -9,7 +9,7 @@
 				<h6>立即秒杀</h6>
 				<ul class="search_list_wrap clearfix" >
 		            <li  v-for="(item, index) in startpro" :key='index'  >
-		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId}  }" tag="a" >
+		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId,productId:item.product.id}  }" tag="a" >
 		                    	<img :src='item.productItem.listImg |imgfilter'>
 		                </router-link>
 		                <div  class="title">
@@ -34,7 +34,7 @@
 				<h6>即将开始</h6>
 				<ul class="search_list_wrap clearfix" >
 		            <li  v-for="(item, index) in nostartpro" :key='index'  >
-		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId}  }" tag="a" >
+		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId,productId:item.product.id}  }" tag="a" >
 		                    	<img :src='item.productItem.listImg |imgfilter'>
 		                </router-link>
 		                <div  class="title">
@@ -87,6 +87,8 @@ export default {
 											_this.nostartpro.push(item)
 										}
 									})
+									console.log(_this.startpro.length)
+										console.log(_this.nostartpro)
 							   }
 							else{
 								this.show=true;

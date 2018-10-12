@@ -243,9 +243,8 @@
 }
 </style>
 <style>
-.qiehuan:hover .ivu-icon-ios-arrow-forward{
+.qiehuan .ivu-icon-ios-arrow-forward{
 	transform: rotate(90deg);
-	transition: transform 0.5s;
 }
 .overflow:hover + .ivu-icon:before{
 	color: #ff0000!important;

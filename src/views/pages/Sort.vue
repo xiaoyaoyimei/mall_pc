@@ -90,12 +90,17 @@
 			//获取顶部筛选
 			getParams() {
 				//首页查看更多（直接通过关键字查找）
-				    if(this.$route.query.typeid != undefined) {
+				console.log(this.$route.query.keyword )
+				if(this.$route.query.typeid != undefined) {
 					this.getList('type', this.$route.query.typeid, this.$route.query.typeindex)
 				}
 //			    if(this.$route.query.homeKeyword != undefined) {
 //					this.getTopList(this.$route.query.homeKeyword)
 //				}
+			     if(this.$route.query.keyword != undefined) {
+			     	this.keyword=this.$route.query.keyword;
+					this.getTopList()
+				}
 			},
 			getTop() {
 				this.$axios({
@@ -153,51 +158,35 @@
 
 			//点击header的搜索
 			getTopList() {
-				//首页若传typeid,则跳出。走getParams
-				if(this.$route.query.typeid != undefined) {
-					return;
-				}
-				//若为查看更多
-				if(this.searchkeyword == undefined) {
-					return false;
-				}else{
 					this.$axios({
 					method: 'GET',
-					url: '/product/search?keyWord=' + this.searchkeyword + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
+					url: '/product/search?keyWord=' + this.keyword + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
 				}).then((res) => {
 					this.productList = res.itemsList;
 					this.totalSize = res.total;
 				})
-				}
-		
-
 			},
 			handlePage(value) {
 				this.startRow = (value - 1) * this.pageSize;
 				this.getList();
 			},
 		},
-	    computed: {
-			searchkeyword() {
-				//获取store里面的token
-				return this.$store.state.searchkeyword;
-			}
-		},
-		         watch: {
-    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
-      '$route': 'getParams'
-    },
-//  mounted() {
-//			this.getParams();
+//	    computed: {
+//			searchkeyword() {
+//				//获取store里面的token
+//				console.log(this.$store.state.searchkeyword);
+//				return this.$store.state.searchkeyword;
+//			}
 //		},
+	  watch: {
+    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+      '$route': 'getParams',
+    },
 		mounted() {
 			//得到顶部分类
 			this.getTop();
 			//首页点击左侧分类
 			this.getParams();
-			
-			this.getTopList();
-			
 		},
 
 	}

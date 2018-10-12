@@ -16,7 +16,7 @@
 					<div @mouseover="qiehuanfunction()" class="qiehuan" @mouseout="qiehuanfunction()"  v-if="!nologin" style="">
 						
 						<span class="overflow" v-if="account.nickName==''">{{account.customerMobile}}</span>
-						<span class="a overflow" v-else>{{account.nickName}}</span> <Icon type="ios-arrow-forward" />
+						<span class="a overflow" v-else>{{account.nickName}}</span> <Icon type="ios-arrow-down" />
 						<div :class="{'none':qiehuan}" style="display:none">
 						<router-link tag='a' class="a" to='/user'>个人中心</router-link>	
 						<router-link tag='a' class="a" to='/user/mylike'>我的喜欢</router-link>	
@@ -229,7 +229,7 @@
 	text-overflow: ellipsis;
 	display: inline-block;
 	width: 100px;
-	height: 31px;
+	height: 30px;
 	line-height: 30px;
 	position: relative;
 	top: 10px;

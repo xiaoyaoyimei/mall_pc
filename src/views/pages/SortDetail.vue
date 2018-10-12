@@ -92,7 +92,7 @@
 					<ul class="pro">
 						<CheckboxGroup v-model="compine" @on-change="checkAllGroupChange">
 							<li v-for="(item,index) in recomm " :key="index" :class="{none:item.show}" style="display:none">
-								{{item.show}}<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_bind_id} }" target="_blank">
+								<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_bind_id} }" target="_blank">
 									<img :src="item.list.list_img | imgfilter">
 									<p>{{item.list.model_no}}</p>
 								</router-link>
@@ -943,7 +943,9 @@
 		font-weight: normal;
 		margin-right:10px;
 	}
-	
+	.recommend h6 em{
+		font-size: 12px;
+	}
 	.li-pro {
 		padding-left: 40px;
 	}

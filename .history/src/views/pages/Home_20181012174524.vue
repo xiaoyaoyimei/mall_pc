@@ -605,7 +605,5 @@
 	.office li:nth-child(4) {
 		margin-left: 0;
 	}
-	.seckill{
-		padding: 63px 
-	}
+
 </style>

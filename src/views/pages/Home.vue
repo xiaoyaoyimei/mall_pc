@@ -10,9 +10,12 @@
 					</CarouselItem>
 				</Carousel>
 				<ul class="minipro clearfix">
-					<li v-for="(item, index) in basictype" :key='index'>
+					<li v-for="(item, index) in basictype"  :key='index'>
+						<router-link   :to="{ path: '/sort',query:{typeName:item.list.type_name}}">
 						<img :src="item.list.img_url |imgfilter">
-						<span class="normol">{{item.list.type_name}}</span></li>
+						<span class="normol">{{item.list.type_name}}</span>
+					</router-link>
+					</li>
 
 				</ul>
 				<div class="floor">
@@ -288,7 +291,6 @@
                 let sec = parseInt(msec / 1000 % 60);
 				this.day = day;
 				hr = day*24 + hr;
-				console.log(this.hotitem)
 				if(this.hotitem.length>1){
 					if(this.day<3){
 						this.seckillTime =true	
@@ -343,6 +345,7 @@
 					url: "/index/basictype"
 				}).then(res => {
 					if(res.code == "200") {
+						console.log(res.object)
 						this.basictype = res.object;
 					}
 				});

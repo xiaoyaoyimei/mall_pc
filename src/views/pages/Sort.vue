@@ -14,7 +14,7 @@
 				<div class="dt">分类:</div>
 				<div class="dd">
 					<span @click="getList('type','',-1)" :class="{active: '-1' == typeindex}">全部</span>
-					<span v-for="(item,index) in type" @click="getList('type',item.id,index)" :class="{active: index ==typeindex}">{{item.typeName}}</span>
+					<span v-for="(item,index) in type" @click="getList('type',item.id,index)" :class="{active: index ==typeindex,routerActive:item.red}">{{item.typeName}}</span>
 				</div>
 			</div>
 			<div class="wrap">
@@ -84,23 +84,26 @@
 					brand: '',
 				},
 				flag: true,
+				typeName:'',
 			}
 		},
 		methods: {
 			//获取顶部筛选
 			getParams() {
+				this.typeName = this.$route.query.typeName
 				//首页查看更多（直接通过关键字查找）
-				console.log(this.$route.query.keyword )
+			
 				if(this.$route.query.typeid != undefined) {
 					this.getList('type', this.$route.query.typeid, this.$route.query.typeindex)
 				}
-//			    if(this.$route.query.homeKeyword != undefined) {
-//					this.getTopList(this.$route.query.homeKeyword)
-//				}
 			     if(this.$route.query.keyword != undefined) {
 			     	this.keyword=this.$route.query.keyword;
 					this.getTopList()
 				}
+				if(this.typeName != undefined) {
+			     	this.keyword=this.typeName;
+					this.getTopList()			
+				}	
 			},
 			getTop() {
 				this.$axios({
@@ -126,6 +129,15 @@
 					url: '/product/type',
 				}).then((res) => {
 					this.type = res;
+					for (let index = 0; index < this.type.length; index++) {
+						if(this.type[index].typeName == this.typeName){
+							this.type[index].red = true;
+						}else{
+							this.type[index].red = false;
+						}
+						
+					}
+					console.log(this.type)
 				})
 				this.spinShow = false
 			},
@@ -138,6 +150,10 @@
 				if(type == 'type') {
 					this.typeindex = index;
 					this.searchfilter.type = value
+					for (let i = 0; i < this.type.length; i++) {
+						this.type[i].red = false;
+						
+					}
 				}
 				if(type == 'series') {
 					this.seriesindex = index;
@@ -375,7 +391,7 @@
 		margin-bottom: 20px;
 	}
 	
-	.selector .active {
+	.selector .active , .selector .routerActive{
 		color: #ff0037;
 		font-weight: bold;
 	}

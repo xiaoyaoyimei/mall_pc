@@ -8,7 +8,7 @@
 			<div class="start" v-if="startpro.length>0">
 				<h6>立即秒杀</h6>
 				<ul class="search_list_wrap clearfix" >
-		            <li  v-for="(item, index) in startpro" :key='index'  >
+		            <li class="seckilllist"  v-for="(item, index) in startpro" :key='index'  >
 		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId,productId:item.product.id}  }" tag="a" >
 		                    	<img :src='item.productItem.listImg |imgfilter'>
 		                </router-link>
@@ -24,16 +24,16 @@
 		                <div  class="sku_tag" v-if="item.promotionTitle !=null">{{item.promotionTitle}}</div> 
 		                  <div class="price">
 		                        <span class="origin">￥{{item.product.salePrice |pricefilter }}</span>
-		                        <span>￥{{item.crush.salePrice|pricefilter}}</span>
+		                        <span class="red">￥{{item.crush.salePrice|pricefilter}}</span>
 		                   </div>
-		                   <div> <Progress  :percent="percent(item.crush)"></Progress></div>
+		                   <div  class="jindu"> <Progress  :percent="percent(item.crush)"></Progress></div>
 		            </li>
 	            </ul>
             </div>
             <div class="nostart" v-if="nostartpro.length>0">
 				<h6>即将开始</h6>
 				<ul class="search_list_wrap clearfix" >
-		            <li  v-for="(item, index) in nostartpro" :key='index'  >
+		            <li  class="seckilllist" v-for="(item, index) in nostartpro" :key='index'  >
 		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId,productId:item.product.id}  }" tag="a" >
 		                    	<img :src='item.productItem.listImg |imgfilter'>
 		                </router-link>
@@ -46,9 +46,9 @@
 		                <div  class="sku_tag" v-if="item.promotionTitle !=null">{{item.promotionTitle}}</div> 
 		                  <div class="price">
 		                        <span class="origin">￥{{item.product.salePrice |pricefilter }}</span>
-		                        <span>￥{{item.crush.salePrice|pricefilter}}</span>
+		                        <span class="red">￥{{item.crush.salePrice|pricefilter}}</span>
 		                   </div>
-		                   <div> <Progress  :percent="percent(item.crush)"></Progress></div>
+		                   <div class="jindu"> <Progress  :percent="percent(item.crush)"></Progress></div>
 		            </li>
 	            </ul>
             </div>
@@ -102,7 +102,7 @@ export default {
 </script>
 <style scoped="scoped" lang="scss">
 .color-dx{
-	color:#0099ff;
+	color:#ff0000;
 }
 .origin{
 	color:#999;
@@ -113,13 +113,13 @@ export default {
 	margin-bottom: 5px;
 }
 .start .fn{
-	color:#0099ff;
+	color:#ff0000;
 }
 .start h6,.nostart h6{
 	font-size: 18px;
 }
 .start h6{
-	color:#0099ff;
+	color:#ff0000;
 }
 .nostart{
 	border-top:2px solid #333;
@@ -130,5 +130,16 @@ export default {
 }
 .nostart h6{
 	color:#000;
+}
+.price .red{
+	color: #ff0000;
+}
+.seckilllist:hover{
+	border-color: #ff0000;
+}
+</style>
+<style>
+.jindu .ivu-progress-bg{
+	background-color: #ff0000;
 }
 </style>

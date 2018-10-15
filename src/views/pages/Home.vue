@@ -19,13 +19,13 @@
 					<div class="title">
 						<span>热销单品</span></div>
 					<ul class="clearfix one">
-						<li class="seckill" v-if="seckill">
+						<li class="seckill" v-if="seckillTime">
 							<router-link :to="{ path: '/seckill'}">
 							<h1>秒杀专场</h1>
 							<img src="../../assets/img/u9.png" alt="">
 							<p>距离结束还有:</p>
 							<p style="margin-top:12px;">
-								<span>{{hr}}</span> :
+								<span>{{hr}}</span>:
 								<span>{{min}}</span> :
 								<span>{{sec}}</span>
 							</p>
@@ -256,6 +256,7 @@
 				hr:'',
 				min:0,
 				sec:0,
+				seckillTime:false,
 			};
 		},
 		computed: {
@@ -284,7 +285,18 @@
                 let hr = parseInt(msec / 1000 / 60 / 60 % 24);
                 let min = parseInt(msec / 1000 / 60 % 60);
                 let sec = parseInt(msec / 1000 % 60);
-                this.day = day;
+				this.day = day;
+				hr = day*24 + hr;
+				console.log(this.hotitem)
+				if(this.hotitem.length>1){
+					if(this.day<3){
+						this.seckillTime =true	
+						this.hotitem[3].show = false 
+					}else{
+						this.seckillTime =false
+						this.hotitem[3].show = true
+					}
+				}
                 this.hr = hr > 9 ? hr : '0' + hr;
                 this.min = min > 9 ? min : '0' + min;
                 this.sec = sec > 9 ? sec : '0' + sec;
@@ -313,9 +325,6 @@
 			            	else{
 			                 	this.jsqtime = this.seckilllist[0].crush["endTime"];
 							 }
-							 if(this.seckilllist.length>0){
-								 this.seckill = true;
-							 }
 			            	//计时器
 							 this.countdown();
 						}
@@ -343,11 +352,7 @@
 					if(res.code == "200") {
 						this.hotitem = res.object;
 						for (let index = 0; index < this.hotitem.length; index++) {
-							if(index<3){
 								this.hotitem[index].show = true
-							}else{
-								this.hotitem[index].show = false
-							}								
 						}
 					}
 				});

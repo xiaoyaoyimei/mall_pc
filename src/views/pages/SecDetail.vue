@@ -28,7 +28,7 @@
 					 	{{detail.switch}}
 					 	<span class="djs" >
 					 		<em v-if="detail.switch==0">距开始</em>
-					 		<em v-else>距结束</em>{{ `${day}天 ${hr}小时 ${min}分钟 ${sec}秒` }}</span>
+					 		<em v-else class="jishu">距结束</em>{{ `${day}天 ${hr}小时 ${min}分钟 ${sec}秒` }}</span>
 					 </h3>
 					<p>{{detail.product.modelName}}</p> 
 					<div class="G_changeDetail">
@@ -496,7 +496,7 @@
 	color: black;
 }
 .sortDetail  .strong{
-  	color:#0099ff;
+  	color:#FF0030;
   	display: inline;
     font-size: 28px;
 	font-weight: normal;
@@ -523,8 +523,8 @@
 	border-bottom: 1px solid #ccc;
 }
 .miaoshagou {
-	background-color: #0099ff;
-	border: 1px solid #0099ff;
+	background-color: #FF0030;
+	border: 1px solid #FF0030;
 	color:#fff;
 }
 .miaoshagou,.btn-disabled{
@@ -574,7 +574,7 @@
  .zeroAddress{
 	height: 30px;
 	font-size: 14px;
-	color:#0099ff;
+	color:#FF0030;
 	text-decoration: underline;
 	cursor: pointer;
 }
@@ -588,8 +588,8 @@
 	border:  1px solid #999;
 }
 .changeadd{
-	border:1px solid #0099ff;
-	color:#0099ff;
+	border:1px solid #FF0030;
+	color:#FF0030;
 	padding: 2px;
 	cursor: pointer;
 	background: #fff;
@@ -599,7 +599,7 @@
 		font-size: 12px;
 		font-style: normal;
 		margin-right: 5px;
-		color:#0099ff;
+		color:#FF0030;
 	}
 	float: right;
 	font-size: 16px;

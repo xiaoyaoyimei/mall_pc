@@ -32,11 +32,11 @@
                     </div>
                     <div class="payprice">
                         <p>应付总额：<span class="red">￥<strong> {{orderTotalFee | pricefilter}}</strong></span></p>
-                        <router-link :to="{path:'/user/orderlist'}" tag="button">订单中心 <Icon type="chevron-right"></Icon></router-link>
+                        <router-link :to="{path:'/user/orderlist'}" tag="button">订单中心 <Icon type="ios-arrow-forward"></Icon></router-link>
                         <button @click="orderdetailshow('alipay')" :to="{name:'/order/detail',query:{orderNo:this.orderNo}}">订单详情
 
-                        <Icon type="chevron-down" v-if="chevrondown == true"></Icon>
-                         <Icon type="chevron-up" v-else></Icon>
+                       <Icon type="ios-arrow-down" v-if="chevrondown == true"/> 
+                                           <Icon type="ios-arrow-up"  v-else/>   
                         </button>
                     </div>
                 </div>

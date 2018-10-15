@@ -40,7 +40,6 @@
 						keyword: this.keyword
 					}
 				});
-			//	store.commit('GETSORT', this.keyword);
 			},
 		},
 		mounted() {

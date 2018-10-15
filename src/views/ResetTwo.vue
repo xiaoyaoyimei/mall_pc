@@ -8,10 +8,10 @@
                 <input type="text" placeholder="请输入手机号" v-model.trim="regiForm.mobile" >
                    </FormItem>
                    	<FormItem  prop="passWord">
-                <input type="text" placeholder="请输入密码" v-model.trim="regiForm.passWord" >
+                <input type="password" placeholder="请输入密码" v-model.trim="regiForm.passWord" >
                    </FormItem>
                  <FormItem  prop="confirmpass">
-                <input type="text" class="input" placeholder="请确认密码" v-model.trim="regiForm.confirmpass" >
+                <input type="password" class="input" placeholder="请确认密码" v-model.trim="regiForm.confirmpass" >
                 </FormItem>
                 <button class="btn" @click="handleSubmit('regiForm')">确定</button>
              </Form>

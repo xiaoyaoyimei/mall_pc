@@ -72,14 +72,14 @@
 									<input class="input" type="text" ref="couponitem" onKeyUp="if(this.value.length>4){this.value=this.value.substr(0,4)}">
 									<span>-</span></div>
 								<button class="btn" @click='usecoupon'>确定</button>
-								<span class="cost">-￥{{(origintotal.price -total.price)|pricefilter}}</span>
+								<span class="cost">已优惠   -￥{{(origintotal.price -total.price)|pricefilter}}</span>
 							</div>
 						</div>
 
 					</div>
 					<div class="placeorderSend">
 						<span class="shipping">配送方式</span>
-						<span class="information"><span class="doubt">?</span>了解运费信息</span>
+						<span class="information" @click="expressModal=true"><span class="doubt" > ?</span>了解运费信息</span>
 						<span class="cost">快递费用 ￥{{freight | pricefilter}}</span>
 					</div>
 					<div class="placeorderzhubei clearfix">
@@ -98,7 +98,7 @@
 			</div>
 		</div>
 
-		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading" width="600px">
+		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="ok" :loading="loading" width="600">
 			<Form :model="addForm" ref="addForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
 				<FormItem label="" prop="person" class="mdalText">
 					<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
@@ -114,7 +114,7 @@
 				</FormItem>
 			</Form>
 		</Modal>
-		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr"  width="600px" :loading="loading">
+		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr"  width="600" :loading="loading">
 			<Form :model="editForm" ref="editForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
 				<FormItem label="" prop="person" class="mdalText">
 					<Input v-model="editForm.person" placeholder="收货人"></Input>
@@ -130,6 +130,7 @@
 				</FormItem>
 			</Form>
 		</Modal>
+		<Modal title="运费信息" v-model="expressModal" width="1130"><img src="../../../assets/img/express.png"></Modal>
 	</div>
 </template>
 <script>
@@ -147,6 +148,7 @@
 				}
 			};
 			return {
+				expressModal:false,
 				inputlist: [1, 2, 3, 4],
 				beizhu: '',
 				loading: true,
@@ -388,7 +390,7 @@
 					if(value == undefined) {
 						_this.total.num = 0;
 						this.cartList.forEach(function(item, index) {
-							_this.origintotal.price += item.salePrice * item.quantity;
+							_this.origintotal.price += item.originSalePrice * item.quantity;
 							_this.total.price += item.salePrice * item.quantity;
 							_this.total.num += item.quantity;
 						});
@@ -469,6 +471,7 @@
 				}
 			},
 			getCartList() {
+				
 				this.cartList = JSON.parse(sessionStorage.getItem('cart'));
 				if(this.cartList != null) {
 					var _this = this;
@@ -1121,10 +1124,6 @@
 		height: 90px;
 		line-height: 90px;
 		border-radius: 0px;
-	}
-	
-	.ivu-modal {
-		width: 600px!important;
 	}
 	
 	.ivu-modal-footer {

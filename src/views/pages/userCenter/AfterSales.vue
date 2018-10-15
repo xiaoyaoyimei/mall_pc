@@ -122,14 +122,6 @@
 				this.dealModal = true;
 				this.refundAmount=v.refundOrderTotalFee;
 				this.dealremark=v.remarks;
-				// this.$axios({
-				// 	method: 'get',
-				// 	url: '/refund/getRefundOrderList?refundOrderNo='+v,
-				// }).then((res) => {
-				// 	console.log(res)
-				// 	alert(JSON.stringify(res))
-				// 	this.refundList = res;
-				// });
 			},
 			showLogisticsInfo(value) {
 				this.infoModal = true;

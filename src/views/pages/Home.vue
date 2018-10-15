@@ -19,14 +19,14 @@
 					<div class="title">
 						<span>热销单品</span></div>
 					<ul class="clearfix one">
-						<li class="seckill" v-if="seckill" >
+						<li class="seckill" >
 							<h1>秒杀专场</h1>
-							<img src="" alt="">
+							<img src="../../assets/img/u9.png" alt="">
 							<p>距离结束还有:</p>
-							<p>
-								<span></span> ：
-								<span></span> ：
-								<span></span> ：
+							<p style="margin-top:12px;">
+								<span>24</span> :
+								<span>59</span> :
+								<span>59</span>
 							</p>
 						</li>
 						<li v-for="(item, index) in hotitem" :key='index'><em>NEW</em>
@@ -606,6 +606,32 @@
 		margin-left: 0;
 	}
 	.seckill{
-		padding: 63px 
+		padding: 63px 25px 43px;
+	}
+	.seckill h1{
+		font-weight: 400;
+		font-size: 30px;
+		text-align: center;
+		color: #333333;
+	}
+	.seckill img{
+		margin: 36px 0px 31px;
+	}
+	.seckill p{
+		font-weight: 400;
+		font-size: 18px;
+		color: #999999;
+		text-align: center;
+		margin: 0px;
+	}
+	.seckill span{
+		display: inline-block;
+		line-height: 50px;
+		width: 50px;
+		height: 50px;
+		background-color: rgba(96, 87, 81, 1);
+		font-weight: 400;
+		font-size: 24px;
+		color: #FFFFFF;
 	}
 </style>

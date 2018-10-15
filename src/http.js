@@ -3,7 +3,6 @@ import store from '@/store/store';
 import router from '@/router/route';
 
 // axios 配置
-console.log(process.env.API_HOST)
 axios.defaults.timeout = 9000;
 //测试环境
 axios.defaults.baseURL =`/pc`;

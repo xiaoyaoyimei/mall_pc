@@ -49,7 +49,10 @@
                         <div class="orderdetailtotalValue">
                             <p>￥{{orderdetail.shippingOrder.productFee|pricefilter}}</p>
                             <p>-￥<label  v-if="orderdetail.shippingOrder.discountFee!=''">{{orderdetail.shippingOrder.discountFee|pricefilter}}</label><label v-else>0</label></p>
-                            <p>￥{{orderdetail.shippingOrder.postageFee|pricefilter}}</p>
+                            <p v-if="orderdetail.shippingOrder.postageFee!=''">
+                            	￥{{orderdetail.shippingOrder.postageFee|pricefilter}}
+                            </p>
+                            <p v-else>￥0.00</p>
                             <p>￥ <span>{{orderdetail.shippingOrder.orderTotalFee|pricefilter}}</span></p>
                         </div>
                   </div>

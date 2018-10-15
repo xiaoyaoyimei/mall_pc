@@ -26,7 +26,7 @@
                             </p>
                             <p class="clearfix">
                                 <span class="detailname">购买时间：</span>
-                                <span class="detailvalue"> {{ordertime}}</span>
+                                <span class="detailvalue"> {{ordertime | formatDate}}</span>
                             </p>
                         </div>
                     </div>
@@ -103,6 +103,7 @@
 </template>
 
 <script>
+		import { formatDate } from '@/assets/js/date.js';
 	  export default {
         data () {
             return {
@@ -120,6 +121,12 @@
                 chevrondown:true
             }
         },
+            filters: {
+	    formatDate(time) {
+	    var date = new Date(time);
+	    return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
+	   }
+	},
         methods:{
         	//切换num的值切换支付方式
         	toggletab(num){

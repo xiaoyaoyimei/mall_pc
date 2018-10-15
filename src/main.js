@@ -8,7 +8,6 @@ import iView from 'iview';
 import './my-theme/index.less';  
 import axios from './http';
 import moment from 'moment/moment';
-console.log(process.env)
 //设置全局变量
 import global_ from '@/base/baseParam';
 

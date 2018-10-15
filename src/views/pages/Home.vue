@@ -345,7 +345,6 @@
 					url: "/index/basictype"
 				}).then(res => {
 					if(res.code == "200") {
-						console.log(res.object)
 						this.basictype = res.object;
 					}
 				});

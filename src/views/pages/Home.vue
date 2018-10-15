@@ -83,7 +83,6 @@
 										</div>
 									</div>
 								</li>
-
 							</ul>
 						</div>
 						<div class="title">

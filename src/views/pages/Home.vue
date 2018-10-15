@@ -420,6 +420,9 @@
 				this.$refs[imgid][0].src=this.global_.imgurl+listImg;
 			}
 		},
+		destroyed () {
+            clearTimeout(this.t)
+          },
 		mounted() {
 			this.getBanner();
 

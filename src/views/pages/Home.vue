@@ -23,7 +23,8 @@
 							<router-link :to="{ path: '/seckill'}">
 							<h1>秒杀专场</h1>
 							<img src="../../assets/img/u9.png" alt="">
-							<p>距离结束还有:</p>
+							<p v-if="this.seckilllist[0].switch == '1'">距离结束还有:</p>
+							<p v-else>距离开始还有：</p>
 							<p style="margin-top:12px;">
 								<span>{{hr}}</span>:
 								<span>{{min}}</span> :

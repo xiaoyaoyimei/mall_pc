@@ -222,7 +222,7 @@
 					id:'',
 					img: '',
 					itemNo: '',
-					price: 0,
+					price: 0,//现价
 					cuxiaoprice: 0,
 					activityName: '',
 					startTime: '',
@@ -520,6 +520,8 @@
 							this.choosesp.img = chooseItem.listImg;
 							this.choosesp.itemNo = chooseItem.itemNo;
 							this.choosesp.price = chooseItem.salePrice;
+							//若无促销，则促销价为原价
+							this.choosesp.cuxiaoprice =chooseItem.salePrice;
 							this.productItemId = chooseItem.id;
 							if(this.shangp.promotions.length > 0) {
 								for(let cxitem of this.shangp.promotions) {
@@ -643,7 +645,6 @@
 						}
 
 					}
-					console.log(	_this.shangp.productImageList);
 						this.getlikepro();
 				});
 			},

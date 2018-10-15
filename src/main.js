@@ -5,7 +5,6 @@ import App from './App';
 import router  from '@/router/route';
 import store from '@/store/store';
 import iView from 'iview';
-import 'iview/dist/styles/iview.css';
 import './my-theme/index.less';  
 import axios from './http';
 import moment from 'moment/moment';

@@ -115,12 +115,8 @@ export default {
     },
     gosearch(){
         this.$router.push({path: '/sort',query:{keyword:this.keyword}});
-        this.$bus.$emit('val', this.keyword)  
     },
   },
-    beforeDestroy () {
-            this.$bus.$off('val')
-    },
   mounted() {
     this.getParams();
     this.gettuijian();

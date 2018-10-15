@@ -67,6 +67,7 @@ const routes = [{
 			{
 				name: '/cart',
 				path: '/cart',
+				
 				component: resolve => require(['@/views/pages/cart/CartOne.vue'], resolve),
 			},
 			{
@@ -398,7 +399,7 @@ if(localStorage.getItem('token')) {
 }
 const router = new VueRouter({
 	routes,
-	mode: 'history',  
+//	mode: 'history',  
 	scrollBehavior(to, from, savedPosition) {
 		if(savedPosition) {
 			return savedPosition

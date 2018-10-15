@@ -10,7 +10,7 @@
 		</div>
 		<div class="myaccountText">
 			<p class="p">绑定手机：{{userinfo.customerMobile}}</p>
-			<p class="p">密码设置：用于保护帐号信息和登录安全 <button><span  @click="modalpwd=true">修改</span> </button></p>
+			<p class="p">密码设置：用于保护帐号信息和登录安全 <button @click="modalpwd=true"><span  >修改</span> </button></p>
 		</div>
 		<div class="placeorderaddress">
 			<h5>收货地址</h5>

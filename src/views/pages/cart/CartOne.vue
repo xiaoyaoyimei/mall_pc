@@ -66,7 +66,8 @@
 							<tfoot>
 								<tr>
 									<td align="center">
-										<Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox> <span class="operation_delete" @click="removeall()">删除</span></td>
+										<Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox> 
+										<button class="operation_delete" @click="removeall()">删除</button></td>
 									<td colspan="2">
 										<router-link :to="{ path: '/index' }" class="cartshopping">继续购物</router-link>
 										<span class="totalnum">共 <span>{{totalnum}}</span> 件商品，已选择 <span>{{zslcount}}</span> 件</span>
@@ -270,9 +271,6 @@
 								this.getCartList()
 							}
 						});
-					},
-					onCancel: () => {
-						this.$Message.info('取消成功');
 					}
 				});
 			},
@@ -341,6 +339,10 @@
 </script>
 
 <style lang="scss" scoped="scoped">
+.operation_delete{
+	border:0 none;
+	background: #fff;
+}
 	.cartlist {
 		background-color: rgb(238, 238, 238);
 		padding: 50px 0px 70px;

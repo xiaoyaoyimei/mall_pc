@@ -49,6 +49,7 @@ import AppBreadcrumb from '@/components/BreadCrumb'
     width: 940px;
     background-color: #FFFFFF;
     position: relative;
+    margin-bottom: 40px;
 }.newcenter {
     width: 1200px;
     margin: 0 auto;

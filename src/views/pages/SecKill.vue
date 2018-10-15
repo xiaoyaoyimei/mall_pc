@@ -87,8 +87,6 @@ export default {
 											_this.nostartpro.push(item)
 										}
 									})
-									console.log(_this.startpro.length)
-										console.log(_this.nostartpro)
 							   }
 							else{
 								this.show=true;

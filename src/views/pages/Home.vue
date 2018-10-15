@@ -19,17 +19,19 @@
 					<div class="title">
 						<span>热销单品</span></div>
 					<ul class="clearfix one">
-						<li class="seckill" >
+						<li class="seckill" v-if="seckill">
+							<router-link :to="{ path: '/seckill'}">
 							<h1>秒杀专场</h1>
 							<img src="../../assets/img/u9.png" alt="">
 							<p>距离结束还有:</p>
 							<p style="margin-top:12px;">
-								<span>24</span> :
-								<span>59</span> :
-								<span>59</span>
+								<span>{{hr}}</span> :
+								<span>{{min}}</span> :
+								<span>{{sec}}</span>
 							</p>
+							</router-link>
 						</li>
-						<li v-for="(item, index) in hotitem" :key='index'><em>NEW</em>
+						<li v-for="(item, index) in hotitem" v-show="item.show" :key='index'><em>NEW</em>
 							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
 							 	<img :src="item.list.img_url | imgfilter" :ref="item.list.id">
 							<h6>{{item.list.model_no}}</h6>
@@ -248,6 +250,12 @@
 				peripheryproduct:[],
 				toolbarNologin:{},//侧边栏个人中心是否登录
 				seckill:false,
+				seckilllist:'',
+				jsqtime:'',
+				day:'',
+				hr:'',
+				min:0,
+				sec:0,
 			};
 		},
 		computed: {
@@ -263,6 +271,28 @@
 			}
 		},
 		methods: {
+			countdown: function () {
+                const end = Date.parse(new Date(this.jsqtime));
+                const now = Date.parse(new Date());
+                const msec = end - now;
+                //当秒杀开始时
+                if(msec==0){
+                	this.detail.switch=1;
+                	this.jsqtime = this.detail.crush["endTime"];
+                }
+                let day = parseInt(msec / 1000 / 60 / 60 / 24);
+                let hr = parseInt(msec / 1000 / 60 / 60 % 24);
+                let min = parseInt(msec / 1000 / 60 % 60);
+                let sec = parseInt(msec / 1000 % 60);
+                this.day = day;
+                this.hr = hr > 9 ? hr : '0' + hr;
+                this.min = min > 9 ? min : '0' + min;
+                this.sec = sec > 9 ? sec : '0' + sec;
+                let self=this;
+                  this.t= setTimeout(() => {
+                                self.countdown();
+                        }, 	1000);
+               },
 			goback(){
 				document.documentElement.scrollTop = 0;
 			},
@@ -271,6 +301,25 @@
 				if(this.token != null) {
 					this.loginflag = false;
 				}
+				this.$axios({
+					    method: 'get',
+					    url:'/promotion/crush/',
+					}).then((res)=>{
+						if(res.code=='200'){
+							this.seckilllist = res.object;
+							if(this.seckilllist[0].switch=='0'){
+			            		this.jsqtime=this.seckilllist[0].crush["startTime"]
+			            	}
+			            	else{
+			                 	this.jsqtime = this.seckilllist[0].crush["endTime"];
+							 }
+							 if(this.seckilllist.length>0){
+								 this.seckill = true;
+							 }
+			            	//计时器
+							 this.countdown();
+						}
+					});
 				this.$axios({
 					method: "GET",
 					url: "/index/poster"
@@ -293,6 +342,13 @@
 				}).then(res => {
 					if(res.code == "200") {
 						this.hotitem = res.object;
+						for (let index = 0; index < this.hotitem.length; index++) {
+							if(index<3){
+								this.hotitem[index].show = true
+							}else{
+								this.hotitem[index].show = false
+							}								
+						}
 					}
 				});
 				this.$axios({

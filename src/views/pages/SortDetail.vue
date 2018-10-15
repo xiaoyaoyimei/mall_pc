@@ -119,7 +119,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="bg-lightgray">
+		<div class="bg-lightgray padding40">
 			<div class="main-width clearfix">
 				<ul class="swith-tab pt50 clearfix">
 					<li @click="toggletab(0)" :class="{active:0 == num}">商品详情</li>

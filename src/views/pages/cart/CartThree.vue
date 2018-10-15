@@ -26,7 +26,7 @@
                             </p>
                             <p class="clearfix">
                                 <span class="detailname">购买时间：</span>
-                                <span class="detailvalue"> {{ordertime}}</span>
+                                <span class="detailvalue"> {{ordertime | moment }} </span>
                             </p>
                         </div>
                     </div>

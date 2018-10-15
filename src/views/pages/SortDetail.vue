@@ -767,6 +767,8 @@
 		text-align: center;
 		line-height: 80px;
 		font-size: 50px;
+		position: relative;
+		left: -20px;
 	}
 	.small li:nth-last-of-type(1) {
 			float: right;

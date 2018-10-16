@@ -11,7 +11,7 @@
 				</Carousel>
 				<ul class="minipro clearfix">
 					<li v-for="(item, index) in basictype"  :key='index'>
-						<router-link   :to="{ path: '/sort',query:{typeName:item.list.type_name}}">
+						<router-link   :to="{ path: '/sort',query:{catalogId:item.list.id,catalog:item.list.catalog}}">
 						<img :src="item.list.img_url |imgfilter">
 						<span class="normol">{{item.list.type_name}}</span>
 					</router-link>

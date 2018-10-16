@@ -268,6 +268,13 @@
 					url: '/address',
 				}).then((res) => {
 					if(res.length > 0) {
+						for (let index = 0; index < res.length; index++) {
+							if(res[index].isDefault == "Y"){
+								// this.selectItem = index
+								this.chooseAddr(res[index].id,index,res[index].receiveProvince)
+							}
+							
+						}
 						_this.addressList = res
 					}
 				});

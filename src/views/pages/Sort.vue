@@ -84,13 +84,13 @@
 					brand: '',
 				},
 				flag: true,
-				typeName:'',
+				catalogId:'',
 			}
 		},
 		methods: {
 			//获取顶部筛选
 			getParams() {
-				this.typeName = this.$route.query.typeName
+				this.catalogId = this.$route.query.catalog
 				//首页查看更多（直接通过关键字查找）
 			
 				if(this.$route.query.typeid != undefined) {
@@ -100,9 +100,14 @@
 			     	this.keyword=this.$route.query.keyword;
 					this.getTopList()
 				}
-				if(this.typeName != undefined) {
-			     	this.keyword=this.typeName;
-					this.getTopList()			
+				if(this.catalogId != undefined) {
+					this.$axios({
+						method: 'GET',
+						url: '/product/search?&type=' + this.catalogId + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
+					}).then((res) => {
+						this.productList = res.itemsList;
+						this.totalSize = res.total;
+					})			
 				}	
 			},
 			getTop() {
@@ -130,14 +135,13 @@
 				}).then((res) => {
 					this.type = res;
 					for (let index = 0; index < this.type.length; index++) {
-						if(this.type[index].typeName == this.typeName){
+						if(this.type[index].id == this.catalogId){
 							this.type[index].red = true;
 						}else{
 							this.type[index].red = false;
 						}
 						
 					}
-					console.log(this.type)
 				})
 				this.spinShow = false
 			},
@@ -187,13 +191,7 @@
 				this.getList();
 			},
 		},
-//	    computed: {
-//			searchkeyword() {
-//				//获取store里面的token
-//				console.log(this.$store.state.searchkeyword);
-//				return this.$store.state.searchkeyword;
-//			}
-//		},
+
 	  watch: {
     // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
       '$route': 'getParams',

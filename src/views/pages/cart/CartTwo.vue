@@ -130,7 +130,7 @@
 				</FormItem>
 			</Form>
 		</Modal>
-		<Modal title="运费信息" v-model="expressModal" width="1130"><img src="../../../assets/img/express.png"></Modal>
+		<Modal title="运费信息" v-model="expressModal" width="1140"><img src="../../../assets/img/express.png"></Modal>
 	</div>
 </template>
 <script>

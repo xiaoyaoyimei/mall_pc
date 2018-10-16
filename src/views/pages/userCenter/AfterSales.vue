@@ -7,7 +7,7 @@
 				<h3 class="red">{{statusrufundfilter(x.refundOrder.refundOrderStatus)}}</h3>
 				<div class="myorderinformation clearfix">
 					<span class="myorderOrder clearfix">
-						{{x.refundOrder.createTime | formatDate}} 丨{{x.refundOrder.refundOrderNo}}丨{{reasonfilter(x.refundOrder.refundCauseId)}}  <span class="span">退款金额: ￥<strong>{{x.refundOrder.refundOrderTotalFee|pricefilter}}</strong></span></span>
+						{{x.refundOrder.createTime | formatDate('yyyy-MM-dd hh:mm:ss')}} 丨{{x.refundOrder.refundOrderNo}}丨{{reasonfilter(x.refundOrder.refundCauseId)}}  <span class="span">退款金额: ￥<strong>{{x.refundOrder.refundOrderTotalFee|pricefilter}}</strong></span></span>
 				</div>
 				<div class="myorderImg clearfix">
 					<ul>
@@ -73,7 +73,6 @@
 </template>
 
 <script>
-	import { formatDate } from '@/assets/js/date.js'
 	export default {
 		data() {
 			return {
@@ -87,12 +86,6 @@
 				logistics: '',
 				refundAmount:0,
 				dealremark:''
-			}
-		},
-		filters: {
-			formatDate(time) {
-				var date = new Date(time);
-				return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
 			}
 		},
 		methods: {

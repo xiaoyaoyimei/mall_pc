@@ -26,7 +26,7 @@
                             </p>
                             <p class="clearfix">
                                 <span class="detailname">购买时间：</span>
-                                <span class="detailvalue"> {{ordertime | formatDate}}</span>
+                                <span class="detailvalue"> {{ordertime | formatDate('yyyy-MM-dd hh:mm:ss')}}</span>
                             </p>
                         </div>
                     </div>
@@ -67,43 +67,9 @@
 
 		</Modal>
 	</div>
-
-	<!--<div class='zhifu' >
-		<div class="pay_info_wrap">
-			<div class="scan_code_wrap ">
-				<p class="tips_info">订单提交成功，请在<b class="color-blue">半小时</b>以内完成付款！</p>
-				<p>订单号：{{orderNo}}<router-link  :to="{name:'/order/detail',query:{orderNo:this.orderNo}}"> 订单详情</router-link></p>
-			</div>
-		</div>
-		<div class="scan_code_wrap">
-	  	 	<ul class="pay_tab ">
-	  	 		 <li class="alipay " data-target="alipay" @click="toggletab(0)" :class="{checked:0 == num}">
-	                <i class="icon icon-alipay"></i>
-	                                     支付宝
-	            </li>
-                <li class="wechat" data-target="wechat" @click="toggletab(1)" :class="{checked:1 == num}"  >
-	                <i class="icon icon-wechat"></i>
-	                                    微信支付
-	            </li>
-       			 </ul>
-                <div class="pay_content">
-                <div v-show=" 0 == num"  class="ali">
-                	<form :action="pay" method="post" ref="payfang" id="myForm">
-                		<img src="../../../assets/img/alipay.png" @click="handleSubmit('alipay')">
-					</form>
-                	</div>
-                	<div v-show=" 1 == num" >
-                		<img :src="verimg"/>
-                	</div>
-                </div>
-   	 	</div>
-     </div>-->
-
-
 </template>
 
 <script>
-		import { formatDate } from '@/assets/js/date.js';
 	  export default {
         data () {
             return {
@@ -121,12 +87,6 @@
                 chevrondown:true
             }
         },
-            filters: {
-	    formatDate(time) {
-	    var date = new Date(time);
-	    return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
-	   }
-	},
         methods:{
         	//切换num的值切换支付方式
         	toggletab(num){

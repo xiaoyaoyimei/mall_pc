@@ -137,7 +137,6 @@
 						}
 						
 					}
-					console.log(this.type)
 				})
 				this.spinShow = false
 			},

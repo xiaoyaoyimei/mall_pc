@@ -22,7 +22,7 @@
 						<img :src="child | imgfilter" v-for="(child, index) in item.imgList">
 					</div>
 					<div class="fabulousTime">
-						{{item.list.commentTime  | formatDate}} <!--<i class="cartIcon iconIcon-del"></i>-->
+						{{item.list.commentTime  | formatDate('yyyy-MM-dd hh:mm:ss')}} <!--<i class="cartIcon iconIcon-del"></i>-->
 					</div>
 				</div>
 			</li>
@@ -38,17 +38,10 @@
 </template>
 
 <script>
-	import { formatDate } from '@/assets/js/date.js'
 	export default {
 		data() {
 			return {
 				evaluateList: [],
-			}
-		},
-			filters: {
-			formatDate(time) {
-				var date = new Date(time);
-				return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
 			}
 		},
 		methods: {
@@ -133,8 +126,8 @@
 	}
 	
 	.evaluateImg img {
-		height: 175px;
-		width:175px;
+		max-height: 175px;
+		max-width:175px;
 		margin-bottom: 10px;
 	}
 	
@@ -190,8 +183,8 @@
 	}
 	
 	.fabulousImg img {
-		height: 60px;
-		width: 60px;
+		max-height: 60px;
+		max-width: 60px;
 		margin-right: 15px;
 		margin-bottom: 15px;
 	}

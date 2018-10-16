@@ -7,7 +7,6 @@ import store from '@/store/store';
 import iView from 'iview';
 import './my-theme/index.less';  
 import axios from './http';
-import moment from 'moment/moment';
 //设置全局变量
 import global_ from '@/base/baseParam';
 
@@ -17,11 +16,6 @@ import * as custom from '@/base/basefilters/'
 Object.keys(custom).forEach(key => {
     Vue.filter(key, custom[key])
 })
-Vue.filter('moment', function (value, formatString) {
-  formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
-  // return moment(value).format(formatString); // value可以是普通日期 20170723
-  return moment.unix(value).format(formatString); // 这是时间戳转时间
-});
 Vue.config.productionTip = false
 Vue.use(iView);
 Vue.prototype.global_=global_;

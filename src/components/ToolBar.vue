@@ -1,10 +1,9 @@
 <template>
 	<div class="toolbar">
 		<ul>
-			<router-link v-if="sfloging" to="/login" tag="li"><!--<i class="icon-new icon-user"></i>--><img src="../assets/img/nologin.png">  去登录</router-link>
-			<router-link v-else to="/user" tag="li" class="color-dx"><!--<i class="icon-new icon-user"></i>--> <img src="../assets/img/yeslogin.png"> 个人中心</router-link>
+			<router-link v-if="sfloging" to="/login" tag="li"><img src="../assets/img/nologin.png">  去登录</router-link>
+			<router-link v-else to="/user" tag="li" class="color-red"> <img src="../assets/img/yeslogin.png"> 个人中心</router-link>
 			</li>
-			<!--<li><i class="icon-new icon-kefu"></i>联系客服</li>-->
 			<router-link to="/cart" tag="li"><i class="icon-new icon-cart"></i>购物车</router-link>
 			<li class="mt15" @click="goback()" v-show="searchBarFixed">
 				<i class="icon-new icon-back"></i>回到顶部

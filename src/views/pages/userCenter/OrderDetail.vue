@@ -149,7 +149,6 @@
 </template>
 
 <script>
-	import { formatDate } from '@/assets/js/date.js';
    import { validatePHONE } from '@/assets/js/validate';
 	export default {
     data () {
@@ -241,12 +240,6 @@
 		}
       }
     },
-    filters: {
-	    formatDate(time) {
-	    var date = new Date(time);
-	    return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
-	   }
-	},
     methods: {
 		getAddressOption(){
 			this.$axios({

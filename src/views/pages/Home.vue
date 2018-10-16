@@ -466,15 +466,6 @@
 		top: 35px;
 		left: 40px;
 	}
-	
-	.minipro li:last-child span {
-		font-size: 31px;
-		color: #fff;
-		position: absolute;
-		top: 110px;
-		left: 85px;
-	}
-	
 	.minipro li:nth-child(n+2) {
 		margin-left: 12px;
 	}

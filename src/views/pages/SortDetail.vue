@@ -10,12 +10,12 @@
 					<img v-show="!videoshow" :src="ImgUrl |imgfilter" style="width: 100%;height: 100%">
 					<img class="videoIcon" v-if='videoIcon' v-show="!videoshow" @click='getVideo(shangp.product.video)' src="../../assets/img/video.png"></div>
 				<ul class="small">
-					<li class="nextp" @click="pervlist()"><Icon type="ios-arrow-back" /></li>
+					<li class="nextp" @click="pervlist()" v-show="shangp.productImageList.length>5"><Icon type="ios-arrow-back" /></li>
 					<li v-for="(item, index) in shangp.productImageList" :key="index" @click='getIndex(item.listImg,index)' 
 					:class="{active:item.clickItem,none:item.show}"  style="display:none">
 						<img :src="item.smallImg |imgfilter">
 					</li>
-					<li class="nextp"  @click="nextlist()"><Icon type="ios-arrow-forward" /></li>
+					<li class="nextp"  @click="nextlist()" v-show="shangp.productImageList.length>5"><Icon type="ios-arrow-forward" /></li>
 				</ul>
 			</div>
 			<div class="fl iteminfo ml40">
@@ -147,7 +147,7 @@
 										<h6><img :src="item.list.iconUrl | imgfilter">{{item.list.nickName}}</h6>
 										<p>{{item.list.commentContent}}</p>
 										<div class="sz" :key="index"><span v-for="(child, index) in item.imgList"><img :src="child | imgfilter"></span></div>
-										<div class="zan"><span class="fr"><i class="icon-new icon-zan" :class="{'icon-zan-active':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)' ></i>{{item.number}}</span>{{item.list.commentTime | formatDate}}</div>
+										<div class="zan"><span class="fr"><i class="icon-new icon-zan" :class="{'icon-zan-active':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)' ></i>{{item.number}}</span>{{item.list.commentTime | formatDate('yyyy-MM-dd hh:mm:ss')}}</div>
 									</li>
 								</ul>
 							</div>
@@ -162,7 +162,6 @@
 	</div>
 </template>
 <script>
-	import { formatDate } from '@/assets/js/date.js'
 	import Bus from '@/assets/js/bus.js'
 	export default {
 		data() {
@@ -244,12 +243,6 @@
 				likeshow: false,
 				index:4,
 				listindex:5,
-			}
-		},
-		filters: {
-			formatDate(time) {
-				var date = new Date(time);
-				return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
 			}
 		},
 		methods: {
@@ -1105,8 +1098,8 @@
 	}
 	
 	.sz img {
-		width: 150px;
-		height: 150px;
+		max-width: 150px;
+		max-height: 150px;
 		margin-right: 20px;
 		margin-bottom: 35px;
 	}

@@ -14,7 +14,7 @@
                         <li v-for="(x,index) in pro" :key="index" >
 							<h3 class="red"> {{statusfilter(x.order.orderStatus)}}</h3>
 								<div class="myorderinformation clearfix">
-									<span class="myorderOrder clearfix">{{x.order.createTime | formatDate}} 丨 {{x.orderAddress.receiverMobile }} 丨{{x.order.orderNo}} 
+									<span class="myorderOrder clearfix">{{x.order.createTime | formatDate('yyyy-MM-dd hh:mm:ss')}} 丨 {{x.orderAddress.receiverMobile }} 丨{{x.order.orderNo}} 
 										<span class="span">订单金额: ￥<strong>{{x.order.orderTotalFee | pricefilter}}</strong></span></span>	
 								</div>	
 								<div class="myorderImg clearfix">
@@ -177,7 +177,6 @@
 </template>
 
 <script>
-	import { formatDate } from '@/assets/js/date.js'
 	export default {
 		data() {
 			return {
@@ -221,12 +220,6 @@
 				evaItem:{},//评论弹窗
 				evaItemId:'',
 				evaProId:'',
-			}
-		},
-		filters: {
-			formatDate(time) {
-				var date = new Date(time);
-				return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
 			}
 		},
 		methods: {

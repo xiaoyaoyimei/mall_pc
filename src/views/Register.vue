@@ -594,10 +594,10 @@
 							}).then((res)=>{
 								if(res.code=='200'){
 									     this.txv++;
-									      this.verimg='http://10.0.0.53:8080/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+									   //   this.verimg='http://10.0.0.53:8080/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
 								         //this.verimg=this.$axios.defaults.baseURL+'/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
-										 //	let urlo=window.location.origin;
-      										//this.verimg=urlo+'/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+										 	let urlo=window.location.origin;
+        										this.verimg=urlo+'/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
 								}else{
 									  this.$Message.error(res.msg);
 								}

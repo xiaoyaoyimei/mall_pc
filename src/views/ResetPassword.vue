@@ -139,9 +139,9 @@
 							}).then((res)=>{
 								if(res.code!=='200'){
 									this.txv++;
-									//let urlo=window.location.origin;
-				          			//this.verimg=urlo+'/mall/pc/customer/'+mobile+'/verification.png?v='+this.txv;
-				          			this.verimg=this.$axios.defaults.baseURL+'/customer/'+mobile+'/verification.png?v='+this.txv;;
+									let urlo=window.location.origin;
+				          			this.verimg=urlo+'/mall/pc/customer/'+mobile+'/verification.png?v='+this.txv;
+				          			//this.verimg=this.$axios.defaults.baseURL+'/customer/'+mobile+'/verification.png?v='+this.txv;;
 								}else{
 									   this.$Message.error('该手机号不存在，请注册');
 								}

@@ -95,7 +95,7 @@ export default {
 						
     	      	},
     	      	percent(v){
-    	      		return v.usedQuantity/v.totalQuantity*100
+    	      		return Number((v.usedQuantity/v.totalQuantity*100).toFixed(2))
     	      	},
     },
 }

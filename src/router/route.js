@@ -296,6 +296,12 @@ const routes = [{
 					import('@/views/pages/help/xxty.vue'),
 			},
 			{
+				name: 'hzzs',
+				path: 'hzzs',
+				component: () =>
+					import('@/views/pages/help/hzzs.vue'),
+			},
+			{
 				name: 'azsp',
 				path: 'azsp',
 				component: () =>

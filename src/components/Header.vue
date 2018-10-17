@@ -5,7 +5,7 @@
 				<div class="fl header-left">
 					<router-link  to="/index">首页</router-link>
 					<hr class="spacer mlr8">
-					<a href="javascript:void(0)">合作招商</a>
+					 <router-link  to="/help/hzzs">合作招商</router-link>
 					<hr class="spacer mlr8">
 					 <router-link  to="/help">操作指南</router-link>
 				</div>

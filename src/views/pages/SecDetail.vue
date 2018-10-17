@@ -108,7 +108,6 @@
 								</ul>
 							</div>
 						</div>
-						<!-- <p class="moreeval" @click="getcommentList" v-if="commentList.length>1">查看更多评价</p> -->
 					</div>
 
 				</div>
@@ -366,7 +365,7 @@
 						if(this.detail.product.video != ''){
 							this.videoIcon = true;
 						}
-						this.proId=res.object.productItem.skuId;
+						this.proId=res.object.productItem.productId;
 								this.$axios({
 							    method: 'post',
 							    url:'/product/desc/'+this.proId,
@@ -411,7 +410,6 @@
 					method: "GET",
 					url: "/product/match/" + this.productId,
 				}).then(res => {
-					console.log(res.object)
 					if(res.code==200){
 						for(let i =0; i<res.object.length;i++){
 							if(i<this.index){
@@ -424,20 +422,7 @@
 					}
 				
 				});
-				this.$axios({
-					method: 'post',
-					url: '/product/desc/' + this.productId,
-				}).then((res) => {
-					this.productDesc = res;
-				});
 
-				//comment/search/{skuId}/{isImg}
-				this.$axios({
-					method: 'post',
-					url: '/product/img/' + this.productId,
-				}).then((res) => {
-					this.productimg = res;
-				});
 			},
 		},
 	    mounted(){

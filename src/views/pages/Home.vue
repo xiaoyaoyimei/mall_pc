@@ -449,9 +449,6 @@
 		opacity: 0.8;
 	}
 	
-	.floor li span {
-		font-weight: bold;
-	}
 	
 	.minipro li {
 		float: left;
@@ -467,7 +464,7 @@
 		left: 40px;
 	}
 	.minipro li:nth-child(n+2) {
-		margin-left: 12px;
+		margin-left: 10px;
 	}
 	
 	.floor .title span {
@@ -481,12 +478,9 @@
 	}
 	
 	.one li:nth-child(n+2) {
-		margin-left: 12px;
+		margin-left: 10px;
 	}
 	
-	.one li {
-		background: #eee;
-	}
 	
 	.seemore {
 		font-size: 18px;

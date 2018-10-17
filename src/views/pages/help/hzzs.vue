@@ -1,11 +1,7 @@
 <template>
 
   <div class="page">
-    <label>请输入要打开的pdf地址:</label>
-    <input type="text" v-model="url"/>
-    <button @click="OpenPDF">打开pdf文件</button>
-    <div class="notice">提示：DEV环境下请在config/index.js中配置代理，否则会出现跨域报错</div>
-
+    <embed src="http://image-shop.dxracer.com.cn/upload/2018v2.pdf" width="800" height="600"/>
   </div>
 
 </template>

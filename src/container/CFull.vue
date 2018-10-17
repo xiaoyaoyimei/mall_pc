@@ -46,7 +46,6 @@ import AppMenu from '@/components/Menu'
 .nav .navCart{
     border-top: 1px dashed  rgb(204, 204, 204);
     height: 1px;
-    width: 384px;
     float: right;
     margin-top: 15px;
 

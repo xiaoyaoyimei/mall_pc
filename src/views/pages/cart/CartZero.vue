@@ -34,7 +34,7 @@
 	</div>
 	    <div class="Msucceess clearfix" v-if="tuijian.length>0">
             <div class="h5">
-                <h5>搭配推荐</h5>
+                <h5>热销产品</h5>
             </div>
             <div class="likeList">
                 <ul class="clearfix" >
@@ -145,8 +145,9 @@ export default {
 .successCart .succeessText {
   padding-left: 13px;
   height: 64px;
-  line-height: 32px;
   float: left;
+  position: relative;
+  top: 5px;
 }
 
 .successCart .succeessText h4 {
@@ -214,8 +215,6 @@ export default {
 .Msucceess .likeList li {
   float: left;
   width: calc(25% - 15px);
-  padding: 15px;
-  background-color: rgb(246, 246, 246);
   margin-right: 15px;
   text-align: center;
   margin-bottom: 10px;
@@ -285,6 +284,7 @@ export default {
   color: #888888;
 }
 .likeListImg {
-  width: 80%;
+  max-height: 290px;
+  max-width: 290px;
 }
 </style>

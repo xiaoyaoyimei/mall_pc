@@ -26,7 +26,7 @@
 						</div>
 					</div>
 					<hr class="spacer">
-					<a href="" class="message"><i class="icon-new icon-message"></i></a>
+					<!-- <a href="" class="message"><i class="icon-new icon-message"></i></a> -->
 					<router-link  to="/cart" class="mini-cart"><i class="icon-new icon-minicart"></i></router-link >
 				</div>
 			</div>

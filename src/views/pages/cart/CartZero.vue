@@ -36,18 +36,16 @@
             <div class="h5">
                 <h5>热销产品</h5>
             </div>
-            <div class="likeList">
-                <ul class="clearfix" >
+            <div class="floor">
+                 <ul class="clearfix" >
                     <li  v-for="(x,index) in tuijian" :key="index" :class="{none:x.show}" style="display:none">
                     	<router-link :to="{ path: '/sort/sortDetail',query:{id:x.list.id} }" >
-                        <p class="stamp stampRed" v-if="x.activity!=''">{{x.activity}}</p>
-                        <img class="likeListImg" :src="x.list.model_img | imgfilter" alt="">
-                        <h5>{{x.model_no}}</h5>
-                        <p class="des">{{x.list.model_name}}</p>
-                        <p class="red">¥ {{x.list.sale_price | pricefilter}}</p>
-                        <!--<button class="gocart">加入购物车</button>-->
+                    		  <em v-if="x.activity!=''">{{x.activity}}</em>
+                    		 <img class="likeListImg" :src="x.list.model_img | imgfilter" :alt="x.list.model_name">
+                        <h6>{{x.model_no}}</h6>
+                        <p>{{x.list.model_name}}</p>
+                        <span class="color-newred">¥ {{x.list.sale_price | pricefilter}}</span>
                         </router-link>
-                        
                     </li>
                 </ul>
                 <div class="likebtn changepage">
@@ -195,7 +193,7 @@ export default {
   height: 1px;
   margin-top: 40px;
   text-align: center;
-
+ margin-bottom: 50px;
   border-top: 1px solid rgb(204, 204, 204);
 }
 .Msucceess .h5 h5 {
@@ -209,46 +207,7 @@ export default {
   font-size: 24px;
   color: rgb(110, 110, 110);
 }
-.Msucceess .likeList {
-  margin-top: 36px;
-}
-.Msucceess .likeList li {
-  float: left;
-  width: calc(25% - 15px);
-  margin-right: 15px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-.Msucceess .stamp {
-  width: 51px;
-  height: 22px;
-  box-sizing: border-box;
-  font-size: 12px;
-  font-weight: 700;
-}
-.Msucceess .stampRed {
-  color: rgb(251, 84, 104);
-  border: 2px solid rgb(226, 24, 24);
-}
-.Msucceess .likeList h5 {
-  margin-top: 20px;
-  font-size: 13px;
-  color: black;
-  font-weight: 900;
-}
-.Msucceess .des {
-  color: #888888;
-  font-weight: 300;
-  overflow: hidden;
-  font-size: 13px;
-  height: 20px;
-}
-.Msucceess .red {
-  margin: 5px;
-  color: #ff0037;
-  font-size: 13px;
-  font-weight: 900;
-}
+
 .Msucceess .gocart {
   width: 100px;
   height: 25px;
@@ -283,8 +242,5 @@ export default {
 .Msucceess .likebtn .gray {
   color: #888888;
 }
-.likeListImg {
-  max-height: 290px;
-  max-width: 290px;
-}
+
 </style>

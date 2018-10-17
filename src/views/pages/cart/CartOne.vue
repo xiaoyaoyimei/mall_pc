@@ -22,7 +22,7 @@
 						<thead>
 							<tr>
 								<th width="150">
-									<Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
+									<Checkbox :indeterminate="indeterminate" :_checked='!indeterminate'  :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
 								</th>
 								<th width="400">商品名称</th>
 								<th width="150">单价</th>
@@ -66,7 +66,7 @@
 							<tfoot>
 								<tr>
 									<td align="center">
-										<Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox> 
+										<Checkbox  :indeterminate="indeterminate"  :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox> 
 										<button class="operation_delete" @click="removeall()">删除</button></td>
 									<td colspan="2">
 										<router-link :to="{ path: '/index' }" class="cartshopping">继续购物</router-link>
@@ -195,7 +195,10 @@
 									_this.sale += parseInt(item.originSalePrice - item.salePrice) * 100 * parseInt(item.quantity)
 								});
 								_this.sale = (_this.sale / 100).toFixed(2)
-								this.handleCheckAll()
+								this.handleCheckAll();
+								this.indeterminate =true;
+
+								
 							}
 						});
 				} else {
@@ -276,6 +279,7 @@
 			},
 
 			handleCheckAll() {
+
 				if(this.indeterminate) {
 					this.checkAll = false;
 				} else {
@@ -717,4 +721,20 @@
 	.ivu-checkbox+span {
 		display: none;
 	}
+	.cart1 .ivu-checkbox-indeterminate .ivu-checkbox-inner:after {
+    content: '';
+    display: table;
+    width: 4px;
+    height: 8px;
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    border: 2px solid #fff;
+    border-top: 0;
+    border-left: 0;
+    -webkit-transform: rotate(45deg) scale(1);
+    transform: rotate(45deg) scale(1);
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
 </style>

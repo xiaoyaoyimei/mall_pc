@@ -178,7 +178,6 @@
 	      },
 	      methods:{
 			checkAllGroupChange(data) {
-				console.log(data)
 				var _this = this;
 				_this.dpnum = data.length;
 				_this.dpjiage = 0;

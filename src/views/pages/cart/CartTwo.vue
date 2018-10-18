@@ -924,13 +924,6 @@
 		text-align: center;
 	}
 	
-	//  button{
-	//     margin-top: 20px;
-	//     margin-right: 15px;
-	//     padding: 10px 50px;
-	//     color: #FFFFFF;
-	//     border: none;
-	// }
 	.sure {
 		background-color: #ff0000;
 	}

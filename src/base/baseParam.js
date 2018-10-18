@@ -1,6 +1,5 @@
 let global_={
 		//imgurl:'http://shop-test.dxracer.cn/',
-		//生产环境
 		imgurl:'//image-shop.dxracer.com.cn/',
 		loginName:'',
 		passWord:'',

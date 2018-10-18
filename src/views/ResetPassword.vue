@@ -7,9 +7,9 @@
                 	<FormItem  prop="mobile">
                 <input type="text" placeholder="手机号" v-model.trim="regiForm.mobile" v-on:blur.lazy="getTx">
                    </FormItem>
-                <FormItem  prop="verificationCode">
+                <FormItem  prop="verificationCode" style="position:relative">
                 <input type="text" class="input w128" placeholder="请输入图形码"  v-model.trim="regiForm.verificationCode">
-                <img v-show="verimg!=''" :src="verimg" class="pic-yzm"><img src="../assets/img/refresh.png" class="refresh" @click="getTx">
+                <img v-show="verimg!=''"  :src="verimg" class="pic-yzm marginTop"><img src="../assets/img/refresh.png" class="refresh marginTopF" @click="getTx">
                 </FormItem>
                 	<FormItem  prop="shortMessage">
                   <input type="text" class="input w207" placeholder="短信验证码" v-model="regiForm.shortMessage" v-on:blur.lazy="yzyyb">
@@ -243,6 +243,16 @@
 }
 .forget .disabled{
 	background: #eee;
+}
+.forget .marginTop{
+	position: absolute;
+	top: 20px;
+	right:275px;
+}
+.forget .marginTopF{
+	position: absolute;
+	top: 25px;
+	right:235px;	
 }
 </style>
 <style>

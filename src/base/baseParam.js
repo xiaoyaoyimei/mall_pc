@@ -1,8 +1,9 @@
 let global_={
-		imgurl:'http://shop-test.dxracer.cn/',
-		//imgurl:'//image-shop.dxracer.com.cn/',
+		//imgurl:'http://shop-test.dxracer.cn/',
+		//生产环境
+		imgurl:'//image-shop.dxracer.com.cn/',
 		loginName:'',
 		passWord:'',
-		originurl:'http://10.0.0.53:8080',
+		//originurl:'http: //10.0.0.53:8080',
 }
 export default global_;

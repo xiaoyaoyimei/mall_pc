@@ -168,12 +168,18 @@ const routes = [{
 				component: resolve => require(['@/views/pages/userCenter/Address.vue'], resolve)
 			},
 			{
+				meta: {
+					requireAuth: true
+				},
 				name: 'mycoupon',
 				path: 'mycoupon',
 				zname:'我的优惠券',
 				component: resolve => require(['@/views/pages/userCenter/MyCoupon.vue'], resolve)
 			},
 			{
+				meta: {
+					requireAuth: true
+				},
 				name: 'couponcenter',
 				path: 'couponcenter',
 				zname:'优惠券中心',
@@ -410,7 +416,7 @@ const router = new VueRouter({
 		if(savedPosition) {
 			return savedPosition
 		} else {
-			return {
+			return { 
 				x: 0,
 				y: 0
 			}

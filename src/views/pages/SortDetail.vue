@@ -362,7 +362,6 @@
 			pervlist(){
 				this.$forceUpdate();
                 if(this.listindex > 5){
-					debugger
                     let i = this.listindex-6;
                     this.shangp.productImageList[this.listindex-1].show = false;
                     this.shangp.productImageList[i].show =true;
@@ -424,6 +423,7 @@
 				}
 			},
 			buynow(v) {
+					if(localStorage.getItem('token') != null && localStorage.getItem('token') != undefined) {
 				if(this.productItemId == "") {
 					this.$Message.error('请选择商品属性');
 					return
@@ -444,14 +444,22 @@
 				sessionStorage.removeItem('cart');
 				sessionStorage.setItem('cart', JSON.stringify(this.cartList));
 				this.$router.push({ name:'/carttwo',query:{orderfrom:'A'}});
+				}else{
+				this.$router.push({
+						path: '/login',
+						query: {
+							redirect: this.$route.fullPath
+						}
+					})	
+				}
 			},
 			//加入购物车addtocart
 			atc() {
-				if(this.productItemId == "") {
-					this.$Message.error('请选择商品属性');
-					return
-				}
 				if(localStorage.getItem('token') != null && localStorage.getItem('token') != undefined) {
+					if(this.productItemId == "") {
+						this.$Message.error('请选择商品属性');
+						return
+					}
 					let productItemIds = [];
 					productItemIds.push(this.productItemId);
 					if(this.compineId.length > 0) {

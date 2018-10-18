@@ -2,7 +2,7 @@
 	<div class="new">
 		<div class="selector mt20 main-wdith">
 			<p>
-				<router-link to="/">首页</router-link> &gt; 全部结果 </p>
+				<router-link to="/">首页</router-link> &gt;<span class="color-newred"> 全部结果</span> </p>
 			<div class="wrap">
 				<div class="dt">类型:</div>
 				<div class="dd">
@@ -92,7 +92,6 @@
 			getParams() {
 				this.catalogId = this.$route.query.catalog
 				//首页查看更多（直接通过关键字查找）
-			
 				if(this.$route.query.typeid != undefined) {
 					this.getList('type', this.$route.query.typeid, this.$route.query.typeindex)
 				}
@@ -100,6 +99,7 @@
 			     	this.keyword=this.$route.query.keyword;
 					this.getTopList()
 				}
+			     
 				if(this.catalogId != undefined) {
 					this.$axios({
 						method: 'GET',

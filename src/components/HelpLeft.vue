@@ -53,7 +53,7 @@
 	}
 }
  .side_bar_nav  li .router-link-active{
-	color:#2D8cF0;
+	color:#ff0037;
 	
 }
 .side_bar_nav_line{
@@ -67,6 +67,6 @@
     
 }
 .side_bar_nav .myrui{
-	color:#0099ff
+	color:#ff0037
 }
 </style>

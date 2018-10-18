@@ -1,4 +1,4 @@
-<template>
+45<template>
 	<div class="homepage">
 		<div class="side_nav_wrap clear" style="">
 			<div class="main-wdith">
@@ -16,7 +16,6 @@
 						<span class="normol">{{item.list.type_name}}</span>
 					</router-link>
 					</li>
-
 				</ul>
 				<div class="floor">
 					<div class="title">
@@ -58,7 +57,7 @@
 					<div class="floor">
 						<div class="title">
 							<div class="seemore fr" > 
-							 <router-link :to="{ path: '/sort',query:{homeKeyword:'电竞'} }" >	查看更多
+							 <router-link :to="{ path: '/sort',query:{keyword:'电竞'} }" >	查看更多
 							<i class="icon-new icon-more" ></i>
 							 </router-link>
 							</div>
@@ -74,7 +73,7 @@
 									</div>
 											</router-link>
 							</div>
-							<ul class="clearfix fl w897 ml12">
+							<ul class="clearfix fl w896 ml13">
 								<li v-for="(item, index) in gameproduct" :key='index' v-if="index>0">
 									 <router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
 									 	<img :src="item.list.img_url  |imgfilter" :ref="item.list.id">
@@ -93,7 +92,7 @@
 						</div>
 						<div class="title">
 							<div class="seemore fr" >
-								<router-link :to="{ path: '/sort',query:{homeKeyword:'办公'} }" > 查看更多
+								<router-link :to="{ path: '/sort',query:{keyword:'办公'} }" > 查看更多
 											<i   class="icon-new icon-more" ></i>
 								</router-link>
 							</div>
@@ -129,7 +128,7 @@
 						</div>
 						<div class="title">
 							<div class="seemore fr" >
-								<router-link :to="{ path: '/sort',query:{homeKeyword:'家居'} }" > 查看更多
+								<router-link :to="{ path: '/sort',query:{keyword:'家居'} }" > 查看更多
 											<i   class="icon-new icon-more" ></i>
 								</router-link>
 							</div>
@@ -137,8 +136,8 @@
 									<div class=" three clearfix">
 							<ul class=" fl  office">
 								<li class="w594">
-											<router-link :to="{ path: '/sort/sortDetail',query:{id:houseproductone.product_id} }" >
-										<img :src="houseproductone.img_url |imgfilter">
+									<router-link :to="{ path: '/sort/sortDetail',query:{id:houseproductone.product_id} }" >
+										<img :src="houseproductone.img_url | imgfilter">
 										<div class="ad ">
 											<h5>{{houseproductone.model_no}}</h5>
 											<h6>{{houseproductone.describe1}}</h6>
@@ -165,7 +164,7 @@
 						<div class="title">
 						<span>电竞桌</span></div>
 						<div class="floorad clearfix">
-						<div class="fl bg-white ad-wrap" v-for="(item, index) in tableproduct" :key='index' v-if="index==1">
+						<div class="fl bg-white ad-wrap" v-for="(item, index) in tableproduct" :key='index' >
 							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
 								<img :src="item.list.img_url  |imgfilter" class="zhuozi">
 							<div class="ad">
@@ -194,7 +193,7 @@
 					</div>
 					<div class="title">
 								<div class="seemore fr" >
-								<router-link :to="{ path: '/sort',query:{homeKeyword:'座椅周边'} }" > 查看更多
+								<router-link :to="{ path: '/sort',query:{keyword:'座椅周边'} }" > 查看更多
 											<i   class="icon-new icon-more" ></i>
 								</router-link>
 							</div>
@@ -308,9 +307,6 @@
                                 self.countdown();
                         }, 	1000);
                },
-			goback(){
-				document.documentElement.scrollTop = 0;
-			},
 			getBanner() {
 				//判断是否已经登录
 				if(this.token != null) {
@@ -387,8 +383,8 @@
 				}).then((res) => {
 					if(res.code == '200') {
 						this.houseproduct = res.object;
-						if(this.houseproductone.length>0){
-							this.houseproductone = this.houseproductone[0].list;
+						if(this.houseproduct.length>0){
+							this.houseproductone = this.houseproduct[0].list;
 						}
 					}
 				});
@@ -436,8 +432,8 @@
 .yxzc:nth-child(1){
 	margin-right: 10px;
 }
-	.w897 {
-		width: 897px;
+	.w896 {
+		width: 896px;
 	}
 	.minipro {
 		margin-top: 10px;
@@ -482,13 +478,13 @@
 	}
 	
 	
-	.seemore {
+	.seemore a{
 		font-size: 18px;
 		color: #000;
 		cursor: pointer;
 	}
 	
-	.seemore:hover {
+	.seemore:hover a{
 		color: #FF0037;
 	}
 	.seemore:hover i{
@@ -525,10 +521,11 @@
 	}
 	
 	.two li {
-		margin-left: 12px;
-		background: #fff;
+		margin-left: 10px;
 	}
-	
+	.two li{
+			background: #fff;
+	}
 	.two li:nth-child(3n+1) {
 		margin-left: 0;
 	}
@@ -549,12 +546,12 @@
 	}
 	
 	.three li {
-		background: #fff;
 		margin-bottom: 12px;
 	}
 	
 	.three li:nth-child(n+2) {
-		margin-left: 12px;
+		background: #fff;
+		margin-left: 10px;
 	}
 	
 	.three li.ml0 {
@@ -574,11 +571,6 @@
 		color: #111;
 	}
 	
-	.zhuozi {
-		bottom: 0;
-		right: 45px;
-		position: absolute;
-	}
 	
 	.floorad .ad {
 		top: 30px;
@@ -601,8 +593,8 @@
 		font-size: 41px;
 	}
 	
-	.ml12 {
-		margin-left: 12px;
+	.ml13 {
+		margin-left: 13px;
 	}
 	
 	.pb105 {

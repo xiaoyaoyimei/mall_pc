@@ -18,7 +18,8 @@
 		data() {
 			return {
 				sfloging: true, //开始未登录
-				searchBarFixed: false
+				searchBarFixed: false,
+				scrollTop:0
 			}
 		},
 		computed: {
@@ -29,15 +30,16 @@
 		},
 		methods: {
 			handleScroll() {
-				var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-				if(scrollTop > 700) {
+				 this.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+				if(this.scrollTop > 700) {
 					this.searchBarFixed = true
 				} else {
 					this.searchBarFixed = false
 				}
 			},
 			goback() {
-				document.documentElement.scrollTop = 0;
+				this.scrollTop = 0;
+				document.documentElement.scrollTop=document.body.scrollTop=0
 			},
 			issfloging() {
 				if(this.token != null) {

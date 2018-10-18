@@ -669,7 +669,7 @@ header a {
 }
 .floor li:hover{
     border-color:#ddd;
-    box-shadow: 0 0 2px 2px #f7f7f7;
+//  box-shadow: 0 0 2px 2px #f7f7f7;
 }
 .floor li {
     text-align: center;
@@ -679,7 +679,7 @@ header a {
     height: 370px;
     cursor: pointer;
     float: left;
-    border: 1px solid #fff;
+    border: 1px solid transparent;
     transition: border-color .1s ease;
 }
 .floor li span {
@@ -709,7 +709,7 @@ header a {
 }
 
 .bgli-white li:nth-child(n+2) {
-    margin-left: 12px;
+    margin-left: 10px;
 }
 
 //我的订单和我的售后单

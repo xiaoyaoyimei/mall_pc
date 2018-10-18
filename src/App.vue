@@ -22,7 +22,9 @@ export default {
   color: #888;
   height:100vh;
 }
-
+a{
+ color: #888;
+}
 .icon{
     cursor: pointer;
     background-image:url(./assets/img/header_sprite.png);

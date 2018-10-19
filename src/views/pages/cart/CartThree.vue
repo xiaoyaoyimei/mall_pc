@@ -43,29 +43,26 @@
                 <div class="paymethod">
                     <h4>选择以下支付方式付款</h4>
                     <div class="clearfix">
-                        <span class="cartIcon iconIcon-weixin" @click="toggletab(1)"></span>
+                        <span class="cartIcon iconIcon-weixin" @click="showweixin()"></span>
                         <span class="cartIcon iconIcon-zhifubao" @click="handleSubmit('alipay')"></span>
                     </div>
-                    <div v-show=" 1 == num" >
-                		<img :src="verimg"/>
-                	</div>
                 </div>
             </div>
-
+ <img :src="verimg"/>
         </div>
 
-        <Modal v-model="weixinModal" width="400" class="weixinModal" :mask-closable="false">
+        <!--<Modal v-model="weixinModal" width="400" class="weixinModal" :mask-closable="false">
 			<p slot="header" style="text-align:left">
 				<Icon type="ios-information-circle"></Icon>
 				<span>微信支付</span>
 			</p>
 			<div>
-                <img src="../../../assets/img/wei.png" alt="">
+               <img :src="verimg"/>
                 <p>请使用 <span style="color:#f60;">微信</span> 扫一扫</p>
                 <p>二维码完成支付</p>
 			</div>
 
-		</Modal>
+		</Modal>-->
 	</div>
 </template>
 
@@ -75,7 +72,6 @@
             return {
             	payshow:false,
             	orderNo:this.$route.query.orderNo,
-            	num:0,
             	verimg:'',
             	pay:this.$axios.defaults.baseURL+'order/alipay/'+this.$route.query.orderNo,
                 t:'',
@@ -89,15 +85,17 @@
         },
         methods:{
         	//切换num的值切换支付方式
-        	toggletab(num){
-                // debugger
-        		// this.num=num;
-        		// if(num==1){
-                //         // let urlo=window.location.origin;
-                //       let  urlo = 'http://10.0.0.53:8080/';
-        		// 	this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
-                // }
-                this.weixinModal = true
+        	showweixin(){
+        		      		   	this.$axios({
+						   	 method: 'get',
+							    url:'/order/weixin/'+this.$route.query.orderNo,
+							}).then((file)=>{
+							  this.verimg=file;
+							});
+//                   let urlo=window.location.origin;
+//                  //let  urlo = 'https://shop.dxracer.cn/mall/pc';
+//        		 	this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
+//                  this.weixinModal = true
         	},
         	wexinpaycheck(){
         		var _this=this;
@@ -110,7 +108,7 @@
 									_this.$router.push({ name:'/order/detail',query:{orderNo:this.$route.query.orderNo}});
 								}
 							});
-							  _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
+							//  _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
         	},
         	cancelpay(){
         		this.payshow=true;

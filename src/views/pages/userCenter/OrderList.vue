@@ -42,7 +42,7 @@
                 		<i class="cartIcon iconIcon-order"></i>
 						<div><h6>您还没有下过订单哦~</h6>
 							<router-link  to="/sort" >购物建议</router-link>
-							<router-link class="red" to="/sort" >去下单</router-link>
+							<router-link class="red" :to="{ path: '/sort',query:{keyword:''} }" >去下单</router-link>
 							</div>
 					</div>
                 	<Spin size="large" fix v-if="spinShow"></Spin>

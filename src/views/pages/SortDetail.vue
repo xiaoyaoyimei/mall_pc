@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="main-width clearfix mt50">
+		<div class="main-width clearfix pt50">
 			<div class="fl spec ">
 				<div class="big">
 					<div v-show="videoshow" style="width: 514px;height: 514px;">
@@ -786,6 +786,7 @@
 	}	
 	.iteminfo {
 		font-size: 15px;
+		width:640px;
 	}
 	
 	.iteminfo h1 {
@@ -799,6 +800,7 @@
 	}
 	
 	.summary dl {
+		overflow: hidden;
 		border-bottom: 1px solid #e5e5e5;
 		padding-top: 15px;
 		padding-bottom: 20px;
@@ -961,7 +963,6 @@
 		float: left;
 		cursor: pointer;
 	}
-	
 	.li-pro p,
 	.pro li p {
 		font-size: 14px;
@@ -975,6 +976,7 @@
 	.pro img,
 	{
 		max-width: 125px;
+		max-height: 125px;
 	}
 	
 	.li-pro span,
@@ -993,7 +995,12 @@
 	.icon-recadd {
 		margin: 0 20px;
 	}
-	
+		.icon-recadd,.pro {
+		float: left\9;
+	}
+	.icon-recadd{
+		margin-top: 30px;
+	}
 	.pro input {
 		margin-right: 5px;
 		position: relative;
@@ -1168,8 +1175,8 @@
 		text-align: center;
 	}
 	
-	.mt50 {
-		margin-top: 50px;
+	.pt50 {
+		padding-top: 50px;
 	}
 	
 	.color-sel img {

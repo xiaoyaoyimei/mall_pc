@@ -33,7 +33,7 @@
 			</ul>
 		</div>
 
-		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="add" :loading="loading" :mask-closable='false' style="width:600px;">
+		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="add" :loading="loading" :mask-closable='false' width="600">
             <Form :model="addForm" ref="addForm" label-position="left"  :rules="ruleValidate" style="padding: 15px;"> 
                 <FormItem label="" prop="person" class="mdalText">
                     <Input v-model="addForm.person"  placeholder="收货人" autocomplete="off"></Input>
@@ -50,7 +50,7 @@
             </Form>
 		</Modal>
 
-		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading" style="width:600px;" :mask-closable='false'>
+		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading" width="600" :mask-closable='false'>
 			<Form :model="editForm" ref="editForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
 				<FormItem label="" prop="person" class="mdalText">
                     <Input v-model="editForm.person" placeholder="收货人"></Input>
@@ -67,7 +67,7 @@
 			</Form>
 		</Modal>
 
-		<Modal ref='modalpwd' class="modalpwd" v-model="modalpwd" title="修改密码" @on-ok="handleOkpwd" :loading="loading" :mask-closable='false'>
+		<Modal ref='modalpwd' class="modalpwd" v-model="modalpwd" title="修改密码" @on-ok="handleOkpwd" :loading="loading" :mask-closable='false' width="600">
 			<Form ref="pwd" :model="pwd" :label-width="30" :rules="pwdValidate">
 				<FormItem label="" prop="newpass">
 					<i-input v-model="pwd.newpass" placeholder="请输入新密码" type="password"></i-input>
@@ -78,7 +78,7 @@
 			</Form>
 		</Modal>
 
-		<Modal ref='modalaccout' v-model="modalaccout" title="修改个人信息" @on-ok="handleOk" class="modalaccout clearfix" :loading="loading" :mask-closable='false'>
+		<Modal ref='modalaccout' v-model="modalaccout" title="修改个人信息" @on-ok="handleOk" class="modalaccout clearfix" :loading="loading" :mask-closable='false' width="600">
 			<Form ref="userinfo" :model="userinfo" :label-width="150">
 				<FormItem label="设置头像" class="conWrap">
 					<div class="user-con-wrap ">
@@ -745,9 +745,6 @@
     height: 90px;
     line-height: 90px;
     border-radius: 0px;
-}
-.ivu-modal{
-    width: 600px!important;
 }
 .ivu-modal-footer{
     height: 90px;

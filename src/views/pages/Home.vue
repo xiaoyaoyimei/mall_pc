@@ -107,7 +107,7 @@
 											<h5>{{officeproductone.model_no}}</h5>
 											<h6>{{officeproductone.describe1}}</h6>
 											<h6>{{officeproductone.describe2}}</h6>
-											<span>¥ {{officeproductone.price }}</span>
+											<span>¥ {{officeproductone.sale_price | pricefilter}}</span>
 										</div>
 									</router-link>
 								</li>
@@ -458,7 +458,7 @@
 	}
 	
 	.minipro li:nth-child(n+2) {
-		margin-left: 10px;
+		margin-left: 12px;
 	}
 	
 	.floor .title span {

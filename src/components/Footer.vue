@@ -1,8 +1,7 @@
 <template>
-	<div>
+	<div style="text-align: center;">
     <div class="newfooter">
 			<div class="main-width clearfix">
-
 				<ul class="fl icon-classes">
 					<li><i class="icon-new icon-qi"></i>7天无理由退货</li>
 					<li><i class="icon-new icon-express"></i>快速送达</li>

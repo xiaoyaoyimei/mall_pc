@@ -17,7 +17,7 @@
         <div class="myorderempty "  v-else >
 			<img src="../../../assets/img/like.png">
 			<div><h6>暂无喜欢记录,去挑选喜欢的商品吧~</h6>
-				<router-link  to="/sort" >去挑选</router-link>
+				<router-link  :to="{ path: '/sort',query:{keyword:''} }" >去挑选</router-link>
 			</div>
 		</div>
     </div>

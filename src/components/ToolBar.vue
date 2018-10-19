@@ -1,12 +1,18 @@
 <template>
 	<div class="toolbar">
 		<ul>
-			<router-link v-if="sfloging" to="/login" tag="li"><img src="../assets/img/nologin.png">  去登录</router-link>
-			<router-link v-else to="/user" tag="li" class="color-red"> <img src="../assets/img/yeslogin.png"> 个人中心</router-link>
+			<router-link v-if="sfloging" to="/login" tag="li">
+				<img src="../assets/img/nologin.png"> 
+				<span> 去登录</span></router-link>
+			<router-link v-else to="/user" tag="li" class="color-red">
+				<img src="../assets/img/yeslogin.png">
+				<span>个人中心</span> </router-link>
 			</li>
-			<router-link to="/cart" tag="li"><i class="icon-new icon-cart"></i>购物车</router-link>
+			<router-link to="/cart" tag="li"><i class="icon-new icon-cart"></i>
+			<span>购物车</span></router-link>
 			<li class="mt15" @click="goback()" v-show="searchBarFixed">
-				<i class="icon-new icon-back"></i>回到顶部
+				<i class="icon-new icon-back"></i>
+				<span>回到顶部</span>
 			</li>
 		</ul>
 	</div>
@@ -71,6 +77,7 @@
 	
 	.toolbar li {
 		width: 80px;
+		padding-top:15px;
 		height: 80px;
 		border: 1px solid #eee;
 		display: flex;
@@ -79,10 +86,16 @@
 		align-items: center;
 		background: #fff;
 		cursor: pointer;
+		text-align: center;
+		
 	}
 		.toolbar li img{
 			width:30px;
 			height: 30px;
+		}
+		.toolbar li i,.toolbar li img{
+			margin-left:25px\9;
+			display: block;
 		}
 	.detailtoolbar li {
 		background: #999;

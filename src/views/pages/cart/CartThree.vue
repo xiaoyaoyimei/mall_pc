@@ -128,16 +128,20 @@
                     });
             },
         	handleSubmit (name) {
-                this.$axios({
-				    method: 'post',
-				    url:'/order/'+name+'/'+this.$route.query.orderNo,
-				}).then((res)=>{
-                    //获取得到alipay信息
-                    console.log(res)
-					localStorage.setItem('alipay',res)
-					let routeData = this.$router.resolve({ name: '/gopay'});
- 			     	window.open(routeData.href, '_blank');
-			});
+        		let urlo=window.location.origin;
+                 window.location.href=urlo+'/mall/pc/order/alipay/'+this.$route.query.orderNo;
+//              this.$axios({
+//				    method: 'post',
+//				    url:'/order/'+name+'/'+this.$route.query.orderNo,
+//				}).then((res)=>{
+//                  //获取得到alipay信息
+//                  console.log(res)
+//                 
+//					localStorage.setItem('alipay',res)
+//					//this.$router.push({ name: '/gopay'});
+//					let routeData = this.$router.resolve({ name: '/gopay'});
+// 			     	window.open(routeData.href, '_blank');
+//			});
             },
         },
            mounted() {

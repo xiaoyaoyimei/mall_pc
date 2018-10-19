@@ -254,7 +254,7 @@
             secAdd(item){
             	 localStorage.setItem("secaddress",JSON.stringify(item))
             	 //运费
-            	 this.$router.push({name: '/secdetail',query:{skuId:this.$route.query.skuId,provice:item.receiveProvince}}) ;
+            	 this.$router.push({name: '/secdetail',query:{skuId:this.$route.query.skuId}}) ;
             }
 	      },
 	      mounted(){

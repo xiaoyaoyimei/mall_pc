@@ -9,7 +9,7 @@
 				<h6>立即秒杀</h6>
 				<ul class="search_list_wrap clearfix" >
 		            <li class="seckilllist"  v-for="(item, index) in startpro" :key='index'  >
-		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId,productId:item.product.id}  }" tag="a" >
+		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId}  }" >
 		                    	<img :src='item.productItem.listImg |imgfilter'>
 		                </router-link>
 		                <div  class="title">

@@ -3,7 +3,7 @@
 		<div class="nav Nav">
 			<div class="main-width clearfix">
 				<router-link  to="/index" class="logo fl navcart"><img   src="../../../assets/img/logo-red.png"></router-link>
-                <a href="#" class="fl mycart">我的购物车</a>
+                <span href="#" class="fl mycart">我的购物车</span>
                 <ul class="navCart">
                     <li><p class="cartIcon iconIcon-successorder"></p><p>成功提交订单</p></li>
                     <li><p class="cartIcon iconIcon-cart-order"></p><p>填写核对订单</p></li>

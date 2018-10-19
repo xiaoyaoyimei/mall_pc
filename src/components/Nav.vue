@@ -52,4 +52,7 @@
 	li .router-link-exact-active {
 		color: #FF0037
 	}
+	.nav .main-width{
+		overflow: hidden;
+	}
 </style>

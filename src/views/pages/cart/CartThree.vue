@@ -60,7 +60,7 @@
 				<span>微信支付</span>
 			</p>
 			<div>
-                <img src="../../../assets/img/wei.png" alt="">
+                <img :src="{verimg}" alt="">
                 <p>请使用 <span style="color:#f60;">微信</span> 扫一扫</p>
                 <p>二维码完成支付</p>
 			</div>
@@ -90,13 +90,11 @@
         methods:{
         	//切换num的值切换支付方式
         	toggletab(num){
-                // debugger
-        		// this.num=num;
-        		// if(num==1){
-                //         // let urlo=window.location.origin;
-                //       let  urlo = 'http://10.0.0.53:8080/';
-        		// 	this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
-                // }
+        		this.num=num;
+        		if(num==1){
+                         let urlo=window.location.origin;
+        			this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
+                }
                 this.weixinModal = true
         	},
         	wexinpaycheck(){
@@ -144,7 +142,8 @@
 				    method: 'post',
 				    url:'/order/'+name+'/'+this.$route.query.orderNo,
 				}).then((res)=>{
-					//获取得到alipay信息
+                    //获取得到alipay信息
+                    console.log(res)
 					localStorage.setItem('alipay',res)
 					let routeData = this.$router.resolve({ name: '/gopay'});
  			     	window.open(routeData.href, '_blank');

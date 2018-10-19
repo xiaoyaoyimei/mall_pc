@@ -18,9 +18,6 @@
 		                <div class="name">{{item.product.modelName}}</div>
 		                <div class="color-dx">开始:{{item.crush.startTime}}</div>
 		                <div>结束:{{item.crush.endTime}}</div>
-		                	<!--<div  class="fn">
-									距离结束:    {{item.djs}}	
-							</div>-->
 		                <div  class="sku_tag" v-if="item.promotionTitle !=null">{{item.promotionTitle}}</div> 
 		                  <div class="price">
 		                        <span class="origin">￥{{item.product.salePrice |pricefilter }}</span>
@@ -34,7 +31,7 @@
 				<h6>即将开始</h6>
 				<ul class="search_list_wrap clearfix" >
 		            <li  class="seckilllist" v-for="(item, index) in nostartpro" :key='index'  >
-		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId,productId:item.product.id}  }" tag="a" >
+		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId}  }" tag="a" >
 		                    	<img :src='item.productItem.listImg |imgfilter'>
 		                </router-link>
 		                <div  class="title">
@@ -122,7 +119,6 @@ export default {
 	color:#ff0000;
 }
 .nostart{
-	border-top:2px solid #333;
 	padding-top: 30px;
 	.fn{
 		color:#333;

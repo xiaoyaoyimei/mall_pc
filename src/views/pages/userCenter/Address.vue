@@ -253,7 +253,8 @@
             },
             secAdd(item){
             	 localStorage.setItem("secaddress",JSON.stringify(item))
-            	 this.$router.push({name: '/secdetail',query:{skuId:this.$route.query.skuId}}) ;
+            	 //运费
+            	 this.$router.push({name: '/secdetail',query:{skuId:this.$route.query.skuId,provice:item.receiveProvince}}) ;
             }
 	      },
 	      mounted(){

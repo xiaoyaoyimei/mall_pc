@@ -3,9 +3,9 @@
 		<div class="main-width clearfix mt50">
 			<div class="fl spec ">
 				<div class="big">
-					<div v-show="videoshow" style="width: 520px;height: 520px;">
-						<span class="guanbi" @click="close()">x</span>
-						<div class="youku" :id="shangp.product.video" style="width:100%;height:95%;"></div>
+					<div v-show="videoshow" style="width: 514px;height: 514px;">
+						<span class="guanbi" @click="close()"><Icon type="ios-close-circle-outline" /></span>
+						<div class="youku" :id="shangp.product.video" style="width:100%;height:100%;"></div>
 					</div>
 					<img v-show="!videoshow" :src="ImgUrl |imgfilter" style="width: 100%;height: 100%">
 					<img class="videoIcon" v-if='videoIcon' v-show="!videoshow" @click='getVideo(shangp.product.video)' src="../../assets/img/video.png"></div>
@@ -1184,30 +1184,25 @@
 		left: 10px;
 		bottom: 10px;
 		z-index: 2;
+		cursor: pointer;
 	}
 	
 	.youku {
 		width: 100%;
 		height: 95%;
 	}
-	
-	.guanbi {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		font-size: 19px;
-		height: 30px;
-		width: 30px;
-		cursor: pointer;
-		color: #fff;
-		background: #a0a0a0;
-		border-radius: 50%;
-		text-align: center;
-		font-family: sans-serif;
-	}
-	
 	.pro li a {
 		display: block;
 	}
+.guanbi {
+				position: absolute;
+    right: 0;
+    top: 0;
+	}
+	.guanbi i{
 
+    font-size: 25px;
+    cursor: pointer;
+    color: #000;
+	}
 </style>

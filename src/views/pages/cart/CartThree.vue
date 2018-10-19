@@ -43,28 +43,22 @@
                 <div class="paymethod">
                     <h4>选择以下支付方式付款</h4>
                     <div class="clearfix">
-                        <span class="cartIcon iconIcon-weixin" @click="toggletab(1)"></span>
+                        <span class="cartIcon iconIcon-weixin" @click="showweixin()"></span>
                         <span class="cartIcon iconIcon-zhifubao" @click="handleSubmit('alipay')"></span>
                     </div>
-
                 </div>
             </div>
-
         </div>
-
-        <Modal v-model="weixinModal" width="400" class="weixinModal" :mask-closable="false">
+      <Modal v-model="weixinModal" width="400" class="weixinModal" :mask-closable="false">
 			<p slot="header" style="text-align:left">
 				<Icon type="ios-information-circle"></Icon>
 				<span>微信支付</span>
 			</p>
 			<div>
-                    <div v-show=" 1 == num" >
-                		<img :src="verimg"/>
-                	</div>
+               <img :src="verimg"/>
                 <p>请使用 <span style="color:#f60;">微信</span> 扫一扫</p>
                 <p>二维码完成支付</p>
 			</div>
-
 		</Modal>
 	</div>
 </template>
@@ -75,7 +69,6 @@
             return {
             	payshow:false,
             	orderNo:this.$route.query.orderNo,
-            	num:0,
             	verimg:'',
             	pay:this.$axios.defaults.baseURL+'order/alipay/'+this.$route.query.orderNo,
                 t:'',
@@ -89,16 +82,10 @@
         },
         methods:{
         	//切换num的值切换支付方式
-        	toggletab(num){
-        		this.num=num;
-        		if(num==1){
-                    let urlo = 'https://shop.dxracer.cn'
-                       //  let urlo=window.location.origin;
+        	showweixin(){
+      		 		this.weixinModal = true
+                    let urlo=window.location.origin;
                     this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
-                    console.log(JSON.stringify(this.verimg))
-                }
-                console.log(JSON.stringify(this.verimg))
-                this.weixinModal = true
         	},
         	wexinpaycheck(){
         		var _this=this;

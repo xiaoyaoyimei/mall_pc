@@ -719,20 +719,4 @@
 	.ivu-checkbox+span {
 		display: none;
 	}
-	/* .cart1 .ivu-checkbox-indeterminate .ivu-checkbox-inner:after {
-    content: '';
-    display: table;
-    width: 4px;
-    height: 8px;
-    position: absolute;
-    top: 1px;
-    left: 4px;
-    border: 2px solid #fff;
-    border-top: 0;
-    border-left: 0;
-    -webkit-transform: rotate(45deg) scale(1);
-    transform: rotate(45deg) scale(1);
-    -webkit-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
-} */
 </style>

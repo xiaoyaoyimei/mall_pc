@@ -20,7 +20,7 @@
 				<div class="floor">
 					<div class="title">
 						<span>热销单品</span></div>
-					<ul class="clearfix one">
+					<ul class="clearfix one" v-show='rexiaoShow'>
 						<li class="seckill" v-if="seckillTime">
 							<router-link :to="{ path: '/seckill'}">
 							<h1>秒杀专场</h1>
@@ -34,7 +34,7 @@
 							</p>
 							</router-link>
 						</li>
-						<li v-for="(item, index) in hotitem" v-show="item.show" :key='index'><em>NEW</em>
+						<li v-for="(item, index) in hotitem" v-if="item.show" :key='index'><em>NEW</em>
 							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
 							 	<img :src="item.list.img_url | imgfilter" :ref="item.list.id">
 							<h6>{{item.list.model_no}}</h6>
@@ -260,6 +260,7 @@
 				min:0,
 				sec:0,
 				seckillTime:false,
+				rexiaoShow:false
 			};
 		},
 		computed: {
@@ -312,21 +313,51 @@
 				if(this.token != null) {
 					this.loginflag = false;
 				}
-				this.$axios({
-					    method: 'get',
-					    url:'/promotion/crush/',
-					}).then((res)=>{
-						if(res.code=='200'){
-							this.seckilllist = res.object;
-							if(this.seckilllist[0].switch=='0'){
-			            		this.jsqtime=this.seckilllist[0].crush["startTime"]
-			            	}
-			            	else{
-			                 	this.jsqtime = this.seckilllist[0].crush["endTime"];
-							 }
-			            	//计时器
-							 this.countdown();
-						}
+				let that = this
+				function run_a(){
+						return new Promise(function(resolve, reject){
+						that.$axios({
+								method: 'get',
+								url:'/promotion/crush/',
+							}).then((res)=>{
+								if(res.code=='200'){
+									that.seckilllist = res.object;
+									if(that.seckilllist[0].switch=='0'){
+										that.jsqtime=that.seckilllist[0].crush["startTime"]
+									}
+									else{
+										that.jsqtime = that.seckilllist[0].crush["endTime"];
+									}
+									//计时器
+									that.countdown();
+								}
+								resolve("run_a");
+							});
+						});
+					}
+					function run_b(){
+						return new Promise(function(resolve, reject){
+							that.$axios({
+									method: "GET",
+									url: "/index/hotitem"
+								}).then(res => {
+									if(res.code == "200") {
+										
+										that.hotitem = res.object;
+										for (let index = 0; index < that.hotitem.length; index++) {
+												that.hotitem[index].show = true
+										}
+									}
+									resolve("run_b");
+								});
+						});
+					}
+				
+					Promise.all([run_a(),run_b()]).then(function(){
+						setTimeout(() => {
+							that.rexiaoShow=true
+						}, 800);
+						
 					});
 				this.$axios({
 					method: "GET",
@@ -342,17 +373,6 @@
 				}).then(res => {
 					if(res.code == "200") {
 						this.basictype = res.object;
-					}
-				});
-				this.$axios({
-					method: "GET",
-					url: "/index/hotitem"
-				}).then(res => {
-					if(res.code == "200") {
-						this.hotitem = res.object;
-						for (let index = 0; index < this.hotitem.length; index++) {
-								this.hotitem[index].show = true
-						}
 					}
 				});
 				this.$axios({

@@ -1,5 +1,5 @@
 <template>
-	<div style="padding:40px;">
+	<div  style="padding:40px;">
 		<div class="myaccountImg">
 			<img :src="userinfo.iconUrl | imgfilter" alt="">
 			<div>
@@ -33,7 +33,7 @@
 			</ul>
 		</div>
 
-		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="add" :loading="loading" :mask-closable='false' style="width:600px;">
+		<Modal v-model="modaladdr" class="Myinfo" title="新增收货地址" @on-ok="add" :loading="loading" :mask-closable='false' style="width:600px;">
             <Form :model="addForm" ref="addForm" label-position="left"  :rules="ruleValidate" style="padding: 15px;"> 
                 <FormItem label="" prop="person" class="mdalText">
                     <Input v-model="addForm.person"  placeholder="收货人" autocomplete="off"></Input>
@@ -50,7 +50,7 @@
             </Form>
 		</Modal>
 
-		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading" style="width:600px;" :mask-closable='false'>
+		<Modal ref='modaleditaddr' v-model="modaleditaddr" class="Myinfo" title="编辑收货地址" @on-ok="editaddr" :loading="loading" style="width:600px;" :mask-closable='false'>
 			<Form :model="editForm" ref="editForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
 				<FormItem label="" prop="person" class="mdalText">
                     <Input v-model="editForm.person" placeholder="收货人"></Input>
@@ -67,7 +67,7 @@
 			</Form>
 		</Modal>
 
-		<Modal ref='modalpwd' class="modalpwd" v-model="modalpwd" title="修改密码" @on-ok="handleOkpwd" :loading="loading" :mask-closable='false'>
+		<Modal ref='modalpwd' class="modalpwd Myinfo" v-model="modalpwd" title="修改密码" @on-ok="handleOkpwd" :loading="loading" :mask-closable='false'>
 			<Form ref="pwd" :model="pwd" :label-width="30" :rules="pwdValidate">
 				<FormItem label="" prop="newpass">
 					<i-input v-model="pwd.newpass" placeholder="请输入新密码" type="password"></i-input>
@@ -78,7 +78,7 @@
 			</Form>
 		</Modal>
 
-		<Modal ref='modalaccout' v-model="modalaccout" title="修改个人信息" @on-ok="handleOk" class="modalaccout clearfix" :loading="loading" :mask-closable='false'>
+		<Modal ref='modalaccout' v-model="modalaccout" title="修改个人信息" @on-ok="handleOk" class="modalaccout clearfix Myinfo" :loading="loading" :mask-closable='false'>
 			<Form ref="userinfo" :model="userinfo" :label-width="150">
 				<FormItem label="设置头像" class="conWrap">
 					<div class="user-con-wrap ">
@@ -116,7 +116,7 @@
 
 			</Form>
 		</Modal>
-		<modal title="查看 头像大图" v-model="visible">
+		<modal title="查看 头像大图" class="Myinfo"  v-model="visible">
 			<img :src="bigimg | imgfilter" v-if="visible" style="width: 100%">
 		</modal>
 	</div>
@@ -715,7 +715,7 @@
 	}
 </style>
 <style>
-.ivu-modal-header-inner{
+ .Myinfo .ivu-modal-header-inner{
     font-size: 18px;
     font-weight: 400;
     color: #000000;
@@ -724,18 +724,18 @@
     line-height: 60px;
 
 }
-.ivu-modal-close .ivu-icon-ios-close-empty{
+ .Myinfo .ivu-modal-close .ivu-icon-ios-close-empty{
     color: #000000;
     font-weight: 900;
 }
-.ivu-modal-header {
+.Myinfo .ivu-modal-header {
     height:60px;
     line-height: 60px;
     width: 100%;
     background-color: #F2F2F2;
     padding: 0px;
 }
-.ivu-input{
+.Myinfo .ivu-input{
     height: 45px;
     line-height: 45px;
     border: 1px solid #cccccc;
@@ -746,17 +746,18 @@
     line-height: 90px;
     border-radius: 0px;
 }
-.ivu-modal{
-    width: 600px!important;
+
+.Myinfo .ivu-modal{
+    width: 600px !important;
 }
-.ivu-modal-footer{
+.Myinfo .ivu-modal-footer{
     height: 90px;
     background-color: #F2F2F2;
     padding: 0px 25px;
     width: 100%;
     text-align: center;
 }
-.ivu-btn-text{
+.Myinfo .ivu-btn-text{
     margin-top: 20px;
     margin-right: 15px;
     padding: 10px 50px;
@@ -765,7 +766,7 @@
     background-color: #888888;
     border-radius: 0px;
 }
-.ivu-btn-primary{
+.Myinfo .ivu-btn-primary{
     background-color: #ff0000;
     margin-top: 20px;
     margin-right: 15px;
@@ -778,7 +779,7 @@
 	display: none;
 }
 
-.modalaccout .ivu-modal-close{
+ .modalaccout .ivu-modal-close{
 	width: 34px;
 	height: 33px;
 	font-weight: 700;

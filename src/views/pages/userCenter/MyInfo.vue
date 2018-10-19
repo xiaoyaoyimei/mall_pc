@@ -1,5 +1,5 @@
 <template>
-	<div style="padding:40px;">
+	<div  style="padding:40px;">
 		<div class="myaccountImg">
 			<img :src="userinfo.iconUrl | imgfilter" alt="">
 			<div>
@@ -116,7 +116,7 @@
 
 			</Form>
 		</Modal>
-		<modal title="查看 头像大图" v-model="visible">
+		<modal title="查看 头像大图" class="Myinfo"  v-model="visible">
 			<img :src="bigimg | imgfilter" v-if="visible" style="width: 100%">
 		</modal>
 	</div>
@@ -715,7 +715,7 @@
 	}
 </style>
 <style>
-.ivu-modal-header-inner{
+ .Myinfo .ivu-modal-header-inner{
     font-size: 18px;
     font-weight: 400;
     color: #000000;
@@ -724,18 +724,18 @@
     line-height: 60px;
 
 }
-.ivu-modal-close .ivu-icon-ios-close-empty{
+ .Myinfo .ivu-modal-close .ivu-icon-ios-close-empty{
     color: #000000;
     font-weight: 900;
 }
-.ivu-modal-header {
+.Myinfo .ivu-modal-header {
     height:60px;
     line-height: 60px;
     width: 100%;
     background-color: #F2F2F2;
     padding: 0px;
 }
-.ivu-input{
+.Myinfo .ivu-input{
     height: 45px;
     line-height: 45px;
     border: 1px solid #cccccc;
@@ -746,14 +746,15 @@
     line-height: 90px;
     border-radius: 0px;
 }
-.ivu-modal-footer{
+
+.Myinfo .ivu-modal-footer{
     height: 90px;
     background-color: #F2F2F2;
     padding: 0px 25px;
     width: 100%;
     text-align: center;
 }
-.ivu-btn-text{
+.Myinfo .ivu-btn-text{
     margin-top: 20px;
     margin-right: 15px;
     padding: 10px 50px;
@@ -762,7 +763,7 @@
     background-color: #888888;
     border-radius: 0px;
 }
-.ivu-btn-primary{
+.Myinfo .ivu-btn-primary{
     background-color: #ff0000;
     margin-top: 20px;
     margin-right: 15px;
@@ -775,7 +776,7 @@
 	display: none;
 }
 
-.modalaccout .ivu-modal-close{
+ .modalaccout .ivu-modal-close{
 	width: 34px;
 	height: 33px;
 	font-weight: 700;

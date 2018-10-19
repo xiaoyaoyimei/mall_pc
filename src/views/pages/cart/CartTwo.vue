@@ -43,7 +43,7 @@
 				</div>
 				<div class="placeorderTable">
 					<div class="placeorderTitle clearfix">
-						<h5>商品及优惠卷</h5>
+						<h5>商品及优惠码</h5>
 						<router-link to="/cart">返回购物车 &gt;</router-link>
 					</div>
 					<table class="placeorderBody">

@@ -99,7 +99,7 @@
 												//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  
 													store.commit('LOGIN',{token:data.object["token"],userId:data.object["userId"]});
 													
-											    	 _this.$router.go( '-1' );
+											    	 _this.$router.push( '/index' );
 											    	 }
 												
 									}).catch(error => {  

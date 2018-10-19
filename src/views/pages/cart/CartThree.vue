@@ -46,9 +46,7 @@
                         <span class="cartIcon iconIcon-weixin" @click="toggletab(1)"></span>
                         <span class="cartIcon iconIcon-zhifubao" @click="handleSubmit('alipay')"></span>
                     </div>
-                    <div v-show=" 1 == num" >
-                		<img :src="verimg"/>
-                	</div>
+
                 </div>
             </div>
 
@@ -60,7 +58,9 @@
 				<span>微信支付</span>
 			</p>
 			<div>
-                <img :src="{verimg}" alt="">
+                    <div v-show=" 1 == num" >
+                		<img :src="verimg"/>
+                	</div>
                 <p>请使用 <span style="color:#f60;">微信</span> 扫一扫</p>
                 <p>二维码完成支付</p>
 			</div>
@@ -92,9 +92,12 @@
         	toggletab(num){
         		this.num=num;
         		if(num==1){
-                         let urlo=window.location.origin;
-        			this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
+                    let urlo = 'https://shop.dxracer.cn'
+                       //  let urlo=window.location.origin;
+                    this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
+                    console.log(JSON.stringify(this.verimg))
                 }
+                console.log(JSON.stringify(this.verimg))
                 this.weixinModal = true
         	},
         	wexinpaycheck(){

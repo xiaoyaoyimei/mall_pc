@@ -342,7 +342,12 @@
 										
 										that.hotitem = res.object;
 										for (let index = 0; index < that.hotitem.length; index++) {
+											if(index<3){
 												that.hotitem[index].show = true
+											}else{
+												that.hotitem[index].show = false
+											}
+												
 										}
 									}
 									resolve("run_b");

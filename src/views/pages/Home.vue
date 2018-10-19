@@ -1,4 +1,5 @@
-45<template>
+45
+<template>
 	<div class="homepage">
 		<div class="side_nav_wrap clear" style="">
 			<div class="main-wdith">
@@ -10,11 +11,11 @@
 					</CarouselItem>
 				</Carousel>
 				<ul class="minipro clearfix">
-					<li v-for="(item, index) in basictype"  :key='index'>
-						<router-link   :to="{ path: '/sort',query:{catalogId:item.list.id,catalog:item.list.catalog}}">
-						<img :src="item.list.img_url |imgfilter">
-						<span class="normol">{{item.list.type_name}}</span>
-					</router-link>
+					<li v-for="(item, index) in basictype" :key='index'>
+						<router-link :to="{ path: '/sort',query:{catalogId:item.list.id,catalog:item.list.catalog}}">
+							<img :src="item.list.img_url |imgfilter">
+							<span class="normol">{{item.list.type_name}}</span>
+						</router-link>
 					</li>
 				</ul>
 				<div class="floor">
@@ -23,29 +24,29 @@
 					<ul class="clearfix one">
 						<li class="seckill" v-if="seckillTime">
 							<router-link :to="{ path: '/seckill'}">
-							<h1>秒杀专场</h1>
-							<img src="../../assets/img/u9.png" alt="">
-							<p v-if="this.seckilllist[0].switch == '1'">距离结束还有:</p>
-							<p v-else>距离开始还有：</p>
-							<p style="margin-top:12px;">
-								<span>{{hr}}</span>:
-								<span>{{min}}</span> :
-								<span>{{sec}}</span>
-							</p>
+								<h1>秒杀专场</h1>
+								<img src="../../assets/img/u9.png" alt="">
+								<p v-if="this.seckilllist[0].switch == '1'">距离结束还有:</p>
+								<p v-else>距离开始还有：</p>
+								<p style="margin-top:12px;">
+									<span>{{hr}}</span>:
+									<span>{{min}}</span> :
+									<span>{{sec}}</span>
+								</p>
 							</router-link>
 						</li>
-						<li v-for="(item, index) in hotitem" v-show="item.show" :key='index'><em>NEW</em>
-							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
-							 	<img :src="item.list.img_url | imgfilter" :ref="item.list.id">
-							<h6>{{item.list.model_no}}</h6>
-							<p>{{item.list.describe1}}</p>
-							<span class="color-newred">￥{{item.list.sale_price|pricefilter}}</span>
+						<li v-for="(item, index) in hotitem" :key='index' v-if="seckillTime ? index<3 :index<4"><em>NEW</em>
+							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }">
+								<img :src="item.list.img_url | imgfilter" :ref="item.list.id">
+								<h6>{{item.list.model_no}}</h6>
+								<p>{{item.list.describe1}}</p>
+								<span class="color-newred">￥{{item.list.sale_price|pricefilter}}</span>
 							</router-link>
 							<div class="mn">
 								<div class="mn-wrap">
-									<div v-for="(child,index) in item.image" @click="switchimg($event,child.listImg,item.list.id)" v-show="child.smallImg!=''"> 
-										<img :src="child.smallImg | imgfilter"  >
-										</div>
+									<div v-for="(child,index) in item.image" @click="switchimg($event,child.listImg,item.list.id)" v-show="child.smallImg!=''">
+										<img :src="child.smallImg | imgfilter">
+									</div>
 								</div>
 							</div>
 						</li>
@@ -56,31 +57,31 @@
 				<div class="main-width">
 					<div class="floor">
 						<div class="title">
-							<div class="seemore fr" > 
-							 <router-link :to="{ path: '/sort',query:{keyword:'电竞'} }" >	查看更多
-							<i class="icon-new icon-more" ></i>
-							 </router-link>
+							<div class="seemore fr">
+								<router-link :to="{ path: '/sort',query:{keyword:'电竞'} }"> 查看更多
+									<i class="icon-new icon-more"></i>
+								</router-link>
 							</div>
 							<span>电竞</span></div>
 						<div class="two clearfix">
 							<div class="ad-wrap fl">
-										 <router-link :to="{ path: '/sort/sortDetail',query:{id:gameproductone.product_id} }" ><img :src="gameproductone.img_url |imgfilter">
+								<router-link :to="{ path: '/sort/sortDetail',query:{id:gameproductone.product_id} }"><img :src="gameproductone.img_url |imgfilter">
 									<div class="ad ">
 										<h5>{{gameproductone.model_no}}</h5>
 										<h6>{{gameproductone.describe1}}</h6>
 										<h6>{{gameproductone.describe2}}</h6>
 										<span>¥ {{gameproductone.sale_price }}</span>
 									</div>
-											</router-link>
+								</router-link>
 							</div>
 							<ul class="clearfix fl w896 ml13">
 								<li v-for="(item, index) in gameproduct" :key='index' v-if="index>0">
-									 <router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
-									 	<img :src="item.list.img_url  |imgfilter" :ref="item.list.id">
-									<h6>{{item.list.model_no}}</h6>
-									<p>{{item.list.describe1}}</p>
-									<span class="color-newred">¥ {{item.list.sale_price|pricefilter}}</span>
-											</router-link>
+									<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }">
+										<img :src="item.list.img_url  |imgfilter" :ref="item.list.id">
+										<h6>{{item.list.model_no}}</h6>
+										<p>{{item.list.describe1}}</p>
+										<span class="color-newred">¥ {{item.list.sale_price|pricefilter}}</span>
+									</router-link>
 									<div class="mn">
 										<div class="mn-wrap">
 											<div v-for="(child,index) in item.image" @click="switchimg($event,child.listImg,item.list.id)">
@@ -91,16 +92,16 @@
 							</ul>
 						</div>
 						<div class="title">
-							<div class="seemore fr" >
-								<router-link :to="{ path: '/sort',query:{keyword:'办公'} }" > 查看更多
-											<i   class="icon-new icon-more" ></i>
+							<div class="seemore fr">
+								<router-link :to="{ path: '/sort',query:{keyword:'办公'} }"> 查看更多
+									<i class="icon-new icon-more"></i>
 								</router-link>
 							</div>
 							<span>办公</span></div>
 						<div class=" three clearfix">
 							<ul class=" fl  office">
 								<li class="w594">
-										 <router-link :to="{ path: '/sort/sortDetail',query:{id:officeproductone.product_id} }" >
+									<router-link :to="{ path: '/sort/sortDetail',query:{id:officeproductone.product_id} }">
 										<img :src="officeproductone.img_url |imgfilter">
 										<div class="ad ">
 											<h5>{{officeproductone.model_no}}</h5>
@@ -108,15 +109,15 @@
 											<h6>{{officeproductone.describe2}}</h6>
 											<span>¥ {{officeproductone.price }}</span>
 										</div>
-										</router-link>
+									</router-link>
 								</li>
 								<li v-for="(item, index) in officeproduct" :key='index' v-if="index>0">
-									 <router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
-									<img :src="item.list.img_url  |imgfilter" :ref="item.list.id">
-									<h6>{{item.list.model_no}}</h6>
-									<p>{{item.list.describe1}}</p>
-									<span class="color-newred">¥ {{item.list.sale_price|pricefilter}}</span>
-											</router-link>
+									<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }">
+										<img :src="item.list.img_url  |imgfilter" :ref="item.list.id">
+										<h6>{{item.list.model_no}}</h6>
+										<p>{{item.list.describe1}}</p>
+										<span class="color-newred">¥ {{item.list.sale_price|pricefilter}}</span>
+									</router-link>
 									<div class="mn">
 										<div class="mn-wrap">
 											<div v-for="(child,index) in item.image" @click="switchimg($event,child.listImg,item.list.id)">
@@ -127,16 +128,16 @@
 							</ul>
 						</div>
 						<div class="title">
-							<div class="seemore fr" >
-								<router-link :to="{ path: '/sort',query:{keyword:'家居'} }" > 查看更多
-											<i   class="icon-new icon-more" ></i>
+							<div class="seemore fr">
+								<router-link :to="{ path: '/sort',query:{keyword:'家居'} }"> 查看更多
+									<i class="icon-new icon-more"></i>
 								</router-link>
 							</div>
-						<span>家居</span></div>
-									<div class=" three clearfix">
+							<span>家居</span></div>
+						<div class=" three clearfix">
 							<ul class=" fl  office">
 								<li class="w594">
-									<router-link :to="{ path: '/sort/sortDetail',query:{id:houseproductone.product_id} }" >
+									<router-link :to="{ path: '/sort/sortDetail',query:{id:houseproductone.product_id} }">
 										<img :src="houseproductone.img_url | imgfilter">
 										<div class="ad ">
 											<h5>{{houseproductone.model_no}}</h5>
@@ -144,14 +145,14 @@
 											<h6>{{houseproductone.describe2}}</h6>
 											<span>¥ {{houseproductone.sale_price | pricefilter}}</span>
 										</div>
-										</router-link>
+									</router-link>
 								</li>
 								<li v-for="(item, index) in houseproduct" :key='index' v-if="index>0">
-									 <router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
-									<img :src="item.list.img_url  |imgfilter" :ref="item.list.id">
-									<h6>{{item.list.model_no}}</h6>
-									<p>{{item.list.describe1}}</p>
-									<span class="color-newred">¥ {{item.list.sale_price|pricefilter}}</span>
+									<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }">
+										<img :src="item.list.img_url  |imgfilter" :ref="item.list.id">
+										<h6>{{item.list.model_no}}</h6>
+										<p>{{item.list.describe1}}</p>
+										<span class="color-newred">¥ {{item.list.sale_price|pricefilter}}</span>
 									</router-link>
 									<div class="mn">
 										<div class="mn-wrap">
@@ -162,60 +163,60 @@
 							</ul>
 						</div>
 						<div class="title">
-						<span>电竞桌</span></div>
+							<span>电竞桌</span></div>
 						<div class="floorad clearfix">
-						<div class="fl bg-white ad-wrap" v-for="(item, index) in tableproduct" :key='index' >
-							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
-								<img :src="item.list.img_url  |imgfilter" class="zhuozi">
-							<div class="ad">
-								<h5>{{item.list.model_no}}</h5>
-								<p>{{item.list.describe1}}</p>
-								<span class="color-newred">¥{{item.list.sale_price}}</span></div>
-										</router-link>
-						   </div>
-						   
-						<div class="fr bg-darkgray text-center forward">
-							<h4>DXRACER二代电竞桌</h4>
-							<h3>敬请期待</h3></div>
-					</div>
-					<div class="title">
-						<span>游戏座舱</span></div>
-						<div class="floorad clearfix">
-						<div class="fl bg-white ad-wrap yxzc" v-for="(item, index) in cockpitproduct" :key='index'>
-								<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
-							<img :src="item.list.img_url  |imgfilter" class="zhuozi">
-							<div class="ad">
-								<h5>{{item.list.model_no}}</h5>
-								<p>{{item.list.describe1}}</p>
-								<span class="color-newred">¥ {{item.list.sale_price|pricefilter}}</span></div>
-							</router-link>
-						</div>
-					</div>
-					<div class="title">
-								<div class="seemore fr" >
-								<router-link :to="{ path: '/sort',query:{keyword:'座椅周边'} }" > 查看更多
-											<i   class="icon-new icon-more" ></i>
+							<div class="fl bg-white ad-wrap" v-for="(item, index) in tableproduct" :key='index'>
+								<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }">
+									<img :src="item.list.img_url  |imgfilter" class="zhuozi">
+									<div class="ad">
+										<h5>{{item.list.model_no}}</h5>
+										<p>{{item.list.describe1}}</p>
+										<span class="color-newred">¥{{item.list.sale_price}}</span></div>
 								</router-link>
 							</div>
-						<span>座椅周边</span></div>
-					
-					<ul class="clearfix bgli-white mb105">
-						<li  v-for="(item, index) in peripheryproduct" :key='index'>
-							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
-							<img :src="item.list.img_url  |imgfilter" :ref="item.list.id">
-							<h6>{{item.list.model_no}}</h6>
-							<p>{{item.list.describe1}}</p>
-							<span class="color-newred">¥ {{item.list.sale_price|pricefilter}}</span>
-							</router-link>
-								<div class="mn">
-										<div class="mn-wrap">
-											<div v-for="(child,index) in item.image" @click="switchimg($event,child.listImg,item.list.id)"><img :src="child.smallImg | imgfilter"></div>
-										</div>
-									</div>
-						</li>
 
-					</ul>
-				</div>
+							<div class="fr bg-darkgray text-center forward">
+								<h4>DXRACER二代电竞桌</h4>
+								<h3>敬请期待</h3></div>
+						</div>
+						<div class="title">
+							<span>游戏座舱</span></div>
+						<div class="floorad clearfix">
+							<div class="fl bg-white ad-wrap yxzc" v-for="(item, index) in cockpitproduct" :key='index'>
+								<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }">
+									<img :src="item.list.img_url  |imgfilter" class="zhuozi">
+									<div class="ad">
+										<h5>{{item.list.model_no}}</h5>
+										<p>{{item.list.describe1}}</p>
+										<span class="color-newred">¥ {{item.list.sale_price|pricefilter}}</span></div>
+								</router-link>
+							</div>
+						</div>
+						<div class="title">
+							<div class="seemore fr">
+								<router-link :to="{ path: '/sort',query:{keyword:'座椅周边'} }"> 查看更多
+									<i class="icon-new icon-more"></i>
+								</router-link>
+							</div>
+							<span>座椅周边</span></div>
+
+						<ul class="clearfix bgli-white mb105">
+							<li v-for="(item, index) in peripheryproduct" :key='index'>
+								<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }">
+									<img :src="item.list.img_url  |imgfilter" :ref="item.list.id">
+									<h6>{{item.list.model_no}}</h6>
+									<p>{{item.list.describe1}}</p>
+									<span class="color-newred">¥ {{item.list.sale_price|pricefilter}}</span>
+								</router-link>
+								<div class="mn">
+									<div class="mn-wrap">
+										<div v-for="(child,index) in item.image" @click="switchimg($event,child.listImg,item.list.id)"><img :src="child.smallImg | imgfilter"></div>
+									</div>
+								</div>
+							</li>
+
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -244,22 +245,22 @@
 				gameproductone: {},
 				officeproduct: [],
 				officeproductone: {},
-				houseproduct:[],
-				houseproductone:{},
+				houseproduct: [],
+				houseproductone: {},
 				type: [],
 				basictype: [],
-				tableproduct:[],
-				cockpitproduct:[],
-				peripheryproduct:[],
-				toolbarNologin:{},//侧边栏个人中心是否登录
-				seckill:false,
-				seckilllist:'',
-				jsqtime:'',
-				day:'',
-				hr:'',
-				min:0,
-				sec:0,
-				seckillTime:false,
+				tableproduct: [],
+				cockpitproduct: [],
+				peripheryproduct: [],
+				toolbarNologin: {}, //侧边栏个人中心是否登录
+				seckill: false,
+				seckilllist: '',
+				jsqtime: '',
+				day: '',
+				hr: '',
+				min: 0,
+				sec: 0,
+				seckillTime: false,
 			};
 		},
 		computed: {
@@ -275,59 +276,64 @@
 			}
 		},
 		methods: {
-			countdown: function () {
-                const end = Date.parse(new Date(this.jsqtime));
-                const now = Date.parse(new Date());
-                const msec = end - now;
-                //当秒杀开始时
-                if(msec==0){
-                	this.detail.switch=1;
-                	this.jsqtime = this.detail.crush["endTime"];
-                }
-                let day = parseInt(msec / 1000 / 60 / 60 / 24);
-                let hr = parseInt(msec / 1000 / 60 / 60 % 24);
-                let min = parseInt(msec / 1000 / 60 % 60);
-                let sec = parseInt(msec / 1000 % 60);
-				this.day = day;
-				hr = day*24 + hr;
-				if(this.hotitem.length>1){
-					if(this.day<3){
-						this.seckillTime =true	
-						this.hotitem[3].show = false 
-					}else{
-						this.seckillTime =false
-						this.hotitem[3].show = true
-					}
+			countdown: function() {
+				const end = Date.parse(new Date(this.jsqtime));
+				const now = Date.parse(new Date());
+				const msec = end - now;
+				//当秒杀开始时
+				if(msec == 0) {
+					this.detail.switch = 1;
+					this.jsqtime = this.detail.crush["endTime"];
 				}
-                this.hr = hr > 9 ? hr : '0' + hr;
-                this.min = min > 9 ? min : '0' + min;
-                this.sec = sec > 9 ? sec : '0' + sec;
-                let self=this;
-                  this.t= setTimeout(() => {
-                                self.countdown();
-                        }, 	1000);
-               },
+				let day = parseInt(msec / 1000 / 60 / 60 / 24);
+				let hr = parseInt(msec / 1000 / 60 / 60 % 24);
+				let min = parseInt(msec / 1000 / 60 % 60);
+				let sec = parseInt(msec / 1000 % 60);
+				this.day = day;
+				hr = day * 24 + hr;
+				if(this.day < 3) {
+						this.seckillTime = true
+					} else {
+						this.seckillTime = false
+				}
+				this.hr = hr > 9 ? hr : '0' + hr;
+				this.min = min > 9 ? min : '0' + min;
+				this.sec = sec > 9 ? sec : '0' + sec;
+				let self = this;
+				this.t = setTimeout(() => {
+					self.countdown();
+				}, 1000);
+			},
 			getBanner() {
 				//判断是否已经登录
 				if(this.token != null) {
 					this.loginflag = false;
 				}
+				//获取秒杀
 				this.$axios({
-					    method: 'get',
-					    url:'/promotion/crush/',
-					}).then((res)=>{
-						if(res.code=='200'){
-							this.seckilllist = res.object;
-							if(this.seckilllist[0].switch=='0'){
-			            		this.jsqtime=this.seckilllist[0].crush["startTime"]
-			            	}
-			            	else{
-			                 	this.jsqtime = this.seckilllist[0].crush["endTime"];
-							 }
-			            	//计时器
-							 this.countdown();
+					method: 'get',
+					url: '/promotion/crush/',
+				}).then((res) => {
+					if(res.code == '200') {
+						this.seckilllist = res.object;
+						if(this.seckilllist[0].switch == '0') {
+							this.jsqtime = this.seckilllist[0].crush["startTime"]
+						} else {
+							this.jsqtime = this.seckilllist[0].crush["endTime"];
 						}
-					});
+						//计时器
+						this.countdown()
+							this.$axios({
+								method: "GET",
+								url: "/index/hotitem"
+							}).then(res => {
+								if(res.code == "200") {
+									this.hotitem = res.object;
+								}
+							});
+
+					}
+				});
 				this.$axios({
 					method: "GET",
 					url: "/index/poster"
@@ -344,24 +350,14 @@
 						this.basictype = res.object;
 					}
 				});
-				this.$axios({
-					method: "GET",
-					url: "/index/hotitem"
-				}).then(res => {
-					if(res.code == "200") {
-						this.hotitem = res.object;
-						for (let index = 0; index < this.hotitem.length; index++) {
-								this.hotitem[index].show = true
-						}
-					}
-				});
+
 				this.$axios({
 					method: 'GET',
 					url: '/index/gameproduct',
 				}).then((res) => {
 					if(res.code == '200') {
 						this.gameproduct = res.object;
-						if(this.gameproduct.length>0){
+						if(this.gameproduct.length > 0) {
 							this.gameproductone = this.gameproduct[0].list;
 						}
 					}
@@ -372,7 +368,7 @@
 				}).then((res) => {
 					if(res.code == '200') {
 						this.officeproduct = res.object;
-						if(this.officeproduct.length>0){
+						if(this.officeproduct.length > 0) {
 							this.officeproductone = this.officeproduct[0].list;
 						}
 					}
@@ -383,7 +379,7 @@
 				}).then((res) => {
 					if(res.code == '200') {
 						this.houseproduct = res.object;
-						if(this.houseproduct.length>0){
+						if(this.houseproduct.length > 0) {
 							this.houseproductone = this.houseproduct[0].list;
 						}
 					}
@@ -414,13 +410,13 @@
 				});
 
 			},
-			switchimg(e,listImg,imgid){
-				this.$refs[imgid][0].src=this.global_.imgurl+listImg;
+			switchimg(e, listImg, imgid) {
+				this.$refs[imgid][0].src = this.global_.imgurl + listImg;
 			}
 		},
-		destroyed () {
-            clearTimeout(this.t)
-          },
+		destroyed() {
+			clearTimeout(this.t)
+		},
 		mounted() {
 			this.getBanner();
 
@@ -429,12 +425,14 @@
 </script>
 
 <style lang="scss" scoped="scoped">
-.yxzc:nth-child(1){
-	margin-right: 10px;
-}
+	.yxzc:nth-child(1) {
+		margin-right: 10px;
+	}
+	
 	.w896 {
 		width: 896px;
 	}
+	
 	.minipro {
 		margin-top: 10px;
 	}
@@ -444,7 +442,6 @@
 	.forward:hover {
 		opacity: 0.8;
 	}
-	
 	
 	.minipro li {
 		float: left;
@@ -459,6 +456,7 @@
 		top: 35px;
 		left: 40px;
 	}
+	
 	.minipro li:nth-child(n+2) {
 		margin-left: 10px;
 	}
@@ -477,19 +475,20 @@
 		margin-left: 10px;
 	}
 	
-	
-	.seemore a{
+	.seemore a {
 		font-size: 18px;
 		color: #000;
 		cursor: pointer;
 	}
 	
-	.seemore:hover a{
+	.seemore:hover a {
 		color: #FF0037;
 	}
-	.seemore:hover i{
-	 background-position: -172px 1px;
+	
+	.seemore:hover i {
+		background-position: -172px 1px;
 	}
+	
 	.ad-wrap {
 		position: relative;
 		cursor: pointer;
@@ -523,9 +522,11 @@
 	.two li {
 		margin-left: 10px;
 	}
-	.two li{
-			background: #fff;
+	
+	.two li {
+		background: #fff;
 	}
+	
 	.two li:nth-child(3n+1) {
 		margin-left: 0;
 	}
@@ -570,7 +571,6 @@
 	.floorad h5 {
 		color: #111;
 	}
-	
 	
 	.floorad .ad {
 		top: 30px;
@@ -633,6 +633,7 @@
 		margin-right: 5px;
 		margin-bottom: 5px;
 	}
+	
 	.mn-wrap img {
 		width: 40px;
 		height: 40px;
@@ -648,26 +649,31 @@
 	.office li:nth-child(4) {
 		margin-left: 0;
 	}
-	.seckill{
+	
+	.seckill {
 		padding: 63px 25px 43px;
 	}
-	.seckill h1{
+	
+	.seckill h1 {
 		font-weight: 400;
 		font-size: 30px;
 		text-align: center;
 		color: #333333;
 	}
-	.seckill img{
+	
+	.seckill img {
 		margin: 36px 0px 31px;
 	}
-	.seckill p{
+	
+	.seckill p {
 		font-weight: 400;
 		font-size: 18px;
 		color: #999999;
 		text-align: center;
 		margin: 0px;
 	}
-	.seckill span{
+	
+	.seckill span {
 		display: inline-block;
 		line-height: 50px;
 		width: 50px;

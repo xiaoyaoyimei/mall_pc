@@ -48,10 +48,8 @@
                     </div>
                 </div>
             </div>
- <img :src="verimg"/>
         </div>
-
-        <!--<Modal v-model="weixinModal" width="400" class="weixinModal" :mask-closable="false">
+      <Modal v-model="weixinModal" width="400" class="weixinModal" :mask-closable="false">
 			<p slot="header" style="text-align:left">
 				<Icon type="ios-information-circle"></Icon>
 				<span>微信支付</span>
@@ -61,8 +59,7 @@
                 <p>请使用 <span style="color:#f60;">微信</span> 扫一扫</p>
                 <p>二维码完成支付</p>
 			</div>
-
-		</Modal>-->
+		</Modal>
 	</div>
 </template>
 
@@ -86,16 +83,9 @@
         methods:{
         	//切换num的值切换支付方式
         	showweixin(){
-        		      		   	this.$axios({
-						   	 method: 'get',
-							    url:'/order/weixin/'+this.$route.query.orderNo,
-							}).then((file)=>{
-							  this.verimg=file;
-							});
-//                   let urlo=window.location.origin;
-//                  //let  urlo = 'https://shop.dxracer.cn/mall/pc';
-//        		 	this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
-//                  this.weixinModal = true
+      		 		this.weixinModal = true
+                    let urlo=window.location.origin;
+                    this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
         	},
         	wexinpaycheck(){
         		var _this=this;
@@ -108,7 +98,7 @@
 									_this.$router.push({ name:'/order/detail',query:{orderNo:this.$route.query.orderNo}});
 								}
 							});
-							//  _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
+							  _this.t = setTimeout(function(){ _this.wexinpaycheck() }, 1000);
         	},
         	cancelpay(){
         		this.payshow=true;
@@ -142,7 +132,8 @@
 				    method: 'post',
 				    url:'/order/'+name+'/'+this.$route.query.orderNo,
 				}).then((res)=>{
-					//获取得到alipay信息
+                    //获取得到alipay信息
+                    console.log(res)
 					localStorage.setItem('alipay',res)
 					let routeData = this.$router.resolve({ name: '/gopay'});
  			     	window.open(routeData.href, '_blank');

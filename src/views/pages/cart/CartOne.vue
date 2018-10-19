@@ -721,7 +721,7 @@
 	.ivu-checkbox+span {
 		display: none;
 	}
-	.cart1 .ivu-checkbox-indeterminate .ivu-checkbox-inner:after {
+	/*.cart1 .ivu-checkbox-indeterminate .ivu-checkbox-inner:after {
     content: '';
     display: table;
     width: 4px;
@@ -736,5 +736,5 @@
     transform: rotate(45deg) scale(1);
     -webkit-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
-}
+}*/
 </style>

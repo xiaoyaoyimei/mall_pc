@@ -256,7 +256,7 @@
 }
 </style>
 <style>
-	.ivu-form-item{
+	.forget .ivu-form-item{
 		margin-bottom: 0;
 	}
 </style>

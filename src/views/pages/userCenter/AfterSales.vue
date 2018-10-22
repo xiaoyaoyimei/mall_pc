@@ -18,7 +18,7 @@
 						</li>
 					</ul>
 					<div class="myorderp">
-						<router-link :to="{name:'/order/detail',query:{orderNo:x.refundOrder.orderNo}}">订单详情 </router-link>
+						<router-link :to="{name:'/user/Aftersalesdetail',query:{refundOrderNo:x.refundOrder.refundOrderNo,orderNo:x.refundOrder.orderNo}}">订单详情 </router-link>
 						<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='01'" @click="cancelrefund(x.refundOrder.refundOrderNo)">取消</button>
 						<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='02'||x.refundOrder.refundOrderStatus=='05'"   @click="show(x.refundOrder)">显示处理结果</button>
 						<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='02'" @click="showLogisticsInfo(x.refundOrder.refundOrderNo)">填写物流单号</button>

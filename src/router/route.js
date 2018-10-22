@@ -138,6 +138,15 @@ const routes = [{
 				path: '/user/aftersales',
 				component: resolve => require(['@/views/pages/userCenter/AfterSales.vue'], resolve),
 			},
+			{
+				meta: {
+					requireAuth: true
+				},
+				zname:'售后服务详情',
+				name: '/user/Aftersalesdetail',
+				path: '/user/Aftersalesdetail',
+				component: resolve => require(['@/views/pages/userCenter/Aftersalesdetail.vue'], resolve),
+			},
 			
 			{
 				meta: {

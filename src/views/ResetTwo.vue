@@ -3,15 +3,14 @@
             	<Form :model="regiForm"  :label-width="0" :rules="ruleValidate" ref="regiForm">
               <img   src="../assets/img/logo-red.png">
                 <h4>重置密码</h4>
-                <p>为了保护账号安全，需要验证手机有效性：</p>
-                	<FormItem  prop="mobile">
-                <input type="text" placeholder="请输入手机号" v-model.trim="regiForm.mobile" >
-                   </FormItem>
-                   	<FormItem  prop="passWord">
-                <input type="password" placeholder="请输入密码" v-model.trim="regiForm.passWord" >
-                   </FormItem>
-                 <FormItem  prop="confirmpass">
-                <input type="password" class="input" placeholder="请确认密码" v-model.trim="regiForm.confirmpass" >
+                <FormItem  prop="mobile">
+                    <input type="text" placeholder="请输入手机号" v-model.trim="regiForm.mobile" >
+                </FormItem>
+                <FormItem  prop="passWord">
+                    <input type="password" placeholder="请输入密码" v-model.trim="regiForm.passWord" >
+                </FormItem>
+                <FormItem  prop="confirmpass">
+                    <input type="password" class="input" placeholder="请确认密码" v-model.trim="regiForm.confirmpass" >
                 </FormItem>
                 <button class="btn" @click="handleSubmit('regiForm')">确定</button>
              </Form>
@@ -205,7 +204,9 @@
 }
 </style>
 <style>
-	.ivu-form-item{
-		margin-bottom: 0;
+	.forget .ivu-form-item{
+        margin:0 auto;
+        margin-bottom: 0;
+        width:320px;
 	}
 </style>

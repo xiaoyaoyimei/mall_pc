@@ -1,5 +1,5 @@
 <template>
-	<div style="text-align: center;">
+	<div >
     <div class="newfooter">
 			<div class="main-width clearfix">
 				<ul class="fl icon-classes">

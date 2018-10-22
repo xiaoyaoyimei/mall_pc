@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="text-align: center;">
 	<div class="footer-link">
 	<router-link  :to="{ path: '/help/gsjs' }" >关于我们</router-link> | 
 	<router-link :to="{ path: '/help/lxwm'}">联系我们</router-link> |

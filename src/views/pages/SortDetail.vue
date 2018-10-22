@@ -73,7 +73,7 @@
 		</div>
 		<div class="recommend" v-if="recomm.length>0">
 			<div class="main-width clearfix">
-				<h6><span>推荐搭配</span><em>温馨提示:购买组合时,组合内各商品购买数量为1</em></h6>
+				<h6><span>推荐搭配</span></h6>
 				<div class="rec-con">
 					<div class="li-pro" v-if="choosesp.price==0">
 						<img :src="shangp.product.modelImg | imgfilter">

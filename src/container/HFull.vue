@@ -8,6 +8,9 @@
 				<div class="inner_help">
 					<help-left></help-left>
 					<div class="help_wrap"><router-view/></div>
+					    <BackTop :height="100" :bottom="200">
+        <div class="help_top">返回顶端</div>
+    </BackTop>
 				</div>
                 </Content>
             </Layout>
@@ -37,7 +40,14 @@ import HelpLeft from '@/components/HelpLeft'
     }
 </script>
 
-<style lang="scss" > 
+<style lang="scss"  > 
+.help_top{
+        padding: 10px;
+        background: rgba(255, 0, 0, .7);
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+    }
 .inner_help {
     padding-top: 25px;
     zoom: 1;

@@ -147,7 +147,7 @@
           	},
           	  startTime(){
           	 	if(this.time==0){
-          	 		  this.time = 180;
+          	 		  this.time = 90;
 				      this.sendMsgDisabled = false;
 				      clearTimeout(this.t);
           	 		}
@@ -171,10 +171,7 @@
 							}).then((res)=>{
 								if(res.code=='200'){
 									     this.txv++;
-									   //   this.verimg='http://10.0.0.53:8080/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
-								         //this.verimg=this.$axios.defaults.baseURL+'/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
-										 	let urlo=window.location.origin;
-        										this.verimg=urlo+'/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
+        							     this.verimg=this.global_.originurl+'/mall/pc/customer/'+this.regiForm.loginName+'/verification.png?v='+this.txv;
 								}else{
 									  this.$Message.error(res.msg);
 								}
@@ -199,7 +196,17 @@
 								              if (code !== 200) {
 								                this.$Message.error(res.msg);
 								              } else {
-								                this.$router.push({ name: '/login' ,params: { loginName: this.regiForm.loginName }});
+									                this.$Modal.confirm({
+									                    title: '注册成功',
+									                    content: '<p>2秒后自动跳往登录页</p>',
+									                    loading: true,
+									                    onOk: () => {
+									                        setTimeout(() => {
+									                            this.$Modal.remove();
+									                            this.$router.push({ name: '/login' ,params: { loginName: this.regiForm.loginName }});
+									                        }, 2000);
+									                    }
+									                });
 								              }
 							});
 							}

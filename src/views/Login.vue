@@ -18,7 +18,7 @@
                 <FormItem prop="passWord">
                 <input type="password" class="input" placeholder="请输入密码"  v-model="loginForm.passWord" @keyup.enter="handleLogin">
                 </FormItem>
-                <Button  class="btn"   long :loading="loading"  @click="handleLogin()">登录</Button>
+               <Button  class="btn" long :loading="loading"  @click="handleLogin()">登录</Button>
                 <p class="clearfix"><router-link :to='{path:"/resetPassword"}' >忘记密码?</router-link> 
                 	<router-link :to='{path:"/register"}' class="a">没有账号?  去注册&gt;</router-link></p>
             </Form>
@@ -80,15 +80,17 @@
           	_this.loading=true;
          	_this.$refs.loginForm.validate(valid => {
             if (valid) {
-            	_this.loading = false;
             	_this.$axios.post(`customer/validate?userName=${_this.loginForm.loginName}`).then(res => {  
+            				//500用户名已存在,可以登录
 					         if (res.code !== 500) {
+					         	_this.loading = false;
 					         	_this.$Message.error(res.msg);
 					         }else{
 					         		_this.$axios.post('customer/login', {  
 										loginName: _this.loginForm.loginName,  
 										passWord: _this.loginForm.passWord  
 									}).then(res => {  
+										_this.loading = false;
 						               	let { code, object } = res;
 							              if (code !== 200) {
 							                  _this.$Message.error(object);
@@ -112,7 +114,7 @@
             } 
             else {
              	this.loading = false  
-              return false;
+                 return false;
             }
           });
         },

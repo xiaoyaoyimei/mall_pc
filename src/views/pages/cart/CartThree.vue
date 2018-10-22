@@ -44,7 +44,7 @@
                     <h4>选择以下支付方式付款</h4>
                     <div class="clearfix">
                         <span class="cartIcon iconIcon-weixin" @click="showweixin()"></span>
-                        <span class="cartIcon iconIcon-zhifubao" @click="handleSubmit('alipay')"></span>
+                        <span class="cartIcon iconIcon-zhifubao" @click="handleSubmit()"></span>
                     </div>
                 </div>
             </div>
@@ -127,21 +127,8 @@
                         this.pro = res.shippingAddress;
                     });
             },
-        	handleSubmit (name) {
-        		let urlo=window.location.origin;
-                 window.location.href=urlo+'/mall/pc/order/alipay/'+this.$route.query.orderNo;
-//              this.$axios({
-//				    method: 'post',
-//				    url:'/order/'+name+'/'+this.$route.query.orderNo,
-//				}).then((res)=>{
-//                  //获取得到alipay信息
-//                  console.log(res)
-//                 
-//					localStorage.setItem('alipay',res)
-//					//this.$router.push({ name: '/gopay'});
-//					let routeData = this.$router.resolve({ name: '/gopay'});
-// 			     	window.open(routeData.href, '_blank');
-//			});
+        	handleSubmit () {
+                 window.location.href=this.global_.originurl+'/mall/pc/order/alipay/'+this.$route.query.orderNo;
             },
         },
            mounted() {

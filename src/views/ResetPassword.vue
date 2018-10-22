@@ -1,5 +1,5 @@
 <template>
-	<div class="forget">
+	<div class="forget page-forget">
             	<Form :model="regiForm"  :label-width="0" :rules="ruleValidate" ref="regiForm">
               <img   src="../assets/img/logo-red.png">
                 <h4>重置密码</h4>
@@ -20,7 +20,8 @@
   										<span>获取短信码</span>
 									</button>
                    </FormItem>
-                   <button class="btn" :class="{'disabled':notnext}" @click="next">下一步</button>
+                   <button v-if="notnext"  class="btn disabled"  disabled="disabled" >下一步</button>
+                   <button class="btn"  @click="next" type="button" v-else>下一步</button>
              </Form>
         </div>
 </template>
@@ -42,7 +43,7 @@
             return {
             	notnext:true,
             	t:'',
-            	time: 180, // 发送验证码倒计时
+            	time: 90, // 发送验证码倒计时
             	sendMsgDisabled: false,
             	loadingtx:false,
             	txv:1,
@@ -66,8 +67,8 @@
           			}
           	},
           	next(){
-          	
-          			   		this.$axios({
+          		debugger
+          			  this.$axios({
 					    method: 'post',
 					    url:'/customer/reset/password/validate',
 					    data:{
@@ -77,10 +78,10 @@
 					}).then((res)=>{
 						     if (res.code == 200) {
 						     	  		//短信验证码180秒倒计时
-				      	this.$router.push({
-								name: '/resettwo',
-							})
-				      	
+					      	this.$router.push({
+									name: '/resettwo',
+								})
+					      	
 		              		}else{
 		              			this.$Message.error(res.object);
 		              		}
@@ -92,7 +93,6 @@
           		if(verificationCode==null||verificationCode==''){
           			this.$Message.error('图形码不能为空!');
           		}else{
-          			
           		this.$axios({
 					    method: 'post',
 					    url:'/customer/register/shortmessage',
@@ -114,7 +114,7 @@
           	},
           	   	  startTime(){
           	 	if(this.time==0){
-          	 		  this.time = 180;
+          	 		  this.time = 90;
 				      this.sendMsgDisabled = false;
 				      clearTimeout(this.t);
           	 		}
@@ -139,36 +139,13 @@
 							}).then((res)=>{
 								if(res.code!=='200'){
 									this.txv++;
-									let urlo=window.location.origin;
-				          			this.verimg=urlo+'/mall/pc/customer/'+mobile+'/verification.png?v='+this.txv;
-				          			//this.verimg=this.$axios.defaults.baseURL+'/customer/'+mobile+'/verification.png?v='+this.txv;;
+				          			this.verimg=this.global_.originurl+'/mall/pc/customer/'+mobile+'/verification.png?v='+this.txv;
 								}else{
 									   this.$Message.error('该手机号不存在，请注册');
 								}
 							});
           			
           	},
-            handleSubmit (name) {
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        let para = Object.assign({}, this.regiForm);
-                        delete para['verificationCode']
-		                    	this.$axios({
-							    method: 'post',
-							    url:'/customer/reset/password',
-							    data:para,
-							}).then((res)=>{
-									this.loadingDx = false;
-									      let { code, msg } = res;
-								              if (code == 200) {
-								              	  this.$router.push({ path: '/login' ,params: { loginName: this.regiForm.mobile }});
-								              } else {
-								               this.$Message.error(res.object);
-								              }
-							});
-							}
-                      })
-            },
         },
          destroyed: function () {
           	clearTimeout( this.t );
@@ -256,7 +233,7 @@
 }
 </style>
 <style>
-	.ivu-form-item{
+	.page-forget .ivu-form-item{
 		margin-bottom: 0;
 	}
 </style>

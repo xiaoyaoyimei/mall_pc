@@ -83,9 +83,6 @@
 							});
 		                       
                     },
-                    onCancel: () => {
-                        this.$Message.info('取消退出');
-                    }
                 });
 			},
 			logoutin: function () {
@@ -110,9 +107,6 @@
 							});
 		                       
                     },
-                    onCancel: () => {
-                        this.$Message.info('取消退出');
-                    }
                 });
 			},
 			qiehuanfunction(){

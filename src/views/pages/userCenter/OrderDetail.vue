@@ -42,9 +42,9 @@
                   <div class="orderdetailtotal" >
                         <div class="orderdetailtotalAttr">
                             <p>商品总价:</p>
-                            <p>活动优惠</p>
-                            <p>运费</p>
-                            <p>应付总额</p>
+                            <p>活动优惠:</p>
+                            <p>运费:</p>
+                            <p>应付总额:</p>
                         </div>
                         <div class="orderdetailtotalValue">
                             <p>￥{{orderdetail.shippingOrder.productFee|pricefilter}}</p>

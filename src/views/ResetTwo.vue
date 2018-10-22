@@ -1,5 +1,5 @@
 <template>
-	<div class="forget">
+	<div class="forget ResetTwo">
             	<Form :model="regiForm"  :label-width="0" :rules="ruleValidate" ref="regiForm">
               <img   src="../assets/img/logo-red.png">
                 <h4>重置密码</h4>
@@ -197,7 +197,7 @@
 	}
 </style>
 <style>
-	.forget .ivu-form-item{
+	.ResetTwo .ivu-form-item{
         margin:0 auto;
         margin-bottom: 0;
         width:320px;

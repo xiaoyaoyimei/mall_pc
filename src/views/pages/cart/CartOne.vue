@@ -22,7 +22,7 @@
 						<thead>
 							<tr>
 								<th width="150">
-									<Checkbox :indeterminate="indeterminate" :_checked='!indeterminate'  :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
+									<Checkbox :indeterminate="indeterminate"   :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
 								</th>
 								<th width="400">商品名称</th>
 								<th width="150">单价</th>
@@ -195,8 +195,7 @@
 									_this.sale += parseInt(item.originSalePrice - item.salePrice) * 100 * parseInt(item.quantity)
 								});
 								_this.sale = (_this.sale / 100).toFixed(2)
-								// this.handleCheckAll();
-								
+								this.handleCheckAll();
 							}
 						});
 				} else {

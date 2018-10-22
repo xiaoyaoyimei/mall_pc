@@ -248,7 +248,7 @@
 }
 </style>
 <style>
-	.ivu-form-item{
+	.page-reg .ivu-form-item{
 		margin-bottom: 25px;
 	}
 </style>

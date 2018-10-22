@@ -32,7 +32,20 @@
 				</li>
 			</ul>
 		</div>
+		<!-- <div class="placeorderaddress">
+			<h5>优惠码</h5>
+			<ul class="myaccountaddress clearfix">
+				<li :class="item.isDefault=='Y'?'default':''" v-for="(item,index) in addressList" :key="index">
+					<h6 class="name">{{item.person}} <span class="active" v-if="item.isDefault=='Y'">默认地址</span></h6>
+					<p class="phone">{{item.phone}}</p>
+					<div class="address">{{item.receiveProvince}}{{item.receiveCity}}{{item.receiveDistrict}}{{item.address}}</div>
+					<button class="addressedit" @click="editmodal(item)">修改</button>
+					<button class="addressedel" @click="deleteAddr(item.id)">删除</button>
+					<button class="addressemo" v-if="item.isDefault=='N'" @click="updateDefault(item.id)">设为默认</button>
 
+				</li>
+			</ul>
+		</div> -->
 		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="add" :loading="loading" :mask-closable='false' width="600">
             <Form :model="addForm" ref="addForm" label-position="left"  :rules="ruleValidate" style="padding: 15px;"> 
                 <FormItem label="" prop="person" class="mdalText">

@@ -21,7 +21,6 @@
 						<router-link tag='a' class="a" to='/user'>个人中心</router-link>	
 						<router-link tag='a' class="a" to='/user/mylike'>我的喜欢</router-link>	
 						<router-link tag='a' class="a" to='/user/myinfo'>账户安全</router-link>	
-						<span @click="logoutin" class="a" >切换账户</span>	
 						<span   @click="logout" class="a" >退出登录</span>
 						</div>
 					</div>
@@ -88,33 +87,7 @@
                     }
                 });
 			},
-			logoutin: function () {
-				var _this = this;
-				   this.$Modal.confirm({
-                    title: '提示',
-                    content: '<p>确认切换吗?</p>',
-                    onOk: () => {
-		                    this.$axios({
-							    method: 'post',
-							    url:'/customer/logout',
-							}).then((res)=>{
-								     if (res.code !== 200) {
-										  this.$Message.error(res.msg);
-										  _this.$router.push('/login');
-				              		} 
-				              		else{
-										sessionStorage.removeItem('token');
-				                       	sessionStorage.removeItem('userId');
-				    					_this.$router.push('/login');
-			    					}
-							});
-		                       
-                    },
-                    onCancel: () => {
-                        this.$Message.info('取消退出');
-                    }
-                });
-			},
+
 			qiehuanfunction(){
 				this.qiehuan = !this.qiehuan
 			},

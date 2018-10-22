@@ -1,20 +1,21 @@
 <template>
 	<div class="forget">
-		<Form :model="regiForm" :label-width="0" :rules="ruleValidate" ref="regiForm">
-			<img src="../assets/img/logo-red.png">
-			<h4>重置密码</h4>
-			<FormItem prop="mobile">
-				<input type="text" placeholder="请输入手机号" v-model.trim="regiForm.mobile">
-			</FormItem>
-			<FormItem prop="passWord">
-				<input type="password" placeholder="请输入密码" v-model.trim="regiForm.passWord">
-			</FormItem>
-			<FormItem prop="confirmpass">
-				<input type="password" class="input" placeholder="请确认密码" v-model.trim="regiForm.confirmpass">
-			</FormItem>
-			<button class="btn" @click="handleSubmit('regiForm')" type="button">确定</button>
-		</Form>
-	</div>
+            	<Form :model="regiForm"  :label-width="0" :rules="ruleValidate" ref="regiForm">
+              <img   src="../assets/img/logo-red.png">
+                <h4>重置密码</h4>
+                <FormItem  prop="mobile">
+                	<span class="font-14 color-black">手机号:{{regiForm.mobile}}</span>
+                    <!--<input type="text" placeholder="请输入手机号" v-model.trim="regiForm.mobile" >-->
+                </FormItem>
+                <FormItem  prop="passWord">
+                    <input type="password" placeholder="请输入密码" v-model.trim="regiForm.passWord" >
+                </FormItem>
+                <FormItem  prop="confirmpass">
+                    <input type="password" class="input" placeholder="请确认密码" v-model.trim="regiForm.confirmpass" >
+                </FormItem>
+                <button class="btn" @click="handleSubmit('regiForm')" type="button">确定</button>
+             </Form>
+        </div>
 </template>
 <script>
 	import { validatePHONE } from '@/assets/js/validate';
@@ -78,7 +79,6 @@
 			handleSubmit(name) {
 				this.$refs[name].validate((valid) => {
 					if(valid) {
-
 						this.$axios({
 							method: 'post',
 							url: '/customer/reset/password',
@@ -93,13 +93,11 @@
 								msg
 							} = res;
 							if(code == 200) {
-								this.$Modal.confirm({
-									title: '找回密码成功',
-									content: '<p>2秒后自动跳往登录页</p>',
-									loading: true,
-									onOk: () => {
-										setTimeout(() => {
-											this.$Modal.remove();
+								     this.$Message.success({
+						                content: '找回密码成功,2秒后自动跳往登录页',
+						                duration: 2
+						            });
+						           		setTimeout(() => {
 											this.$router.push({
 												path: '/login',
 												params: {
@@ -107,8 +105,7 @@
 												}
 											});
 										}, 2000);
-									}
-								});
+
 
 							} else {
 								this.$Message.error(res.object);
@@ -118,9 +115,10 @@
 				})
 			},
 		},
-		destroyed: function() {
-			clearTimeout(this.t);
-		},
+		
+		mounted(){
+			this.regiForm.mobile = this.$route.query.mobile
+		}
 	}
 </script>
 <style>
@@ -199,7 +197,9 @@
 	}
 </style>
 <style>
-	.ivu-form-item {
-		margin-bottom: 0;
+	.forget .ivu-form-item{
+        margin:0 auto;
+        margin-bottom: 0;
+        width:320px;
 	}
 </style>

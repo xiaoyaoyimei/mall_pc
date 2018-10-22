@@ -1,7 +1,7 @@
 <template>
-	<div  style="padding:40px;">
+	<div style="padding:40px;">
 		<div class="myaccountImg">
-			<img :src="userinfo.iconUrl | imgfilter" alt="">
+			<img :src="userinfo.iconUrl | imgfilter" alt="头像">
 			<div>
 				<h2>HI {{userinfo.nickName}}</h2>
 				<button @click="modalaccout=true">修改个人信息</button>
@@ -32,38 +32,37 @@
 				</li>
 			</ul>
 		</div>
-
 		<Modal v-model="modaladdr" title="新增收货地址" @on-ok="add" :loading="loading" :mask-closable='false' width="600">
-            <Form :model="addForm" ref="addForm" label-position="left"  :rules="ruleValidate" style="padding: 15px;"> 
-                <FormItem label="" prop="person" class="mdalText">
-                    <Input v-model="addForm.person"  placeholder="收货人" autocomplete="off"></Input>
-                </FormItem>
-                <FormItem label="" prop="phone" class="mdalTextphone">
-                    <Input v-model="addForm.phone"  placeholder="联系电话" autocomplete="off"></Input>
-                </FormItem>
-                <FormItem label=""  prop="selectedOptionsAddr">
-                    <Cascader  v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
-                </FormItem>
-                <FormItem label="" prop="address" class="modaladdress modaladdressaddr">
-                    <Input v-model="addForm.address" placeholder="详细地址"></Input>
-                </FormItem>
-            </Form>
+			<Form :model="addForm" ref="addForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
+				<FormItem label="" prop="person" class="mdalText">
+					<Input v-model="addForm.person" placeholder="收货人" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="" prop="phone" class="mdalTextphone">
+					<Input v-model="addForm.phone" placeholder="联系电话" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="" prop="selectedOptionsAddr">
+					<Cascader v-model="addForm.selectedOptionsAddr" :data="addressOption"></Cascader>
+				</FormItem>
+				<FormItem label="" prop="address" class="modaladdress modaladdressaddr">
+					<Input v-model="addForm.address" placeholder="详细地址"></Input>
+				</FormItem>
+			</Form>
 		</Modal>
 
 		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" :loading="loading" width="600" :mask-closable='false'>
 			<Form :model="editForm" ref="editForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
 				<FormItem label="" prop="person" class="mdalText">
-                    <Input v-model="editForm.person" placeholder="收货人"></Input>
-                </FormItem>
-                <FormItem label="" prop="phone" class="mdalTextphone">
-                    <Input v-model="editForm.phone" placeholder="联系电话"></Input>
-                </FormItem>
-                <FormItem label=""  prop="selectedOptionsAddr">
-                        <Cascader  v-model="editForm.selectedOptionsAddr" :data="addressOption"></Cascader>
-                </FormItem>
-                    <FormItem label="" prop="address" class="modaladdress modaladdressaddr">
-                    <Input v-model="editForm.address" placeholder="详细地址"></Input>
-                </FormItem>
+					<Input v-model="editForm.person" placeholder="收货人"></Input>
+				</FormItem>
+				<FormItem label="" prop="phone" class="mdalTextphone">
+					<Input v-model="editForm.phone" placeholder="联系电话"></Input>
+				</FormItem>
+				<FormItem label="" prop="selectedOptionsAddr">
+					<Cascader v-model="editForm.selectedOptionsAddr" :data="addressOption"></Cascader>
+				</FormItem>
+				<FormItem label="" prop="address" class="modaladdress modaladdressaddr">
+					<Input v-model="editForm.address" placeholder="详细地址"></Input>
+				</FormItem>
 			</Form>
 		</Modal>
 
@@ -79,8 +78,8 @@
 		</Modal>
 
 		<Modal ref='modalaccout' v-model="modalaccout" title="修改个人信息" @on-ok="handleOk" class="modalaccout clearfix" :loading="loading" :mask-closable='false' width="600">
-			<Form ref="userinfo" :model="userinfo" :label-width="150">
-				<FormItem label="设置头像" class="conWrap">
+			<Form ref="userinfo" :model="userinfo" :label-width="150" :rules="userValidate">
+				<FormItem label="点击头像修改" class="conWrap">
 					<div class="user-con-wrap ">
 						<div class="demo-upload-list" v-for="item in uploadList">
 							<template v-if="item.status === 'finished'">
@@ -104,8 +103,8 @@
 					<i-input v-model="userinfo.nickName" placeholder="请输入用户名"></i-input>
 				</FormItem>
 				<FormItem label="生日:" prop="birthday">
-						<DatePicker type="date" placeholder="Select date" :value="userinfo.birthday" formate="yyyy-MM-dd" @on-change="handleChange"></DatePicker>
-				</FormItem>	
+					<DatePicker type="date" placeholder="Select date" :value="userinfo.birthday" formate="yyyy-MM-dd" @on-change="handleChange"></DatePicker>
+				</FormItem>
 				<FormItem label="性别:" prop="sex">
 					<radio-group v-model="userinfo.sex">
 						<radio label="M">男</radio>
@@ -116,7 +115,7 @@
 
 			</Form>
 		</Modal>
-		<modal title="查看 头像大图" class="Myinfo"  v-model="visible">
+		<modal title="查看 头像大图" class="Myinfo" v-model="visible">
 			<img :src="bigimg | imgfilter" v-if="visible" style="width: 100%">
 		</modal>
 	</div>
@@ -155,6 +154,13 @@
 					selectedOptionsAddr: [],
 					address: '',
 					tel: '',
+				},
+				userValidate:{
+						nickName: [{
+						required: true,
+						message: '用户名不能为空',
+						trigger: 'blur'
+					}],
 				},
 				ruleValidate: {
 					selectedOptionsAddr: [{
@@ -215,7 +221,6 @@
 
 				},
 				visible: false,
-				loading: false,
 				uploadList: [{
 					'url': ''
 				}],
@@ -232,59 +237,86 @@
 		},
 		methods: {
 			//退出登录
-				logout: function () {
+			logout: function() {
 				var _this = this;
-				   this.$Modal.confirm({
-                    title: '提示',
-                    content: '<p>确认退出吗?</p>',
-                    onOk: () => {
-		                    this.$axios({
-							    method: 'post',
-							    url:'/customer/logout',
-							}).then((res)=>{
-								     if (res.code !== 200) {
-				                 		 this.$Message.error(res.msg);
-				              		} 
-				              		else{
-										sessionStorage.removeItem('token');
-				                       	sessionStorage.removeItem('userId');
-				    					_this.$router.push('/login');
-			    					}
-							});
-		                       
-                    },
-                });
-			},
-			      	//设为默认
-       	   updateDefault(value){
-       	   	this.$axios({
-						    method: 'post',
-						    url:'/address/updateDefault?id='+value+'&isDefault=Y',
-						}).then((res)=>{
-								this.getAddress();
-						})
-       	   },
-			//修改密码
-			handleOkpwd() {
-				this.loading = false
-				if(this.pwd.newpass != this.pwd.newpassagian) {
-					this.$Message.error('两次密码不一致,请重新输入');
-					return;
-				}
-				this.$refs['pwd'].validate((valid) => {
-					if(valid) {
-						this.loading = true
+				this.$Modal.confirm({
+					title: '提示',
+					content: '<p>确认退出吗?</p>',
+					onOk: () => {
 						this.$axios({
 							method: 'post',
-							url: '/customer/update/password?password=' + this.pwd.newpass,
+							url: '/customer/logout',
 						}).then((res) => {
-							if(res.code == '200') {
-								this.$Message.success('密码修改成功');
-								this.loading = false
+							if(res.code !== 200) {
+								this.$Message.error(res.msg);
+							} else {
+								sessionStorage.removeItem('token');
+								sessionStorage.removeItem('userId');
+								_this.$router.push('/login');
 							}
 						});
-					}
+
+					},
+				});
+			},
+			//设为默认
+			updateDefault(value) {
+				this.$axios({
+					method: 'post',
+					url: '/address/updateDefault?id=' + value + '&isDefault=Y',
+				}).then((res) => {
+					this.getAddress();
 				})
+			},
+						handleOk() {
+							setTimeout(() => {
+					this.loading = false;
+					this.$nextTick(() => {
+						this.$refs['userinfo'].validate((valid) => {
+							if(valid) {
+								this.loading = true
+								this.$axios({
+									method: 'post',
+									url: '/account/update',
+									data: {
+										"birthday": this.userinfo.birthday,
+										"sex": this.userinfo.sex,
+										"nickName": this.userinfo.nickName,
+										"iconUrl": this.uploadList[0].url
+									}
+								}).then((res) => {
+									if(res.code == '200') {
+										this.$Message.success('个人信息修改成功');
+										this.loading = false;
+										this.getUser();
+								}
+								});
+							}
+						})
+					});
+				}, 2000);
+			},
+			//修改密码
+
+			handleOkpwd() {
+				setTimeout(() => {
+					this.loading = false;
+					this.$nextTick(() => {
+						this.loading = true;
+						this.$refs['pwd'].validate((valid) => {
+							if(valid) {
+								this.$axios({
+									method: 'post',
+									url: '/customer/update/password?password=' + this.pwd.newpass,
+								}).then((res) => {
+									if(res.code == '200') {
+										this.$Message.success('密码修改成功');
+									}
+								});
+							}
+						})
+					});
+				}, 2000);
 			},
 			//新增地址
 			add() {
@@ -439,33 +471,10 @@
 					this.uploadList[0].url = res.msg
 				}
 			},
-			handleOk() {
-				this.$refs['userinfo'].validate((valid) => {
-					if(valid) {
-						this.loading = true
-						this.$axios({
-							method: 'post',
-							url: '/account/update',
-							data: {
-								"birthday": this.userinfo.birthday,
-								"sex": this.userinfo.sex,
-								"nickName": this.userinfo.nickName,
-								"iconUrl": this.uploadList[0].url
-							}
-						}).then((res) => {
-							if(res.code == '200') {
-								this.$Message.success('个人信息修改成功');
-								this.loading = false;
-								this.getUser();
-							}
-						});
-					}
-				})
-			},
 		},
 		mounted() {
 			this.getUser(),
-			this.getAddressOption();
+				this.getAddressOption();
 			this.getAddress();
 		}
 	}
@@ -533,6 +542,7 @@
 		line-height: 31px;
 		background-color: #f0f0f0;
 		border: 1PX solid #c6c6c6;
+		cursor: pointer;
 	}
 	
 	.red span {
@@ -572,11 +582,13 @@
 	.placeorderaddress .default {
 		border: 1px solid #FF0000;
 	}
-	span.active{
-		    font-size: 12px;
-    color: #0099ff;
-    font-weight: bold;
+	
+	span.active {
+		font-size: 12px;
+		color: #0099ff;
+		font-weight: bold;
 	}
+	
 	.placeorderaddress li {
 		float: left;
 		width: 250px;
@@ -615,7 +627,8 @@
 		background-color: #fff;
 		color: #ff0000;
 	}
-	.placeorderaddress .addressedel{
+	
+	.placeorderaddress .addressedel {
 		position: absolute;
 		bottom: 5px;
 		right: 50px;
@@ -624,7 +637,8 @@
 		background-color: #fff;
 		color: #ff0000;
 	}
-	.placeorderaddress .addressemo{
+	
+	.placeorderaddress .addressemo {
 		position: absolute;
 		bottom: 5px;
 		right: 100px;
@@ -633,6 +647,7 @@
 		background-color: #fff;
 		color: #ff0000;
 	}
+	
 	.placeorderaddress .addaddress {
 		width: 60%;
 		margin: 80px auto;
@@ -668,211 +683,240 @@
 		color: #999999;
 		text-align: center;
 	}
-	 .mdalText{
+	
+	.mdalText {
 		display: inline-block;
 		width: 260px;
 		margin-right: 10px;
 		height: 45px;
-		line-height: 45px;   
+		line-height: 45px;
 	}
-	.mdalTextphone{
+	
+	.mdalTextphone {
 		display: inline-block;
 		width: 260px;
 		height: 45px;
-		line-height: 45px;  
+		line-height: 45px;
 	}
-	.modaladdress{
+	
+	.modaladdress {
 		height: 45px;
 		line-height: 45px;
 		width: 535px;
 		margin-top: 15px;
 	}
-	.modaladdressaddr{
+	
+	.modaladdressaddr {
 		height: 90px;
 		line-height: 90px;
 	}
-	.modalFoot{
+	
+	.modalFoot {
 		height: 90px;
 		background-color: #F2F2F2;
 		padding: 0px 25px;
 		width: 100%;
 		text-align: center;
 	}
-	.conWrap{
+	
+	.conWrap {
 		position: relative;
 		width: 120px!important;
 		height: 150px!important;
 		float: left!important;
 	}
-	.origin_tx{
+	
+	.origin_tx {
 		width: 107px;
 		height: 107px;
 		border-radius: 50%;
-		
 	}
 </style>
 <style>
- .Myinfo .ivu-modal-header-inner{
-    font-size: 18px;
-    font-weight: 400;
-    color: #000000;
-    padding-left: 25px;
-    height:60px;
-    line-height: 60px;
-
-}
- .Myinfo .ivu-modal-close .ivu-icon-ios-close-empty{
-    color: #000000;
-    font-weight: 900;
-}
-.Myinfo .ivu-modal-header {
-    height:60px;
-    line-height: 60px;
-    width: 100%;
-    background-color: #F2F2F2;
-    padding: 0px;
-}
-.Myinfo .ivu-input{
-    height: 45px;
-    line-height: 45px;
-    border: 1px solid #cccccc;
-    border-radius: 0px;
-}
-.modaladdressaddr .ivu-input{
-    height: 90px;
-    line-height: 90px;
-    border-radius: 0px;
-}
-
-.Myinfo .ivu-modal-footer{
-    height: 90px;
-    background-color: #F2F2F2;
-    padding: 0px 25px;
-    width: 100%;
-    text-align: center;
-}
-.Myinfo .ivu-btn-text{
-    margin-top: 20px;
-    margin-right: 15px;
-    padding: 10px 50px;
-    color: #FFFFFF;
-    border: none;
-    background-color: #888888;
-    border-radius: 0px;
-}
-.Myinfo .ivu-btn-primary{
-    background-color: #ff0000;
-    margin-top: 20px;
-    margin-right: 15px;
-    padding: 10px 50px;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 0px;
-}
-.modalaccout .ivu-modal-header{
-	display: none;
-}
-
- .modalaccout .ivu-modal-close{
-	width: 34px;
-	height: 33px;
-	font-weight: 700;
-	font-size: 14px;
-	color: #999999;
-	 border-radius: 50%;
-	 background-color:#f0f0f0;
-	 text-align:center;
-}
-.conWrap .ivu-upload{
-	position: absolute ;
-	top:0px;
-	left:0px;
-	width:107px;
-	height:107px;
-	opacity: 0;
-}
-.conWrap .ivu-form-item-content{
-}
-.conWrap  .ivu-form-item-label{
-	position: absolute;
-	bottom:0px;
-	width:100%;
-	left:0px;
-	text-align:center;
-	font-size: 14px;
-	color: #333333;
-	font-weight: 400;
-}
-.conWrap .demo-upload-list-cover{
-	display: none;
-
-}
-.modalaccout .ivu-form-item {
-    float: right;
-    width: 400px;
-}
-.modalaccout .ivu-modal-body{
-	height: 300px;
-	padding:100px 30px;
-}
-.conWrap .ivu-form-item-label{
-	width:107px!important;
-}
-.conWrap .ivu-form-item-content{
-	margin-left:0px!important;
-}
-.modalaccout .ivu-modal-footer{
-	background-color:#fff;
-	border-top: none;
-	padding:0px;
-	border-radius:6px;
-}
-.modalaccout .ivu-date-picker{
-	width:250px;
-}
-.modalaccout .ivu-btn-text, .modalpwd .ivu-btn-text{
-	display: none;
-}
-
-.modalpwd .ivu-modal-header{
-	height: 50px;
-	background-color:#fff;
-	border-bottom: none;
-	border-radius:6px;
-}
-.modalpwd .ivu-modal-footer{
-	background-color:#fff;
-	border-top: none;
-	padding:0px;
-	border-radius:6px;
-	text-align:left;
-	padding-left:30px;
-	height:50px;
-}
-.modalpwd .ivu-modal-header-inner{
-	padding:0px 54px 0px;
-	height: 50px;
-	font-size: 24px;
-	color: #999999;
-}
-.modalpwd .ivu-modal-content{
-	padding:50px;
-}
-.modalpwd .ivu-modal-close{
-	width: 34px;
-	height: 33px;
-	font-weight: 700;
-	font-size: 14px;
-	color: #999999;
-	 border-radius: 50%;
-	 background-color:#f0f0f0;
-	 text-align:center;
-}
-.modalpwd  .ivu-modal-body{
-	padding-bottom:0px;
-}
-.modalpwd .ivu-btn-primary{
-	margin-top:0px;
-	margin-left:16px;
-}
+	.Myinfo .ivu-modal-header-inner {
+		font-size: 18px;
+		font-weight: 400;
+		color: #000000;
+		padding-left: 25px;
+		height: 60px;
+		line-height: 60px;
+	}
+	
+	.Myinfo .ivu-modal-close .ivu-icon-ios-close-empty {
+		color: #000000;
+		font-weight: 900;
+	}
+	
+	.Myinfo .ivu-modal-header {
+		height: 60px;
+		line-height: 60px;
+		width: 100%;
+		background-color: #F2F2F2;
+		padding: 0px;
+	}
+	
+	.Myinfo .ivu-input {
+		height: 45px;
+		line-height: 45px;
+		border: 1px solid #cccccc;
+		border-radius: 0px;
+	}
+	
+	.modaladdressaddr .ivu-input {
+		height: 90px;
+		line-height: 90px;
+		border-radius: 0px;
+	}
+	
+	.Myinfo .ivu-modal-footer {
+		height: 90px;
+		background-color: #F2F2F2;
+		padding: 0px 25px;
+		width: 100%;
+		text-align: center;
+	}
+	
+	.Myinfo .ivu-btn-text {
+		margin-top: 20px;
+		margin-right: 15px;
+		padding: 10px 50px;
+		color: #FFFFFF;
+		border: none;
+		background-color: #888888;
+		border-radius: 0px;
+	}
+	
+	.Myinfo .ivu-btn-primary {
+		background-color: #ff0000;
+		margin-top: 20px;
+		margin-right: 15px;
+		padding: 10px 50px;
+		color: #FFFFFF;
+		border: none;
+		border-radius: 0px;
+	}
+	
+	.modalaccout .ivu-modal-header {
+		display: none;
+	}
+	
+	.modalaccout .ivu-modal-close {
+		width: 34px;
+		height: 33px;
+		font-weight: 700;
+		font-size: 14px;
+		color: #999999;
+		border-radius: 50%;
+		background-color: #f0f0f0;
+		text-align: center;
+	}
+	
+	.conWrap .ivu-upload {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 107px;
+		height: 107px;
+		opacity: 0;
+	}
+	
+	.conWrap .ivu-form-item-content {}
+	
+	.conWrap .ivu-form-item-label {
+		position: absolute;
+		bottom: 0px;
+		width: 100%;
+		left: 0px;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-weight: 400;
+	}
+	
+	.conWrap .demo-upload-list-cover {
+		display: none;
+	}
+	
+	.modalaccout .ivu-form-item {
+		float: right;
+		width: 400px;
+	}
+	
+	.modalaccout .ivu-modal-body {
+		height: 300px;
+		padding: 100px 30px;
+	}
+	
+	.conWrap .ivu-form-item-label {
+		width: 107px!important;
+	}
+	
+	.conWrap .ivu-form-item-content {
+		margin-left: 0px!important;
+	}
+	
+	.modalaccout .ivu-modal-footer {
+		background-color: #fff;
+		border-top: none;
+		padding-right: 30px;
+		border-radius: 6px;
+	}
+	
+	.modalaccout .ivu-date-picker {
+		width: 250px;
+	}
+	
+	.modalaccout .ivu-btn-text,
+	.modalpwd .ivu-btn-text {
+		display: none;
+	}
+	
+	.modalpwd .ivu-modal-header {
+		height: 50px;
+		background-color: #fff;
+		border-bottom: none;
+		border-radius: 6px;
+	}
+	
+	.modalpwd .ivu-modal-footer {
+		background-color: #fff;
+		border-top: none;
+		padding: 0px;
+		border-radius: 6px;
+		text-align: left;
+		padding-left: 30px;
+		height: 50px;
+	}
+	
+	.modalpwd .ivu-modal-header-inner {
+		padding: 0px 30px 0px;
+		height: 50px;
+		line-height: 50px;
+		font-size: 24px;
+		color: #999999;
+	}
+	
+	.modalpwd .ivu-modal-content {
+		padding: 50px;
+	}
+	
+	.modalpwd .ivu-modal-close {
+		width: 34px;
+		height: 33px;
+		font-weight: 700;
+		font-size: 14px;
+		color: #999999;
+		border-radius: 50%;
+		background-color: #f0f0f0;
+		text-align: center;
+	}
+	
+	.modalpwd .ivu-modal-body {
+		padding-bottom: 0px;
+	}
+	
+	.modalpwd .ivu-btn-primary {
+		margin-top: 0px;
+		margin-left: 16px;
+	}
 </style>

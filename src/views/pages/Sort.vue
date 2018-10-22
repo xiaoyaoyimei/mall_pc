@@ -2,7 +2,7 @@
 	<div class="new">
 		<div class="selector mt20 main-wdith">
 			<p>
-				<router-link to="/">首页</router-link> &gt;<span class="color-newred"> 全部结果</span> </p>
+				<router-link to="/index">首页</router-link> &gt;<span class="color-newred"> 全部结果</span> </p>
 			<div class="wrap">
 				<div class="dt">类型:</div>
 				<div class="dd">

@@ -23,9 +23,9 @@
 						关于发票</a></dd>-->
 				</dl>
 				<dl><dt>关于品牌</dt>
+					<dd><a href="http://blog.dxracer.cn/" target="_blank"> 
+						迪瑞克斯官网</a></dd>
 					<dd><router-link :to="{path: '/help/scjj'}">了解迪瑞克斯</router-link></dd>
-					<!--<dd><a href="javascript:void(0)">
-						加入迪瑞克斯</a></dd>-->
 				</dl>
 				<dl><dt>服务支持</dt>
 					<dd><router-link :to="{path: '/help/shfw'}">售后服务 </router-link> </dd>

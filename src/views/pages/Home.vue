@@ -362,6 +362,9 @@
 					Promise.all([run_a(),run_b()]).then(function(){
 						setTimeout(() => {
 							that.rexiaoShow=true
+							if(!that.seckillTime){
+							that.hotitem[3].show = true;
+							}
 						}, 800);
 						
 					});

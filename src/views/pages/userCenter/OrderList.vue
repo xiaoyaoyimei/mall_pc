@@ -4,10 +4,11 @@
 						<div class="myorderspan" >
 							<span  @click="changeStatus('00')" :class="{red:'00' == numactive}" >全部订单</span>
 							<span @click="changeStatus('01')" :class="{red:'01' == numactive}">待付款</span>
+							<span @click="changeStatus('02')" :class="{red:'02' == numactive}">已付款</span>
 							<span @click="changeStatus('05')" :class="{red:'05' == numactive}">待发货</span>
 							<span @click="changeStatus('06')" :class="{red:'06' == numactive}">已发货</span>
-							<span @click="changeStatus('04')" :class="{red:'04' == numactive}">已取消</span>
 							<span @click="changeStatus('07')" :class="{red:'07' == numactive}">已签收</span>
+							<span @click="changeStatus('04')" :class="{red:'04' == numactive}">已取消</span>
 						</div>
 					</h3>
                     <ul class="ul" v-if="pro.length>0">

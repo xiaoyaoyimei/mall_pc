@@ -16,7 +16,7 @@
                 <input type="text" placeholder="请输入手机号" v-model.trim="regiForm.loginName" v-on:blur.lazy="getTx">
                 </FormItem>
                 <FormItem  prop="verificationCode">
-                <input type="text" class="input w128" placeholder="请输入图形码" v-model.trim="regiForm.verificationCode" >
+                <input type="text" class="input w128" placeholder="请输入图形码" v-model.trim="regiForm.verificationCode"  v-on:blur.lazy="verifitxm">
                 <img v-show="verimg!=''" :src="verimg" class="pic-yzm"><img src="../assets/img/refresh.png" class="refresh" @click="getTx">
                 </FormItem>
                 <FormItem  prop="passWord">
@@ -79,7 +79,7 @@
               	fwtkmodal:false,
             	fwtk:true,
             	t:'',
-            	time: 180, // 发送验证码倒计时
+            	time: 90, // 发送验证码倒计时
     			sendMsgDisabled: false,
             	loadingDx:false,
             	loadingtx:false,
@@ -117,8 +117,7 @@
         	Fwtk
         },
           methods:{
-          	//获取短信验证码
-          	getDx(){
+          	verifitxm(){
           		let verificationCode=this.regiForm.verificationCode;
           		if(verificationCode==null||verificationCode==''){
           			this.$Message.error('图形验证码不能为空!');
@@ -135,15 +134,18 @@
 					}).then((res)=>{
 						if(res.code==200){
 								//短信验证码180秒倒计时
-				     			let _this = this;
-							    _this.sendMsgDisabled = true;
-							    _this.startTime();
+				     			
 						}
 						     else {
 		                 		 this.$Message.error(res.msg);
 		              		}
 					});
 					}
+          	},
+          	//获取短信验证码
+          	getDx(){
+							    this.sendMsgDisabled = true;
+							    this.startTime();
           	},
           	  startTime(){
           	 	if(this.time==0){
@@ -196,17 +198,19 @@
 								              if (code !== 200) {
 								                this.$Message.error(res.msg);
 								              } else {
-									                this.$Modal.confirm({
-									                    title: '注册成功',
-									                    content: '<p>2秒后自动跳往登录页</p>',
-									                    loading: true,
-									                    onOk: () => {
-									                        setTimeout(() => {
-									                            this.$Modal.remove();
-									                            this.$router.push({ name: '/login' ,params: { loginName: this.regiForm.loginName }});
-									                        }, 2000);
-									                    }
-									                });
+									       								     this.$Message.success({
+						                content: '找回密码成功,2秒后自动跳往登录页',
+						                duration: 2
+						            });
+						           		setTimeout(() => {
+											this.$router.push({
+												path: '/login',
+												params: {
+													loginName: this.regiForm.mobile
+												}
+											});
+										}, 2000);
+
 								              }
 							});
 							}

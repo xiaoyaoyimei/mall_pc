@@ -44,7 +44,7 @@
 				<div class="placeorderTable">
 					<div class="placeorderTitle clearfix">
 						<h5>商品及优惠码</h5>
-						<router-link to="/cart">返回购物车 &gt;</router-link>
+						<router-link to="/cart"  v-show="orderfrom=='B'">返回购物车 &gt;</router-link>
 					</div>
 					<table class="placeorderBody">
 						<tbody>
@@ -233,15 +233,23 @@
 			},
 			chooseAddr(id, index, p) {
 				let province = p;
+				var self=this;
 				this.addressId = id;
 				this.selectItem = index;
 				var price = [],
 					quantity = [],
 					typeIds = [];
+					
+				
 				this.cartList.forEach(function(item, index) {
 					price.push(item.salePrice);
 					quantity.push(item.quantity);
-					typeIds.push(item.productType);
+						if(self.orderfrom=='A'){
+						typeIds.push(item.productType);
+					}else{
+						typeIds.push(item.productCatalog);
+					}
+					
 				});
 				this.$axios({
 					method: 'post',

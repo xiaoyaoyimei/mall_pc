@@ -122,6 +122,7 @@
 </template>
 
 <script>
+	
 	import { validatePHONE } from '@/assets/js/validate';
 	export default {
 		data() {
@@ -230,7 +231,7 @@
 					birthday: '',
 					sex: '',
 					nickName: '',
-					iconUrl: '',
+					iconUrl: require('@/assets/img/de-tx.jpg'),
 					customerMobile: ''
 				},
 			}

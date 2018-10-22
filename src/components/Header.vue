@@ -18,9 +18,9 @@
 						<span class="overflow" v-if="account.nickName==''">{{account.customerMobile}}</span>
 						<span class="a overflow" v-else>{{account.nickName}}</span> <Icon type="ios-arrow-down" />
 						<div :class="{'none':qiehuan}" style="display:none">
-						<router-link tag='a' class="a" to='/user'>个人中心</router-link>	
-						<router-link tag='a' class="a" to='/user/mylike'>我的喜欢</router-link>	
-						<router-link tag='a' class="a" to='/user/myinfo'>账户安全</router-link>	
+						<router-link  class="a" to='/user'>个人中心</router-link>	
+						<router-link  class="a" to='/user/mylike'>我的喜欢</router-link>	
+						<router-link  class="a" to='/user/myinfo'>我的账户</router-link>	
 						<span   @click="logout" class="a" >退出登录</span>
 						</div>
 					</div>
@@ -146,9 +146,6 @@
 							});
 		                       
                     },
-                    onCancel: () => {
-                        this.$Message.info('取消退出');
-                    }
                 });
             }
         },

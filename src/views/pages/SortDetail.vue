@@ -51,7 +51,7 @@
 					<dl class="dl-base"><dt>数    &nbsp;&nbsp; &nbsp;&nbsp; 量</dt>
 						<dd>
 							<div class="number">
-								<input value="1" type="number" v-model="quantity"><i class="icon-new icon-add" @click="jia"></i><i class="icon-new icon-minus" @click="jian"></i></div>
+								<input value="1" type="text" v-model="quantity"><i class="icon-new icon-add" @click="jia"></i><i class="icon-new icon-minus" @click="jian"></i></div>
 							<span v-show="!xiajia">
 						 	库存: {{choosesp.kucun}}件
 							</span>

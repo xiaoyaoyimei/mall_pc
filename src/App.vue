@@ -22,7 +22,7 @@ export default {
   color: #888;
   height:100vh;
 }
-a{
+.layout a{
  color: #888;
 }
 .icon{

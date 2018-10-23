@@ -17,7 +17,7 @@
                     <div>
                     <div class="demo-upload-list" style="width:260px;text-align:left" v-for="item in uploadList">
                         <template v-if="item.status === 'finished'">
-                            <img width="50px;" :src="item.url  | imgfilter">
+                            <img width="100px;" :src="item.url  | imgfilter">
                         </template>
                         <template v-else>
                             <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>

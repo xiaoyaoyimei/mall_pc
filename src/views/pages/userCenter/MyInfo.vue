@@ -80,6 +80,7 @@
 
 		<Modal ref='modalaccout' v-model="modalaccout" title="修改个人信息" @on-ok="handleOk" class="modalaccout clearfix" :loading="loading" :mask-closable='false' width="600">
 			<Form ref="userinfo" :model="userForm" :label-width="150" :rules="userValidate">
+				
 				<FormItem label="点击头像修改" class="conWrap">
 					<div class="user-con-wrap ">
 						<div class="demo-upload-list" v-for="(item,index) in uploadList">
@@ -309,7 +310,6 @@
 									}
 								}).then((res) => {
 									if(res.code == '200') {
-										
 										this.$Message.success('个人信息修改成功');
 										this.modalaccout=false;
 										this.getUser();

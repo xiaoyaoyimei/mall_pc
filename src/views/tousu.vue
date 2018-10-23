@@ -1,17 +1,17 @@
 <template>
     <div>
-        <div class="tousu">
+        <div class="tousu main-wdith">
                 <Form ref="tousuForm" class="form" :model="tousuForm" label-position="left" :label-width="100" :rules="ruleInline" inline>
                 <h4>投诉建议</h4>
                 <p>对于您给的支持和帮助，深表感谢</p>
                 <FormItem label="姓名:" class="formitem" prop="userId">
-                <input type="text" placeholder="" class="input" v-model="tousuForm.userId">
+                <input type="text" placeholder="姓名" class="input" v-model="tousuForm.userId">
                 	</FormItem>
                 <FormItem label="手机号:" class="formitem" prop="mobile">
-                    <input type="text" class="input" placeholder=""  v-model="tousuForm.mobile">
+                    <input type="text" class="input" placeholder="手机号"  v-model="tousuForm.mobile">
                 </FormItem>
                 <FormItem label="问题描述:" class="formitem" prop="content">
-                    <textarea   type="textarea" rows='5' cols="100"  placeholder=""  v-model="tousuForm.content"></textarea>
+                    <textarea   type="textarea" rows='5' cols="100"  placeholder="问题描述"  v-model="tousuForm.content"></textarea>
                 </FormItem>
                 <FormItem label="上传图片:" class="formitem" >
                     <div>
@@ -36,7 +36,7 @@
                     </div>
                     <!-- <input type="text" class="input" placeholder=""  v-model="tousuForm.imageUrl"> -->
                 </FormItem>
-               <Button  class="btn" long :loading="loading"  @click="toususubmit()">提交</Button>
+               {{loading}}<Button  class="btn" long :loading="loading"  @click="toususubmit()">提交</Button>
             </Form>
         </div>
     </div>
@@ -89,12 +89,14 @@
     methods: {
         toususubmit() {
         var _this=this;
-        this.loading = false;
-        
-        this.$nextTick(() => {
+//   	setTimeout(() => {
+     		alert("F")
+        _this.loading = false;
+        _this.$nextTick(() => {
+        	alert("$nextTick")
+        	 _this.loading = true;
             _this.$refs.tousuForm.validate(valid => {
                 if (valid) {
-                    this.loading = true;
                     let tousuForm=this.tousuForm;
                     tousuForm.imageUrl = this.defaultList[0]
                     this.$axios({
@@ -103,7 +105,6 @@
                         data:tousuForm
                     }).then((res) => {
                         if(res.code == '200') {
-                            this.loading = false
                             this.$Message.success('投诉成功');
                             this.$router.push( '/index' );
                         
@@ -114,6 +115,7 @@
                     }
                 })
             });
+//          }, 2000);
         },
         evauploadhandleSuccess(res, file){
 					if(res.code == '200') {
@@ -153,7 +155,11 @@
    
     .tousu{
         text-align: center;
+<<<<<<< HEAD
         width:1200px;
+=======
+        width: 1200px;
+>>>>>>> 61a76131d953068234b65e2daff13e477c03c318
         margin: 0px auto;
         padding: 30px 0;
         background-color: #ffffff;
@@ -196,7 +202,7 @@
         background-color: #ff0000;
         color: #ffffff;
         border-radius:0px;
-        margin-left: 25px;
+        margin-left: 100px;
     }
     .btn{
         display:block;

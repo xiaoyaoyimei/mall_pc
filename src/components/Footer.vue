@@ -1,7 +1,7 @@
 <template>
-	<div >
+	<div>
     <div class="newfooter">
-			<div class="main-width clearfix">
+			<div class="main-width clearfix ">
 				<ul class="fl icon-classes">
 					<li><i class="icon-new icon-qi"></i>7天无理由退货</li>
 					<li><i class="icon-new icon-express"></i>快速送达</li>
@@ -43,12 +43,14 @@
 					<p>周一至周六 9:00-17:30
 					</p>
 					<p>(仅收市话费)</p><!--<button>联系在线客服</button>-->
-					<div class="pr"><i class="icon-new icon-wechat"></i>
+					<div class="pr">
+						<div class="wx-code" v-if="wxcodeShow"><img src="../assets/img/wxcode.jpg"></div>
+					<i class="icon-new icon-wechat" @mouseenter="wxcodeShow=true" @mouseleave="wxcodeShow=false"></i>
 					<a href="http://weibo.com/dxracer" target="_blank">	<i class="icon-new icon-webo"></i></a>
 					<a href="http://i.youku.com/i/UMjU0MTI0Njg0?previewpage=1&spm=a2hzp.8244740.0.0" target="_blank"><i class="icon-new icon-youku"></i></a></div>
 				</div>
+				
 			</div>
-
 		</div>
     <div class="bottom">
 			<div class="main-width bottom-con"><img class="fl"  src="../assets/img/logo-red.png">
@@ -60,12 +62,50 @@
 				</div>
 			</div>
 		</div>
+		 
   </div>
-  </div>
+ 
+
 </template>
 
 <script>
+		export default {
+    data () {
+        return {
+        	wxcodeShow:false
+        }
+       }
+    }
 </script>
 
 <style scoped="scoped"  lang="scss">
+.wx-code{
+position: absolute;
+    right: 165px;
+    width: 76px;
+    height: 76px;
+    border: 1px solid #cfcfcf;
+    text-align: center;
+    top: -24px;
+}
+.wx-code img{
+	width:70px;
+	height: 70px;
+	margin-top: 3px;
+}
+.wx-code:after{
+       content: "";
+    position: absolute;
+    display: block;
+    top: 48%;
+    right: -11px;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1b1b1b #1b1b1b #1b1b1b #f6f6f6;
+}
+
 </style>

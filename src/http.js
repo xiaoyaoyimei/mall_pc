@@ -5,10 +5,10 @@ import router from '@/router/route';
 // axios 配置
 axios.defaults.timeout = 9000;
 //测试环境
-//axios.defaults.baseURL =`/pc`;
+axios.defaults.baseURL =`/pc`;
 //修改flj
 //生产环境
-axios.defaults.baseURL =`/mall/pc`;
+//axios.defaults.baseURL =`/mall/pc`;
 //axios.defaults.baseURL='http://10.0.0.10:8080/mall/pc'
 // http request 拦截器
 axios.interceptors.request.use(

@@ -1,4 +1,3 @@
-45
 <template>
 	<div class="homepage">
 		<div class="side_nav_wrap clear" style="">
@@ -35,7 +34,7 @@
 								</p>
 							</router-link>
 						</li>
-						<li v-for="(item, index) in hotitem"  :key='index' v-if="item.show"><em>NEW</em>
+						<li v-for="(item, index) in hotitem"  :key='index' ><em>NEW</em>
 							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
 							 	<img :src="item.list.img_url | imgfilter" :ref="item.list.id">
 							<h6>{{item.list.model_no}}</h6>
@@ -341,12 +340,12 @@
 									if(res.code == "200") {
 										
 										that.hotitem = res.object;
-										let s=4;
-										if(that.seckill){
-											s=3;
-										}
+//										let s=4;
+//										if(that.seckillTime){
+//											s=3;
+//										}
 										for (let index = 0; index < that.hotitem.length; index++) {
-											if(index<s){
+											if(index<3){
 												that.hotitem[index].show = true
 											}else{
 												that.hotitem[index].show = false
@@ -715,5 +714,8 @@
 		font-weight: 400;
 		font-size: 24px;
 		color: #FFFFFF;
+	}
+	.one li:nth-child(5){
+		display: none;
 	}
 </style>

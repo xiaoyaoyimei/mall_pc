@@ -157,15 +157,6 @@ const routes = [{
 				path: '/order/detail',
 				component: resolve => require(['@/views/pages/userCenter/OrderDetail.vue'], resolve),
 			},
-			{
-				meta: {
-					requireAuth: true
-				},
-				zname:'退款退货详情',
-				name: '/order/refund',
-				path: '/order/refund',
-				component: resolve => require(['@/views/pages/userCenter/RefundDetail.vue'], resolve),
-			},
 			
 			{
 				meta: {
@@ -236,12 +227,6 @@ const routes = [{
 				zname:'联系我们',
 				component: resolve => require(['@/views/pages/userCenter/Contactus.vue'], resolve)
 			},
-			{
-				name: 'complain',
-				path: 'complain',
-				zname:'投诉建议',
-				component: resolve => require(['@/views/pages/userCenter/Complain.vue'], resolve)
-			}
 		]
 	},
 	{

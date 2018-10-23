@@ -20,8 +20,9 @@
                         <div class="h5">收货信息</div>
                         <div class="p">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：  {{orderdetail.shippingAddress.receiverName}}</div>
                         <div class="p">联系电话： {{orderdetail.shippingAddress.receiverMobile}}</div>
-                        <div class="p">收货地址：   {{orderdetail.shippingAddress.receiverState}}{{orderdetail.shippingAddress.receiverCity}} {{orderdetail.shippingAddress.receiverDistrict}}
-                        {{orderdetail.shippingAddress.address}}</div>
+                        <div class="p">收货地址：   {{orderdetail.shippingAddress.receiverState}}{{orderdetail.shippingAddress.receiverCity}} 
+                        	{{orderdetail.shippingAddress.receiverDistrict}}
+                        {{orderdetail.shippingAddress.receiverAddress}}</div>
                   </div>
                   <div class="orderdetail"  v-if="orderdetail.shippingOrder.orderStatus=='05'||orderdetail.shippingOrder.orderStatus=='06'">
                       <div class="h5">查看物流 </div>

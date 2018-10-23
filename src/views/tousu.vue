@@ -1,22 +1,19 @@
 <template>
     <div>
-        <div id=tousu>
-        <div class="tousuImg">
-            <img src="../assets/img/u108.jpg" alt="">
-        </div>
         <div class="tousu">
                 <Form ref="tousuForm" class="form" :model="tousuForm" label-position="left" :label-width="100" :rules="ruleInline" inline>
                 <h4>投诉建议</h4>
-                <FormItem label="姓名:" prop="userId">
+                <p>对于您给的支持和帮助，深表感谢</p>
+                <FormItem label="姓名:" class="formitem" prop="userId">
                 <input type="text" placeholder="" class="input" v-model="tousuForm.userId">
                 	</FormItem>
-                <FormItem label="手机号:" prop="mobile">
+                <FormItem label="手机号:" class="formitem" prop="mobile">
                     <input type="text" class="input" placeholder=""  v-model="tousuForm.mobile">
                 </FormItem>
-                <FormItem label="内容:" prop="content">
-                    <input   type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder=""  v-model="tousuForm.content">
+                <FormItem label="问题描述:" class="formitem" prop="content">
+                    <textarea   type="textarea" rows='5' cols="100"  placeholder=""  v-model="tousuForm.content"></textarea>
                 </FormItem>
-                <FormItem label="上传图片:">
+                <FormItem label="上传图片:" class="formitem" >
                     <div>
                     <div class="demo-upload-list" style="width:260px;text-align:left" v-for="item in uploadList">
                         <template v-if="item.status === 'finished'">
@@ -31,7 +28,7 @@
                         :on-success="evauploadhandleSuccess" :format="['jpg','jpeg','png']" 
                         :max-size="2048" :on-format-error="handleFormatError" 
                         :on-exceeded-size="handleMaxSize" 
-                        :before-upload="evahandleBeforeUpload" multiple type="drag" :action="uploadUrl" v-if="showFile" style="display: inline-block;width:260px;">
+                        :before-upload="evahandleBeforeUpload" multiple type="drag" :action="uploadUrl" v-if="showFile" style="display: inline-block;width:80px;">
                         <div style="width: 78px;height:78px;line-height: 78px;">
                             <Icon type="ios-camera" size="20"></Icon>
                         </div>
@@ -42,7 +39,6 @@
                <Button  class="btn" long :loading="loading"  @click="toususubmit()">提交</Button>
             </Form>
         </div>
-    </div>
     </div>
 </template>
 <script>
@@ -155,22 +151,10 @@
     }
 </script>
 <style scope='scope'>
-    #tousu{
-        width: 100%;
-        overflow: hidden;
-         position: relative;
-    }
-    .tousuImg{
-        width: 1920px;
-        height: 700px;
-        position: relative;
-        margin-left: 50%;
-        left: -960px;
-    }
+   
     .tousu{
-        position: absolute;
         text-align: center;
-        width: 400px;
+        width: 800px;
         margin: 0px auto;
         padding: 30px 0;
         background-color: #ffffff;
@@ -181,10 +165,13 @@
         font-size: 24px;
         font-weight: 400;
         color: #333333;
-        height: 31px;
-        line-height: 31px;
-        margin-bottom: 20px;
-        text-align: center;
+        height: 71px;
+        line-height: 51px;
+        padding-bottom: 40px;
+        padding-left: 25px;
+        border-bottom: 1px solid #CCCCCC;
+        margin-bottom: 40px;
+        text-align: left;
 
     }
     .form input{
@@ -195,10 +182,15 @@
         border: 1px solid #CCCCCC;
         font-weight: 400;
         font-size: 14px;
-        color: #000000;
+        color: #999999;
     }
+   .form textarea{
+       padding: 25px;
+       border:  1px solid #CCCCCC;
+       color: #999999;
+   }
     .tousu .btn{
-        width: 330px;
+        width: 150px;
         height: 50px;
         line-height: 35px;
         font-weight: 400;
@@ -206,6 +198,18 @@
         background-color: #ff0000;
         color: #ffffff;
         border-radius:0px;
+        margin-left: 25px;
+    }
+    .btn{
+        display:block;
+    }
+    .tousu p{
+    font-weight: 400;
+    color: #999999;
+    font-size: 24px;
+    text-align:left;
+    margin-bottom: 50px;
+    padding-left: 25px;
     }
 </style>
 <style>
@@ -215,7 +219,12 @@
         padding-left: 15px ;
         font-weight: 400;
         font-size: 14px;
-        color: #000000;
+        color: #999999;
+    }
+    .tousu .formitem{
+        display:block!important;
+        text-align:left;
+        color: #999999;
     }
 </style>
 

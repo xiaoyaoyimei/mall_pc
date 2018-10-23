@@ -18,8 +18,7 @@
             return {
             }
         },
-        		mounted() {
-        			console.log(this)
+        mounted() {
 		}
        }
 </script>

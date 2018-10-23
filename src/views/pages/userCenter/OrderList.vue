@@ -270,7 +270,6 @@
 					if(res.code == '200') {
 					file.url = res.msg;
 					file.name = res.msg;
-					console.log(this.uploadList)
 				}
 			},
 			handleFormatError(file) {

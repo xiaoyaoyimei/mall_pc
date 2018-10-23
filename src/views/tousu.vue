@@ -107,7 +107,6 @@
                     url: '/advice/insert',
                     data:tousuForm
 				}).then((res) => {
-                    console.log(res)
 					if(res.code == '200') {
                         this.loading = false
                         this.$Message.success('投诉成功');
@@ -177,9 +176,6 @@
         background-color: #ffffff;
         top: 60px;
         right: 100px;        
-    }
-    .tousu .form{
-
     }
     .tousu h4{
         font-size: 24px;

@@ -227,6 +227,7 @@
 					startTime: '',
 					endTime: '',
 					kucun: 0,
+					quantity:1,
 				},
 				productItemId: '',
 				quantity: 1,
@@ -268,9 +269,9 @@
 					this.compineId.push(this.recomm[item].list.id)
 				});
 				if(this.choosesp.cuxiaoprice > 0) {
-					this.dpjiage += parseFloat(this.choosesp.cuxiaoprice);
+					this.dpjiage += parseFloat(this.choosesp.cuxiaoprice*this.quantity);
 				} else {
-					this.dpjiage += parseFloat(this.choosesp.price);
+					this.dpjiage += parseFloat(this.choosesp.price*this.quantity);
 				}
 				
 			},
@@ -532,6 +533,7 @@
 										this.choosesp.activityName = cxitem.activityName;
 										this.choosesp.startTime = cxitem.startTime;
 										this.choosesp.endTime = cxitem.endTime;
+										this.choosesp.quantity=cxitem.quantity
 									}
 								}
 							}

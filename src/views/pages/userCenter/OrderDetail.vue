@@ -580,12 +580,8 @@
 		line-height: 45px;		
 	}
 	.modaladdorderNo .ivu-modal-close {  
-		width: 30px;
-		height: 30px;
 		border: 1px solid #d5d5d5;
-		text-align: center;
 		border-radius: 50%;
-		line-height: 30px;
 	}
 	.modaladdorderNo .ivu-modal-header{
 		border: none;

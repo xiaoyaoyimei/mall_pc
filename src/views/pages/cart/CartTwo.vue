@@ -207,6 +207,7 @@
 				addressList: {},
 				tempcart: [],
 				productItemIds: [],
+				quantitys:[],
 				couponshow: true,
 				couponmsg: {
 					availableSku: '',
@@ -491,12 +492,14 @@
 				if(this.cartList != null) {
 					var _this = this;
 					_this.productItemIds = [];
+					_this.quantitys=[];
 					let n = 0;
 					this.cartList.forEach(function(item, index) {
 						if(item.promotionTitle != '' && item.promotionTitle != null) {
 							n += 1;
 						}
 						_this.productItemIds.push(item.id);
+						_this.quantitys.push(item.quantity)
 					});
 					if(this.cartList.length == n) {
 						this.couponshow = false
@@ -519,7 +522,7 @@
 					couponCode: this.couponCode,
 					remark: this.beizhu,
 					type:this.orderfrom,
-					
+					quantity:this.quantitys
 				};
 				this.$axios({
 					method: 'post',
@@ -549,9 +552,9 @@
 			usecoupon() {
 				this.xscoupon = false;
 				let _this = this;
+				_this.couponCode=""
 				this.$refs['couponitem'].forEach(function(item, index) {
 					_this.couponCode += (item.value).replace(/(^\s*)|(\s*$)/g, "");
-
 				})
 				if(this.couponCode == '') {
 					this.$Message.error('优惠码不能为空');
@@ -812,7 +815,6 @@
 		font-size: 14px;
 		font-weight: 400;
 		font-weight: 400;
-		color: #FF0000;
 		margin: 0 10px;
 		border: 1px solid #c6c6c6;
 		text-align: center;

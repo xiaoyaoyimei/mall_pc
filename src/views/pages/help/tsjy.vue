@@ -4,7 +4,7 @@
 <script>
 	export default {
 		mounted() {
-			window.open("https://www.dxracer.cn/portal/serve/complaint")
+			window.open("http://blog.dxracer.cn/portal/serve/complaint")
 		}
 	}
 </script>

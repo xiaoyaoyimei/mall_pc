@@ -11,18 +11,19 @@
 		            <li class="seckilllist"  v-for="(item, index) in startpro" :key='index'  >
 		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId}  }" >
 		                    	<img :src='item.productItem.listImg |imgfilter'>
-		                </router-link>
 		                <div  class="title">
 		                      {{item.product.modelNo}}
 		                </div>
 		                <div class="name">{{item.product.modelName}}</div>
+		                 </router-link>
 		                <div class="color-dx">开始:{{item.crush.startTime}}</div>
 		                <div>结束:{{item.crush.endTime}}</div>
 		                <div  class="sku_tag" v-if="item.promotionTitle !=null">{{item.promotionTitle}}</div> 
 		                  <div class="price">
+		                  	 <span class="red">￥{{item.crush.salePrice|pricefilter}}</span>
 		                        <span class="origin">￥{{item.product.salePrice |pricefilter }}</span>
-		                        <span class="red">￥{{item.crush.salePrice|pricefilter}}</span>
 		                   </div>
+		                  
 		                   <div  class="jindu"> <Progress  :percent="percent(item.crush)"></Progress></div>
 		            </li>
 	            </ul>
@@ -33,17 +34,18 @@
 		            <li  class="seckilllist" v-for="(item, index) in nostartpro" :key='index'  >
 		               <router-link :to="{ name: '/secdetail',query:{skuId:item.skuId}  }" tag="a" >
 		                    	<img :src='item.productItem.listImg |imgfilter'>
-		                </router-link>
+		               
 		                <div  class="title">
 		                      {{item.product.modelNo}}
 		                </div>
 		                <div class="name">{{item.product.modelName}}</div>
+		                 </router-link>
 		                	 <div class="color-dx">开始:{{item.crush.startTime}}</div>
 		                <div>结束:{{item.crush.endTime}}</div>
 		                <div  class="sku_tag" v-if="item.promotionTitle !=null">{{item.promotionTitle}}</div> 
 		                  <div class="price">
+		                  	   <span class="red">￥{{item.crush.salePrice|pricefilter}}</span>
 		                        <span class="origin">￥{{item.product.salePrice |pricefilter }}</span>
-		                        <span class="red">￥{{item.crush.salePrice|pricefilter}}</span>
 		                   </div>
 		                   <div class="jindu"> <Progress  :percent="percent(item.crush)"></Progress></div>
 		            </li>

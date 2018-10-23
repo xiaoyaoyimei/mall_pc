@@ -1,7 +1,7 @@
 <template>
     <div style="padding:40px 40px;">
         <h3 class="myorder" style="padding-bottom: 48px;" >
-            喜欢商品
+            喜欢的商品
         </h3>
         <ul class="clearfix mylike"  v-if="likeList.length>0">
             <li v-for="(item,index) in likeList" :key="index">

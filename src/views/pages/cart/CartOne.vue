@@ -188,12 +188,8 @@
 							url: '/order/shopping/list',
 						}).then((res) => {
 							if(res.code == '200') {
+								this.hasShow=true;
 								this.cartList = res.object;
-								if(this.cartList.length>0){
-									this.hasShow=true;
-								}else{
-									this.hasShow=false;
-								}
 								this.totalnum = 0;
 								this.sale = 0;
 								this.cartList.forEach((item, index) => {
@@ -202,6 +198,9 @@
 								});
 								_this.sale = (_this.sale / 100).toFixed(2)
 								this.handleCheckAll();
+							}
+							else{
+								this.hasShow=false;
 							}
 						});
 				} else {

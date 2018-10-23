@@ -27,7 +27,6 @@
                         </template>
                     </div>
                     <Upload ref="evaupload" :show-upload-list="false" 
-                        :default-file-list="uploadList" 
                         :on-success="evauploadhandleSuccess" :format="['jpg','jpeg','png']" 
                         :max-size="2048" :on-format-error="handleFormatError" 
                         :on-exceeded-size="handleMaxSize" 
@@ -69,6 +68,7 @@
                         content: '',
                         imageUrl: [],
                     },
+                    defaultList:[],
                     uploadList: [],
 					ruleInline: {
 							userId: [
@@ -87,13 +87,6 @@
           showDialog: false
         }
       },
-         watch: {
-    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
-      '$route': 'getParams'
-    },
-    mounted() {
-		//	this.getParams();
-	},
     methods: {
         toususubmit() {
         var _this=this;

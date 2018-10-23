@@ -4,7 +4,7 @@
 <script>
 	export default {
 		mounted() {
-			window.open("https://www.dxracer.cn/portal/shopping/store")
+			window.open("http://blog.dxracer.cn/portal/shopping/store")
 		}
 	}
 </script>

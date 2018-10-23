@@ -84,8 +84,7 @@
         	//切换num的值切换支付方式
         	showweixin(){
       		 		this.weixinModal = true
-                    let urlo=window.location.origin;
-                    this.verimg=urlo+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
+                    this.verimg=this.global_.originurl+'/mall/pc/order/weixin/'+this.$route.query.orderNo;
         	},
         	wexinpaycheck(){
         		var _this=this;
@@ -128,7 +127,7 @@
                     });
             },
         	handleSubmit () {
-                 window.location.href=this.global_.originurl+'/mall/pc/order/alipay/'+this.$route.query.orderNo;
+        		window.open(this.global_.originurl+'/mall/pc/order/alipay/'+this.$route.query.orderNo)
             },
         },
            mounted() {

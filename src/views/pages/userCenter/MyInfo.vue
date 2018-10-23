@@ -5,13 +5,13 @@
 			<img :src="userinfo.iconUrl | imgfilter" alt="头像" v-else>
 			<div>
 				<h2>HI {{userinfo.nickName}}</h2>
-				<button @click="modalaccout=true">修改个人信息</button>
+				<button @click="updateInfo()">修改个人信息</button>
 				<button @click="logout" style="margin-left: 20px;color:#333">退出登录</button>
 			</div>
 		</div>
 		<div class="myaccountText">
 			<p class="p">绑定手机：{{userinfo.customerMobile}}</p>
-			<p class="p">密码设置：用于保护帐号信息和登录安全 <button @click="modalpwd=true"><span  >修改</span> </button></p>
+			<p class="p">密码设置：用于保护帐号信息和登录安全 <button @click="modalpwd=true"><span>修改</span> </button></p>
 		</div>
 		<div class="placeorderaddress">
 			<h5>收货地址</h5>
@@ -79,12 +79,13 @@
 		</Modal>
 
 		<Modal ref='modalaccout' v-model="modalaccout" title="修改个人信息" @on-ok="handleOk" class="modalaccout clearfix" :loading="loading" :mask-closable='false' width="600">
-			<Form ref="userinfo" :model="userinfo" :label-width="150" :rules="userValidate">
+			<Form ref="userinfo" :model="userForm" :label-width="150" :rules="userValidate">
 				<FormItem label="点击头像修改" class="conWrap">
 					<div class="user-con-wrap ">
-						<div class="demo-upload-list" v-for="item in uploadList">
-							<template v-if="item.status === 'finished'">
-								<img :src="item.url |imgfilter " class="origin_tx" />
+						<div class="demo-upload-list" v-for="(item,index) in uploadList">
+							<template v-if="item.status === 'finished'&&index==0">
+								<img src="../../../assets/img/de-tx.jpg" alt="头像" v-if="item.url==''" class="origin_tx">
+								<img :src="item.url| imgfilter" alt="头像" v-else class="origin_tx">
 								<div class="demo-upload-list-cover">
 									<Icon type="ios-eye-outline" @click.native="handleView(item)"></Icon>
 								</div>
@@ -93,21 +94,24 @@
 								<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 							</template>
 						</div>
-						<Upload ref="upload" :default-file-list="uploadList" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="5120" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" type="drag" :action="uploadUrl" style="display: inline-block;width:5.8rem;">
+						<Upload ref="upload" 
+							:default-file-list="defaultList" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']" 
+							:max-size="5120" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" type="drag" :action="uploadUrl" style="display: inline-block;width:5.8rem;">
 							<div style="width:5.8rem;height:5.8rem;line-height:5.8rem;">
 								<Icon type="camera" size="20"></Icon>
 							</div>
 						</Upload>
+						
 					</div>
 				</FormItem>
 				<FormItem label="用户名:" prop="nickName">
-					<i-input v-model="userinfo.nickName" placeholder="请输入用户名"></i-input>
+					<i-input v-model="userForm.nickName" placeholder="请输入用户名"></i-input>
 				</FormItem>
 				<FormItem label="生日:" prop="birthday">
-					<DatePicker type="date" placeholder="Select date" :value="userinfo.birthday" formate="yyyy-MM-dd" @on-change="handleChange"></DatePicker>
+					<DatePicker type="date" placeholder="Select date" :value="userForm.birthday" formate="yyyy-MM-dd" @on-change="handleChange"></DatePicker>
 				</FormItem>
 				<FormItem label="性别:" prop="sex">
-					<radio-group v-model="userinfo.sex">
+					<radio-group v-model="userForm.sex">
 						<radio label="M">男</radio>
 						<radio label="F">女</radio>
 						<radio label="S">保密</radio>
@@ -157,10 +161,17 @@
 					address: '',
 					tel: '',
 				},
+			
 				userValidate:{
 						nickName: [{
 						required: true,
 						message: '用户名不能为空',
+						trigger: 'blur'
+					}],
+					
+							birthday: [{
+						required: true,
+						message: '请选择生日',
 						trigger: 'blur'
 					}],
 				},
@@ -223,18 +234,21 @@
 
 				},
 				visible: false,
-				uploadList: [{
-					'url': ''
-				}],
+				uploadList: [{'url': ''}],
+				defaultList: [{'url': ''}],
 				uploadUrl: this.$axios.defaults.baseURL + '/upload/upload?path=account',
 				imgSrc: '',
 				userinfo: {
-					birthday: '',
-					sex: '',
 					nickName: '',
-					iconUrl: require('../../../assets/img/de-tx.jpg'),
+					birthday: '',
+					iconUrl:'',
 					customerMobile: ''
 				},
+					userForm:{
+					nickName: '',
+					birthday: '',
+					sex: '',
+				}
 			}
 		},
 		methods: {
@@ -270,26 +284,34 @@
 					this.getAddress();
 				})
 			},
+			//显示用户信息弹窗
+			updateInfo(){
+				this.modalaccout=true;
+				this.userForm.nickName=this.userinfo.nickName;
+				this.userForm.birthday=this.userinfo.birthday;
+				this.userForm.sex=this.userinfo.sex;
+			},
 						handleOk() {
 							setTimeout(() => {
 					this.loading = false;
 					this.$nextTick(() => {
+						this.loading = true
 						this.$refs['userinfo'].validate((valid) => {
 							if(valid) {
-								this.loading = true
-								this.$axios({
+										this.$axios({
 									method: 'post',
 									url: '/account/update',
 									data: {
-										"birthday": this.userinfo.birthday,
-										"sex": this.userinfo.sex,
-										"nickName": this.userinfo.nickName,
+										"birthday": this.userForm.birthday,
+										"sex": this.userForm.sex,
+										"nickName": this.userForm.nickName,
 										"iconUrl": this.uploadList[0].url
 									}
 								}).then((res) => {
 									if(res.code == '200') {
+										
 										this.$Message.success('个人信息修改成功');
-										this.loading = false;
+										this.modalaccout=false;
 										this.getUser();
 								}
 								});
@@ -322,11 +344,11 @@
 			},
 			//新增地址
 			add() {
-				setTimeout(() => {
-					this.loading = false;
-					this.$nextTick(() => {
-						this.loading = true;
-						this.$refs['addForm'].validate((valid) => {
+					setTimeout(() => {
+								this.loading = false;
+								this.$nextTick(() => {
+											this.loading = true;
+											this.$refs['addForm'].validate((valid) => {
 							if(valid) {
 								let temp = this.addForm;
 								temp.receiveProvince = this.addForm.selectedOptionsAddr[0];
@@ -468,13 +490,14 @@
 				});
 			},
 			//上传图片
-			handleSuccess(res) {
+			handleSuccess(res,file) {
 				if(res.code == '200') {
 					this.uploadList[0].url = res.msg
 				}
 			},
 		},
 		mounted() {
+			 this.uploadList = this.$refs.upload.fileList;
 			this.getUser(),
 				this.getAddressOption();
 			this.getAddress();
@@ -822,7 +845,6 @@
 		opacity: 0;
 	}
 	
-	.conWrap .ivu-form-item-content {}
 	
 	.conWrap .ivu-form-item-label {
 		position: absolute;
@@ -868,7 +890,6 @@
 		width: 250px;
 	}
 	
-	.modalaccout .ivu-btn-text,
 	.modalpwd .ivu-btn-text {
 		display: none;
 	}

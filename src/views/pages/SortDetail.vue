@@ -244,10 +244,12 @@
 				likeshow: false,
 				index:4,
 				listindex:5,
+				dpdata:[],
 			}
 		},
 		methods: {
 			checkAllGroupChange(data) {
+				this.dpdata=data;
 				var _this = this;
 				_this.dpnum = data.length;
 				_this.dpjiage = 0;
@@ -340,9 +342,27 @@
 			toggletab(num) {
 				this.num = num;
 			},
+			calculate(){
+				this.dpjiage = 0;
+				if(this.dpdata.length>0){
+						this.dpdata.forEach((item,index) => {
+					if(JSON.stringify(this.recomm[item].promotion)=="{}"){
+						this.dpjiage += parseFloat(this.recomm[item].list.sale_price);
+					}else{
+						this.dpjiage += parseFloat(this.recomm[item].promotion.onSalePrice);
+					}
+				});
+				}
+				if(this.choosesp.cuxiaoprice > 0) {
+					this.dpjiage += parseFloat(this.choosesp.cuxiaoprice*this.quantity);
+				} else {
+					this.dpjiage += parseFloat(this.choosesp.price*this.quantity);
+				}
+			},
 			changeNumber: function(event) {
 				var obj = event.target;
 				this.quantity = parseInt(obj.value);
+				this.calculate();
 			},
 			//添加
 			jia: function() {
@@ -351,6 +371,7 @@
 				} else {
 					this.quantity = parseInt(this.quantity) + 1;
 				}
+				this.calculate();
 			},
 			//减
 			jian: function() {
@@ -359,6 +380,7 @@
 				} else {
 					this.quantity = parseInt(this.quantity) - 1;
 				}
+				this.calculate();
 			},
 			pervlist(){
 				this.$forceUpdate();

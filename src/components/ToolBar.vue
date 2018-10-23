@@ -6,10 +6,16 @@
 				<span> 去登录</span></router-link>
 			<router-link v-else to="/user" tag="li" class="color-red">
 				<img src="../assets/img/yeslogin.png">
-				<span>个人中心</span> </router-link>
-			</li>
-			<router-link to="/cart" tag="li"><i class="icon-new icon-cart"></i>
-			<span>购物车</span></router-link>
+				<span>个人中心</span>
+			</router-link>
+			<router-link to="/cart" tag="li">
+				<i class="icon-new icon-cart"></i>
+				<span>购物车</span>
+			</router-link>
+			<router-link to="/tousu" tag="li">
+				<Icon style="font-size:30px;" type="ios-create" />
+				<span>投诉建议</span>
+			</router-link>
 			<li class="mt15" @click="goback()" v-show="searchBarFixed">
 				<i class="icon-new icon-back"></i>
 				<span>回到顶部</span>

@@ -50,6 +50,12 @@ const routes = [{
 				name: '详情',
 				component: resolve => require(['@/views/pages/SortDetail.vue'], resolve),
 			},
+			{
+		
+				path: '/tousu',
+				name: '/tousu',
+				component: resolve => require(['@/views/tousu.vue'], resolve)
+			},
 		]
 	},
 	{

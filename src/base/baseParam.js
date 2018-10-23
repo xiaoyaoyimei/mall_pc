@@ -3,6 +3,6 @@ let global_={
 		// imgurl:'//image-shop.dxracer.com.cn/',
 		loginName:'',
 		passWord:'',
-		originurl:'http://10.0.0.10:8080/',
+		originurl:'http://10.0.0.28:8080/',
 }
 export default global_;

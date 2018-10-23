@@ -240,17 +240,19 @@
 	.forget .marginTop {
 		position: absolute;
 		top: 20px;
-		right: 275px;
+		right: 0px;
 	}
 	
 	.forget .marginTopF {
 		position: absolute;
 		top: 25px;
-		right: 235px;
+		right: -40px;
 	}
 </style>
 <style>
 	.forget .ivu-form-item{
+		margin:0 auto;
 		margin-bottom: 0;
+		width:320px;
 	}
 </style>

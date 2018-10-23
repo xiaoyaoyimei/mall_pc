@@ -263,12 +263,14 @@
 				if(res.code == '200') {
 					file.url = res.msg;
 					file.name = res.msg;
+					
 				}
 			},
 			evauploadhandleSuccess(res, file){
 					if(res.code == '200') {
 					file.url = res.msg;
 					file.name = res.msg;
+					console.log(this.uploadList)
 				}
 			},
 			handleFormatError(file) {

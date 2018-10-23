@@ -70,17 +70,17 @@
 				        <Radio label="增值税专用发票">增值税专用发票</Radio>
    					 </RadioGroup>
 				</FormItem>
+							<FormItem label="收票人姓名" prop="receivePerson">
+					<Input v-model="addInvoice.receivePerson" placeholder="收票人姓名" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="收票人手机" prop="receivePhone">
+					<Input v-model="addInvoice.receivePhone" placeholder="收票人手机" autocomplete="off"></Input>
+				</FormItem>
 				<FormItem label="所在地区"  prop="selectedOptionsAddr">
 				        	 <Cascader  v-model="addInvoice.selectedOptionsAddr" 	  placeholder="选择所在区域"  :data="addressOption"></Cascader>
 				</FormItem>
 				<FormItem label="详细地址" prop='receiveAddress'>
 					<Input v-model="addInvoice.receiveAddress" placeholder="详细地址" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="收票人姓名" prop="receivePerson">
-					<Input v-model="addInvoice.receivePerson" placeholder="收票人姓名" autocomplete="off"></Input>
-				</FormItem>
-				<FormItem label="收票人手机" prop="receivePhone">
-					<Input v-model="addInvoice.receivePhone" placeholder="收票人手机" autocomplete="off"></Input>
 				</FormItem>
 				<div v-if="addInvoice.invoiceType=='增值税专用发票'">
 					<h6 class="color-blue">专用发票必填信息:</h6>
@@ -190,6 +190,7 @@
 			receiveAddress:'',
 			receivePerson:'',
 			registerAddress:'',
+			receivePhone:'',
 			selectedOptionsAddr:[],
 		},
 		editInvoice:{

@@ -31,7 +31,6 @@
 					<dd><router-link :to="{path: '/help/shfw'}">售后服务 </router-link> </dd>
 					<dd><router-link :to="{path: '/help/xxty'}">线下体验</router-link></dd>
 					<dd><router-link :to="{path: '/help/azsp'}">安装视频</router-link></dd>
-				<dd><router-link :to="{path: '/help/tsjy'}">投诉建议</router-link></dd>
 				</dl>
 				<dl><dt>DX全球</dt>
 					<dd><a href="https://www.dxracer.com/us/en-us/">USA</a></dd>

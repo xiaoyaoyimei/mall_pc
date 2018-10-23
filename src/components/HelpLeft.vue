@@ -19,7 +19,6 @@
 		<li><router-link :to="{path: '/help/shfw'}">售后服务 </router-link> </li>
 		<li><router-link :to="{path: '/help/xxty'}">线下体验</router-link> </li>
 		<li><router-link :to="{path: '/help/azsp'}">安装视频</router-link> </li>	
-		<li><router-link :to="{path: '/help/tsjy'}">投诉建议</router-link> </li>	
 			<li class="side_bar_nav_line"></li>
 		<li><span>关于我们</span></li>
 		<li><router-link :to="{path: '/help/gsjs'}">公司介绍 </router-link> </li>

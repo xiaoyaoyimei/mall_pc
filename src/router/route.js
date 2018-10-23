@@ -62,7 +62,8 @@ const routes = [{
 		path: '/cart',
 		component: CFull,
 		redirect: '/cart',
-		children: [{
+		children: [
+			{
 				name: '/cartzero',
 				path: '/cartzero',
 				meta: {
@@ -73,7 +74,6 @@ const routes = [{
 			{
 				name: '/cart',
 				path: '/cart',
-				
 				component: resolve => require(['@/views/pages/cart/CartOne.vue'], resolve),
 			},
 			{

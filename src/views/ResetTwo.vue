@@ -94,8 +94,8 @@
 							} = res;
 							if(code == 200) {
 								     this.$Message.success({
-						                content: '找回密码成功,2秒后自动跳往登录页',
-						                duration: 2
+						                content: '找回密码成功,3秒后自动跳往登录页',
+						                duration: 3
 						            });
 						           		setTimeout(() => {
 											this.$router.push({
@@ -104,7 +104,7 @@
 													loginName: this.regiForm.mobile
 												}
 											});
-										}, 2000);
+										}, 3000);
 
 
 							} else {

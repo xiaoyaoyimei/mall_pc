@@ -93,27 +93,29 @@
     methods: {
         toususubmit() {
         var _this=this;
-        _this.loading=true;
-        _this.$refs.tousuForm.validate(valid => {
-            if (valid) {
-                let tousuForm=this.tousuForm;
-                tousuForm.imageUrl = this.defaultList[0]
-				this.$axios({
-					method: 'post',
-                    url: '/advice/insert',
-                    data:tousuForm
-				}).then((res) => {
-					if(res.code == '200') {
-                        this.loading = false
-                        this.$Message.success('投诉成功');
-                        this.$router.push( '/index' );
-					
-					}else{
-                        this.$Message.success('投诉失败');
+        this.loading = false;
+        this.$nextTick(() => {
+            _this.$refs.tousuForm.validate(valid => {
+                if (valid) {
+                    this.loading = true;
+                    let tousuForm=this.tousuForm;
+                    tousuForm.imageUrl = this.defaultList[0]
+                    this.$axios({
+                        method: 'post',
+                        url: '/advice/insert',
+                        data:tousuForm
+                    }).then((res) => {
+                        if(res.code == '200') {
+                            this.loading = false
+                            this.$Message.success('投诉成功');
+                            this.$router.push( '/index' );
+                        
+                        }else{
+                            this.$Message.success('投诉失败');
+                        }
+                    });                    
                     }
-                });                    
-                //     return false;
-                }
+                })
             });
         },
         evauploadhandleSuccess(res, file){

@@ -107,6 +107,7 @@
                             this.$router.push( '/index' );
                         
                         }else{
+                            this.loading = false
                             this.$Message.success('投诉失败');
                         }
                     });                    

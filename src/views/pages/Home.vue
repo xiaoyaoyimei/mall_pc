@@ -21,8 +21,8 @@
 				<div class="floor">
 					<div class="title">
 						<span>热销单品</span></div>
-					<ul class="clearfix one" v-show='rexiaoShow'>
-						<li class="seckill" v-if="seckillTime">
+					<ul class="clearfix one" >
+						<li class="seckill" v-if='seckillTime' >
 							<router-link :to="{ path: '/seckill'}">
 								<h1>秒杀专场</h1>
 								<img src="../../assets/img/u9.png" alt="">
@@ -35,7 +35,7 @@
 								</p>
 							</router-link>
 						</li>
-						<li v-for="(item, index) in hotitem"  :key='index' v-if="item.show"><em>NEW</em>
+						<li v-for="(item, index) in hotitem"  :key='index'><em>NEW</em>
 							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
 							 	<img :src="item.list.img_url | imgfilter" :ref="item.list.id">
 							<h6>{{item.list.model_no}}</h6>
@@ -253,15 +253,15 @@
 				cockpitproduct:[],
 				peripheryproduct:[],
 				toolbarNologin:{},//侧边栏个人中心是否登录
-				seckill:false,
-				seckilllist:'',
+				seckillTime:false,
+				seckilllist:[{
+					switch:'',
+				}],
 				jsqtime:'',
 				day:'',
 				hr:'',
 				min:0,
 				sec:0,
-				seckillTime:false,
-				rexiaoShow:false
 			};
 		},
 		computed: {
@@ -310,64 +310,30 @@
 				if(this.token != null) {
 					this.loginflag = false;
 				}
-				let that = this
-				function run_a(){
-						return new Promise(function(resolve, reject){
-						that.$axios({
-								method: 'get',
-								url:'/promotion/crush/',
-							}).then((res)=>{
-								if(res.code=='200'){
-									that.seckilllist = res.object;
-									if(that.seckilllist[0].switch=='0'){
-										that.jsqtime=that.seckilllist[0].crush["startTime"]
-									}
-									else{
-										that.jsqtime = that.seckilllist[0].crush["endTime"];
-									}
-									//计时器
-									that.countdown();
-								}
-								resolve("run_a");
-							});
-						});
+				this.$axios({
+					method: 'get',
+					url:'/promotion/crush/',
+				}).then((res)=>{
+					if(res.code=='200'){
+						this.seckilllist = res.object;
+						if(this.seckilllist[0].switch=='0'){
+							this.jsqtime=this.seckilllist[0].crush["startTime"]
+						}
+						else{
+							this.jsqtime = this.seckilllist[0].crush["endTime"];
+						}
+						//计时器
+						this.countdown();
 					}
-					function run_b(){
-						return new Promise(function(resolve, reject){
-							that.$axios({
-									method: "GET",
-									url: "/index/hotitem"
-								}).then(res => {
-									if(res.code == "200") {
-										
-										that.hotitem = res.object;
-										let s=4;
-										if(that.seckill){
-											s=3;
-										}
-										for (let index = 0; index < that.hotitem.length; index++) {
-											if(index<s){
-												that.hotitem[index].show = true
-											}else{
-												that.hotitem[index].show = false
-											}
-												
-										}
-									}
-									resolve("run_b");
-								});
-						});
+				});
+				this.$axios({
+					method: "GET",
+					url: "/index/hotitem"
+				}).then(res => {
+					if(res.code == "200") {
+						this.hotitem = res.object;
 					}
-				
-					Promise.all([run_a(),run_b()]).then(function(){
-						setTimeout(() => {
-							that.rexiaoShow=true
-							if(!that.seckillTime){
-							that.hotitem[3].show = true;
-							}
-						}, 800);
-						
-					});
+				});
 				this.$axios({
 					method: "GET",
 					url: "/index/poster"
@@ -715,5 +681,8 @@
 		font-weight: 400;
 		font-size: 24px;
 		color: #FFFFFF;
+	}
+	.floor li:nth-of-type(n+5){
+		display: none;
 	}
 </style>

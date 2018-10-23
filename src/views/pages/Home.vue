@@ -1,4 +1,3 @@
-45
 <template>
 	<div class="homepage">
 		<div class="side_nav_wrap clear" style="">
@@ -35,7 +34,7 @@
 								</p>
 							</router-link>
 						</li>
-						<li v-for="(item, index) in hotitem"  :key='index'><em>NEW</em>
+						<li v-for="(item, index) in hotitem"  :key='index' ><em>NEW</em>
 							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
 							 	<img :src="item.list.img_url | imgfilter" :ref="item.list.id">
 							<h6>{{item.list.model_no}}</h6>

@@ -16,7 +16,7 @@
 				<span>您尚未登录！<router-link  to="/login" >去登录</router-link></span>
 			</div>
 		<div class="cartlist clearfix"  v-else>
-			<div class="cartTable" v-if="cartList.length>0">
+			<div class="cartTable" v-if="hasShow">
 				<Checkbox-group v-model="checkAllGroup" @on-change="checkAllGroupChange" class="item_detail clearfix">
 					<table>
 						<thead>
@@ -83,7 +83,7 @@
 					</Checkbox-group>
 				</div>
 				<div class="cartTablenull" v-else>
-					<img src="../../../assets/img/u15.png" alt="">
+					<img src="../../../assets/img/u15.png" alt="购物车为空">
 					<span>您的购物车还是空的！<router-link  :to="{ path: '/sort',query:{keyword:''} }">马上去购物</router-link></span>
 				</div>
 			</div>
@@ -108,6 +108,7 @@
 				sale: 0,
 				totalnum: 0,
 				cartnologin: true, //未登录
+				hasShow:true
 			}
 		},
 		methods: {
@@ -188,6 +189,11 @@
 						}).then((res) => {
 							if(res.code == '200') {
 								this.cartList = res.object;
+								if(this.cartList.length>0){
+									this.hasShow=true;
+								}else{
+									this.hasShow=false;
+								}
 								this.totalnum = 0;
 								this.sale = 0;
 								this.cartList.forEach((item, index) => {

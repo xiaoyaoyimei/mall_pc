@@ -29,11 +29,7 @@
 					<span @click="getList('brand','',-1)" :class="{active: '-1' == brandindex}">全部</span>
 					<span v-for="(item,index) in brand" @click="getList('brand',item.id,index)" :class="{active: index == brandindex}">{{item.brandName}}</span></div>
 			</div>
-			<!--<div class="empty_result flex-center" v-if="productList.length<1">
-				<Icon type="ios-warning" />
-				<span>请检查您的输入是否有误 ,如有任何意见或建议，期待您反馈给我们</span>
-			</div>-->
-			<div v-if="productList.length>0">
+			<div v-if="hasShow">
 				<ul class="clearfix mylike" >
 					<li v-for="(item, index) in productList" :key='index'>
 						<router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
@@ -85,6 +81,7 @@
 				},
 				flag: true,
 				catalogId:'',
+				hasShow:true,//搜索有商品
 			}
 		},
 		methods: {
@@ -172,6 +169,11 @@
 					url: '/product/search?catalog=' + this.searchfilter.catalog + '&series=' + this.searchfilter.series + '&type=' + this.searchfilter.type + '&brand=' + this.searchfilter.brand + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
 				}).then((res) => {
 					this.productList = res.itemsList;
+					if(this.productList.length>0){
+						this.hasShow=true
+					}else{
+						this.hasShow=false
+					}
 					this.totalSize = res.total;
 				})
 			},
@@ -183,6 +185,11 @@
 					url: '/product/search?keyWord=' + this.keyword + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
 				}).then((res) => {
 					this.productList = res.itemsList;
+						if(this.productList.length>0){
+						this.hasShow=true
+					}else{
+						this.hasShow=false
+					}
 					this.totalSize = res.total;
 				})
 			},
@@ -350,7 +357,9 @@
 		font-size: 14px;
 		color: #333;
 	}
-	
+		.selector a{
+			color: #666;
+		}
 	.selector dl {
 		border-width: 0 0 1px;
 		border-style: solid;

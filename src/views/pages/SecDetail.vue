@@ -74,7 +74,7 @@
 
 						</li>
 					</ul>
-					<div class="changepage fl"><i @click="prev()">&lt;</i> <i @click="next()">&gt;</i></div>
+					<div class="changepage fl" v-if="recomm.length>5"><i @click="prev()">&lt;</i> <i @click="next()">&gt;</i></div>
 				</div>
 			</div>
 		</div>

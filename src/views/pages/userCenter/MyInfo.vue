@@ -1,7 +1,8 @@
 <template>
 	<div style="padding:40px;">
 		<div class="myaccountImg">
-			<img :src="userinfo.iconUrl | imgfilter" alt="头像">
+			<img src="../../../assets/img/de-tx.jpg" alt="头像" v-if="userinfo.iconUrl==''">
+			<img :src="userinfo.iconUrl | imgfilter" alt="头像" v-else>
 			<div>
 				<h2>HI {{userinfo.nickName}}</h2>
 				<button @click="modalaccout=true">修改个人信息</button>
@@ -231,7 +232,7 @@
 					birthday: '',
 					sex: '',
 					nickName: '',
-					iconUrl: require('@/assets/img/de-tx.jpg'),
+					iconUrl: require('../../../assets/img/de-tx.jpg'),
 					customerMobile: ''
 				},
 			}

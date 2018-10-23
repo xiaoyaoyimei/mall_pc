@@ -90,6 +90,7 @@
         toususubmit() {
         var _this=this;
         this.loading = false;
+        
         this.$nextTick(() => {
             _this.$refs.tousuForm.validate(valid => {
                 if (valid) {
@@ -152,12 +153,11 @@
    
     .tousu{
         text-align: center;
-        width: 800px;
+        width:1200px;
         margin: 0px auto;
         padding: 30px 0;
         background-color: #ffffff;
-        top: 60px;
-        right: 100px;        
+        
     }
     .tousu h4{
         font-size: 24px;

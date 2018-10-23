@@ -152,7 +152,7 @@
    
     .tousu{
         text-align: center;
-        width: 800px;
+        width: 1200px;
         margin: 0px auto;
         padding: 30px 0;
         background-color: #ffffff;
@@ -196,7 +196,7 @@
         background-color: #ff0000;
         color: #ffffff;
         border-radius:0px;
-        margin-left: 25px;
+        margin-left: 100px;
     }
     .btn{
         display:block;

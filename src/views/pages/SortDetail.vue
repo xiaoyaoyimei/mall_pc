@@ -227,6 +227,7 @@
 					startTime: '',
 					endTime: '',
 					kucun: 0,
+					quantity:1,
 				},
 				productItemId: '',
 				quantity: 1,
@@ -254,13 +255,13 @@
 				data.forEach((item,index) => {
 					if(JSON.stringify(this.recomm[item].promotion)=="{}"){
 						this.compineList.push({id:this.recomm[item].list.id,image:this.recomm[item].list.list_img,
-							productName:this.recomm[item].list.item_no,quantity:this.recomm[item].list.quantity,originSalePrice:this.recomm[item].list.sale_price,
+							productName:this.recomm[item].list.item_no,quantity:1,originSalePrice:this.recomm[item].list.sale_price,
 							salePrice:this.recomm[item].list.sale_price,
 							productType:this.recomm[item].list.catalogId})
 						this.dpjiage += parseFloat(this.recomm[item].list.sale_price);
 					}else{
 						this.compineList.push({id:this.recomm[item].list.id,image:this.recomm[item].list.list_img,
-							productName:this.recomm[item].list.item_no,quantity:this.recomm[item].list.quantity,originSalePrice:this.recomm[item].list.sale_price,
+							productName:this.recomm[item].list.item_no,quantity:1,originSalePrice:this.recomm[item].list.sale_price,
 							salePrice:this.recomm[item].promotion.onSalePrice,promotionTitle:this.recomm[item].promotion.activityName,
 							productType:this.recomm[item].list.catalogId})
 						this.dpjiage += parseFloat(this.recomm[item].promotion.onSalePrice);
@@ -268,9 +269,9 @@
 					this.compineId.push(this.recomm[item].list.id)
 				});
 				if(this.choosesp.cuxiaoprice > 0) {
-					this.dpjiage += parseFloat(this.choosesp.cuxiaoprice);
+					this.dpjiage += parseFloat(this.choosesp.cuxiaoprice*this.quantity);
 				} else {
-					this.dpjiage += parseFloat(this.choosesp.price);
+					this.dpjiage += parseFloat(this.choosesp.price*this.quantity);
 				}
 				
 			},
@@ -532,6 +533,7 @@
 										this.choosesp.activityName = cxitem.activityName;
 										this.choosesp.startTime = cxitem.startTime;
 										this.choosesp.endTime = cxitem.endTime;
+										this.choosesp.quantity=cxitem.quantity
 									}
 								}
 							}

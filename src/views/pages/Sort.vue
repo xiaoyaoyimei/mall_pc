@@ -134,6 +134,7 @@
 					for (let index = 0; index < this.type.length; index++) {
 						if(this.type[index].id == this.catalogId){
 							this.type[index].red = true;
+							this.typeindex = -2
 						}else{
 							this.type[index].red = false;
 						}

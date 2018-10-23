@@ -242,7 +242,9 @@
 	cursor: pointer;
 	margin-left:40px;
 }
-
+	.ivu-btn:focus{
+		box-shadow: 0 0 0 0px rgba(51, 153, 255, 1);
+	}
 .page-reg form{
 	height: 630px;
 }
@@ -251,4 +253,5 @@
 	.page-reg .ivu-form-item{
 		margin-bottom: 25px;
 	}
+
 </style>

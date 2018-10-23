@@ -89,8 +89,7 @@
     methods: {
         toususubmit() {
         var _this=this;
-        this.loading = false;
-        this.$nextTick(() => {
+        this.loading = true;
             _this.$refs.tousuForm.validate(valid => {
                 if (valid) {
                     this.loading = true;
@@ -113,7 +112,9 @@
                     });                    
                     }
                 })
-            });
+                setTimeout(() => {
+                     this.loading = false;
+                }, 2000);
         },
         evauploadhandleSuccess(res, file){
 					if(res.code == '200') {

@@ -98,12 +98,18 @@
 				}
 			     
 				if(this.catalogId != undefined) {
+					this.searchfilter.type = this.catalogId;
 					this.$axios({
 						method: 'GET',
 						url: '/product/search?&type=' + this.catalogId + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
 					}).then((res) => {
 						this.productList = res.itemsList;
 						this.totalSize = res.total;
+						if(this.productList.length>0){
+							this.hasShow=true
+						}else{
+							this.hasShow=false
+						}
 					})			
 				}	
 			},

@@ -63,8 +63,8 @@
 					</dl>
 				</div>
 				<div class="opt">
-					<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi" v-if="!xiajia"><i class="icon-new icon-minicart"></i>加入购物车</button>
-					<button class="btn-xorder" v-show="!wuhuotongzhi" @click="buynow(0)"><i class="icon-new icon-minicart"  ></i>立即下单</button>
+					<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi&&!xiajia" ><i class="icon-new icon-minicart"></i>加入购物车</button>
+					<button class="btn-xorder" v-show="!wuhuotongzhi&&!xiajia" @click="buynow(0)"><i class="icon-new icon-minicart"  ></i>立即下单</button>
 					<button v-if="wuhuotongzhi" size="large" class="btn-nopro" disabled="disabled">暂时无货，到货通知</button>
 					<button class="btn-like" @click="likepro" :class="{'btn-like-active':likeshow}">
 					<i class="icon-new icon-like"></i>喜欢</button>
@@ -113,7 +113,7 @@
 							<span v-if="choosesp.cuxiaoprice>0&&dpjiage==0" class="color-newred">{{choosesp.cuxiaoprice}}</span>
 							<span class="color-newred" v-if="choosesp.cuxiaoprice==0&&dpjiage==0">{{choosesp.price}}</span>
 							<span class="color-newred" v-if="dpjiage>0">{{dpjiage}}</span></p>
-						<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi">加入购物车</button><button class="btn-xorder" v-show="!wuhuotongzhi" @click="buynow(1)">立即下单</button>
+						<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi&&!xiajia">加入购物车</button><button class="btn-xorder" v-show="!wuhuotongzhi&&!xiajia" @click="buynow(1)">立即下单</button>
 						<button class="btn-nopro" v-show="wuhuotongzhi">暂时无货</button>
 					</div>
 				</div>

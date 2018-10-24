@@ -56,7 +56,7 @@
 			<div class="main-width bottom-con"><img class="fl"  src="../assets/img/logo-red.png">
 				<div class="bottom-dtl">
 					<p>
-						<router-link :to="{path: '/help/fwtk'}">服务协议 </router-link>|
+						<router-link :to="{path: '/help/fwtk'}">服务条款</router-link>|
 					<router-link :to="{path: '/help/yszc'}"  class="ml10"> 隐私声明</router-link>© 2018 迪瑞克斯DXRacer</p>
 					<p>本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</p>
 				</div>

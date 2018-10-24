@@ -17,7 +17,7 @@
                     <div>
                     <div class="demo-upload-list" style="width:260px;text-align:left" v-for="item in uploadList">
                         <template v-if="item.status === 'finished'">
-                            <img width="50px;" :src="item.url  | imgfilter">
+                            <img width="100px;" :src="item.url  | imgfilter">
                         </template>
                         <template v-else>
                             <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
@@ -36,7 +36,7 @@
                     </div>
                     <!-- <input type="text" class="input" placeholder=""  v-model="tousuForm.imageUrl"> -->
                 </FormItem>
-               {{loading}}<Button  class="btn" long :loading="loading"  @click="toususubmit()">提交</Button>
+             <Button  class="btn" long :loading="loading"  @click="toususubmit()">提交</Button>
             </Form>
         </div>
     </div>
@@ -89,12 +89,7 @@
     methods: {
         toususubmit() {
         var _this=this;
-//   	setTimeout(() => {
-     		alert("F")
-        _this.loading = false;
-        _this.$nextTick(() => {
-        	alert("$nextTick")
-        	 _this.loading = true;
+        this.loading = true;
             _this.$refs.tousuForm.validate(valid => {
                 if (valid) {
                     let tousuForm=this.tousuForm;
@@ -109,13 +104,15 @@
                             this.$router.push( '/index' );
                         
                         }else{
+                            this.loading = false
                             this.$Message.success('投诉失败');
                         }
                     });                    
                     }
                 })
-            });
-//          }, 2000);
+                setTimeout(() => {
+                     this.loading = false;
+                }, 2000);
         },
         evauploadhandleSuccess(res, file){
 					if(res.code == '200') {
@@ -151,19 +148,10 @@
 	}
     }
 </script>
-<style scope='scope'>
-   
+<style scoped="scoped">
     .tousu{
-        text-align: center;
-<<<<<<< HEAD
-        width:1200px;
-=======
-        width: 1200px;
->>>>>>> 61a76131d953068234b65e2daff13e477c03c318
-        margin: 0px auto;
         padding: 30px 0;
         background-color: #ffffff;
-        
     }
     .tousu h4{
         font-size: 24px;

@@ -681,7 +681,7 @@
 		font-size: 24px;
 		color: #FFFFFF;
 	}
-	.floor li:nth-of-type(n+5){
+	.one li:nth-of-type(5){
 		display: none;
 	}
 </style>

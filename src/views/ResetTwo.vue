@@ -1,6 +1,6 @@
 <template>
 	<div class="forget ResetTwo">
-            	<Form :model="regiForm"  :label-width="0" :rules="ruleValidate" ref="regiForm">
+            	<Form :model="regiForm"  :label-width="0" :rules="ruleValidate" ref="regiForm" autocomplete="off">
               <img   src="../assets/img/logo-red.png">
                 <h4>重置密码</h4>
                 <FormItem  prop="mobile">
@@ -8,7 +8,7 @@
                     <!--<input type="text" placeholder="请输入手机号" v-model.trim="regiForm.mobile" >-->
                 </FormItem>
                 <FormItem  prop="passWord">
-                    <input type="password" placeholder="请输入密码" v-model.trim="regiForm.passWord" >
+                    <input type="password" placeholder="请输入密码" v-model.trim="regiForm.passWord"  >
                 </FormItem>
                 <FormItem  prop="confirmpass">
                     <input type="password" class="input" placeholder="请确认密码" v-model.trim="regiForm.confirmpass" >

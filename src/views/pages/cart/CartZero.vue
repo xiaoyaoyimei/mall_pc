@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="nav">
+    <!--<div class="nav">
         <div class="main-width clearfix">
             <router-link  to="/index" class="logo fl"><img   src="../../../assets/img/logo-red.png"></router-link>
             <ul class="nav_title fl">
@@ -17,7 +17,8 @@
                 <button class="search_btn" @click="gosearch()"><i class="icon-new icon-search"></i></button>
             </div>
         </div>
-    </div>
+    </div>-->
+    <app-nav></app-nav>
 	<div class="successCart clearfix">
 
 		<div class="succeessImg">
@@ -48,7 +49,7 @@
                         </router-link>
                     </li>
                 </ul>
-                <div class="likebtn changepage">
+                <div class="likebtn changepage" v-show="pageShow">
                     <Icon type="ios-arrow-back"  @click="prev()"/><Icon type="ios-arrow-forward"  @click="next()"/>
                 </div>
             </div>
@@ -57,6 +58,7 @@
 </template>
 
 <script>
+		import AppNav from '@/components/Nav'
 export default {
   data() {
     return {
@@ -67,9 +69,12 @@ export default {
       index: 4,
       keyword: '',
       opt_search_hover:false,
-      // zeroid:'',
+      pageShow:false
     };
   },
+  components: {
+			AppNav,
+		},
   methods: {
     getParams() {
       // 取到路由带过来的参数
@@ -91,6 +96,9 @@ export default {
               }
             }
             this.tuijian = res.object;
+            if(res.object.length>4){
+            	this.pageShow=true
+            }
           }
         });
       }

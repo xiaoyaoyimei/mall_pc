@@ -169,12 +169,6 @@
 						message: '用户名不能为空',
 						trigger: 'blur'
 					}],
-					
-							birthday: [{
-						required: true,
-						message: '请选择生日',
-						trigger: 'blur'
-					}],
 				},
 				ruleValidate: {
 					selectedOptionsAddr: [{

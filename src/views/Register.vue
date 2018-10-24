@@ -20,7 +20,7 @@
 						<img v-show="verimg!=''" :src="verimg" class="pic-yzm"><img src="../assets/img/refresh.png" class="refresh" @click="getTx">
 					</FormItem>
 					<FormItem prop="passWord">
-						<input type="password" class="input" placeholder="请输入密码" v-model="regiForm.passWord">
+						<input type="password" class="input" placeholder="请输入密码" v-model="regiForm.passWord" autocomplete="off">
 					</FormItem>
 					<FormItem prop="confirmpass">
 						<input type="password" class="input" placeholder="请确认密码" v-model="regiForm.confirmpass">

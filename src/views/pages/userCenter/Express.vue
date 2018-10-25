@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="padding:40px;">
 
 		<span class="status">已签收</span>
 
@@ -9,11 +9,11 @@
 
 				<li class="clearfix" v-for="(item,index) in expressList" :key="index">
 
-					<p class="logisticsTime">{{item.date}}</p>
+					<p class="logisticsTime" ><span v-if="item.show">{{item.date}}</span></p>
 
 					<p class="logisticsaddress">
 
-						<span>【{{item.addr}}】{{item.remark}}</span>
+						<span>{{item.time}} &nbsp;&nbsp;&nbsp;&nbsp;【{{item.addr}}】&nbsp;{{item.remark}}</span>
 
 
 					</p>
@@ -53,6 +53,20 @@
 					url: `/order/getRoute/${this.orderNo}`,
 				}).then((res) => {
 					this.expressList = res;
+					for (let index = 0; index < this.expressList.length; index++) {
+						if(index >0){
+
+						
+							if(this.expressList[index].date == this.expressList[index-1].date){
+								this.expressList[index].show = false
+							}else{
+								this.expressList[index].show = true
+							}
+						}else{
+							this.expressList[index].show = true
+						}
+						
+					}
 				});
 			},
 		},
@@ -91,11 +105,16 @@
 		font-size: 14px;
 		color: #666666;
 		line-height: 48px;
+		padding-top: 2px;
+		text-indent: 0.75em;
 	}
 	
 	.logisticsaddress {
 		float: left;
 		width: 700px;
+		height: 48px;
+		line-height: 48px;
+		overflow: hidden;
 	}
 	
 	.logisticsaddress span {
@@ -119,5 +138,11 @@
 		margin: 4px 0px;
 		border-top: 1px solid #c6c6c6;
 		padding-top: 45px;
+	}
+	.newcenter p {
+		font-weight: 400;
+		font-size: 16px;
+		color: #666666;
+		margin-bottom: 16px;
 	}
 </style>

@@ -31,6 +31,7 @@
 					</ul>
 					<div class="myorderp">
 						<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情 </router-link>
+						<router-link :to="{name:'/order/express',query:{orderNo:x.order.orderNo,expressNo:x.order.expressNo,logistics:x.order.logistics}}" v-if="x.order.orderStatus=='06'||x.order.orderStatus=='07'">查看物流 </router-link>
 						<button @click="cancel(x.order.orderNo)" v-if="x.order.orderStatus=='01'||x.order.orderStatus=='02'||x.order.orderStatus=='05'">取消订单</button>
 						<button @click="showrefund(x.orderItems,x.order.orderNo)" v-if="x.canRefund==true">售后服务</button>
 						<button class="btn-red" @click="qianshou(x.order.orderNo)" v-if="x.order.orderStatus=='06'">确认收货</button>

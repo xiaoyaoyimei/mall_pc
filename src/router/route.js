@@ -163,7 +163,15 @@ const routes = [{
 				path: '/order/detail',
 				component: resolve => require(['@/views/pages/userCenter/OrderDetail.vue'], resolve),
 			},
-			
+				{
+				meta: {
+					requireAuth: true
+				},
+				zname:'查看物流',
+				name: '/order/express',
+				path: '/order/express',
+				component: resolve => require(['@/views/pages/userCenter/Express.vue'], resolve),
+			},
 			{
 				meta: {
 					requireAuth: true

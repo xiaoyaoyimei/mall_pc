@@ -40,7 +40,7 @@
 			};
 			return {
 				t: '',
-				time: 20, // 发送验证码倒计时
+				time: 90, // 发送验证码倒计时
 				sendMsgDisabled: false,
 				loadingtx: false,
 				txv: 1,
@@ -138,14 +138,13 @@
 				   this.startTime();
 			},
 			startTime() {
-				console.log(this.time);
 				if(this.time == 0) {
-					this.time = 20;
-					//this.sendMsgDisabled = false;
+					this.time = 90;
+					this.sendMsgDisabled = false;
 					clearTimeout(this.t);
 					return 
 				} else {
-					this.time=this.time-1;
+					this.time--;
 				}
 				let self = this;
 				this.t = setTimeout(() => {

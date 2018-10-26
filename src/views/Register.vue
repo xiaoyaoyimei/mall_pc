@@ -168,6 +168,7 @@
 					this.time = 90;
 					this.sendMsgDisabled = false;
 					clearTimeout(this.t);
+					return;
 				} else {
 					this.time--;
 				}

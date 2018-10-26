@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getCookie} from '@/base/cookie'
+import {getCookie} from '@/base/auth'
 import store from '@/store/store';
 import router from '@/router/route';
 

@@ -68,8 +68,8 @@
 						<div class="information">
 							<div class="placeorderInformation">
 								使用优惠码
-								<div v-for="(item,index) in inputlist" class="inlineBlock">
-									<input class="input" type="text" ref="couponitem" onKeyUp="if(this.value.length>4){this.value=this.value.substr(0,4)}">
+								<div  class="inlineBlock">
+									<input class="input" type="text" ref="couponValue" onKeyUp="if(this.value.length>16){this.value=this.value.substr(0,16)}">
 									<span>-</span></div>
 								<button class="btn" @click='usecoupon'>确定</button>
 								<span class="cost">已优惠   -￥{{(origintotal.price -total.price)|pricefilter}}</span>
@@ -149,7 +149,6 @@
 			};
 			return {
 				expressModal:false,
-				inputlist: [1, 2, 3, 4],
 				beizhu: '',
 				loading: true,
 				addressOption: [],
@@ -245,12 +244,7 @@
 				this.cartList.forEach(function(item, index) {
 					price.push(item.salePrice);
 					quantity.push(item.quantity);
-						if(self.orderfrom=='A'){
-						typeIds.push(item.productType);
-					}else{
-						typeIds.push(item.productCatalog);
-					}
-					
+					typeIds.push(item.productCatalog);
 				});
 				this.$axios({
 					method: 'post',
@@ -401,7 +395,6 @@
 				if(this.cartList == null) {
 					return
 				} else {
-
 					//刚进入购物车页面
 					if(value == undefined) {
 						_this.total.num = 0;
@@ -552,10 +545,7 @@
 			usecoupon() {
 				this.xscoupon = false;
 				let _this = this;
-				_this.couponCode=""
-				this.$refs['couponitem'].forEach(function(item, index) {
-					_this.couponCode += (item.value).replace(/(^\s*)|(\s*$)/g, "");
-				})
+				_this.couponCode=this.$refs['couponValue'].value;
 				if(this.couponCode == '') {
 					this.$Message.error('优惠码不能为空');
 					return;
@@ -810,7 +800,7 @@
 	}
 	
 	.placeorderActivity .input {
-		width: 93px;
+		width: 370px;
 		height: 31px;
 		font-size: 14px;
 		font-weight: 400;

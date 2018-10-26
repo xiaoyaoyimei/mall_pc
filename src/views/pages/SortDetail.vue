@@ -101,7 +101,7 @@
 									<p>{{item.list.model_no}}</p>
 								</router-link>
 								<Checkbox :label="index" :key="index">
-									<span v-if="JSON.stringify(item.promotion)=='{}'">¥{{item.list.sale_price | pricefilter}}</span>
+									<span v-if="item.proPrice">¥{{item.list.sale_price | pricefilter}}</span>
 									<span v-else>¥{{item.promotion.onSalePrice | pricefilter}} <em  class="abandoned" >{{item.list.sale_price | pricefilter}}</em></span>
 								</Checkbox>
 
@@ -263,13 +263,17 @@
 						this.compineList.push({id:this.recomm[item].list.id,image:this.recomm[item].list.list_img,
 							productName:this.recomm[item].list.item_no,quantity:1,originSalePrice:this.recomm[item].list.sale_price,
 							salePrice:this.recomm[item].list.sale_price,
-							productType:this.recomm[item].list.catalogId})
+							productType:this.recomm[item].list.typeId,
+							productCatalog:this.recomm[item].list.catalogId
+						})
 						this.dpjiage += parseFloat(this.recomm[item].list.sale_price);
 					}else{
 						this.compineList.push({id:this.recomm[item].list.id,image:this.recomm[item].list.list_img,
 							productName:this.recomm[item].list.item_no,quantity:1,originSalePrice:this.recomm[item].list.sale_price,
 							salePrice:this.recomm[item].promotion.onSalePrice,promotionTitle:this.recomm[item].promotion.activityName,
-							productType:this.recomm[item].list.catalogId})
+							productType:this.recomm[item].list.typeId,
+							productCatalog:this.recomm[item].list.catalogId
+						})
 						this.dpjiage += parseFloat(this.recomm[item].promotion.onSalePrice);
 					}
 					this.compineId.push(this.recomm[item].list.id)
@@ -450,7 +454,8 @@
 				this.cartOne.originSalePrice=this.choosesp.price;
 				this.cartOne.salePrice=this.choosesp.cuxiaoprice;
 				this.cartOne.promotionTitle=this.choosesp.activityName;
-				this.cartOne.productType=this.shangp.product.catalogId;
+				this.cartOne.productType=this.shangp.product.typeId;
+				this.cartOne.productCatalog=this.shangp.product.catalogId;
 				this.cartList[0]=this.cartOne;
 				//0为单个立即下单，1为推荐组合中的立即下单
 				if(v==1){
@@ -675,8 +680,18 @@
 						for(let i =0; i<res.object.length;i++){
 							if(i<4){
 								res.object[i].show = true;
+								if(JSON.stringify(res.object[i].promotion)=="{}"){
+									res.object[i].proPrice=true
+								}else{
+									res.object[i].proPrice=false
+								}
 							}else{
-								res.object[i].show =false
+								res.object[i].show =false;
+									if(JSON.stringify(res.object[i].promotion)=="{}"){
+									res.object[i].proPrice=true
+								}else{
+									res.object[i].proPrice=false
+								}
 							}
 						}
 							this.recomm = res.object;

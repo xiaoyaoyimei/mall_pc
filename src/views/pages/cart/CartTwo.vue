@@ -68,8 +68,8 @@
 						<div class="information">
 							<div class="placeorderInformation">
 								使用优惠码
-								<div v-for="(item,index) in inputlist" class="inlineBlock">
-									<input class="input" type="text" ref="couponitem" onKeyUp="if(this.value.length>4){this.value=this.value.substr(0,4)}">
+								<div  class="inlineBlock">
+									<input class="input" type="text" ref="couponitem" onKeyUp="if(this.value.length>16){this.value=this.value.substr(0,16)}">
 									<span>-</span></div>
 								<button class="btn" @click='usecoupon'>确定</button>
 								<span class="cost">已优惠   -￥{{(origintotal.price -total.price)|pricefilter}}</span>
@@ -149,7 +149,6 @@
 			};
 			return {
 				expressModal:false,
-				inputlist: [1, 2, 3, 4],
 				beizhu: '',
 				loading: true,
 				addressOption: [],
@@ -810,7 +809,7 @@
 	}
 	
 	.placeorderActivity .input {
-		width: 93px;
+		width: 370px;
 		height: 31px;
 		font-size: 14px;
 		font-weight: 400;

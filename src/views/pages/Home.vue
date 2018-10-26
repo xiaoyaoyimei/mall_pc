@@ -230,7 +230,7 @@
 				value3: 0,
 				loginflag: true,
 				setting: {
-					autoplay: false,
+					autoplay: true,
 					autoplaySpeed: 2000,
 					dots: "inside",
 					radiusDot: false,

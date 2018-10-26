@@ -1,27 +1,14 @@
 <template>
 	<div style="padding:40px;">
-
 		<span class="status">已签收</span>
-
 		<div class="logistics">
-
 			<ul class="logisticsText" >
-
 				<li class="clearfix" v-for="(item,index) in expressList" :key="index">
-
 					<p class="logisticsTime" ><span v-if="item.show">{{item.date}}</span></p>
-
 					<p class="logisticsaddress">
-
 						<span>{{item.time}} &nbsp;&nbsp;&nbsp;&nbsp;【{{item.addr}}】&nbsp;{{item.remark}}</span>
-
-
 					</p>
-
 				</li>
-
-
-
 			</ul>
 
 			<div class="logisticsdetail">
@@ -29,13 +16,9 @@
 				<p>发货地址： 江苏省无锡市惠山区五彩科技大厦</p>
 				<!--<p>收货地址： 江苏省无锡市新吴区 000000 张晓明 158****5858</p>-->
 			</div>
-
 		</div>
-
 	</div>
-
 </template>
-
 <script>
 	export default {
 		data() {
@@ -55,8 +38,6 @@
 					this.expressList = res;
 					for (let index = 0; index < this.expressList.length; index++) {
 						if(index >0){
-
-						
 							if(this.expressList[index].date == this.expressList[index-1].date){
 								this.expressList[index].show = false
 							}else{
@@ -65,7 +46,6 @@
 						}else{
 							this.expressList[index].show = true
 						}
-						
 					}
 				});
 			},

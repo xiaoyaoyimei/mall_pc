@@ -27,7 +27,7 @@
 					</FormItem>
 					<FormItem prop="shortMessage">
 						<input type="text" class="input w128" placeholder="短信验证码" v-model="regiForm.shortMessage">
-						<button class='btn-dxm' v-if="sendMsgDisabled" type="button">
+						<button class='btn-dxm' v-if="sendMsgDisabled" type="button" disabled="disabled">
 										{{time+'秒后获取'}}
 									</button>
 						<button class='btn-dxm' v-else @click="getDx" type="button">

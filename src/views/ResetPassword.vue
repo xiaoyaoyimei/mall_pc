@@ -13,7 +13,7 @@
 			</FormItem>
 			<FormItem prop="shortMessage">
 				<input type="text" class="input w207" placeholder="短信验证码" v-model="regiForm.shortMessage" >
-				<button class='btn-dxm' v-if="sendMsgDisabled" type="button">
+				<button class='btn-dxm' v-if="sendMsgDisabled" type="button" disabled="disabled">
 										<span>{{time+'秒后获取'}}</span>
 									</button>
 				<button class='btn-dxm' v-else @click="getDx" type="button">
@@ -40,7 +40,7 @@
 			};
 			return {
 				t: '',
-				time: 90, // 发送验证码倒计时
+				time: 20, // 发送验证码倒计时
 				sendMsgDisabled: false,
 				loadingtx: false,
 				txv: 1,
@@ -138,12 +138,14 @@
 				   this.startTime();
 			},
 			startTime() {
+				console.log(this.time);
 				if(this.time == 0) {
-					this.time = 90;
-					this.sendMsgDisabled = false;
+					this.time = 20;
+					//this.sendMsgDisabled = false;
 					clearTimeout(this.t);
+					return 
 				} else {
-					this.time--;
+					this.time=this.time-1;
 				}
 				let self = this;
 				this.t = setTimeout(() => {

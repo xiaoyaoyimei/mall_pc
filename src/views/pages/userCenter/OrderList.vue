@@ -21,8 +21,8 @@
 				<div class="myorderImg clearfix">
 					<ul>
 						<li v-for="(child,i) in x.orderItems" :key="i">
-							<img :src="child.productItemImg | imgfilter" alt="">
-							<div><span>{{child.productTitle}}   {{child.productAttrs}}</span>
+							<router-link :to="{ path: '/sort/sortDetail',query:{id:child.productModelId} }"><img :src="child.productItemImg | imgfilter" alt=""></router-link>
+							<div class="w400"><span><router-link :to="{ path: '/sort/sortDetail',query:{id:child.productModelId} }">{{child.productTitle}}  </router-link> {{child.productAttrs}}</span>
 								<div>￥{{unitprice(child.orderFee, child.quantity)| pricefilter}} x {{child.quantity}}
 									<span v-if="x.order.orderStatus=='07'&&!child.pinglun" class="color-red pingjia" @click="showevaluation(child,x.order.orderNo)">去评价</span>
 								</div>
@@ -350,7 +350,7 @@
 			showevaluation(item, value) {
 				this.evaItem = item;
 				this.evaItemId = item.orderItemsId;
-				this.evaProId = item.productItemId;
+				this.evaProId = item.productModelId;
 				this.evaluationModal = true;
 				this.evaluationorder = value;
 			},
@@ -505,7 +505,8 @@
 				for(let j = 0; j < item.commentList.length; j++) {
 					for(let n = 0; n < item.orderItems.length; n++) {
 						if(item.commentList[j].orderItemsId == item.orderItems[n].orderItemsId) {
-							item.orderItems[n].pinglun = item.commentList[j].canComment
+							item.orderItems[n].pinglun = item.commentList[j].canComment;
+							item.orderItems[n].productModelId = item.commentList[j].productModel.id
 						}
 					}
 				}
@@ -539,6 +540,7 @@
 			},
 		},
 		mounted() {
+			
 			this.getOrder();
 			this.getStatusEnum();
 			this.uploadList = this.$refs.upload.fileList;
@@ -564,8 +566,8 @@
 	}
 	
 	.demo-upload-list img {
-		width: 100%;
-		height: 100%;
+		max-width: 100%;
+		max-height: 100%;
 	}
 	
 	.demo-upload-list-cover {
@@ -714,7 +716,11 @@
 	
 	.pingjia {
 		cursor: pointer;
-		margin-left: 20px;
+		float: right;
+	}
+	.myorderImg .w400{
+		width: 400px;
+		
 	}
 </style>
 <style>

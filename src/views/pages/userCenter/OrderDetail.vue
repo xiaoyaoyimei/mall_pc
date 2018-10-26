@@ -28,7 +28,7 @@
                       <div class="h5">查看物流 </div>
                        <div class="p">物流公司：{{orderdetail.shippingOrder.logistics}}</div>
                       <div class="p">物流单号：{{orderdetail.shippingOrder.expressNo}}
-                      	<router-link :to="{name:'/order/express',query:{orderNo:orderNo,expressNo:orderdetail.shippingOrder.expressNo,logistics:orderdetail.shippingOrder.logistics}}"  style="margin-left: 20px;color:#ff0037">查看物流 </router-link>
+                      	<router-link :to="{name:'/order/express',query:{orderNo:orderNo,expressNo:orderdetail.shippingOrder.expressNo,logistics:orderdetail.shippingOrder.logistics}}" v-if="orderdetail.shippingOrder.logistics!=''" style="margin-left: 20px;color:#ff0037">查看物流 </router-link>
                       </div>
                   </div>
                   <div class="orderdetailfapiao">

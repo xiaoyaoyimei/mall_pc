@@ -88,9 +88,6 @@
 			},
 			handleLogin() {
 				var _this = this;
-				_this.loading = true;
-				setTimeout(() => {
-					this.loading = false;
 					this.$nextTick(() => {
 						_this.loading = true;
 						_this.$refs.loginForm.validate(valid => {
@@ -117,10 +114,13 @@
 												let data = res;
 												localStorage.setItem('mobile', _this.loginForm.loginName);
 												//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  
+//												 this.setCookie('token',data.object["token"]); //设置Session
+//      this.setCookie('userId',data.object["userId"]);
 												store.commit('LOGIN', {
 													token: data.object["token"],
 													userId: data.object["userId"]
 												});
+												
 												_this.$router.push('/index');
 											}
 
@@ -136,10 +136,9 @@
 								this.loading = false
 								return false;
 							}
+						})
 						});
-					});
-				}, 2000);
-			},
-		},
+		}
 	}
+		}
 </script>

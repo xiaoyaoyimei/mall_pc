@@ -18,7 +18,7 @@
 						<span class="overflow" v-if="account.nickName==''">{{account.customerMobile}}</span>
 						<span class="a overflow" v-else>{{account.nickName}}</span> <Icon type="ios-arrow-down" />
 						<div :class="{'none':qiehuan}" style="display:none">
-						<router-link  class="a" to='/user'>个人中心</router-link>	
+						<router-link  class="a" to='/user'>我的订单</router-link>	
 						<router-link  class="a" to='/user/mylike'>我的喜欢</router-link>	
 						<router-link  class="a" to='/user/myinfo'>我的账户</router-link>	
 						<span   @click="logout" class="a" >退出登录</span>
@@ -97,6 +97,7 @@
                         this.account= Object.assign({},res);
                        	Bus.$emit('nologin', this.nologin)
 					});
+					
     	     	 }else{
     	     	 	 	Bus.$emit('nologin', this.nologin)
     	     	 }

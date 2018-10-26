@@ -36,7 +36,7 @@
 
 					</FormItem>
 					<Button class="btn" @click="handleSubmit('regiForm')" :loading="loading">点击注册</Button>
-					<p class="p">点击注册，即表示您同意并愿意遵守dxacer公司</p>
+					<p class="p">点击注册，即表示您同意并愿意遵守DXRacer</p>
 					<p class="pp"><span style="cursor: pointer;" @click="zffwmodal=true">《用户协议》</span> 和
 						<span @click="fwtkmodal=true" style="cursor: pointer;">《隐私政策》</span></p>
 				</Form>

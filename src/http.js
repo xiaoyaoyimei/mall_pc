@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {getCookie} from '@/base/cookie'
 import store from '@/store/store';
 import router from '@/router/route';
 
@@ -13,6 +14,18 @@ axios.defaults.baseURL =`/pc`;
 // http request 拦截器
 axios.interceptors.request.use(
     config => {
+//  	debugger
+//  const token = getCookie('token'); //获取Cookie
+//  const loginUserId=getCookie('userId')
+//  config.data = JSON.stringify(config.data);
+//  config.headers = {
+//    'Content-Type':'application/x-www-form-urlencoded' //设置跨域头部
+//  };
+//  if (token) {
+//    config.params = {'token': token,'loginUserId':loginUserId} //后台接收的参数，后面我们将说明后台如何接收
+//  }
+//  return config;
+//},
         if (store.state.token) {
           config.headers['token'] = store.state.token;
 		  config.headers['loginUserId']=store.state.userId
@@ -26,12 +39,17 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
     response => {
+    	
     	if(response.data.code=='401'){
+    		console.log( router.currentRoute);
     		 store.commit('LOGOUT');
+    		 let url=window.location.href;
+    		 console.log(url)
     		  router.replace({
                         name: '/login',
                         query: {redirect: router.currentRoute.fullPath}
                     })
+    		  return false
     	  }
         return response.data;
     },

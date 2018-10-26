@@ -4,7 +4,7 @@
 		<ul class="evaluate"  v-if="evaluateList.length>0">
 			<li class="li clearfix" v-for="(item,index) in evaluateList" :key="index">
 				<div class="evaluateImg">
-					<img :src="item.list.iconUrl | imgfilter" alt="">
+					<img :src="item.shippingOrderItems.productItemImg | imgfilter" alt="">
 					<span>{{item.list.productItemNo}}</span>
 					<span class="fubiao">{{item.list.productTitle}}</span>
 					<span class="">￥{{item.list.productFee |pricefilter}}</span>

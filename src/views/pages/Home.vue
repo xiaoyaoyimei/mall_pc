@@ -34,7 +34,8 @@
 								</p>
 							</router-link>
 						</li>
-						<li v-for="(item, index) in hotitem"  :key='index' ><em>NEW</em>
+						<li v-for="(item, index) in hotitem"  :key='index' ><em v-if="item.activity!=''">{{item.activity}}</em>
+							<em v-else>HOT</em>
 							<router-link :to="{ path: '/sort/sortDetail',query:{id:item.list.product_id} }" >
 							 	<img :src="item.list.img_url | imgfilter" :ref="item.list.id">
 							<h6>{{item.list.model_no}}</h6>
@@ -230,8 +231,8 @@
 				value3: 0,
 				loginflag: true,
 				setting: {
-					autoplay: false,
-					autoplaySpeed: 2000,
+					autoplay: true,
+					autoplaySpeed: 5000,
 					dots: "inside",
 					radiusDot: false,
 					trigger: "click",

@@ -66,8 +66,12 @@
 					<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi&&!xiajia" ><i class="icon-new icon-minicart"></i>加入购物车</button>
 					<button class="btn-xorder" v-show="!wuhuotongzhi&&!xiajia" @click="buynow(0)"><i class="icon-new icon-minicart"  ></i>立即下单</button>
 					<button v-if="wuhuotongzhi" size="large" class="btn-nopro" disabled="disabled">暂时无货，到货通知</button>
-					<button class="btn-like" @click="likepro" :class="{'btn-like-active':likeshow}">
-					<i class="icon-new icon-like"></i>喜欢</button>
+					<button class="btn-like btn-like-active"   disabled="disabled" v-if="likeshow">
+					<i class="icon-new icon-like"></i>已喜欢
+					</button>
+					<button class="btn-like" @click="likepro"  v-else>
+					<i class="icon-new icon-like"></i>喜欢
+					</button>
 				</div>
 			</div>
 		</div>
@@ -279,16 +283,7 @@
 			},
 			//喜欢
 			likepro() {
-				let id = this.shangp.product.id;
 				if(localStorage.getItem('token') != null && localStorage.getItem('token') != undefined) {
-					this.$axios({
-						method: 'post',
-						url: `/like/queryIsLiked/${id}`,
-					}).then((res) => {
-						if(res) {
-							this.$Message.info('该商品已在收藏列表');
-						} else {
-							this.likeshow = !this.likeshow;
 							this.$axios({
 								method: 'post',
 								url: `/like/insert/${id}`,
@@ -299,18 +294,15 @@
 									this.$Message.error('收藏失败');
 								}
 							})
-						}
-					})
 				} else {
 					this.$Message.error('您尚未登录,请先登录');
 				}
 
 			},
 			getlikepro(){
-				let	id = this.shangp.product.id
 				this.$axios({
 						method: 'post',
-						url: `/like/queryIsLiked/${id}`,
+						url: `/like/queryIsLiked/${this.productId}`,
 					}).then((res) => {
 						this.likeshow = res;
 					})
@@ -952,6 +944,7 @@
 	
 	.btn-like-active {
 		background: #FF0000;
+		cursor: not-allowed;
 	}
 	
 	.recommend {

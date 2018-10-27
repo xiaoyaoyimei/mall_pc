@@ -1,20 +1,19 @@
 import axios from 'axios';
-import {getCookie} from '@/base/auth'
+import {getToken,getUserId} from '@/base/auth'
 import store from '@/store/store';
 import router from '@/router/route';
 
 // axios 配置
 axios.defaults.timeout = 9000;
 //测试环境
-axios.defaults.baseURL =`/pc`;
+//axios.defaults.baseURL =`/pc`;
 //修改flj
 //生产环境
-//axios.defaults.baseURL =`/mall/pc`;
+axios.defaults.baseURL =`/mall/pc`;
 //axios.defaults.baseURL='http://www.dxracer.cn/mall/pc'
 // http request 拦截器
 axios.interceptors.request.use(
     config => {
-//  	debugger
 //  const token = getCookie('token'); //获取Cookie
 //  const loginUserId=getCookie('userId')
 //  config.data = JSON.stringify(config.data);
@@ -27,8 +26,8 @@ axios.interceptors.request.use(
 //  return config;
 //},
         if (store.state.token) {
-          config.headers['token'] = store.state.token;
-		  config.headers['loginUserId']=store.state.userId
+          config.headers['token'] = getToken();
+		  config.headers['loginUserId']=getUserId()
         }
         return config;
     },
@@ -41,14 +40,17 @@ axios.interceptors.response.use(
     response => {
     	
     	if(response.data.code=='401'){
-    		console.log( router.currentRoute);
-    		 store.commit('LOGOUT');
-    		 let url=window.location.href;
-    		 console.log(url)
-    		  router.replace({
-                        name: '/login',
-                        query: {redirect: router.currentRoute.fullPath}
-                    })
+//  		console.log( router.currentRoute);
+    		     	 store.dispatch('LogOut').then(() => {
+				          //  	_this.$router.push('/login');
+				          return false
+         				 })
+    		     	 
+//  		 console.log(url)
+//  		  router.replace({
+//                      name: '/login',
+//                      query: {redirect: router.currentRoute.fullPath}
+//                  })
     		  return false
     	  }
         return response.data;

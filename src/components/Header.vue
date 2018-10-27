@@ -25,7 +25,6 @@
 						</div>
 					</div>
 					<hr class="spacer">
-					<!-- <a href="" class="message"><i class="icon-new icon-message"></i></a> -->
 					<router-link  to="/cart" class="mini-cart"><i class="icon-new icon-minicart"></i></router-link >
 				</div>
 			</div>
@@ -36,6 +35,7 @@
 </template>
 <script>
    // 引入公共的bug，来做为中间传达的工具
+   	import { getToken, setToken, removeToken,getUserId,setUserId,removeUserId } from '@/base/auth'
    import store from '@/store/store'
    import Bus from '@/assets/js/bus.js'
 	 export default {
@@ -67,6 +67,9 @@
                     title: '提示',
                     content: '<p>确认退出吗?</p>',
                     onOk: () => {
+//                  	 store.dispatch('LogOut').then(() => {
+//				            	_this.$router.push('/login');
+//       				 })
 		                    this.$axios({
 							    method: 'post',
 							    url:'/customer/logout',
@@ -75,8 +78,14 @@
 				                 		 this.$Message.error(res.msg);
 				              		} 
 				              		else{
-										sessionStorage.removeItem('token');
-				                       	sessionStorage.removeItem('userId');
+										localStorage.removeItem('token');
+				                       	localStorage.removeItem('userId');
+//				                       	store.commit('SET_TOKEN', {
+//													token: '',
+//													userId:''
+//												})
+//								        removeToken()
+								        //removeUserId()
 				    					_this.$router.push('/login');
 			    					}
 							});
@@ -127,28 +136,7 @@
              gotouser(){
             	this.$router.push('/user');
             },
-            logout(){
-				var _this = this;
-				   this.$Modal.confirm({
-                    title: '提示',
-                    content: '<p>确认退出登录吗</p>',
-                    onOk: () => {
-		                    this.$axios({
-							    method: 'post',
-							    url:'/customer/logout',
-							}).then((res)=>{
-								     if (res.code !== 200) {
-				                 		 this.$Message.error(res.msg);
-				              		} 
-				              		else{
-										this.$store.commit('LOGOUT');  
-				    					_this.$router.push('/login');
-			    					}
-							});
-		                       
-                    },
-                });
-            }
+
         },
   		mounted(){
   		    Bus.$on('cartmsg', (data) => {

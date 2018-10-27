@@ -29,6 +29,7 @@
 	</div>
 </template>
 <script>
+	import { getToken, setToken, removeToken,getUserId,setUserId,removeUserId } from '@/base/auth'
 	import store from '@/store/store';
 	import { validatePHONE } from '@/assets/js/validate';
 	export default {
@@ -114,8 +115,12 @@
 												let data = res;
 												localStorage.setItem('mobile', _this.loginForm.loginName);
 												//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  
-//												 this.setCookie('token',data.object["token"]); //设置Session
-//      this.setCookie('userId',data.object["userId"]);
+//								    store.commit('SET_TOKEN', {
+//													token: data.object["token"],
+//													userId: data.object["userId"]
+//												})
+//								      setToken(data.object["token"])
+//								      setUserId(data.object["userId"]);
 												store.commit('LOGIN', {
 													token: data.object["token"],
 													userId: data.object["userId"]

@@ -261,8 +261,8 @@
 							if(res.code !== 200) {
 								this.$Message.error(res.msg);
 							} else {
-								sessionStorage.removeItem('token');
-								sessionStorage.removeItem('userId');
+								localStorage.removeItem('token');
+								localStorage.removeItem('userId');
 								_this.$router.push('/login');
 							}
 						});

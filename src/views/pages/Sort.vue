@@ -87,7 +87,7 @@
 		methods: {
 			//获取顶部筛选
 			getParams() {
-				this.catalogId = this.$route.query.catalog
+				
 				//首页查看更多（直接通过关键字查找）
 				if(this.$route.query.typeid != undefined) {
 					this.getList('type', this.$route.query.typeid, this.$route.query.typeindex)
@@ -96,7 +96,7 @@
 			     	this.keyword=this.$route.query.keyword;
 					this.getTopList()
 				}
-			     
+			     this.catalogId = this.$route.query.catalog
 				if(this.catalogId != undefined) {
 					this.searchfilter.type = this.catalogId;
 					this.$axios({
@@ -151,6 +151,7 @@
 			},
 			//点击顶部筛选
 			getList(type, value, index) {
+				
 				if(type == 'catalog') {
 					this.catalogindex = index;
 					this.searchfilter.catalog = value
@@ -171,7 +172,13 @@
 					this.brandindex = index;
 					this.searchfilter.brand = value
 				}
-				this.$axios({
+				this.search('toptype');
+			},
+             search(val){
+             	if(val=='toptype'){
+             		 this.startRow=0;
+             	}
+             			this.$axios({
 					method: 'GET',
 					url: '/product/search?catalog=' + this.searchfilter.catalog + '&series=' + this.searchfilter.series + '&type=' + this.searchfilter.type + '&brand=' + this.searchfilter.brand + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
 				}).then((res) => {
@@ -183,8 +190,7 @@
 					}
 					this.totalSize = res.total;
 				})
-			},
-
+             },
 			//点击header的搜索
 			getTopList() {
 					this.$axios({
@@ -202,7 +208,7 @@
 			},
 			handlePage(value) {
 				this.startRow = (value - 1) * this.pageSize;
-				this.getList();
+				this.search('page');
 			},
 		},
 

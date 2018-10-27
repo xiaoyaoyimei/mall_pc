@@ -6,6 +6,7 @@ import registerContent from "@/container/RegisterContent"
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store/store'
+import {getToken} from '@/base/auth'
 Vue.use(VueRouter)
 const routes = [{
 		path: '/',
@@ -411,12 +412,12 @@ const routes = [{
 	},
 ]
 
-if(localStorage.getItem('token')) {
-	store.commit('LOGIN', {
-		token: localStorage.getItem('token'),
-		userId: localStorage.getItem('userId')
-	})
-}
+//if(localStorage.getItem('token')) {
+//	store.commit('LOGIN', {
+//		token: localStorage.getItem('token'),
+//		userId: localStorage.getItem('userId')
+//	})
+//}
 const router = new VueRouter({
 	routes,
 //	mode: 'history',  
@@ -432,6 +433,26 @@ const router = new VueRouter({
 	}
 });
 
+//router.beforeEach((to, from, next) => {
+//	console.log(to.path)
+//	debugger
+//	if(to.matched.some(r => r.meta.requireAuth)) {
+//   console.log(getToken())
+//   console.log(to.path)
+//		if(getToken()&&to.path!='/login') {
+//			next();
+//		} else {
+//			next({
+//				path: '/login',
+//				query: {
+//					redirect: to.fullPath
+//				}
+//			})
+//		}
+//	} else {
+//		next();
+//	}
+//})
 router.beforeEach((to, from, next) => {
 	if(to.matched.some(r => r.meta.requireAuth)) {
 		

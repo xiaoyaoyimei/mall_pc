@@ -240,7 +240,6 @@
 					quantity = [],
 					typeIds = [];
 					
-				
 				this.cartList.forEach(function(item, index) {
 					price.push(item.salePrice);
 					quantity.push(item.quantity);
@@ -550,11 +549,11 @@
 					this.$Message.error('优惠码不能为空');
 					return;
 				}
-
 				let para = {
-					addressId: this.addressList.id,
+					addressId: this.addressList[this.selectItem].id,
 					productItemIds: this.productItemIds,
-					couponCode: this.couponCode
+					couponCode: this.couponCode,
+					quantity:this.quantitys
 				};
 				this.$axios({
 					method: 'post',

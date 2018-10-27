@@ -49,9 +49,12 @@
 						</dd>
 					</dl>
 					<dl class="dl-base"><dt>数    &nbsp;&nbsp; &nbsp;&nbsp; 量</dt>
+						<!--<input value="1" type="number" v-model="quantity" style="width: 100px;
+							height: 45px;">-->
 						<dd>
 							<div class="number">
-								<input value="1" type="text" v-model="quantity"><i class="icon-new icon-add" @click="jia"></i><i class="icon-new icon-minus" @click="jian"></i></div>
+								<input value="1" type="text" v-model="quantity" v-on:blur="changeNumber($event)">
+								<i class="icon-new icon-add" @click="jia"></i><i class="icon-new icon-minus" @click="jian"></i></div>
 							<span v-show="!xiajia">
 						 	库存: {{choosesp.kucun}}件
 							</span>
@@ -85,7 +88,7 @@
 							<!--{{shangp.product.modelNo}}-->
 							{{choosesp.itemNo}}
 						</p><span v-if="choosesp.cuxiaoprice>0">¥{{choosesp.cuxiaoprice}}</span>
-						<span v-else>¥{{choosesp.price}}</span>
+						<span v-else>¥{{shangp.product.salePrice}}</span>
 					</div>
 					<div class="li-pro" v-else>
 						<img :src="choosesp.img | imgfilter">
@@ -104,7 +107,6 @@
 									<span v-if="item.proPrice">¥{{item.list.sale_price | pricefilter}}</span>
 									<span v-else>¥{{item.promotion.onSalePrice | pricefilter}} <em  class="abandoned" >{{item.list.sale_price | pricefilter}}</em></span>
 								</Checkbox>
-
 							</li>
 						</CheckboxGroup>
 					</ul>
@@ -117,7 +119,8 @@
 							<span v-if="choosesp.cuxiaoprice>0&&dpjiage==0" class="color-newred">{{choosesp.cuxiaoprice}}</span>
 							<span class="color-newred" v-if="choosesp.cuxiaoprice==0&&dpjiage==0">{{choosesp.price}}</span>
 							<span class="color-newred" v-if="dpjiage>0">{{dpjiage}}</span></p>
-						<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi&&!xiajia">加入购物车</button><button class="btn-xorder" v-show="!wuhuotongzhi&&!xiajia" @click="buynow(1)">立即下单</button>
+						<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi&&!xiajia&&this.productItemId!=''">加入购物车</button>
+						<button class="btn-xorder" v-show="!wuhuotongzhi&&!xiajia&&this.productItemId!=''" @click="buynow(1)">立即下单</button>
 						<button class="btn-nopro" v-show="wuhuotongzhi">暂时无货</button>
 					</div>
 				</div>
@@ -148,10 +151,14 @@
 							</span></h5>
 								<ul class="eval-ul">
 									<li v-for="(item, index) in commentList" :key="index">
-										<h6><img :src="item.list.iconUrl | imgfilter">{{item.list.nickName}}</h6>
+										<h6><img :src="item.list.iconUrl | imgfilter">
+										{{item.list.nickName | plusXing('*')}}</h6>
 										<p>{{item.list.commentContent}}</p>
 										<div class="sz" :key="index"><span v-for="(child, index) in item.imgList"><img :src="child | imgfilter"></span></div>
-										<div class="zan"><span class="fr"><i class="icon-new icon-zan" :class="{'icon-zan-active':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)' ></i>{{item.number}}</span>{{item.list.commentTime | formatDate('yyyy-MM-dd hh:mm:ss')}}</div>
+										<div class="zan"><span class="fr">
+											<i class="icon-new icon-zan" :class="{'icon-zan-active':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)' ></i>
+											{{item.number}}</span>{{item.list.commentTime | formatDate('yyyy-MM-dd hh:mm:ss')}}
+										</div>
 									</li>
 								</ul>
 							</div>
@@ -223,6 +230,7 @@
 				stock: false,
 				choosesp: {
 					id:'',
+					productId:'',
 					img: '',
 					itemNo: '',
 					price: 0,//现价
@@ -252,6 +260,8 @@
 			}
 		},
 		methods: {
+			//隐藏中间字符
+	
 			checkAllGroupChange(data) {
 				this.dpdata=data;
 				var _this = this;
@@ -260,7 +270,7 @@
 				this.compineList=[];
 				data.forEach((item,index) => {
 					if(JSON.stringify(this.recomm[item].promotion)=="{}"){
-						this.compineList.push({id:this.recomm[item].list.id,image:this.recomm[item].list.list_img,
+						this.compineList.push({id:this.recomm[item].list.id,productId:this.recomm[item].list.product_bind_id,image:this.recomm[item].list.list_img,
 							productName:this.recomm[item].list.item_no,quantity:1,originSalePrice:this.recomm[item].list.sale_price,
 							salePrice:this.recomm[item].list.sale_price,
 							productType:this.recomm[item].list.typeId,
@@ -268,7 +278,7 @@
 						})
 						this.dpjiage += parseFloat(this.recomm[item].list.sale_price);
 					}else{
-						this.compineList.push({id:this.recomm[item].list.id,image:this.recomm[item].list.list_img,
+						this.compineList.push({id:this.recomm[item].list.id,productId:this.recomm[item].list.product_bind_id,image:this.recomm[item].list.list_img,
 							productName:this.recomm[item].list.item_no,quantity:1,originSalePrice:this.recomm[item].list.sale_price,
 							salePrice:this.recomm[item].promotion.onSalePrice,promotionTitle:this.recomm[item].promotion.activityName,
 							productType:this.recomm[item].list.typeId,
@@ -290,12 +300,15 @@
 				if(localStorage.getItem('token') != null && localStorage.getItem('token') != undefined) {
 							this.$axios({
 								method: 'post',
-								url: `/like/insert/${id}`,
+								url: `/like/insert/${this.productId}`,
 							}).then((res) => {
 								if(res.code == '200') {
 									this.$Message.info('收藏成功');
+									this.likeshow=true;
+									
 								} else {
 									this.$Message.error('收藏失败');
+									this.likeshow=false;
 								}
 							})
 				} else {
@@ -311,24 +324,7 @@
 						this.likeshow = res;
 					})
 			},
-			//点赞
-			zan(value, isZan) {
-				let zanid = value;
-				let Like = isZan;
-				if(Like == 'N') {
-					Like = 'Y'
-				} else {
-					Like = 'N'
-				}
-				this.$axios({
-					method: 'post',
-					url: `/comment/beLike/${zanid}/${Like}`,
-				}).then((res) => {
-					if(res.code == '200') {
-						this.showcomments()
-					}
-				})
-			},
+
 			//只显示带图评论
 			toggleimg() {
 				this.onlyimg = !this.onlyimg;
@@ -358,6 +354,16 @@
 			changeNumber: function(event) {
 				var obj = event.target;
 				this.quantity = parseInt(obj.value);
+				let n = /^[1-9]\d*$/;
+				if(!n.test(obj.value)) {
+					this.$Message.warning('商品数量须大于0个，请输入正整数');
+					obj.value = 1
+					this.quantity = 1
+					return false;
+				}
+				if(this.quantity >= this.max) {
+					this.quantity = this.max
+				}
 				this.calculate();
 			},
 			//添加
@@ -448,6 +454,7 @@
 					return
 				}
 				this.cartOne.id=this.choosesp.id;
+				this.cartOne.productId=this.choosesp.productId;
 				this.cartOne.image=this.choosesp.img;
 				this.cartOne.productName=this.choosesp.itemNo;
 				this.cartOne.quantity=this.quantity;
@@ -496,12 +503,11 @@
 					}).then((res) => {
 						if(res.code == '200') {
 							Bus.$emit('cartmsg', "again");
-							//this.$router.push({name:'/cartthree',query: { orderNo: res.msg}});  
 							this.$router.push({
-								name: '/cartzero',
-								query: {
-									cartBefore: this.choosesp.id
-								}
+								name: '/cart',
+//								query: {
+//									cartBefore: this.choosesp.id
+//								}
 							});
 						} else {
 							this.$Message.error('加入购物车失败');
@@ -538,9 +544,11 @@
 							this.shangp.product.modelNo = chooseItem.itemNo;
 							this.ImgUrl = chooseItem.listImg;
 							this.choosesp.id=chooseItem.id;
+							this.choosesp.productId=chooseItem.productId;
 							this.choosesp.img = chooseItem.listImg;
 							this.choosesp.itemNo = chooseItem.itemNo;
 							this.choosesp.price = chooseItem.salePrice;
+							
 							//若无促销，则促销价为原价
 							this.choosesp.cuxiaoprice =chooseItem.salePrice;
 							this.productItemId = chooseItem.id;
@@ -552,7 +560,9 @@
 										this.choosesp.activityName = cxitem.activityName;
 										this.choosesp.startTime = cxitem.startTime;
 										this.choosesp.endTime = cxitem.endTime;
-										this.choosesp.quantity=cxitem.quantity
+										this.choosesp.quantity=cxitem.quantity;
+										
+										
 									}
 								}
 							}
@@ -578,8 +588,11 @@
 							if(kucunitem.skuId == this.productItemId) {
 								kucunflag = true;
 								this.choosesp.kucun = kucunitem.quantity - kucunitem.lockQuantity;
+								//设置加入购物车的最大值
+							    this.max=this.choosesp.kucun;
 								if(this.choosesp.kucun < 0) {
 									this.choosesp.kucun = 0;
+									this.max=0;
 								}
 							}
 						}
@@ -643,6 +656,7 @@
 							if(_this.choosesp.kucun < 0) {
 								_this.choosesp.kucun = 0
 							}
+							_this.max=_this.choosesp.kucun
 						}
 
 						if(_this.choosesp.kucun < 1) {
@@ -705,7 +719,6 @@
 					this.productDesc = res;
 				});
 
-				//comment/search/{productId}/{isImg}
 				this.$axios({
 					method: 'post',
 					url: '/product/img/' + this.productId,
@@ -713,9 +726,28 @@
 					this.productimg = res;
 				});
 			},
+						//点赞
+			zan(value, isZan) {
+				var zanid = value;
+				var Like = isZan;
+				if(Like == 'N') {
+					Like = 'Y'
+				} else {
+					Like = 'N'
+				}
+				
+				this.$axios({
+					method: 'post',
+					url: '/comment/beLike/'+zanid+'/'+Like,
+				}).then((res) => {
+					if(res.code == '200') {
+						this.showcomments()
+					}
+				})
+			},
 			//显示评论。0位全部评论，1为显示带图评论
 			showcomments() {
-				let imgshow = this.onlyimg;
+				var imgshow = this.onlyimg;
 				if(imgshow == true) {
 					imgshow = 1
 				} else {
@@ -723,16 +755,13 @@
 				}
 				this.$axios({
 					method: 'get',
-					url: `/comment/search/${this.productId}/${imgshow}`,
+					url: '/comment/search/'+this.productId+'/'+imgshow,
 				}).then((res) => {
 					if(res.code == "200") {
 						this.commentList = res.object;
 					}
 				});
 			},
-			// getcommentList(){
-			// 	d
-			// }
 		},
 		mounted() {
 			this.getParams();
@@ -956,9 +985,11 @@
 		width: 108px;
 		background: #ccc;
 	}
-	
-	.btn-like-active {
+	.btn-like:hover,.btn-like-active{
 		background: #FF0000;
+	}
+	.btn-like-active {
+		
 		cursor: not-allowed;
 	}
 	

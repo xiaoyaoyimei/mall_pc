@@ -5,29 +5,15 @@ import router from '@/router/route';
 
 // axios 配置
 axios.defaults.timeout = 9000;
-//测试环境
-//axios.defaults.baseURL =`/pc`;
 //修改flj
 //生产环境
 axios.defaults.baseURL =`/mall/pc`;
-//axios.defaults.baseURL='http://www.dxracer.cn/mall/pc'
 // http request 拦截器
 axios.interceptors.request.use(
     config => {
-//  const token = getCookie('token'); //获取Cookie
-//  const loginUserId=getCookie('userId')
-//  config.data = JSON.stringify(config.data);
-//  config.headers = {
-//    'Content-Type':'application/x-www-form-urlencoded' //设置跨域头部
-//  };
-//  if (token) {
-//    config.params = {'token': token,'loginUserId':loginUserId} //后台接收的参数，后面我们将说明后台如何接收
-//  }
-//  return config;
-//},
         if (store.state.token) {
-          config.headers['token'] = getToken();
-		  config.headers['loginUserId']=getUserId()
+                 config.headers['token'] = store.state.token;
+		  config.headers['loginUserId']=store.state.userId
         }
         return config;
     },
@@ -39,19 +25,29 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     response => {
     	
-    	if(response.data.code=='401'){
-//  		console.log( router.currentRoute);
-    		     	 store.dispatch('LogOut').then(() => {
-				          //  	_this.$router.push('/login');
-				          return false
-         				 })
-    		     	 
-//  		 console.log(url)
+//  	if(response.data.code=='401'){
+////  		console.log( router.currentRoute);
+////  		     	 store.dispatch('LogOut').then(() => {
+////				          //  	_this.$router.push('/login');
+////				          return false
+////       				 })
+//  		     	 
+////  		 console.log(url)
 //  		  router.replace({
 //                      name: '/login',
 //                      query: {redirect: router.currentRoute.fullPath}
 //                  })
-    		  return false
+//  		  return false
+//  	  }
+//      return response.data;
+            	if(response.data.code=='401'){
+    		 store.commit('LOGOUT');
+    		router.replace('/login');
+//  		  router.replace({
+//                      name: '/login',
+//                      query: {redirect: router.currentRoute.fullPath}
+//                  })
+    		    return false
     	  }
         return response.data;
     },

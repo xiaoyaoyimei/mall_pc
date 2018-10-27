@@ -719,8 +719,8 @@
 	}
 </style>
 <style>
-	.ivu-checkbox-wrapper+span,
-	.ivu-checkbox+span {
+	.cartpage .ivu-checkbox-wrapper+span,
+	.cartpage .ivu-checkbox+span {
 		display: none;
 	}
 </style>

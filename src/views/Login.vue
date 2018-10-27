@@ -123,8 +123,7 @@
 //								      setUserId(data.object["userId"]);
 												store.commit('LOGIN', {
 													token: data.object["token"],
-													userId: data.object["userId"]
-												});
+													userId: data.object["userId"]	});
 												
 												_this.$router.push('/index');
 											}

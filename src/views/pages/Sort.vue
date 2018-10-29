@@ -87,13 +87,12 @@
 		methods: {
 			//获取顶部筛选
 			getParams() {
-				
 				//首页查看更多（直接通过关键字查找）
 				if(this.$route.query.typeid != undefined) {
 					this.getList('type', this.$route.query.typeid, this.$route.query.typeindex)
 				}
 			     if(this.$route.query.keyword != undefined) {
-			     	this.keyword=this.$route.query.keyword;
+			     	this.keyword=encodeURI(this.$route.query.keyword);
 					this.getTopList()
 				}
 			     this.catalogId = this.$route.query.catalog
@@ -193,6 +192,7 @@
              },
 			//点击header的搜索
 			getTopList() {
+				
 					this.$axios({
 					method: 'GET',
 					url: '/product/search?keyWord=' + this.keyword + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,

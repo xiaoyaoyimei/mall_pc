@@ -14,8 +14,8 @@
 				</router-link>
 			</li>
 		</ul>
-		<div class="myorderempty " v-else>
-			<img src="../../../assets/img/like.png">
+		<div class="myorderempty" v-else>
+			<img src="../../../assets/img/like.png" >
 			<div>
 				<h6>暂无喜欢记录,去挑选喜欢的商品吧~</h6>
 				<router-link :to="{ path: '/sort',query:{keyword:''} }">去挑选</router-link>
@@ -157,5 +157,9 @@
 		color: #FF0000;
 		text-align: center;
 		margin-top: 8px;
+	}
+		.myorderempty img{
+		width: 64px;
+		height: 64px;
 	}
 </style>

@@ -23,9 +23,7 @@
 						<span   @click="logout" class="a" >退出登录</span>
 						</div>
 					</div>
-					
 					<router-link  to="/cart" class="mini-cart"><hr class="spacer" style="float:left;height:20px;margin-top:15px;"><i class="icon-new icon-minicart"></i></router-link >
-					
 				</div>
 			</div>
 		</div>

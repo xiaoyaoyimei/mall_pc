@@ -204,7 +204,8 @@
 		background-color: #ffffff;
 		margin-top: 10px;
 	}
-</style>
-<style>
-
+	.myorderempty img{
+		width: 64px;
+		height: 64px;
+	}
 </style>

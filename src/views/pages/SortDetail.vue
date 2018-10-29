@@ -455,7 +455,7 @@
 				}
 			},
 			buynow(v) {
-					if(localStorage.getItem('token') != null && localStorage.getItem('token') != undefined) {
+					   if(this.token!=null&&this.token!=""&&this.token!=undefined){
 				if(this.productItemId == "") {
 					this.$Message.error('请选择商品属性');
 					return
@@ -489,7 +489,7 @@
 			},
 			//加入购物车addtocart
 			atc() {
-				if(localStorage.getItem('token') != null && localStorage.getItem('token') != undefined) {
+				   if(this.token!=null&&this.token!=""&&this.token!=undefined){
 					if(this.productItemId == "") {
 						this.$Message.error('请选择商品属性');
 						return
@@ -738,9 +738,9 @@
 				var zanid = value;
 				var Like = isZan;
 				if(Like == 'N') {
-					Like = 'Y'
+					Like = 'yes'
 				} else {
-					Like = 'N'
+					Like = 'no'
 				}
 				
 				this.$axios({

@@ -9,23 +9,27 @@
 					<hr class="spacer mlr8">
 					 <router-link  to="/help">操作指南</router-link>
 				</div>
-				<div class="fr header-right">
-					<div v-if="nologin" style="display: inline-block;"><router-link  to="/login"  >登录</router-link>
-					<hr class="spacer">
-					 <router-link  to="/register">注册</router-link></div>
-					<div @mouseover="qiehuanfunction()" class="qiehuan" @mouseout="qiehuanfunction()"  v-if="!nologin" style="">
+				<div class="fr header-right" :class="{width:!nologin}" style="width:155px;">
+					<div v-if="nologin" style="display: inline-block;">
 						
-						<span class="overflow" v-if="account.nickName==''">{{account.customerMobile}}</span>
-						<span class="a overflow" v-else>{{account.nickName}}</span> <Icon type="ios-arrow-down" />
-						<div :class="{'none':qiehuan}" style="display:none">
+					
+					 <router-link  to="/register">注册</router-link>
+					 <hr class="spacer" style="float:right;height:20px;margin-top:15px;">
+					 <router-link  to="/login"  >登录</router-link></div>
+					<div @mouseover="qiehuanfunction()" class="qiehuan clerfix" @mouseout="qiehuanfunction()"  v-if="!nologin" style="">
+						
+						<span class="overflow clerfix" v-if="account.nickName==''">{{account.customerMobile}}</span>
+						<span class="a overflow clerfix" v-else>{{account.nickName}}</span> <Icon class="right clerfix"  type="ios-arrow-down" />
+						<div :class="{'none':qiehuan}" style="display:none;height:200px;">
 						<router-link  class="a" to='/user'>我的订单</router-link>	
 						<router-link  class="a" to='/user/mylike'>我的喜欢</router-link>	
 						<router-link  class="a" to='/user/myinfo'>我的账户</router-link>	
 						<span   @click="logout" class="a" >退出登录</span>
 						</div>
 					</div>
-					<hr class="spacer">
-					<router-link  to="/cart" class="mini-cart"><i class="icon-new icon-minicart"></i></router-link >
+					
+					<router-link  to="/cart" class="mini-cart"><hr class="spacer" style="float:left;height:20px;margin-top:15px;"><i class="icon-new icon-minicart"></i></router-link >
+					
 				</div>
 			</div>
 		</header>
@@ -154,21 +158,26 @@
 
 .qiehuan .a{
 	width: 120px;
-	display: inline-block;
+	display: block;
 	text-align: center;
-	height: 31px;
+	height: 50px;
 	cursor: pointer;
-	line-height: 31px;
+	line-height: 50px;
+}
+.qiehuan .right{
+	float: left;
+	height: 50px;
+	line-height: 50px;
 }
 .qiehuan .overflow{
 	overflow: hidden;
 	text-overflow: ellipsis;
-	display: inline-block;
+	float: left;
+	display:block;
 	width: 100px;
-	height: 30px;
-	line-height: 30px;
+	height: 50px;
+	line-height: 50px;
 	position: relative;
-	top: 10px;
 }
 
 .qiehuan .a:hover{
@@ -176,6 +185,9 @@
 }
 .qiehuan .overflow:hover{
 	color: #ff0000;
+}
+.width{
+	width:180px!important;
 }
 </style>
 <style>

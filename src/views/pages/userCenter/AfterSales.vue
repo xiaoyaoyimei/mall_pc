@@ -59,11 +59,12 @@
 			</p>
 			<div style="padding-bottom:30px;">
 				<div class="refund">
-					<p>退款金额 :</p> <span>{{refundAmount | pricefilter}}</span>
+					<p>退款金额 :</p> <span>￥{{refundAmount | pricefilter}}</span>
 				</div>
 				<div class="refund">
-					<p>退款说明 : </p>{{dealremark}}
+					<p>退款说明 : </p>{{refuseReason}}
 				</div>
+				
 			</div>
 			<div slot="footer">
 				<Button type="primary" size="large" long @click="submitLogisticsInfo">提交</Button>
@@ -85,7 +86,7 @@
 				expressNo: '',
 				logistics: '',
 				refundAmount:0,
-				dealremark:''
+				refuseReason:''
 			}
 		},
 		methods: {
@@ -114,7 +115,7 @@
 			show(v){
 				this.dealModal = true;
 				this.refundAmount=v.refundOrderTotalFee;
-				this.dealremark=v.remarks;
+				this.refuseReason=v.refuseReason;
 			},
 			showLogisticsInfo(value) {
 				this.infoModal = true;

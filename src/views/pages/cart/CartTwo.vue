@@ -6,16 +6,16 @@
 				<span href="#" class="fl mycart">确认订单</span>
 				<ul class="navCart">
 					<li>
-							<p class="cartIcon iconIcon-successorder"></p>
-							<p>成功提交订单</p>
+						<p class="cartIcon iconIcon-successorder"></p>
+						<p>成功提交订单</p>
 					</li>
 					<li class="red">
-							<p class="cartIcon iconIcon-order-red"></p>
-							<p>填写核对订单</p>
+						<p class="cartIcon iconIcon-order-red"></p>
+						<p>填写核对订单</p>
 					</li>
 					<li>
-							<p class="cartIcon iconIcon-cart"></p>
-							<p>我的购物车</p>
+						<p class="cartIcon iconIcon-cart"></p>
+						<p>我的购物车</p>
 					</li>
 				</ul>
 			</div>
@@ -26,7 +26,7 @@
 					<h5>收货地址</h5>
 					<ul class="clearfix">
 						<li :class="{default: index == selectItem}" v-for="(addritem,index) in addressList" :key="index" @click="chooseAddr(addritem.id,index,addritem.receiveProvince)">
-							<h6 class="name">{{addritem.person}}</h6>
+							<h6 class="name">{{addritem.person}}<span v-if="addritem.isDefault=='Y'" class="color-blue">默认地址</span></h6>
 							<p class="phone">
 								{{addritem.phone}}
 							</p>
@@ -44,7 +44,7 @@
 				<div class="placeorderTable">
 					<div class="placeorderTitle clearfix">
 						<h5>商品及优惠码</h5>
-						<router-link to="/cart"  v-show="orderfrom=='B'">返回购物车 &gt;</router-link>
+						<router-link to="/cart" v-show="orderfrom=='B'">返回购物车 &gt;</router-link>
 					</div>
 					<table class="placeorderBody">
 						<tbody>
@@ -52,10 +52,12 @@
 								<td width="400">
 									<img :src="imageSrc+x.image" alt=""><span class="placeorderspan">{{x.productName}}</span>
 								</td>
-								<td width="150"> ￥{{x.salePrice|pricefilter }} x {{x.quantity}} </td>
+								<td width="300" align="left">
+									<em class="delprice">￥{{x.originSalePrice|pricefilter}}</em> 
+									￥{{x.salePrice|pricefilter }} x {{x.quantity}} </td>
 								<!--<p v-if="x.promotionTitle ==null&&xscoupon" >￥{{x.salePrice|pricefilter }}  x {{x.quantity}}</p>
 											<p v-else>￥{{x.salePrice |pricefilter}} x {{x.quantity}}</p></td>-->
-								<td width="400"><span v-if="x.promotionTitle !=null">{{x.promotionTitle}}</span> </td>
+								<td width="250"><span v-if="x.promotionTitle !=null">{{x.promotionTitle}}</span> </td>
 								<td width="150">
 									<p v-if="x.promotionTitle ==null&&xscoupon" class="cart_price">￥{{x.salePrice|pricefilter}}</p>
 									<p v-else>￥{{itemtotal(x.salePrice,x.quantity)|pricefilter}} </p>
@@ -68,18 +70,27 @@
 						<div class="information">
 							<div class="placeorderInformation">
 								使用优惠码
-								<div  class="inlineBlock">
+								<div class="inlineBlock">
 									<input class="input" type="text" ref="couponValue" onKeyUp="if(this.value.length>16){this.value=this.value.substr(0,16)}">
-									<span>-</span></div>
+									<span>-</span> 
+								</div>
 								<button class="btn" @click='usecoupon'>确定</button>
 								<span class="cost">已优惠   -￥{{(origintotal.price -total.price)|pricefilter}}</span>
 							</div>
+							<span class="color-newred couponMsg" >{{useCouponMsg}}</span>
 						</div>
 
 					</div>
 					<div class="placeorderSend">
 						<span class="shipping">配送方式</span>
-						<span class="information" @click="expressModal=true"><span class="doubt" > ?</span>了解运费信息</span>
+						
+							<span class="information">
+								
+								<Tooltip content="本商城指定跨越速运、顺丰速运为发货物流，具体发货信息以实际发货为准" placement="bottom-start">
+							<span class="doubt" > ?</span>了解物流信息
+							</Tooltip>
+							</span>
+						
 						<span class="cost">快递费用 ￥{{freight | pricefilter}}</span>
 					</div>
 					<div class="placeorderzhubei clearfix">
@@ -114,7 +125,7 @@
 				</FormItem>
 			</Form>
 		</Modal>
-		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr"  width="600" :loading="loading">
+		<Modal ref='modaleditaddr' v-model="modaleditaddr" title="编辑收货地址" @on-ok="editaddr" width="600" :loading="loading">
 			<Form :model="editForm" ref="editForm" label-position="left" :rules="ruleValidate" style="padding: 15px;">
 				<FormItem label="" prop="person" class="mdalText">
 					<Input v-model="editForm.person" placeholder="收货人"></Input>
@@ -130,7 +141,8 @@
 				</FormItem>
 			</Form>
 		</Modal>
-		<Modal title="运费信息" v-model="expressModal" width="1140"><img src="../../../assets/img/express.png"></Modal>
+		<Modal title="运费信息" v-model="expressModal" width="400">本商城指定跨越速运、顺丰速运为发货物流，具体发货信息以实际发货为准
+			<!--<img src="../../../assets/img/express.png">--></Modal>
 	</div>
 </template>
 <script>
@@ -148,7 +160,7 @@
 				}
 			};
 			return {
-				expressModal:false,
+				expressModal: false,
 				beizhu: '',
 				loading: true,
 				addressOption: [],
@@ -206,7 +218,8 @@
 				addressList: {},
 				tempcart: [],
 				productItemIds: [],
-				quantitys:[],
+				modelIds:[],
+				quantitys: [],
 				couponshow: true,
 				couponmsg: {
 					availableSku: '',
@@ -224,7 +237,8 @@
 					num: 0
 				},
 				freight: 0,
-				orderfrom:'B',
+				orderfrom: 'B',
+				useCouponMsg: '',
 			}
 		},
 		methods: {
@@ -233,13 +247,13 @@
 			},
 			chooseAddr(id, index, p) {
 				let province = p;
-				var self=this;
+				var self = this;
 				this.addressId = id;
 				this.selectItem = index;
 				var price = [],
 					quantity = [],
 					typeIds = [];
-					
+
 				this.cartList.forEach(function(item, index) {
 					price.push(item.salePrice);
 					quantity.push(item.quantity);
@@ -270,12 +284,12 @@
 					url: '/address',
 				}).then((res) => {
 					if(res.length > 0) {
-						for (let index = 0; index < res.length; index++) {
-							if(res[index].isDefault == "Y"){
+						for(let index = 0; index < res.length; index++) {
+							if(res[index].isDefault == "Y") {
 								// this.selectItem = index
-								this.chooseAddr(res[index].id,index,res[index].receiveProvince)
+								this.chooseAddr(res[index].id, index, res[index].receiveProvince)
 							}
-							
+
 						}
 						_this.addressList = res
 					}
@@ -391,6 +405,7 @@
 			//总价计算
 			jisuan(value) {
 				let _this = this;
+				
 				if(this.cartList == null) {
 					return
 				} else {
@@ -410,7 +425,7 @@
 							_this.total.num += item.quantity;
 						});
 						let couponmethod = value;
-						if(couponmethod.availableSku == "" && couponmethod.availableCatalog == "") {
+						if(couponmethod.availableSku == "" && couponmethod.availableCatalog == ""&&couponmethod.availableModel=="") {
 							_this.total.price = 0;
 							if(couponmethod.couponMode == 'rate') {
 								this.cartList.forEach(function(item, index) {
@@ -453,7 +468,30 @@
 
 								});
 							}
-						} else {
+						} else if(couponmethod.availableModel != "") {
+							_this.total.price = 0;
+							if(couponmethod.couponMode == 'rate') {
+								this.cartList.forEach(function(item, index) {
+									if(item.productId == couponmethod.availableModel) {
+										item.salePrice = item.salePrice * (1 - couponmethod.modeValue);
+										_this.total.price += item.salePrice * item.quantity
+									} else {
+										_this.total.price += item.salePrice * item.quantity;
+									}
+								});
+							} else {
+								this.cartList.forEach(function(item, index) {
+									if(item.productId == couponmethod.availableModel) {
+										item.salePrice = item.salePrice - couponmethod.modeValue
+										_this.total.price += item.salePrice * item.quantity
+									} else {
+										_this.total.price += item.salePrice * item.quantity;
+									}
+
+								});
+							}
+						} 
+						else {
 							_this.total.price = 0;
 							if(couponmethod.couponMode == 'rate') {
 								this.cartList.forEach(function(item, index) {
@@ -479,12 +517,11 @@
 				}
 			},
 			getCartList() {
-				
 				this.cartList = JSON.parse(sessionStorage.getItem('cart'));
 				if(this.cartList != null) {
 					var _this = this;
 					_this.productItemIds = [];
-					_this.quantitys=[];
+					_this.quantitys = [];
 					let n = 0;
 					this.cartList.forEach(function(item, index) {
 						if(item.promotionTitle != '' && item.promotionTitle != null) {
@@ -492,6 +529,8 @@
 						}
 						_this.productItemIds.push(item.id);
 						_this.quantitys.push(item.quantity)
+						_this.modelIds.push(item.productId)
+						
 					});
 					if(this.cartList.length == n) {
 						this.couponshow = false
@@ -513,8 +552,9 @@
 					productItemIds: this.productItemIds,
 					couponCode: this.couponCode,
 					remark: this.beizhu,
-					type:this.orderfrom,
-					quantity:this.quantitys
+					type: this.orderfrom,
+					quantity: this.quantitys,
+					modelIds:this.modelIds,
 				};
 				this.$axios({
 					method: 'post',
@@ -544,28 +584,35 @@
 			usecoupon() {
 				this.xscoupon = false;
 				let _this = this;
-				_this.couponCode=this.$refs['couponValue'].value;
+				_this.couponCode = this.$refs['couponValue'].value;
 				if(this.couponCode == '') {
 					this.$Message.error('优惠码不能为空');
 					return;
 				}
+//				if(this.selectItem == null) {
+//					this.selectItem = 0
+//				}
 				let para = {
-					addressId: this.addressList[this.selectItem].id,
+					modelIds:this.modelIds,
+					//addressId: this.addressList[this.selectItem].id,
 					productItemIds: this.productItemIds,
 					couponCode: this.couponCode,
-					quantity:this.quantitys
+					quantity: this.quantitys
 				};
 				this.$axios({
 					method: 'post',
 					url: '/promotion/coupon',
 					data: para
 				}).then((res) => {
+					this.cartList = JSON.parse(sessionStorage.getItem('cart'));
 					if(res.code == '200') {
 						this.xscoupon = true;
 						this.couponmsg = Object.assign({}, res.object);
 						this.jisuan(this.couponmsg);
+						this.useCouponMsg=''
 					} else {
 						this.xscoupon = false;
+						this.useCouponMsg = res.object;
 						this.$Message.error(res.object);
 					}
 				});
@@ -578,16 +625,16 @@
 			//获取from类型A为立即下单，B为来自购物车1
 			this.orderfrom = this.$route.query.orderfrom;
 			this.cartList = JSON.parse(sessionStorage.getItem('cart'));
-			if(this.cartList ==null){
-						this.$router.push({
-								name: '/cart'
-								
-							});
-			}else{
-			this.getAddress();
-			this.getAddressOption();
-			this.getCartList();
-			this.jisuan();
+			if(this.cartList == null) {
+				this.$router.push({
+					name: '/cart'
+
+				});
+			} else {
+				this.getAddress();
+				this.getAddressOption();
+				this.getCartList();
+				this.jisuan();
 			}
 		}
 	}
@@ -673,7 +720,7 @@
 		top: 15px;
 		display: inline-block;
 		height: 40px;
-		width: 300px;
+		width: 310px;
 		overflow: hidden;
 	}
 	
@@ -738,6 +785,8 @@
 		height: 50px;
 		margin-top: 7px;
 		margin-bottom: 8px;
+		width: 50px;
+		display: inline-block;
 	}
 	
 	.placeorderBody td {
@@ -812,6 +861,7 @@
 	.placeorderActivity .information {
 		float: left;
 		width: 900px;
+		position: relative;
 	}
 	
 	.placeorderActivity .cost {
@@ -825,8 +875,9 @@
 	
 	.placeorderSend {
 		height: 85px;
-		line-height: 85px;
-		border-bottom: 1px solid #c6c6c6
+		border-bottom: 1px solid #c6c6c6;
+		padding-top: 28px;
+		width: 1100px;
 	}
 	
 	.placeorderSend .shipping {
@@ -1085,8 +1136,28 @@
 	.inlineBlock {
 		display: inline-block;
 	}
+	
 	.placeorderInformation div:nth-last-child(2) {
 		background: red;
+	}
+	.couponMsg{
+		position: absolute;
+		top: 40px;
+		left: 85px;
+		font-size: 14px;
+	}
+	.name .color-blue{
+		font-size: 12px;
+		font-weight: bold;
+		margin-left: 10px;
+	}
+	.delprice{
+		    text-decoration: line-through;
+    color: #999;
+    font-size: 10px;
+    width: 120px;
+    display: inline-block;
+    text-align: center;
 	}
 </style>
 <style>
@@ -1151,5 +1222,12 @@
 		color: #FFFFFF;
 		border: none;
 		border-radius: 0px;
+	}
+	.ivu-tooltip-popper[x-placement^="bottom"] .ivu-tooltip-arrow{
+		border-bottom-color:#f9b260;
+	}
+	.ivu-tooltip-inner{
+		max-width: 500px;
+		background:#f9b260
 	}
 </style>

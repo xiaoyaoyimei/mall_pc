@@ -5,7 +5,7 @@ import App from './App';
 import router  from '@/router/route';
 import store from '@/store/store';
 import iView from 'iview';
-import './my-theme/index.less';  
+import '@/my-theme/index.less';  
 import axios from './http';
 //设置全局变量
 import global_ from '@/base/baseParam';

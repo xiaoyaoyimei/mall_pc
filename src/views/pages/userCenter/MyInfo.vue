@@ -67,8 +67,8 @@
 			</Form>
 		</Modal>
 
-		<Modal ref='modalpwd' class="modalpwd" v-model="modalpwd" title="修改密码" @on-ok="handleOkpwd" :loading="loading" :mask-closable='false' width="600">
-			<Form ref="pwd" :model="pwd" :label-width="30" :rules="pwdValidate">
+		<Modal ref='modalpwd' class="modalpwd" v-model="modalpwd" title="修改密码" @on-ok="handleOkpwd" :loading="loading" :mask-closable='false' width="600" > 
+			<Form ref="pwd" :model="pwd" :label-width="30" :rules="pwdValidate" autocomplete="off">
 				<FormItem label="" prop="newpass">
 					<i-input v-model="pwd.newpass" placeholder="请输入新密码" type="password"></i-input>
 				</FormItem>
@@ -132,6 +132,15 @@
 	import { validatePHONE } from '@/assets/js/validate';
 	export default {
 		data() {
+			const validatePass = (rule, value, callback) => {
+				if(value === '') {
+					callback(new Error('请输入确认密码'));
+				} else if(value !== this.pwd.newpass) {
+					callback(new Error('两次输入密码不一致!'));
+				} else {
+					callback();
+				}
+			};
 			const validatePhone = (rule, value, callback) => {
 				if(value.length < 0) {
 					callback(new Error('手机号不能为空'));
@@ -215,15 +224,9 @@
 						}
 					],
 					newpassagian: [{
-							required: true,
-							message: '请输入确认密码',
-							trigger: 'blur'
-						},
-						{
-							type: 'string',
-							min: 6,
-							message: '确认密码不能少于6位',
-							trigger: 'blur'
+								required: true,
+						validator: validatePass,
+						trigger: 'blur'
 						}
 					],
 

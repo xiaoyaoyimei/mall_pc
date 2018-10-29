@@ -111,6 +111,7 @@
 			},
 			//验证图形码
 			verifitxm(){
+				
 						let verificationCode = this.regiForm.verificationCode;
 				if(verificationCode == null || verificationCode == '') {
 					this.$Message.error('图形码不能为空!');
@@ -134,6 +135,14 @@
 				}
 			},
 			getDx() {
+				if(this.regiForm.mobile == "") {
+					this.$Message.error('手机号不能为空');
+					return false
+				}
+				if(this.regiForm.verificationCode == null || this.regiForm.verificationCode == '') {
+					this.$Message.error('图形码不能为空');
+					return false
+				}
 					 this.sendMsgDisabled = true;
 				   this.startTime();
 			},

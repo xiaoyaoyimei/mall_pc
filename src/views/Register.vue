@@ -138,7 +138,7 @@
 			verifitxm() {
 				let verificationCode = this.regiForm.verificationCode;
 				if(verificationCode == null || verificationCode == '') {
-					this.$Message.error('图形验证码不能为空!');
+					this.$Message.error('图形码不能为空!');
 					this.loadingDx = false;
 				} else {
 					this.$axios({
@@ -160,6 +160,14 @@
 			},
 			//获取短信验证码
 			getDx() {
+				if(this.regiForm.loginName == "") {
+					this.$Message.error('手机号不能为空');
+					return false
+				}
+				if(this.regiForm.verificationCode == null || this.regiForm.verificationCode == '') {
+					this.$Message.error('图形码不能为空');
+					return false
+				}
 				this.sendMsgDisabled = true;
 				this.startTime();
 			},

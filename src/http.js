@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {getToken,getUserId} from '@/base/auth'
+import global_ from '@/base/baseParam';
 import store from '@/store/store';
 import router from '@/router/route';
 
@@ -41,8 +42,10 @@ axios.interceptors.response.use(
 //  	  }
 //      return response.data;
             	if(response.data.code=='401'){
-    		 store.commit('LOGOUT');
-    		router.replace('/login');
+            		console.log(response)
+    				 store.commit('LOGOUT');
+    		//router.replace('/login');
+    				 window.location.href=global_.originurl+'/#/login'
 //  		  router.replace({
 //                      name: '/login',
 //                      query: {redirect: router.currentRoute.fullPath}

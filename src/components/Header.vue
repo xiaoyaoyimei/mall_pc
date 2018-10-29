@@ -1,6 +1,5 @@
 <template>
-    <div>
-    <header class="bg-black ">
+    <div class="bg-black header">
 			<div class="main-width">
 				<div class="fl header-left">
 					<router-link  to="/index">首页</router-link>
@@ -11,13 +10,10 @@
 				</div>
 				<div class="fr header-right" :class="{width:!nologin}" style="width:155px;">
 					<div v-if="nologin" style="display: inline-block;">
-						
-					
 					 <router-link  to="/register">注册</router-link>
 					 <hr class="spacer" style="float:right;height:20px;margin-top:15px;">
 					 <router-link  to="/login"  >登录</router-link></div>
 					<div @mouseover="qiehuanfunction()" class="qiehuan clerfix" @mouseout="qiehuanfunction()"  v-if="!nologin" style="">
-						
 						<span class="overflow clerfix" v-if="account.nickName==''">{{account.customerMobile}}</span>
 						<span class="a overflow clerfix" v-else>{{account.nickName}}</span> <Icon class="right clerfix"  type="ios-arrow-down" />
 						<div :class="{'none':qiehuan}" style="display:none;height:200px;">
@@ -32,10 +28,8 @@
 					
 				</div>
 			</div>
-		</header>
+		</div>
 
-    </div>
-</div>
 </template>
 <script>
    // 引入公共的bug，来做为中间传达的工具
@@ -44,7 +38,7 @@
 	 export default {
         data () {
             return {
-              nologin:true,
+              nologin:false,
               account:{
               nickName:'',
               iconUrl:'',
@@ -68,7 +62,7 @@
 				var _this = this;
 				   this.$Modal.confirm({
                     title: '登出',
-                    content: '<p>确认登出吗?</p>',
+                    content: '<p>确认退出登录吗?</p>',
                     onOk: () => {
                     	 store.dispatch('LogOut').then(() => {
 				            	_this.$router.push('/login');
@@ -82,16 +76,17 @@
 			},
             isLogin(){
                 if(this.token!=null&&this.token!=""&&this.token!=undefined){
+                	this.nologin=false;
 	      				this.$axios({
 					    method: 'post',
 					    url:'/account',
 					}).then((res)=>{
-                        this.nologin=false;
                         this.account= Object.assign({},res);
                        	Bus.$emit('nologin', this.nologin)
                        	this.getCartList()
 					});
     	     	 }else{
+    	     	 	  this.nologin=true;
     	     	 	 	Bus.$emit('nologin', this.nologin)
     	     	 }
             },

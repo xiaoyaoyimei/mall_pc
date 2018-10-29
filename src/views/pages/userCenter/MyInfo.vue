@@ -255,10 +255,10 @@
 				var _this = this;
 				this.$Modal.confirm({
 					title: '登出',
-					content: '<p>确认登出吗?</p>',
+					content: '<p>确认退出登录吗?</p>',
 					onOk: () => {
 	  					store.dispatch('LogOut').then(() => {
-				           window.location.href=global_.originurl+'/#/login'
+				           	 window.location.href=global_.originurl+'/#/login'
 				             return false
 				          })
 					},

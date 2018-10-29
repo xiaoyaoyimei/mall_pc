@@ -254,22 +254,13 @@
 			logout: function() {
 				var _this = this;
 				this.$Modal.confirm({
-					title: '提示',
-					content: '<p>确认退出吗?</p>',
+					title: '登出',
+					content: '<p>确认登出吗?</p>',
 					onOk: () => {
-						this.$axios({
-							method: 'post',
-							url: '/customer/logout',
-						}).then((res) => {
-							if(res.code !== 200) {
-								this.$Message.error(res.msg);
-							} else {
-								localStorage.removeItem('token');
-								localStorage.removeItem('userId');
-								_this.$router.push('/login');
-							}
-						});
-
+	  					store.dispatch('LogOut').then(() => {
+				           window.location.href=global_.originurl+'/#/login'
+				             return false
+				          })
 					},
 				});
 			},

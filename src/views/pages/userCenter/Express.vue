@@ -1,6 +1,6 @@
 <template>
 	<div style="padding:40px;">
-		<span class="status">已签收</span>
+		<span class="status">{{orderStatus}}</span>
 		<div class="logistics">
 			<ul class="logisticsText" >
 				<li class="clearfix" v-for="(item,index) in expressList" :key="index">
@@ -13,7 +13,7 @@
 
 			<div class="logisticsdetail">
 				<p>运单号码： {{expressNo}} 物流公司： {{logistics}} </p>
-				<p>发货地址： 江苏省无锡市惠山区五彩科技大厦</p>
+				<p>发货地址： 江苏省无锡市江阴市青阳镇工业园区华澄路21号</p>
 				<!--<p>收货地址： 江苏省无锡市新吴区 000000 张晓明 158****5858</p>-->
 			</div>
 		</div>
@@ -26,7 +26,8 @@
 				expressList: [],
 				orderNo:'',
 				expressNo:'',
-				logistics:''
+				logistics:'',
+				orderStatus:''
 			}
 		},
 		methods: {
@@ -54,6 +55,7 @@
 			this.orderNo=this.$route.query.orderNo;
 			this.expressNo=this.$route.query.expressNo;
 			this.logistics=this.$route.query.logistics;
+			this.orderStatus=this.$route.query.orderStatus;
 			this.getList();
 		},
 	}

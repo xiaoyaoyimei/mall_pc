@@ -1,3 +1,4 @@
+import { getToken,getUserId } from '@/base/auth'
 const mutations = {
 	LOGIN:(state,payload)=>{
 		state.token = payload.token  

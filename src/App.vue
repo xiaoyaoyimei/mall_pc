@@ -9,9 +9,6 @@ export default {
   name: 'App'
 }
 </script>
-<!--<style lang="less">
-@import './my-theme/index.less';
-</style>-->
 <style lang="scss">
  @import '@/styles/common.scss';
  @import '@/styles/color.scss';

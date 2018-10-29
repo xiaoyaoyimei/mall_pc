@@ -10,13 +10,13 @@
 				<div class="signinImg">
 					<img src="../assets/img/u108.jpg" alt="">
 				</div>
-				<Form ref="loginForm" :model="loginForm" :rules="ruleInline" inline>
+				<Form ref="loginForm" :model="loginForm" :rules="ruleInline" inline  autocomplete="off">
 					<h4>账号登录</h4>
 					<FormItem prop="loginName">
-						<input type="text" placeholder="请输入手机号" v-model="loginForm.loginName">
+						<input type="text" placeholder="请输入手机号" v-model.trim="loginForm.loginName">
 					</FormItem>
 					<FormItem prop="passWord">
-						<input type="password" class="input" placeholder="请输入密码" v-model="loginForm.passWord" @keyup.enter="handleLogin">
+						<input type="password" class="input" placeholder="请输入密码" v-model="loginForm.passWord" @keyup.enter="handleLogin" >
 					</FormItem>
 					<Button class="btn" long :loading="loading" @click="handleLogin()">登录</Button>
 					<p class="clearfix">
@@ -113,17 +113,17 @@
 											} else {
 												_this.$Message.success('登录成功');
 												let data = res;
-												localStorage.setItem('mobile', _this.loginForm.loginName);
+												//localStorage.setItem('mobile', _this.loginForm.loginName);
 												//根据store中set_token方法将token保存至localStorage/sessionStorage中，data["Authentication-Token"]，获取token的value值  
-//								    store.commit('SET_TOKEN', {
-//													token: data.object["token"],
-//													userId: data.object["userId"]
-//												})
-//								      setToken(data.object["token"])
-//								      setUserId(data.object["userId"]);
-												store.commit('LOGIN', {
+								    store.commit('SET_TOKEN', {
 													token: data.object["token"],
-													userId: data.object["userId"]	});
+													userId: data.object["userId"]
+												})
+								      setToken(data.object["token"])
+								      setUserId(data.object["userId"]);
+//												store.commit('LOGIN', {
+//													token: data.object["token"],
+//													userId: data.object["userId"]	});
 												
 												_this.$router.push('/index');
 											}

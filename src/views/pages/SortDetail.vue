@@ -174,6 +174,7 @@
 </template>
 <script>
 	import Bus from '@/assets/js/bus.js'
+	import store from '@/store/store';
 	export default {
 		data() {
 			return {
@@ -259,6 +260,12 @@
 				dpdata:[],
 			}
 		},
+				         computed: {
+            token() {
+            	//获取store里面的token
+                return store.state.token;
+            },
+        },
 		methods: {
 			//隐藏中间字符
 	
@@ -297,7 +304,7 @@
 			},
 			//喜欢
 			likepro() {
-				if(localStorage.getItem('token') != null && localStorage.getItem('token') != undefined) {
+			if(this.token!=null&&this.token!=""&&this.token!=undefined){
 							this.$axios({
 								method: 'post',
 								url: `/like/insert/${this.productId}`,

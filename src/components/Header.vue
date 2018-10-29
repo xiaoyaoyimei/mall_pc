@@ -64,32 +64,13 @@
 				logout: function () {
 				var _this = this;
 				   this.$Modal.confirm({
-                    title: '提示',
-                    content: '<p>确认退出吗?</p>',
+                    title: '登出',
+                    content: '<p>确认登出吗?</p>',
                     onOk: () => {
-//                  	 store.dispatch('LogOut').then(() => {
-//				            	_this.$router.push('/login');
-//       				 })
-		                    this.$axios({
-							    method: 'post',
-							    url:'/customer/logout',
-							}).then((res)=>{
-								     if (res.code !== 200) {
-				                 		 this.$Message.error(res.msg);
-				              		} 
-				              		else{
-										localStorage.removeItem('token');
-				                       	localStorage.removeItem('userId');
-//				                       	store.commit('SET_TOKEN', {
-//													token: '',
-//													userId:''
-//												})
-//								        removeToken()
-								        //removeUserId()
-				    					_this.$router.push('/login');
-			    					}
-							});
-		                       
+                    	 store.dispatch('LogOut').then(() => {
+				            	_this.$router.push('/login');
+				            	return false
+         				 })
                     },
                 });
 			},
@@ -97,7 +78,7 @@
 				this.qiehuan = !this.qiehuan
 			},
             isLogin(){
-                if(this.token!=null){
+                if(this.token!=null&&this.token!=""&&this.token!=undefined){
 	      				this.$axios({
 					    method: 'post',
 					    url:'/account',
@@ -105,8 +86,8 @@
                         this.nologin=false;
                         this.account= Object.assign({},res);
                        	Bus.$emit('nologin', this.nologin)
+                       	this.getCartList()
 					});
-					
     	     	 }else{
     	     	 	 	Bus.$emit('nologin', this.nologin)
     	     	 }
@@ -115,20 +96,20 @@
             	var _this=this;
             	this.totalPrice=0;
             	this.cartListlength=0;
-        		if(this.token!=null){
         			this.$axios({
 							    method: 'post',
 							    url:'/order/shopping/list',
 								}).then((res)=>{
-									if(res.code=='200'){
-                                        this.cartList=res.object;
-                                        	  this.cartList.forEach(function(item,index) {
-												    _this.totalPrice +=item.salePrice*item.quantity;
-												    _this.cartListlength+=item.quantity;
-											   });
-									}
+							if(res!=undefined){
+								if(res.code=='200'){
+	                                        this.cartList=res.object;
+	                                        	  this.cartList.forEach(function(item,index) {
+													    _this.totalPrice +=item.salePrice*item.quantity;
+													    _this.cartListlength+=item.quantity;
+												   });
+										}
+							}
 							});
-					}
         	},
             gotologin(){
             	this.$router.push('/login');
@@ -145,7 +126,7 @@
 		         	 }
 		      });
             this.isLogin();
-            this.getCartList();
+        
 		}
     }
 </script>

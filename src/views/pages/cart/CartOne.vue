@@ -94,6 +94,7 @@
 <script>
 	// 引入公共的bug，来做为中间传达的工具
 	import Bus from '@/assets/js/bus.js'
+	 import store from '@/store/store'
 	export default {
 		data() {
 			return {
@@ -111,6 +112,12 @@
 				hasShow:true
 			}
 		},
+		         computed: {
+            token() {
+            	//获取store里面的token
+                return store.state.token;
+            },
+        },
 		methods: {
 			itemtotal(p, n) {
 				return Number(p) * n;
@@ -180,7 +187,6 @@
 			},
 			getCartList() {
 				let _this = this;
-				if(localStorage.getItem('token') != undefined) {
 					this.cartnologin = false;
 					this.cartList = [],
 						this.$axios({
@@ -203,10 +209,8 @@
 								this.hasShow=false;
 							}
 						});
-				} else {
-					this.cartnologin = true;
-					return false;
-				}
+				
+				
 			},
 			paymoney() {
 				if(this.checkAllGroup.length < 1) {
@@ -339,7 +343,12 @@
 			},
 		},
 		mounted() {
+		if(this.token!=null&&this.token!=""&&this.token!=undefined){
 			this.getCartList();
+			}else{
+					this.cartnologin = true;
+					return false;
+			}
 		}
 	}
 </script>

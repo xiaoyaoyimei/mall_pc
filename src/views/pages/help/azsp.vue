@@ -4,7 +4,7 @@
 <script>
 	export default {
 		mounted() {
-			window.open("http://blog.dxracer.cn/portal/serve/installVideo")
+			window.open("http://blog.dxracer.cn/portal/serve/installVideo","_blank")
 		}
 	}
 </script>

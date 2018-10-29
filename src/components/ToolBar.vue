@@ -26,6 +26,7 @@
 
 <script>
 	import store from '@/store/store'
+	import Bus from '@/assets/js/bus.js'
 	export default {
 		data() {
 			return {
@@ -53,20 +54,21 @@
 				this.scrollTop = 0;
 				document.documentElement.scrollTop=document.body.scrollTop=0
 			},
-			issfloging() {
-				if(this.token != null) {
-					this.$axios({
-						method: 'post',
-						url: '/account',
-					}).then((res) => {
-						this.sfloging = false;
-					});
-				}
-			},
+//			issfloging() {
+//				 
+//					this.$axios({
+//						method: 'post',
+//						url: '/account',
+//					}).then((res) => {
+//						this.sfloging = false;
+//					});
+//			},
 		},
 		mounted() {
-			this.issfloging();
 			window.addEventListener('scroll', this.handleScroll)
+			  Bus.$on('nologin', (data) => {
+			  	this.sfloging=data;
+		      });
 		},
 		destroyed() {
 			window.removeEventListener('scroll', this.handleScroll)

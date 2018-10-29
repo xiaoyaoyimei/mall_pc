@@ -16,7 +16,7 @@
 						<input type="text" placeholder="请输入手机号" v-model.trim="loginForm.loginName">
 					</FormItem>
 					<FormItem prop="passWord">
-						<input type="password" class="input" placeholder="请输入密码" v-model="loginForm.passWord" @keyup.enter="handleLogin" >
+						<input type="password" class="input" placeholder="请输入密码" v-model.trim="loginForm.passWord" @keyup.enter="handleLogin" >
 					</FormItem>
 					<Button class="btn" long :loading="loading" @click="handleLogin()">登录</Button>
 					<p class="clearfix">

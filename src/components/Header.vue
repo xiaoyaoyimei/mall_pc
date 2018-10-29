@@ -39,7 +39,6 @@
 </template>
 <script>
    // 引入公共的bug，来做为中间传达的工具
-   	import { getToken, setToken, removeToken,getUserId,setUserId,removeUserId } from '@/base/auth'
    import store from '@/store/store'
    import Bus from '@/assets/js/bus.js'
 	 export default {
@@ -136,9 +135,6 @@
 </script>
 
 <style scoped="scoped"  lang="scss">
-.header-right{
-	
-}
 .none{
 	display: inline-block!important;
 	position: absolute;

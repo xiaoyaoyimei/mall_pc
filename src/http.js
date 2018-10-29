@@ -26,8 +26,8 @@ axios.interceptors.request.use(
 //  return config;
 //},
         if (store.state.token) {
-          config.headers['token'] = getToken();
-		  config.headers['loginUserId']=getUserId()
+          config.headers['token'] = store.state.token;
+		  config.headers['loginUserId']=store.state.userId;
         }
         return config;
     },
@@ -40,17 +40,17 @@ axios.interceptors.response.use(
     response => {
     	
     	if(response.data.code=='401'){
-//  		console.log( router.currentRoute);
-    		     	 store.dispatch('LogOut').then(() => {
-				          //  	_this.$router.push('/login');
-				          return false
-         				 })
+  		console.log( router.currentRoute);
+    		     	//  store.dispatch('LogOut').then(() => {
+				    //       //  	_this.$router.push('/login');
+				    //       return false
+         			// 	 })
     		     	 
 //  		 console.log(url)
-//  		  router.replace({
-//                      name: '/login',
-//                      query: {redirect: router.currentRoute.fullPath}
-//                  })
+ 		  router.replace({
+                     name: '/login',
+                     query: {redirect: router.currentRoute.fullPath}
+                 })
     		  return false
     	  }
         return response.data;

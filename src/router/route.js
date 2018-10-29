@@ -412,12 +412,12 @@ const routes = [{
 	},
 ]
 
-//if(localStorage.getItem('token')) {
-//	store.commit('LOGIN', {
-//		token: localStorage.getItem('token'),
-//		userId: localStorage.getItem('userId')
-//	})
-//}
+if(localStorage.getItem('token')) {
+	store.commit('LOGIN', {
+		token: localStorage.getItem('token'),
+		userId: localStorage.getItem('userId')
+	})
+}
 const router = new VueRouter({
 	routes,
 //	mode: 'history',  
@@ -455,7 +455,7 @@ const router = new VueRouter({
 //})
 router.beforeEach((to, from, next) => {
 	if(to.matched.some(r => r.meta.requireAuth)) {
-		
+		console.log(store.state.token);
 		if(store.state.token) {
 			next();
 		} else {

@@ -9,7 +9,7 @@
 					<hr class="spacer mlr8">
 					 <router-link  to="/help">操作指南</router-link>
 				</div>
-				<div class="fr header-right" :class="{width:!nologin}" style="">
+				<div class="fr header-right" :class="{width:!nologin}" style="width:155px;">
 					<div v-if="nologin" style="display: inline-block;">
 						
 					
@@ -206,7 +206,7 @@
 	color: #ff0000;
 }
 .width{
-	width:180px
+	width:180px!important;
 }
 </style>
 <style>

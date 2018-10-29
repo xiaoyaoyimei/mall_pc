@@ -13,13 +13,8 @@ axios.defaults.baseURL =`/mall/pc`;
 axios.interceptors.request.use(
     config => {
         if (store.state.token) {
-<<<<<<< HEAD
-          config.headers['token'] = store.state.token;
-		  config.headers['loginUserId']=store.state.userId;
-=======
                  config.headers['token'] = store.state.token;
 		  config.headers['loginUserId']=store.state.userId
->>>>>>> b813c03046689f27a04107b7e58a6e0752b1cec7
         }
         return config;
     },
@@ -31,21 +26,6 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     response => {
     	
-<<<<<<< HEAD
-    	if(response.data.code=='401'){
-  		console.log( router.currentRoute);
-    		     	//  store.dispatch('LogOut').then(() => {
-				    //       //  	_this.$router.push('/login');
-				    //       return false
-         			// 	 })
-    		     	 
-//  		 console.log(url)
- 		  router.replace({
-                     name: '/login',
-                     query: {redirect: router.currentRoute.fullPath}
-                 })
-    		  return false
-=======
 //  	if(response.data.code=='401'){
 ////  		console.log( router.currentRoute);
 ////  		     	 store.dispatch('LogOut').then(() => {
@@ -71,7 +51,6 @@ axios.interceptors.response.use(
 //                      query: {redirect: router.currentRoute.fullPath}
 //                  })
     		    return false
->>>>>>> b813c03046689f27a04107b7e58a6e0752b1cec7
     	  }
         return response.data;
     },

@@ -455,10 +455,6 @@ const router = new VueRouter({
 //})
 router.beforeEach((to, from, next) => {
 	if(to.matched.some(r => r.meta.requireAuth)) {
-<<<<<<< HEAD
-		console.log(store.state.token);
-=======
->>>>>>> b813c03046689f27a04107b7e58a6e0752b1cec7
 		if(store.state.token) {
 			next();
 		} else {

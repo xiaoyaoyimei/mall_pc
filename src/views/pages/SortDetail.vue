@@ -34,7 +34,8 @@
 							</span>
 						</dd>
 					</dl>
-					<dl v-if="choosesp.activityName!=null&&choosesp.activityName!=''"><dt><em class="act">{{choosesp.activityName}}</em></dt>
+					<dl v-if="choosesp.activityName!=null&&choosesp.activityName!=''"
+						<dt><em class="act">{{choosesp.activityName}}</em></dt>
 						<dd class="color-black">{{choosesp.activityName}} </dd>
 					</dl>
 					<dl class="noborder" v-for="(item, i) in shangp.productAttrList" :key="i">
@@ -309,19 +310,20 @@
 								method: 'post',
 								url: `/like/insert/${this.productId}`,
 							}).then((res) => {
-								if(res.code == '200') {
+									if(res.code == '200') {
 									this.$Message.info('收藏成功');
 									this.likeshow=true;
-									
-								} else {
-									this.$Message.error('收藏失败');
+								} else if(res.code == '500'){
+									this.$Message.error(res.object);
+									this.likeshow=true;
+								}else{
+										this.$Message.error('收藏失败');
 									this.likeshow=false;
 								}
 							})
 				} else {
 					this.$Message.error('您尚未登录,请先登录');
 				}
-
 			},
 			getlikepro(){
 				this.$axios({
@@ -512,9 +514,6 @@
 							Bus.$emit('cartmsg', "again");
 							this.$router.push({
 								name: '/cart',
-//								query: {
-//									cartBefore: this.choosesp.id
-//								}
 							});
 						} else {
 							this.$Message.error('加入购物车失败');

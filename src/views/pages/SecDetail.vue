@@ -18,7 +18,6 @@
 							</li>
 						</ul>
 					</div>
-
 				</div>
 			</div>
 			<div class="delie">
@@ -50,7 +49,7 @@
 						<div class="zeroAddress" v-else @click="addAdd">
 							请选择收货地址
 						</div>
-						
+
 					</div>
 					<div class="foot">
 						<button class="btn-disabled" v-if="detail.switch==0">尚未开始</button>
@@ -120,6 +119,7 @@
 	</div>
 </template>
 <script>
+	
 	export default {
 		data() {
 			return {
@@ -192,6 +192,12 @@
 				wuhuotongzhi: false,
 				index: 6,
 			}
+		},
+		computed: {
+			token() {
+				//获取store里面的token
+				return store.state.token;
+			},
 		},
 		methods: {
 			checkAllGroupChange(data) {
@@ -274,9 +280,9 @@
 				let zanid = value;
 				let Like = isZan;
 				if(Like == 'N') {
-					Like = 'Y'
+					Like = 'yes'
 				} else {
-					Like = 'N'
+					Like = 'no'
 				}
 				this.$axios({
 					method: 'post',
@@ -315,8 +321,7 @@
 				});
 			},
 			getAddress() {
-				let token = localStorage.getItem('token');
-				if(token != undefined && token != null) {
+					if(this.token!=null&&this.token!=""&&this.token!=undefined){
 					var _this = this;
 					this.$axios({
 						method: 'post',
@@ -331,7 +336,7 @@
 							});
 
 						}
-						if(_this.youdizhi){
+						if(_this.youdizhi) {
 							this.getExpressPrice();
 						}
 					});
@@ -911,23 +916,26 @@
 		border: 0 none;
 		height: 31px;
 	}
-	.freight{
+	
+	.freight {
 		font-size: 14px;
 		margin-bottom: 20px;
 	}
-	.freight span{
+	
+	.freight span {
 		font-size: 16px;
 		font-weight: bold;
 	}
+	
 	.guanbi {
-				position: absolute;
-    right: 0;
-    top: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
 	}
-	.guanbi i{
-
-    font-size: 25px;
-    cursor: pointer;
-    color: #000;
+	
+	.guanbi i {
+		font-size: 25px;
+		cursor: pointer;
+		color: #000;
 	}
 </style>

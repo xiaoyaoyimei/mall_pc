@@ -5,7 +5,6 @@
                 <h4>重置密码</h4>
                 <FormItem  prop="mobile">
                 	<span class="font-14 color-black">手机号:{{regiForm.mobile}}</span>
-                    <!--<input type="text" placeholder="请输入手机号" v-model.trim="regiForm.mobile" >-->
                 </FormItem>
                 <FormItem  prop="passWord">
                     <input type="password" placeholder="请输入密码" v-model.trim="regiForm.passWord"  >
@@ -94,8 +93,8 @@
 							} = res;
 							if(code == 200) {
 								     this.$Message.success({
-						                content: '找回密码成功,3秒后自动跳往登录页',
-						                duration: 3
+						                content: '找回密码成功,2秒后自动跳往登录页',
+						                duration: 2
 						            });
 						           		setTimeout(() => {
 											this.$router.push({

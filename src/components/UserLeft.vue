@@ -73,7 +73,7 @@
 	}
 </style>
 <style>
-	.newcenternav p.router-link-active {
+	.newcenternav p a.router-link-active {
 		color: #ff0037;
 	}
 </style>

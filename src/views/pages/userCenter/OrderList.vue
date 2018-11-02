@@ -51,7 +51,6 @@
 		<Spin size="large" fix v-if="spinShow"></Spin>
 		<Modal v-model="refundModal" class="refundModal" width="600" :mask-closable="false">
 			<p slot="header">
-				<!--<Icon type="ios-information-circle"></Icon>-->
 				<span class="tuihuo">申请售后</span>
 			</p>
 			<div>
@@ -384,7 +383,7 @@
 						if(res.code == '200') {
 							this.$Message.info(res.object);
 							this.refundModal = false;
-							this.getOrder();
+							  setTimeout(this.$router.push({ name:'/user/aftersales'}), 1000);
 						} else {
 							this.$Message.error(res.msg);
 							this.refundModal = false;

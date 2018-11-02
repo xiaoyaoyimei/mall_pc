@@ -60,9 +60,9 @@
 				let zanid = value;
 				let Like = isZan;
 				if(Like == 'N') {
-					Like = 'Y'
+					Like = 'yes'
 				} else {
-					Like = 'N'
+					Like = 'no'
 				}
 				this.$axios({
 					method: 'post',

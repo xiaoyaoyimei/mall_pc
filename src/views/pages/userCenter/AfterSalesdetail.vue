@@ -40,11 +40,15 @@
 				<p>退款编号：</p>
 				<p>退款金额：</p>
 				<p>要&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;求：</p>
+				<p>退货快递：</p>
+				<p>退货单号：</p>
 			</div>
 			<div class="orderdetailtotalValue">
 				<p>{{refundOrderdetail.shoppingRefundOrder.refundOrderNo}}</p>
 				<p>￥{{refundOrderdetail.shoppingRefundOrder.refundOrderTotalFee | pricefilter}}</p>
 				<p>{{refundOrderdetail.shoppingRefundOrder.remarks}}</p>
+				<p>{{refundOrderdetail.shoppingRefundOrder.logistics}}</p>
+				<p>{{refundOrderdetail.shoppingRefundOrder.expressNo}}</p>
 			</div>
 		</div>
 		<Spin size="large" fix v-if="spinShow"></Spin>
@@ -57,13 +61,13 @@
 			return {
 				spinShow: true,
 				orderdetail: {
-					shippingOrder: {},
+					shippingOrder: {postageFee:0,orderTotalFee:0},
 					shippingInvoice: {},
 					shippingAddress: {},
 					shoppingOrderItems: [],
 				},
 				refundOrderdetail: {
-					shoppingRefundOrder: {},
+					shoppingRefundOrder: {refundOrderTotalFee:0},
 					shippingInvoice: {},
 					shippingAddress: {},
 					shoppingRefundOrderItems: [],

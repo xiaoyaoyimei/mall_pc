@@ -152,7 +152,7 @@ const routes = [{
 				zname:'售后服务详情',
 				name: '/user/Aftersalesdetail',
 				path: '/user/Aftersalesdetail',
-				component: resolve => require(['@/views/pages/userCenter/Aftersalesdetail.vue'], resolve),
+				component: resolve => require(['@/views/pages/userCenter/AfterSalesdetail.vue'], resolve),
 			},
 			
 			{

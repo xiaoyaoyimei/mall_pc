@@ -93,7 +93,7 @@
             _this.$refs.tousuForm.validate(valid => {
                 if (valid) {
                     let tousuForm=this.tousuForm;
-                    tousuForm.imageUrl = this.defaultList[0]
+                    tousuForm.imageUrl = this.uploadList[0].url;
                     this.$axios({
                         method: 'post',
                         url: '/advice/insert',

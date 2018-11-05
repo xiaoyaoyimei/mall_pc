@@ -1,6 +1,5 @@
 <template>
-    <div>
-    <header class="bg-black ">
+    <div class="bg-black header">
 			<div class="main-width">
 				<div class="fl header-left">
 					<router-link  to="/index">首页</router-link>
@@ -10,9 +9,8 @@
 					 <router-link  to="/help">操作指南</router-link>
 				</div>
 			</div>
-		</header>
+		</div>
 
-    </div>
 </div>
 </template>
 <script>

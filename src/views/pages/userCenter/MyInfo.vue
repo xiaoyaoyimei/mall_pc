@@ -70,10 +70,10 @@
 		<Modal ref='modalpwd' class="modalpwd" v-model="modalpwd" title="修改密码" @on-ok="handleOkpwd" :loading="loading" :mask-closable='false' width="600" > 
 			<Form ref="pwd" :model="pwd" :label-width="30" :rules="pwdValidate" autocomplete="off">
 				<FormItem label="" prop="newpass">
-					<i-input v-model="pwd.newpass" placeholder="请输入新密码" type="password"></i-input>
+					<i-input v-model.trim="pwd.newpass" placeholder="请输入新密码" type="password"></i-input>
 				</FormItem>
 				<FormItem label="" prop="newpassagian">
-					<i-input v-model="pwd.newpassagian" placeholder="请确认新密码" type="password"></i-input>
+					<i-input v-model.trim="pwd.newpassagian" placeholder="请确认新密码" type="password"></i-input>
 				</FormItem>
 			</Form>
 		</Modal>
@@ -254,22 +254,13 @@
 			logout: function() {
 				var _this = this;
 				this.$Modal.confirm({
-					title: '提示',
-					content: '<p>确认退出吗?</p>',
+					title: '登出',
+					content: '<p>确认退出登录吗?</p>',
 					onOk: () => {
-						this.$axios({
-							method: 'post',
-							url: '/customer/logout',
-						}).then((res) => {
-							if(res.code !== 200) {
-								this.$Message.error(res.msg);
-							} else {
-								localStorage.removeItem('token');
-								localStorage.removeItem('userId');
-								_this.$router.push('/login');
-							}
-						});
-
+	  					store.dispatch('LogOut').then(() => {
+				           	 window.location.href=global_.originurl+'/#/login'
+				             return false
+				          })
 					},
 				});
 			},

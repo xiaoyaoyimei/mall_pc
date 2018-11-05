@@ -589,12 +589,8 @@
 					this.$Message.error('优惠码不能为空');
 					return;
 				}
-//				if(this.selectItem == null) {
-//					this.selectItem = 0
-//				}
 				let para = {
 					modelIds:this.modelIds,
-					//addressId: this.addressList[this.selectItem].id,
 					productItemIds: this.productItemIds,
 					couponCode: this.couponCode,
 					quantity: this.quantitys
@@ -628,7 +624,6 @@
 			if(this.cartList == null) {
 				this.$router.push({
 					name: '/cart'
-
 				});
 			} else {
 				this.getAddress();

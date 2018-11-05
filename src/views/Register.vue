@@ -16,14 +16,14 @@
 						<input type="text" placeholder="请输入手机号" v-model.trim="regiForm.loginName" v-on:blur.lazy="getTx">
 					</FormItem>
 					<FormItem prop="verificationCode">
-						<input type="text" class="input w128" placeholder="请输入图形码" v-model.trim="regiForm.verificationCode" v-on:blur.lazy="verifitxm">
+						<input type="text" class="input w128" placeholder="请输入图形码" v-model.trim="regiForm.verificationCode" >
 						<img v-show="verimg!=''" :src="verimg" class="pic-yzm"><img src="../assets/img/refresh.png" class="refresh" @click="getTx">
 					</FormItem>
 					<FormItem prop="passWord">
-						<input type="password" class="input" placeholder="请输入密码" v-model="regiForm.passWord" autocomplete="off">
+						<input type="password" class="input" placeholder="请输入密码" v-model.trim="regiForm.passWord" autocomplete="off">
 					</FormItem>
 					<FormItem prop="confirmpass">
-						<input type="password" class="input" placeholder="请确认密码" v-model="regiForm.confirmpass">
+						<input type="password" class="input" placeholder="请确认密码" v-model.trim="regiForm.confirmpass">
 					</FormItem>
 					<FormItem prop="shortMessage">
 						<input type="text" class="input w128" placeholder="短信验证码" v-model="regiForm.shortMessage">
@@ -135,8 +135,9 @@
 			Fwtk
 		},
 		methods: {
-			verifitxm() {
-				let verificationCode = this.regiForm.verificationCode;
+			//获取短信验证码
+			getDx() {
+					let verificationCode = this.regiForm.verificationCode;
 				if(verificationCode == null || verificationCode == '') {
 					this.$Message.error('图形码不能为空!');
 					this.loadingDx = false;
@@ -150,23 +151,15 @@
 						},
 					}).then((res) => {
 						if(res.code == 200) {
-							//短信验证码180秒倒计时
+							//短信验证码90秒倒计时
+							let _this = this;
+								_this.sendMsgDisabled = true;   
+								_this.startTime();
 
 						} else {
 							this.$Message.error(res.msg);
 						}
 					});
-				}
-			},
-			//获取短信验证码
-			getDx() {
-				if(this.regiForm.loginName == "") {
-					this.$Message.error('手机号不能为空');
-					return false
-				}
-				if(this.regiForm.verificationCode == null || this.regiForm.verificationCode == '') {
-					this.$Message.error('图形码不能为空');
-					return false
 				}
 				this.sendMsgDisabled = true;
 				this.startTime();

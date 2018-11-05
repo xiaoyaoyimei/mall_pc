@@ -5,7 +5,7 @@
 				<ul class="fl icon-classes">
 					<li><i class="icon-new icon-qi"></i>7天无理由退货</li>
 					<li><i class="icon-new icon-express"></i>快速送达</li>
-					<li><i class="icon-new icon-freein"></i>免费上门安装</li>
+				<!--	<li><i class="icon-new icon-freein"></i>免费上门安装</li>-->
 					<li><i class="icon-new icon-outline"></i>线下门店</li>
 				</ul>
 				<hr>

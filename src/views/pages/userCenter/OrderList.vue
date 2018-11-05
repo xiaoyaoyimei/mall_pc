@@ -31,7 +31,7 @@
 					</ul>
 					<div class="myorderp">
 						<router-link :to="{name:'/order/detail',query:{orderNo:x.order.orderNo}}">订单详情 </router-link>
-						<router-link :to="{name:'/order/express',query:{orderNo:x.order.orderNo,expressNo:x.order.expressNo,logistics:x.order.logistics}}" v-if="x.order.orderStatus=='06'||x.order.orderStatus=='07'">查看物流 </router-link>
+						<router-link :to="{name:'/order/express',query:{orderNo:x.order.orderNo,expressNo:x.order.expressNo,logistics:x.order.logistics,orderStatus:statusfilter(x.order.orderStatus)}}" v-if="x.order.orderStatus=='06'||x.order.orderStatus=='07'">查看物流 </router-link>
 						<button @click="cancel(x.order.orderNo)" v-if="x.order.orderStatus=='01'||x.order.orderStatus=='02'||x.order.orderStatus=='05'">取消订单</button>
 						<button @click="showrefund(x.orderItems,x.order.orderNo)" v-if="x.canRefund==true">售后服务</button>
 						<button class="btn-red" @click="qianshou(x.order.orderNo)" v-if="x.order.orderStatus=='06'">确认收货</button>
@@ -51,7 +51,6 @@
 		<Spin size="large" fix v-if="spinShow"></Spin>
 		<Modal v-model="refundModal" class="refundModal" width="600" :mask-closable="false">
 			<p slot="header">
-				<!--<Icon type="ios-information-circle"></Icon>-->
 				<span class="tuihuo">申请售后</span>
 			</p>
 			<div>
@@ -384,7 +383,7 @@
 						if(res.code == '200') {
 							this.$Message.info(res.object);
 							this.refundModal = false;
-							this.getOrder();
+							  setTimeout(this.$router.push({ name:'/user/aftersales'}), 1000);
 						} else {
 							this.$Message.error(res.msg);
 							this.refundModal = false;
@@ -540,7 +539,6 @@
 			},
 		},
 		mounted() {
-			
 			this.getOrder();
 			this.getStatusEnum();
 			this.uploadList = this.$refs.upload.fileList;

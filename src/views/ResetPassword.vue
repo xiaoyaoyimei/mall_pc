@@ -8,7 +8,7 @@
 				<input type="text" placeholder="手机号" v-model.trim="regiForm.mobile" v-on:blur.lazy="getTx">
 			</FormItem>
 			<FormItem prop="verificationCode" style="position:relative">
-				<input type="text" class="input w128" placeholder="请输入图形码" v-model.trim="regiForm.verificationCode" v-on:blur.lazy="verifitxm">
+				<input type="text" class="input w128" placeholder="请输入图形码" v-model.trim="regiForm.verificationCode" >
 				<img v-show="verimg!=''" :src="verimg" class="pic-yzm marginTop"><img src="../assets/img/refresh.png" class="refresh marginTopF" @click="getTx">
 			</FormItem>
 			<FormItem prop="shortMessage">
@@ -109,10 +109,8 @@
 				});
 
 			},
-			//验证图形码
-			verifitxm(){
-				
-						let verificationCode = this.regiForm.verificationCode;
+			getDx() {
+				let verificationCode = this.regiForm.verificationCode;
 				if(verificationCode == null || verificationCode == '') {
 					this.$Message.error('图形码不能为空!');
 					return;
@@ -126,25 +124,14 @@
 						},
 					}).then((res) => {
 						if(res.code == 200) {
-						   
+						    this.sendMsgDisabled = true;
+				  			 this.startTime();
 						} else {
 							this.$Message.error(res.msg);
 							return;
 						}
 					});
 				}
-			},
-			getDx() {
-				if(this.regiForm.mobile == "") {
-					this.$Message.error('手机号不能为空');
-					return false
-				}
-				if(this.regiForm.verificationCode == null || this.regiForm.verificationCode == '') {
-					this.$Message.error('图形码不能为空');
-					return false
-				}
-					 this.sendMsgDisabled = true;
-				   this.startTime();
 			},
 			startTime() {
 				if(this.time == 0) {

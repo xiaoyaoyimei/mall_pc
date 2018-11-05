@@ -401,14 +401,14 @@ a:hover,
     top: -9px;
 }
 
-header {
+.header {
     color: #fff;
     height: 50px;
     font-size: 14px;
     line-height: 50px;
 }
 
-header a {
+.header a {
     color: #fff;
 }
 
@@ -811,7 +811,7 @@ h3.red {
 
 .ul .myorderImg li {
     float: left;
-    width: 470px;
+    width: 455px;
     padding-bottom: 0px;
     padding-top: 0px;
     display: flex;
@@ -875,8 +875,8 @@ h3.red {
 .myorderempty {
     justify-content: center;
     min-height: 300px;
-    align-items: center;
     display: flex;
+    padding-top: 120px;
 }
 
 .myorderempty span {

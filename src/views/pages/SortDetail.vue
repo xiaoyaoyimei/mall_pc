@@ -34,7 +34,8 @@
 							</span>
 						</dd>
 					</dl>
-					<dl v-if="choosesp.activityName!=null&&choosesp.activityName!=''"><dt><em class="act">{{choosesp.activityName}}</em></dt>
+					<dl v-if="choosesp.activityName!=null&&choosesp.activityName!=''"
+						<dt><em class="act">{{choosesp.activityName}}</em></dt>
 						<dd class="color-black">{{choosesp.activityName}} </dd>
 					</dl>
 					<dl class="noborder" v-for="(item, i) in shangp.productAttrList" :key="i">
@@ -174,6 +175,7 @@
 </template>
 <script>
 	import Bus from '@/assets/js/bus.js'
+	import store from '@/store/store';
 	export default {
 		data() {
 			return {
@@ -259,6 +261,12 @@
 				dpdata:[],
 			}
 		},
+				         computed: {
+            token() {
+            	//获取store里面的token
+                return store.state.token;
+            },
+        },
 		methods: {
 			//隐藏中间字符
 	
@@ -297,24 +305,25 @@
 			},
 			//喜欢
 			likepro() {
-				if(localStorage.getItem('token') != null && localStorage.getItem('token') != undefined) {
+			if(this.token!=null&&this.token!=""&&this.token!=undefined){
 							this.$axios({
 								method: 'post',
 								url: `/like/insert/${this.productId}`,
 							}).then((res) => {
-								if(res.code == '200') {
+									if(res.code == '200') {
 									this.$Message.info('收藏成功');
 									this.likeshow=true;
-									
-								} else {
-									this.$Message.error('收藏失败');
+								} else if(res.code == '500'){
+									this.$Message.error(res.object);
+									this.likeshow=true;
+								}else{
+										this.$Message.error('收藏失败');
 									this.likeshow=false;
 								}
 							})
 				} else {
 					this.$Message.error('您尚未登录,请先登录');
 				}
-
 			},
 			getlikepro(){
 				this.$axios({
@@ -448,7 +457,7 @@
 				}
 			},
 			buynow(v) {
-					if(localStorage.getItem('token') != null && localStorage.getItem('token') != undefined) {
+					   if(this.token!=null&&this.token!=""&&this.token!=undefined){
 				if(this.productItemId == "") {
 					this.$Message.error('请选择商品属性');
 					return
@@ -482,7 +491,7 @@
 			},
 			//加入购物车addtocart
 			atc() {
-				if(localStorage.getItem('token') != null && localStorage.getItem('token') != undefined) {
+				   if(this.token!=null&&this.token!=""&&this.token!=undefined){
 					if(this.productItemId == "") {
 						this.$Message.error('请选择商品属性');
 						return
@@ -505,9 +514,6 @@
 							Bus.$emit('cartmsg', "again");
 							this.$router.push({
 								name: '/cart',
-//								query: {
-//									cartBefore: this.choosesp.id
-//								}
 							});
 						} else {
 							this.$Message.error('加入购物车失败');
@@ -731,9 +737,9 @@
 				var zanid = value;
 				var Like = isZan;
 				if(Like == 'N') {
-					Like = 'Y'
+					Like = 'yes'
 				} else {
-					Like = 'N'
+					Like = 'no'
 				}
 				
 				this.$axios({

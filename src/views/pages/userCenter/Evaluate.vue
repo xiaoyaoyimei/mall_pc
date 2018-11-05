@@ -60,9 +60,9 @@
 				let zanid = value;
 				let Like = isZan;
 				if(Like == 'N') {
-					Like = 'Y'
+					Like = 'yes'
 				} else {
-					Like = 'N'
+					Like = 'no'
 				}
 				this.$axios({
 					method: 'post',
@@ -204,7 +204,8 @@
 		background-color: #ffffff;
 		margin-top: 10px;
 	}
-</style>
-<style>
-
+	.myorderempty img{
+		width: 64px;
+		height: 64px;
+	}
 </style>

@@ -34,7 +34,7 @@
                         </div>
                     </Upload>
                     </div>
-                    <!-- <input type="text" class="input" placeholder=""  v-model="tousuForm.imageUrl"> -->
+                    <!--  -->
                 </FormItem>
              <Button  class="btn" long :loading="loading"  @click="toususubmit()">提交</Button>
             </Form>

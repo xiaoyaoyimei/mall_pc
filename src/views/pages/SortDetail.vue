@@ -34,7 +34,7 @@
 							</span>
 						</dd>
 					</dl>
-					<dl v-if="choosesp.activityName!=null&&choosesp.activityName!=''"
+					<dl v-if="choosesp.activityName!=null&&choosesp.activityName!=''">
 						<dt><em class="act">{{choosesp.activityName}}</em></dt>
 						<dd class="color-black">{{choosesp.activityName}} </dd>
 					</dl>

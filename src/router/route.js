@@ -18,7 +18,7 @@ const routes = [{
 				path: '/index',
 				meta: {
 				title: 'home',
-					keepAlive: true
+				keepAlive: true
 				},
 				component: () =>
 					import('@/views/pages/Home.vue'),

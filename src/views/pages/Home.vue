@@ -262,6 +262,7 @@
 				hr:'',
 				min:0,
 				sec:0,
+				scrollTop:'',
 			};
 		},
 		computed: {
@@ -407,6 +408,11 @@
 						this.peripheryproduct = res.object;
 					}
 				});
+				setTimeout(() => {
+					this.scrollTop = 0;
+					document.documentElement.scrollTop=document.body.scrollTop=0					
+				}, 500);
+
 
 			},
 			switchimg(e, listImg, imgid) {

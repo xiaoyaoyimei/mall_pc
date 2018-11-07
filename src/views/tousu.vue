@@ -34,7 +34,7 @@
                         </div>
                     </Upload>
                     </div>
-                    <!-- <input type="text" class="input" placeholder=""  v-model="tousuForm.imageUrl"> -->
+                    <!--  -->
                 </FormItem>
              <Button  class="btn" long :loading="loading"  @click="toususubmit()">提交</Button>
             </Form>
@@ -93,10 +93,12 @@
             _this.$refs.tousuForm.validate(valid => {
                 if (valid) {
                     let tousuForm=this.tousuForm;
-                    tousuForm.imageUrl = this.uploadList[0].url;
+                    if(this.uploadList.length>0){
+                        tousuForm.imageUrl = this.uploadList[0].url;
+                    }
                     this.$axios({
                         method: 'post',
-                        url: '/advice/insert',
+                        url: '/complaint/addAdvice',
                         data:tousuForm
                     }).then((res) => {
                         if(res.code == '200') {

@@ -16,6 +16,10 @@ const routes = [{
 		name:'首页',
 		children: [{
 				path: '/index',
+				meta: {
+				title: 'home',
+					keepAlive: true
+				},
 				component: () =>
 					import('@/views/pages/Home.vue'),
 			},
@@ -420,39 +424,18 @@ if(localStorage.getItem('token')) {
 }
 const router = new VueRouter({
 	routes,
-//	mode: 'history',  
+	mode: 'history',  
 	scrollBehavior(to, from, savedPosition) {
 		if(savedPosition) {
 			return savedPosition
 		} else {
-			return { 
-				x: 0,
-				y: 0
-			}
+			if (from.meta.keepAlive) {
+				from.meta.savedPosition = document.body.scrollTop
+			  }
+			  return { x: 0, y: to.meta.savedPosition || 0 }
 		}
 	}
 });
-
-//router.beforeEach((to, from, next) => {
-//	console.log(to.path)
-//	debugger
-//	if(to.matched.some(r => r.meta.requireAuth)) {
-//   console.log(getToken())
-//   console.log(to.path)
-//		if(getToken()&&to.path!='/login') {
-//			next();
-//		} else {
-//			next({
-//				path: '/login',
-//				query: {
-//					redirect: to.fullPath
-//				}
-//			})
-//		}
-//	} else {
-//		next();
-//	}
-//})
 router.beforeEach((to, from, next) => {
 	if(to.matched.some(r => r.meta.requireAuth)) {
 		if(store.state.token) {

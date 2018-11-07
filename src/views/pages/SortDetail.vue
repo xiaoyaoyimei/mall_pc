@@ -37,7 +37,8 @@
 							</span>
 						</dd>
 					</dl>
-					<dl v-if="choosesp.activityName!=null&&choosesp.activityName!=''"> <dt><em class="act">{{choosesp.activityName}}</em></dt>
+					<dl v-if="choosesp.activityName!=null&&choosesp.activityName!=''">
+						<dt><em class="act">{{choosesp.activityName}}</em></dt>
 						<dd class="color-black">{{choosesp.activityName}} </dd>
 					</dl>
 					<dl class="noborder" v-for="(item, i) in shangp.productAttrList" :key="i">

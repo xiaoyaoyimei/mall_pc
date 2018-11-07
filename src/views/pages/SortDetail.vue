@@ -1321,13 +1321,13 @@
 	.guanbi {
 		position: absolute;
 		right: 0;
-		top: 0;
+		top: 5px;
 	}
 	
 	.guanbi i {
-		font-size: 25px;
+		font-size:44px;
 		cursor: pointer;
-		color: #000;
+		color: #fff;
 	}
 	.flex-column{
 		flex-direction: column;

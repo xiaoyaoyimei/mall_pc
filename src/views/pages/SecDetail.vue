@@ -119,7 +119,7 @@
 	</div>
 </template>
 <script>
-	
+	import store from '@/store/store';
 	export default {
 		data() {
 			return {
@@ -154,7 +154,7 @@
 				productDesc: [],
 				productimg: [],
 				temp: '',
-				addressList: {},
+				addressList: {receiveProvince:''},
 				videoIcon: false,
 				videoshow: false,
 				ImgUrl: '',
@@ -470,6 +470,10 @@
 				this.productId = routerParams;
 			},
 			getExpressPrice() {
+					if(this.addressList.receiveProvince==''){
+					this.$Message.warning('请先选择收货地址');
+					return false
+				}
 				this.$axios({
 					method: 'post',
 					url: '/order/getShipPrice',

@@ -3,11 +3,12 @@
 		<h3 class="myorder" style="padding-bottom: 48px;">售后服务
 					</h3>
 		<ul class="ul" v-if="hasShow">
-			<li class="" v-for="(x,index) in refundList" :key="index">
+			<li  v-for="(x,index) in refundList" :key="index">
 				<h3 class="red">{{statusrufundfilter(x.refundOrder.refundOrderStatus)}}</h3>
 				<div class="myorderinformation clearfix">
 					<span class="myorderOrder clearfix">
-						{{x.refundOrder.createTime | formatDate('yyyy-MM-dd hh:mm:ss')}} 丨{{x.refundOrder.refundOrderNo}}丨{{reasonfilter(x.refundOrder.refundCauseId)}}  <span class="span">退款金额: ￥<strong>{{x.refundOrder.refundOrderTotalFee|pricefilter}}</strong></span></span>
+						{{x.refundOrder.createTime | formatDate('yyyy-MM-dd hh:mm:ss')}} 丨{{x.refundOrder.refundOrderNo}}丨{{reasonfilter(x.refundOrder.refundCauseId)}}  
+						<span class="span">退款金额: ￥<strong>{{x.refundOrder.refundOrderTotalFee|pricefilter}}</strong></span></span>
 				</div>
 				<div class="myorderImg clearfix">
 					<ul>
@@ -19,13 +20,12 @@
 						</li>
 					</ul>
 					<div class="myorderp">
-						<router-link :to="{name:'/user/Aftersalesdetail',query:{refundOrderNo:x.refundOrder.refundOrderNo,orderNo:x.refundOrder.orderNo}}">订单详情 </router-link>
-						<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='01'" @click="cancelrefund(x.refundOrder.refundOrderNo)">取消</button>
+						<!--<router-link :to="{name:'/user/Aftersalesdetail',query:{refundOrderNo:x.refundOrder.refundOrderNo,orderNo:x.refundOrder.orderNo}}">订单详情 </router-link>-->
+						<button class="btn" v-if="x.refundOrder.refundOrderStatus=='01'" @click="cancelrefund(x.refundOrder.refundOrderNo)">取消</button>
 						<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='02'||x.refundOrder.refundOrderStatus=='05'" @click="show(x.refundOrder)">显示处理结果</button>
 						<button class="btn btn-dx" v-if="x.refundOrder.refundOrderStatus=='02'" @click="showLogisticsInfo(x.refundOrder.refundOrderNo)">填写物流单号</button>
 					</div>
 				</div>
-
 			</li>
 		</ul>
 		<div class="myorderempty " v-else>
@@ -140,7 +140,15 @@
 			},
 			//提交物流信息
 			submitLogisticsInfo() {
-				var _this = this;
+					var _this = this;
+				if(_this.logistics==''){
+					_this.$Message.info('物流公司不能为空');
+					return 
+				}
+					if(_this.expressNo==''){
+					_this.$Message.info('物流单号不能为空');
+					return 
+				}
 				_this.$axios({
 					method: 'post',
 					url: `/refund/submitLogisticsInfo?refundOrderNo=${_this.rfOrderNumer}&expressNo=${_this.expressNo}&logistics=${_this.logistics}`,

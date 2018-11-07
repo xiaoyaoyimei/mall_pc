@@ -24,7 +24,7 @@
 							<router-link :to="{ path: '/sort/sortDetail',query:{id:child.productModelId} }"><img :src="child.productItemImg | imgfilter" alt=""></router-link>
 							<div class="w400"><span><router-link :to="{ path: '/sort/sortDetail',query:{id:child.productModelId} }">{{child.productTitle}}  </router-link> {{child.productAttrs}}</span>
 								<div>￥{{unitprice(child.orderFee, child.quantity)| pricefilter}} x {{child.quantity}}
-									<span v-if="x.order.orderStatus=='07'&&!child.pinglun" class="color-red pingjia" @click="showevaluation(child,x.order.orderNo)">去评价</span>
+									<span  class=" pingjia" v-if="x.order.orderStatus=='07'&&!child.pinglun" @click="showevaluation(child,x.order.orderNo)">去评价</span>
 								</div>
 							</div>
 						</li>
@@ -715,6 +715,9 @@
 	.pingjia {
 		cursor: pointer;
 		float: right;
+		background: red;
+		color: #fff;
+		padding: 0 2px;
 	}
 	.myorderImg .w400{
 		width: 400px;

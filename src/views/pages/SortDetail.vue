@@ -157,7 +157,9 @@
 							</span></h5>
 								<ul class="eval-ul" v-if="hasPJ">
 									<li v-for="(item, index) in commentList" :key="index">
-										<h6><img :src="item.list.iconUrl | imgfilter">
+										<h6>
+											<img src="../../../assets/img/de-tx.jpg" alt="头像" v-if="item.list.iconUrl==''">
+											<img :src="item.list.iconUrl | imgfilter" v-else>
 										{{item.list.nickName | plusXing('*')}}</h6>
 										<p>{{item.list.commentContent}}</p>
 										<div class="sz" :key="index"><span v-for="(child, index) in item.imgList"><img :src="child | imgfilter"></span></div>

@@ -32,8 +32,10 @@
                       </div>
                   </div>
                   <div class="orderdetailfapiao">
-                      <div class="h5">
-                      		<div><span class="t">发票状态:><span>{{invoiceFilter(orderdetail.shippingInvoice.invoiceStatus)}}</span></div>
+                      <div class="p">
+                      		发票状态:
+                      			<span>{{invoiceFilter(orderdetail.shippingInvoice.invoiceStatus)}}</span>
+                      		</div>
                       	<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice == ''" @click="modaladdorderNo=true" class="addEdit fr">新增</button>
 				 		<button v-show="orderdetail.shippingOrder.orderStatus!='04'" v-if="orderdetail.shippingInvoice.invoiceStatus == 'created'" @click="geteditInvoice(orderdetail.shippingOrder.orderNo)" class="addEdit fr">编辑</button> 	
                       <div class="p">发票类型：

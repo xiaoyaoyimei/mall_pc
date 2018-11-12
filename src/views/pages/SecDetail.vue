@@ -102,7 +102,9 @@
 							</span></h5>
 								<ul class="eval-ul">
 									<li v-for="(item, index) in commentList" :key="index">
-										<h6><img :src="item.list.iconUrl | imgfilter">{{item.list.nickName}}</h6>
+										<h6>
+													<img  src="../../assets/img/de-tx.jpg"  alt="头像" v-if="item.list.iconUrl==''">
+											<img :src="item.list.iconUrl | imgfilter" v-else>{{item.list.nickName}}</h6>
 										<p>{{item.list.commentContent}}</p>
 										<div class="sz" :key="index"><span v-for="(child, index) in item.imgList"><img :src="child | imgfilter"></span></div>
 										<div class="zan"><span class="fr"><i class="icon-new icon-zan" :class="{'icon-zan-active':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)' ></i>{{item.number}}</span>{{item.list.commentTime | formatDate}}</div>
@@ -119,7 +121,7 @@
 	</div>
 </template>
 <script>
-	
+	import store from '@/store/store';
 	export default {
 		data() {
 			return {
@@ -154,7 +156,7 @@
 				productDesc: [],
 				productimg: [],
 				temp: '',
-				addressList: {},
+				addressList: {receiveProvince:''},
 				videoIcon: false,
 				videoshow: false,
 				ImgUrl: '',
@@ -329,12 +331,11 @@
 					}).then((res) => {
 						if(res.length > 0) {
 							res.map(function(i) {
-								if(i.isDefault == 'Y' && JSON.stringify(_this.addressList) == "{}") {
+								if(i.isDefault == 'Y' && _this.addressList.receiveProvince == '') {
 									_this.addressList = i;
 									_this.youdizhi = true
 								}
 							});
-
 						}
 						if(_this.youdizhi) {
 							this.getExpressPrice();
@@ -441,8 +442,6 @@
 						}).then((res) => {
 							this.productimg = res;
 						});
-						//获取邮费
-						this.getExpressPrice()
 					}
 				});
 
@@ -470,6 +469,10 @@
 				this.productId = routerParams;
 			},
 			getExpressPrice() {
+					if(this.addressList.receiveProvince==''){
+					this.$Message.warning('请先选择收货地址');
+					return false
+				}
 				this.$axios({
 					method: 'post',
 					url: '/order/getShipPrice',

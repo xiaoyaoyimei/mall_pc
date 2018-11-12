@@ -10,12 +10,15 @@
 					<img v-show="!videoshow" :src="ImgUrl |imgfilter" style="width: 100%;height: 100%">
 					<img class="videoIcon" v-if='videoIcon' v-show="!videoshow" @click='getVideo(shangp.product.video)' src="../../assets/img/video.png"></div>
 				<ul class="small">
-					<li class="nextp" @click="pervlist()" v-show="shangp.productImageList.length>5"><Icon type="ios-arrow-back" /></li>
-					<li v-for="(item, index) in shangp.productImageList" :key="index" @click='getIndex(item.listImg,index)' 
-					:class="{active:item.clickItem,none:item.show}"  style="display:none">
+					<li class="nextp" @click="pervlist()" v-show="shangp.productImageList.length>5">
+						<Icon type="ios-arrow-back" />
+					</li>
+					<li v-for="(item, index) in shangp.productImageList" :key="index" @click='getIndex(item.listImg,index)' :class="{active:item.clickItem,none:item.show}" style="display:none">
 						<img :src="item.smallImg |imgfilter">
 					</li>
-					<li class="nextp"  @click="nextlist()" v-show="shangp.productImageList.length>5"><Icon type="ios-arrow-forward" /></li>
+					<li class="nextp" @click="nextlist()" v-show="shangp.productImageList.length>5">
+						<Icon type="ios-arrow-forward" />
+					</li>
 				</ul>
 			</div>
 			<div class="fl iteminfo ml40">
@@ -42,7 +45,7 @@
 						<dt>{{item.attrKey.catalogAttrValue}}</dt>
 						<dd>
 							<ul class="color-sel">
-								<li :class="choosesp.kucun==0?'disabled':'abled'" v-for="(child, index) in item.attrValues" :key="index" @click="chooseSP($event,item)" >
+								<li :class="choosesp.kucun==0?'disabled':'abled'" v-for="(child, index) in item.attrValues" :key="index" @click="chooseSP($event,item)">
 									<span v-bind:class="item.attrValues.length==1?'active':''" :titleid="child.id" ref="dditem">
 										<img :src="child.smallImg |imgfilter " v-if="item.attrKey.isColorAttr == 'Y'">{{child.modelAttrValue}}</span>
 								</li>
@@ -67,13 +70,13 @@
 					</dl>
 				</div>
 				<div class="opt">
-					<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi&&!xiajia" ><i class="icon-new icon-minicart"></i>加入购物车</button>
+					<button class="btn-cart" @click="atc" v-show="!wuhuotongzhi&&!xiajia"><i class="icon-new icon-minicart"></i>加入购物车</button>
 					<button class="btn-xorder" v-show="!wuhuotongzhi&&!xiajia" @click="buynow(0)"><i class="icon-new icon-minicart"  ></i>立即下单</button>
 					<button v-if="wuhuotongzhi" size="large" class="btn-nopro" disabled="disabled">暂时无货，到货通知</button>
-					<button class="btn-like btn-like-active"   disabled="disabled" v-if="likeshow">
+					<button class="btn-like btn-like-active" disabled="disabled" v-if="likeshow">
 					<i class="icon-new icon-like"></i>已喜欢
 					</button>
-					<button class="btn-like" @click="likepro"  v-else>
+					<button class="btn-like" @click="likepro" v-else>
 					<i class="icon-new icon-like"></i>喜欢
 					</button>
 				</div>
@@ -111,8 +114,10 @@
 							</li>
 						</CheckboxGroup>
 					</ul>
-					<div class="changepage fl"> <Icon type="ios-arrow-back"  @click="prev()"/><Icon type="ios-arrow-forward"  @click="next()"/>
-						</div>
+					<div class="changepage fl">
+						<Icon type="ios-arrow-back" @click="prev()" />
+						<Icon type="ios-arrow-forward" @click="next()" />
+					</div>
 					<div class="compine fr">
 						<p>已选择{{dpnum}}个配件
 						</p>
@@ -150,9 +155,11 @@
 							<span class="onlyimg" @click="toggleimg()">
 							<i class="icon-new icon-onlyimg"  :class="{'icon-allimg':!onlyimg }"></i>只显示到带图评价
 							</span></h5>
-								<ul class="eval-ul">
+								<ul class="eval-ul" v-if="hasPJ">
 									<li v-for="(item, index) in commentList" :key="index">
-										<h6><img :src="item.list.iconUrl | imgfilter">
+										<h6>
+											<img src="../../assets/img/de-tx.jpg" alt="头像" v-if="item.list.iconUrl==''">
+											<img :src="item.list.iconUrl | imgfilter" v-else>
 										{{item.list.nickName | plusXing('*')}}</h6>
 										<p>{{item.list.commentContent}}</p>
 										<div class="sz" :key="index"><span v-for="(child, index) in item.imgList"><img :src="child | imgfilter"></span></div>
@@ -162,6 +169,10 @@
 										</div>
 									</li>
 								</ul>
+								<div class="flex-center flex-column" v-else> 
+									<img src="../../assets/img/pj_empty.png">
+								<p>暂无任何评价记录~</p></div>
+
 							</div>
 						</div>
 						<!-- <p class="moreeval" @click="getcommentList" v-if="commentList.length>1">查看更多评价</p> -->
@@ -179,18 +190,19 @@
 	export default {
 		data() {
 			return {
-				cartList:[],
-				cartOne:{
-					id:'',
-					image:'',
-					originSalePrice:0,
-					productName:'',
-					quantity:1,
-					salePrice:0,
-					productType:'',
+				hasPJ: true,
+				cartList: [],
+				cartOne: {
+					id: '',
+					image: '',
+					originSalePrice: 0,
+					productName: '',
+					quantity: 1,
+					salePrice: 0,
+					productType: '',
 				},
 				compine: [],
-				compineList:[],
+				compineList: [],
 				onlyimg: false, //0为img为空。1显示图片
 				//库存是否为0添加购物车显示按钮
 				num: 0,
@@ -231,17 +243,17 @@
 				cxshow: false,
 				stock: false,
 				choosesp: {
-					id:'',
-					productId:'',
+					id: '',
+					productId: '',
 					img: '',
 					itemNo: '',
-					price: 0,//现价
+					price: 0, //现价
 					cuxiaoprice: 0,
 					activityName: '',
 					startTime: '',
 					endTime: '',
 					kucun: 0,
-					quantity:1,
+					quantity: 1,
 				},
 				productItemId: '',
 				quantity: 1,
@@ -256,82 +268,93 @@
 				dpnum: 0,
 				compineId: [],
 				likeshow: false,
-				index:4,
-				listindex:5,
-				dpdata:[],
+				index: 4,
+				listindex: 5,
+				dpdata: [],
 			}
 		},
-				         computed: {
-            token() {
-            	//获取store里面的token
-                return store.state.token;
-            },
-        },
+		computed: {
+			token() {
+				//获取store里面的token
+				return store.state.token;
+			},
+		},
 		methods: {
 			//隐藏中间字符
-	
+
 			checkAllGroupChange(data) {
-				this.dpdata=data;
+				this.dpdata = data;
 				var _this = this;
 				_this.dpnum = data.length;
 				_this.dpjiage = 0;
-				this.compineList=[];
-				data.forEach((item,index) => {
-					if(JSON.stringify(this.recomm[item].promotion)=="{}"){
-						this.compineList.push({id:this.recomm[item].list.id,productId:this.recomm[item].list.product_bind_id,image:this.recomm[item].list.list_img,
-							productName:this.recomm[item].list.item_no,quantity:1,originSalePrice:this.recomm[item].list.sale_price,
-							salePrice:this.recomm[item].list.sale_price,
-							productType:this.recomm[item].list.typeId,
-							productCatalog:this.recomm[item].list.catalogId
+				this.compineList = [];
+				data.forEach((item, index) => {
+					if(JSON.stringify(this.recomm[item].promotion) == "{}") {
+						this.compineList.push({
+							id: this.recomm[item].list.id,
+							productId: this.recomm[item].list.product_bind_id,
+							image: this.recomm[item].list.list_img,
+							productName: this.recomm[item].list.item_no,
+							quantity: 1,
+							originSalePrice: this.recomm[item].list.sale_price,
+							salePrice: this.recomm[item].list.sale_price,
+							productType: this.recomm[item].list.typeId,
+							productCatalog: this.recomm[item].list.catalogId
 						})
 						this.dpjiage += parseFloat(this.recomm[item].list.sale_price);
-					}else{
-						this.compineList.push({id:this.recomm[item].list.id,productId:this.recomm[item].list.product_bind_id,image:this.recomm[item].list.list_img,
-							productName:this.recomm[item].list.item_no,quantity:1,originSalePrice:this.recomm[item].list.sale_price,
-							salePrice:this.recomm[item].promotion.onSalePrice,promotionTitle:this.recomm[item].promotion.activityName,
-							productType:this.recomm[item].list.typeId,
-							productCatalog:this.recomm[item].list.catalogId
+					} else {
+						this.compineList.push({
+							id: this.recomm[item].list.id,
+							productId: this.recomm[item].list.product_bind_id,
+							image: this.recomm[item].list.list_img,
+							productName: this.recomm[item].list.item_no,
+							quantity: 1,
+							originSalePrice: this.recomm[item].list.sale_price,
+							salePrice: this.recomm[item].promotion.onSalePrice,
+							promotionTitle: this.recomm[item].promotion.activityName,
+							productType: this.recomm[item].list.typeId,
+							productCatalog: this.recomm[item].list.catalogId
 						})
 						this.dpjiage += parseFloat(this.recomm[item].promotion.onSalePrice);
 					}
 					this.compineId.push(this.recomm[item].list.id)
 				});
 				if(this.choosesp.cuxiaoprice > 0) {
-					this.dpjiage += parseFloat(this.choosesp.cuxiaoprice*this.quantity);
+					this.dpjiage += parseFloat(this.choosesp.cuxiaoprice * this.quantity);
 				} else {
-					this.dpjiage += parseFloat(this.choosesp.price*this.quantity);
+					this.dpjiage += parseFloat(this.choosesp.price * this.quantity);
 				}
-				
+
 			},
 			//喜欢
 			likepro() {
-			if(this.token!=null&&this.token!=""&&this.token!=undefined){
-							this.$axios({
-								method: 'post',
-								url: `/like/insert/${this.productId}`,
-							}).then((res) => {
-									if(res.code == '200') {
-									this.$Message.info('收藏成功');
-									this.likeshow=true;
-								} else if(res.code == '500'){
-									this.$Message.error(res.object);
-									this.likeshow=true;
-								}else{
-										this.$Message.error('收藏失败');
-									this.likeshow=false;
-								}
-							})
+				if(this.token != null && this.token != "" && this.token != undefined) {
+					this.$axios({
+						method: 'post',
+						url: `/like/insert/${this.productId}`,
+					}).then((res) => {
+						if(res.code == '200') {
+							this.$Message.info('收藏成功');
+							this.likeshow = true;
+						} else if(res.code == '500') {
+							this.$Message.error(res.object);
+							this.likeshow = true;
+						} else {
+							this.$Message.error('收藏失败');
+							this.likeshow = false;
+						}
+					})
 				} else {
 					this.$Message.error('您尚未登录,请先登录');
 				}
 			},
-			getlikepro(){
+			getlikepro() {
 				this.$axios({
-						method: 'post',
-						url: `/like/queryIsLiked/${this.productId}`,
-					}).then((res) => {
-						this.likeshow = res;
-					})
+					method: 'post',
+					url: `/like/queryIsLiked/${this.productId}`,
+				}).then((res) => {
+					this.likeshow = res;
+				})
 			},
 
 			//只显示带图评论
@@ -343,21 +366,21 @@
 			toggletab(num) {
 				this.num = num;
 			},
-			calculate(){
+			calculate() {
 				this.dpjiage = 0;
-				if(this.dpdata.length>0){
-						this.dpdata.forEach((item,index) => {
-					if(JSON.stringify(this.recomm[item].promotion)=="{}"){
-						this.dpjiage += parseFloat(this.recomm[item].list.sale_price);
-					}else{
-						this.dpjiage += parseFloat(this.recomm[item].promotion.onSalePrice);
-					}
-				});
+				if(this.dpdata.length > 0) {
+					this.dpdata.forEach((item, index) => {
+						if(JSON.stringify(this.recomm[item].promotion) == "{}") {
+							this.dpjiage += parseFloat(this.recomm[item].list.sale_price);
+						} else {
+							this.dpjiage += parseFloat(this.recomm[item].promotion.onSalePrice);
+						}
+					});
 				}
 				if(this.choosesp.cuxiaoprice > 0) {
-					this.dpjiage += parseFloat(this.choosesp.cuxiaoprice*this.quantity);
+					this.dpjiage += parseFloat(this.choosesp.cuxiaoprice * this.quantity);
 				} else {
-					this.dpjiage += parseFloat(this.choosesp.price*this.quantity);
+					this.dpjiage += parseFloat(this.choosesp.price * this.quantity);
 				}
 			},
 			changeNumber: function(event) {
@@ -393,40 +416,40 @@
 				}
 				this.calculate();
 			},
-			pervlist(){
+			pervlist() {
 				this.$forceUpdate();
-                if(this.listindex > 5){
-                    let i = this.listindex-6;
-                    this.shangp.productImageList[this.listindex-1].show = false;
-                    this.shangp.productImageList[i].show =true;
+				if(this.listindex > 5) {
+					let i = this.listindex - 6;
+					this.shangp.productImageList[this.listindex - 1].show = false;
+					this.shangp.productImageList[i].show = true;
 					this.listindex--
 				}
 			},
-			nextlist(){
+			nextlist() {
 				this.$forceUpdate();
-				if(this.listindex < this.shangp.productImageList.length){
-					let i =this.listindex-5
+				if(this.listindex < this.shangp.productImageList.length) {
+					let i = this.listindex - 5
 					this.shangp.productImageList[this.listindex].show = true;
-					this.shangp.productImageList[i].show =false;
+					this.shangp.productImageList[i].show = false;
 					this.listindex++;
 				}
 			},
-			next(){
-				if(this.index < this.recomm.length){
-					let i =this.index-4
+			next() {
+				if(this.index < this.recomm.length) {
+					let i = this.index - 4
 					this.recomm[this.index].show = true;
-					this.recomm[i].show =false;
+					this.recomm[i].show = false;
 					this.index++;
 				}
-              },
-            prev(){
-                if(this.index > 4){
-                    let i = this.index-5;
-                    this.recomm[this.index-1].show = false;
-                    this.recomm[i].show =true;
-                    this.index--
-                }
-            },
+			},
+			prev() {
+				if(this.index > 4) {
+					let i = this.index - 5;
+					this.recomm[this.index - 1].show = false;
+					this.recomm[i].show = true;
+					this.index--
+				}
+			},
 			getIndex(imgUrl, index) {
 				this.videoshow = false;
 				this.ImgUrl = imgUrl;
@@ -457,41 +480,46 @@
 				}
 			},
 			buynow(v) {
-					   if(this.token!=null&&this.token!=""&&this.token!=undefined){
-				if(this.productItemId == "") {
-					this.$Message.error('请选择商品属性');
-					return
-				}
-				this.cartOne.id=this.choosesp.id;
-				this.cartOne.productId=this.choosesp.productId;
-				this.cartOne.image=this.choosesp.img;
-				this.cartOne.productName=this.choosesp.itemNo;
-				this.cartOne.quantity=this.quantity;
-				this.cartOne.originSalePrice=this.choosesp.price;
-				this.cartOne.salePrice=this.choosesp.cuxiaoprice;
-				this.cartOne.promotionTitle=this.choosesp.activityName;
-				this.cartOne.productType=this.shangp.product.typeId;
-				this.cartOne.productCatalog=this.shangp.product.catalogId;
-				this.cartList[0]=this.cartOne;
-				//0为单个立即下单，1为推荐组合中的立即下单
-				if(v==1){
-					this.cartList=this.cartList.concat(this.compineList)
-				}
-				sessionStorage.removeItem('cart');
-				sessionStorage.setItem('cart', JSON.stringify(this.cartList));
-				this.$router.push({ name:'/carttwo',query:{orderfrom:'A'}});
-				}else{
-				this.$router.push({
+				if(this.token != null && this.token != "" && this.token != undefined) {
+					if(this.productItemId == "") {
+						this.$Message.error('请选择商品属性');
+						return
+					}
+					this.cartOne.id = this.choosesp.id;
+					this.cartOne.productId = this.choosesp.productId;
+					this.cartOne.image = this.choosesp.img;
+					this.cartOne.productName = this.choosesp.itemNo;
+					this.cartOne.quantity = this.quantity;
+					this.cartOne.originSalePrice = this.choosesp.price;
+					this.cartOne.salePrice = this.choosesp.cuxiaoprice;
+					this.cartOne.promotionTitle = this.choosesp.activityName;
+					this.cartOne.productType = this.shangp.product.typeId;
+					this.cartOne.productCatalog = this.shangp.product.catalogId;
+					this.cartList[0] = this.cartOne;
+					//0为单个立即下单，1为推荐组合中的立即下单
+					if(v == 1) {
+						this.cartList = this.cartList.concat(this.compineList)
+					}
+					sessionStorage.removeItem('cart');
+					sessionStorage.setItem('cart', JSON.stringify(this.cartList));
+					this.$router.push({
+						name: '/carttwo',
+						query: {
+							orderfrom: 'A'
+						}
+					});
+				} else {
+					this.$router.push({
 						path: '/login',
 						query: {
 							redirect: this.$route.fullPath
 						}
-					})	
+					})
 				}
 			},
 			//加入购物车addtocart
 			atc() {
-				   if(this.token!=null&&this.token!=""&&this.token!=undefined){
+				if(this.token != null && this.token != "" && this.token != undefined) {
 					if(this.productItemId == "") {
 						this.$Message.error('请选择商品属性');
 						return
@@ -533,7 +561,7 @@
 				var chooseId = "",
 					jishu = 0;
 				let dditem = this.$refs['dditem'];
-				if(dditem!=null) {
+				if(dditem != null) {
 					for(let n = 0; n < dditem.length; n++) {
 						if(dditem[n].getAttribute("class") == 'active') {
 							chooseId += dditem[n].getAttribute("titleid") + ',';
@@ -549,14 +577,14 @@
 						if(chooseItem.productModelAttrs == chooseId) {
 							this.shangp.product.modelNo = chooseItem.itemNo;
 							this.ImgUrl = chooseItem.listImg;
-							this.choosesp.id=chooseItem.id;
-							this.choosesp.productId=chooseItem.productId;
+							this.choosesp.id = chooseItem.id;
+							this.choosesp.productId = chooseItem.productId;
 							this.choosesp.img = chooseItem.listImg;
 							this.choosesp.itemNo = chooseItem.itemNo;
 							this.choosesp.price = chooseItem.salePrice;
-							
+
 							//若无促销，则促销价为原价
-							this.choosesp.cuxiaoprice =chooseItem.salePrice;
+							this.choosesp.cuxiaoprice = chooseItem.salePrice;
 							this.productItemId = chooseItem.id;
 							if(this.shangp.promotions.length > 0) {
 								for(let cxitem of this.shangp.promotions) {
@@ -566,9 +594,8 @@
 										this.choosesp.activityName = cxitem.activityName;
 										this.choosesp.startTime = cxitem.startTime;
 										this.choosesp.endTime = cxitem.endTime;
-										this.choosesp.quantity=cxitem.quantity;
-										
-										
+										this.choosesp.quantity = cxitem.quantity;
+
 									}
 								}
 							}
@@ -595,10 +622,10 @@
 								kucunflag = true;
 								this.choosesp.kucun = kucunitem.quantity - kucunitem.lockQuantity;
 								//设置加入购物车的最大值
-							    this.max=this.choosesp.kucun;
+								this.max = this.choosesp.kucun;
 								if(this.choosesp.kucun < 0) {
 									this.choosesp.kucun = 0;
-									this.max=0;
+									this.max = 0;
 								}
 							}
 						}
@@ -611,7 +638,7 @@
 					} else {
 						this.wuhuotongzhi = false;
 					}
-					 this.getlikepro(this.productItemId);
+					this.getlikepro(this.productItemId);
 
 				} else {
 					return;
@@ -662,7 +689,7 @@
 							if(_this.choosesp.kucun < 0) {
 								_this.choosesp.kucun = 0
 							}
-							_this.max=_this.choosesp.kucun
+							_this.max = _this.choosesp.kucun
 						}
 
 						if(_this.choosesp.kucun < 1) {
@@ -672,10 +699,10 @@
 						}
 						for(let a = 0; a < _this.shangp.productImageList.length; a++) {
 							_this.shangp.productImageList[a].clickItem = false;
-							if(a<5){
+							if(a < 5) {
 								_this.shangp.productImageList[a].show = true
-							}else{
-								_this.shangp.productImageList[a].show =false
+							} else {
+								_this.shangp.productImageList[a].show = false
 							}
 						}
 						_this.ImgUrl = _this.shangp.product.modelImg;
@@ -687,7 +714,7 @@
 						}
 
 					}
-						this.getlikepro();
+					this.getlikepro();
 				});
 			},
 			getProductDesc() {
@@ -696,27 +723,27 @@
 					method: "GET",
 					url: "/product/match/" + this.productId,
 				}).then(res => {
-					if(res.code==200){
-						for(let i =0; i<res.object.length;i++){
-							if(i<4){
+					if(res.code == 200) {
+						for(let i = 0; i < res.object.length; i++) {
+							if(i < 4) {
 								res.object[i].show = true;
-								if(JSON.stringify(res.object[i].promotion)=="{}"){
-									res.object[i].proPrice=true
-								}else{
-									res.object[i].proPrice=false
+								if(JSON.stringify(res.object[i].promotion) == "{}") {
+									res.object[i].proPrice = true
+								} else {
+									res.object[i].proPrice = false
 								}
-							}else{
-								res.object[i].show =false;
-									if(JSON.stringify(res.object[i].promotion)=="{}"){
-									res.object[i].proPrice=true
-								}else{
-									res.object[i].proPrice=false
+							} else {
+								res.object[i].show = false;
+								if(JSON.stringify(res.object[i].promotion) == "{}") {
+									res.object[i].proPrice = true
+								} else {
+									res.object[i].proPrice = false
 								}
 							}
 						}
-							this.recomm = res.object;
+						this.recomm = res.object;
 					}
-				
+
 				});
 				this.$axios({
 					method: 'post',
@@ -732,7 +759,7 @@
 					this.productimg = res;
 				});
 			},
-						//点赞
+			//点赞
 			zan(value, isZan) {
 				var zanid = value;
 				var Like = isZan;
@@ -741,10 +768,10 @@
 				} else {
 					Like = 'no'
 				}
-				
+
 				this.$axios({
 					method: 'post',
-					url: '/comment/beLike/'+zanid+'/'+Like,
+					url: '/comment/beLike/' + zanid + '/' + Like,
 				}).then((res) => {
 					if(res.code == '200') {
 						this.showcomments()
@@ -761,11 +788,15 @@
 				}
 				this.$axios({
 					method: 'get',
-					url: '/comment/search/'+this.productId+'/'+imgshow,
+					url: '/comment/search/' + this.productId + '/' + imgshow,
 				}).then((res) => {
-					if(res.code == "200") {
+					if(res.code == "200" && res.object.length > 0) {
 						this.commentList = res.object;
+						this.hasPJ = true;
+					} else {
+						this.hasPJ = false;
 					}
+
 				});
 			},
 		},
@@ -775,9 +806,9 @@
 			this.showcomments();
 			setTimeout(() => {
 				this.detail();
-			}, 1000)
+			}, 1500)
 			this.getProductDesc();
-		
+
 		},
 	}
 </script>
@@ -829,7 +860,8 @@
 		width: 84px;
 		height: 84px;
 	}
-	.small .nextp{
+	
+	.small .nextp {
 		width: 20px;
 		text-align: center;
 		line-height: 80px;
@@ -837,22 +869,27 @@
 		position: relative;
 		left: -20px;
 	}
+	
 	.small li:nth-last-of-type(1) {
-			float: right;
+		float: right;
 	}
+	
 	.small li:nth-child(n+2) {
 		margin-left: 8px;
 	}
+	
 	.small li:hover,
 	.small .active {
 		border-color: #000000;
 	}
-	.small .nextp:hover{
+	
+	.small .nextp:hover {
 		border: none;
-	}	
+	}
+	
 	.iteminfo {
 		font-size: 15px;
-		width:640px;
+		width: 640px;
 	}
 	
 	.iteminfo h1 {
@@ -900,9 +937,11 @@
 	.summary {
 		width: 640px;
 	}
-	.none{
+	
+	.none {
 		display: block!important;
 	}
+	
 	.act {
 		width: 65px;
 		height: 25px;
@@ -991,11 +1030,13 @@
 		width: 108px;
 		background: #ccc;
 	}
-	.btn-like:hover,.btn-like-active{
+	
+	.btn-like:hover,
+	.btn-like-active {
 		background: #FF0000;
 	}
+	
 	.btn-like-active {
-		
 		cursor: not-allowed;
 	}
 	
@@ -1016,11 +1057,13 @@
 		border-bottom: 1px solid #FF0030;
 		padding-bottom: 5px;
 		font-weight: normal;
-		margin-right:10px;
+		margin-right: 10px;
 	}
-	.recommend h6 em{
+	
+	.recommend h6 em {
 		font-size: 12px;
 	}
+	
 	.li-pro {
 		padding-left: 40px;
 	}
@@ -1032,6 +1075,7 @@
 		float: left;
 		cursor: pointer;
 	}
+	
 	.li-pro p,
 	.pro li p {
 		font-size: 14px;
@@ -1064,12 +1108,16 @@
 	.icon-recadd {
 		margin: 0 20px;
 	}
-		.icon-recadd,.pro {
+	
+	.icon-recadd,
+	.pro {
 		float: left\9;
 	}
-	.icon-recadd{
+	
+	.icon-recadd {
 		margin-top: 30px;
 	}
+	
 	.pro input {
 		margin-right: 5px;
 		position: relative;
@@ -1124,7 +1172,7 @@
 	}
 	
 	.eval-fl {
-	/*	width: 840px;*/
+		/*	width: 840px;*/
 		padding-left: 40px;
 		/*border-right: 1px solid #777;*/
 	}
@@ -1267,18 +1315,23 @@
 		width: 100%;
 		height: 95%;
 	}
+	
 	.pro li a {
 		display: block;
 	}
-.guanbi {
-				position: absolute;
-    right: 0;
-    top: 0;
+	
+	.guanbi {
+		position: absolute;
+		right: 0;
+		top: 5px;
 	}
-	.guanbi i{
-
-    font-size: 25px;
-    cursor: pointer;
-    color: #000;
+	
+	.guanbi i {
+		font-size:44px;
+		cursor: pointer;
+		color: #fff;
+	}
+	.flex-column{
+		flex-direction: column;
 	}
 </style>

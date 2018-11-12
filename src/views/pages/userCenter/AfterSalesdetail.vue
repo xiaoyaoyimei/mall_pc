@@ -292,4 +292,5 @@
 	.orderdetailtotal p:hover {
 		color: #333333;
 	}
+	
 </style>

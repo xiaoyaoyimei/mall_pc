@@ -1,6 +1,6 @@
 <template>
 	<div style="padding:40px;">
-		<span class="status">{{orderStatus}}</span>
+		<span class="status">物流信息</span>
 		<div class="logistics">
 			<ul class="logisticsText" >
 				<li class="clearfix" v-for="(item,index) in expressList" :key="index">

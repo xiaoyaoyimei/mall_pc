@@ -103,7 +103,7 @@
 								<ul class="eval-ul">
 									<li v-for="(item, index) in commentList" :key="index">
 										<h6>
-													<img src="../../../assets/img/de-tx.jpg" alt="头像" v-if="item.list.iconUrl==''">
+													<img  src="../../assets/img/de-tx.jpg"  alt="头像" v-if="item.list.iconUrl==''">
 											<img :src="item.list.iconUrl | imgfilter" v-else>{{item.list.nickName}}</h6>
 										<p>{{item.list.commentContent}}</p>
 										<div class="sz" :key="index"><span v-for="(child, index) in item.imgList"><img :src="child | imgfilter"></span></div>

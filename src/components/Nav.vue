@@ -8,7 +8,7 @@
 				</li>
 				<!--	<li> <router-link >选款建议</router-link></li>-->
 			</ul>
-			<div class="search_wrap fr"><input v-model="keyword">
+			<div class="search_wrap fr"><input v-model.trim="keyword">
 				<button class="search_btn" @click="gosearch()"><i class="icon-new icon-search"></i></button></div>
 		</div>
 	</div>
@@ -20,7 +20,8 @@
 			return {
 				keyword: '',
 				opt_search_hover: false,
-				type: []
+				type: [],
+				v:0
 			}
 		},
 		methods: {
@@ -33,10 +34,13 @@
 				})
 			},
 			gosearch() {
+				//用版本控制$route
+				this.v+=1;
 				this.$router.push({
 					path: '/sort',
 					query: {
-						keyword: this.keyword
+						keyword: this.keyword,
+						v:this.v
 					}
 				});
 			},
@@ -51,7 +55,8 @@
 	li .router-link-exact-active {
 		color: #FF0037
 	}
-	.nav .main-width{
+	
+	.nav .main-width {
 		overflow: hidden;
 	}
 </style>

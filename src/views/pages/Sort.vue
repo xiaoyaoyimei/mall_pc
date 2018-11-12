@@ -41,7 +41,7 @@
 						</router-link>
 					</li>
 				</ul>
-				<Page :total="totalSize" size="small" show-elevator class="page" :page-size='this.pageSize' @on-change="handlePage" v-if="productList.length>0"></Page>
+				<Page :total="totalSize" size="small" show-elevator class="page" :page-size='this.pageSize' :current='this.page' @on-change="handlePage" v-if="productList.length>0"></Page>
 			</div>
 			<div class="empty_result flex-center" v-else>
 				<Icon type="ios-warning" />
@@ -72,6 +72,7 @@
 				typeindex: -1,
 				seriesindex: -1,
 				brandindex: -1,
+				page:1,
 				//顶部筛选条件
 				searchfilter: {
 					catalog: '',
@@ -87,29 +88,19 @@
 		methods: {
 			//获取顶部筛选
 			getParams() {
+				debugger
 				//首页查看更多（直接通过关键字查找）
 				if(this.$route.query.typeid != undefined) {
 					this.getList('type', this.$route.query.typeid, this.$route.query.typeindex)
 				}
 			     if(this.$route.query.keyword != undefined) {
-			     	this.keyword=encodeURI(this.$route.query.keyword);
-					this.getTopList()
+					 this.keyword=encodeURI(this.$route.query.keyword);
+					this.search()
 				}
 			     this.catalogId = this.$route.query.catalog
 				if(this.catalogId != undefined) {
 					this.searchfilter.type = this.catalogId;
-					this.$axios({
-						method: 'GET',
-						url: '/product/search?&type=' + this.catalogId + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
-					}).then((res) => {
-						this.productList = res.itemsList;
-						this.totalSize = res.total;
-						if(this.productList.length>0){
-							this.hasShow=true
-						}else{
-							this.hasShow=false
-						}
-					})			
+					this.getList('type', this.$route.query.catalog)		
 				}	
 			},
 			getTop() {
@@ -174,12 +165,26 @@
 				this.search('toptype');
 			},
              search(val){
-             	if(val=='toptype'){
-             		 this.startRow=0;
-             	}
-             			this.$axios({
+				if(val !='page'){
+					this.startRow = 0
+					this.page = 1
+					if(val=='toptype'){
+						this.keyword = ''
+					}else{
+					this.startRow=0;
+					this.catalogindex = -1;
+					this.typeindex = -1;
+					this.seriesindex = -1;
+					this.brandindex = -1;
+					this.searchfilter.catalog = '';
+					this.searchfilter.series = '';
+					this.searchfilter.type = '';
+					this.searchfilter.brand = ''
+				 	}
+				 }
+             	this.$axios({
 					method: 'GET',
-					url: '/product/search?catalog=' + this.searchfilter.catalog + '&series=' + this.searchfilter.series + '&type=' + this.searchfilter.type + '&brand=' + this.searchfilter.brand + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
+					url: '/product/search?keyWord=' + this.keyword +'&catalog=' + this.searchfilter.catalog + '&series=' + this.searchfilter.series + '&type=' + this.searchfilter.type + '&brand=' + this.searchfilter.brand + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
 				}).then((res) => {
 					this.productList = res.itemsList;
 					if(this.productList.length>0){
@@ -191,23 +196,24 @@
 				})
              },
 			//点击header的搜索
-			getTopList() {
+			// getTopList() {
 				
-					this.$axios({
-					method: 'GET',
-					url: '/product/search?keyWord=' + this.keyword + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
-				}).then((res) => {
-					this.productList = res.itemsList;
-						if(this.productList.length>0){
-						this.hasShow=true
-					}else{
-						this.hasShow=false
-					}
-					this.totalSize = res.total;
-				})
-			},
+			// 		this.$axios({
+			// 		method: 'GET',
+			// 		url: '/product/search?keyWord=' + this.keyword + '&startRow=' + this.startRow + '&pageSize=' + this.pageSize,
+			// 	}).then((res) => {
+			// 		this.productList = res.itemsList;
+			// 			if(this.productList.length>0){
+			// 			this.hasShow=true
+			// 		}else{
+			// 			this.hasShow=false
+			// 		}
+			// 		this.totalSize = res.total;
+			// 	})
+			// },
 			handlePage(value) {
 				this.startRow = (value - 1) * this.pageSize;
+				this.page = value
 				this.search('page');
 			},
 		},

@@ -104,7 +104,7 @@
 									<li v-for="(item, index) in commentList" :key="index">
 										<h6>
 													<img  src="../../assets/img/de-tx.jpg"  alt="头像" v-if="item.list.iconUrl==''">
-											<img :src="item.list.iconUrl | imgfilter" v-else>{{item.list.nickName}}</h6>
+											<img :src="item.list.iconUrl | imgfilter" v-else>{{item.list.nickName | plusXing('*')}}</h6>
 										<p>{{item.list.commentContent}}</p>
 										<div class="sz" :key="index"><span v-for="(child, index) in item.imgList"><img :src="child | imgfilter"></span></div>
 										<div class="zan"><span class="fr"><i class="icon-new icon-zan" :class="{'icon-zan-active':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)' ></i>{{item.number}}</span>{{item.list.commentTime | formatDate}}</div>
@@ -279,6 +279,7 @@
 			},
 			//点赞
 			zan(value, isZan) {
+				if(this.token != null && this.token != "" && this.token != undefined) {
 				let zanid = value;
 				let Like = isZan;
 				if(Like == 'N') {
@@ -294,6 +295,10 @@
 						this.showcomments()
 					}
 				})
+				}
+				else{
+				this.$Message.error('点赞需要登录哦,请先登录');
+				}
 			},
 			//只显示带图评论
 			toggleimg() {

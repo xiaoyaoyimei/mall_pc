@@ -761,6 +761,7 @@
 			},
 			//点赞
 			zan(value, isZan) {
+				if(this.token != null && this.token != "" && this.token != undefined) {
 				var zanid = value;
 				var Like = isZan;
 				if(Like == 'N') {
@@ -777,6 +778,10 @@
 						this.showcomments()
 					}
 				})
+				}
+				else{
+				this.$Message.error('点赞需要登录哦,请先登录');
+				}
 			},
 			//显示评论。0位全部评论，1为显示带图评论
 			showcomments() {

@@ -125,7 +125,8 @@
 //													token: data.object["token"],
 //													userId: data.object["userId"]	});
 												
-												_this.$router.push('/index');
+												//_this.$router.push('/index');
+												_this.$router.push(this.$route.query.redirect || '/')
 											}
 
 										}).catch(error => {

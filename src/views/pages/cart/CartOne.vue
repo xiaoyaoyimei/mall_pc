@@ -176,8 +176,8 @@
 				//						   if(this.temp.indexOf(index)>0){
 				//					     	this.temp.splice(index,1)
 				//						  }
-				if(x.quantity == 1) {
-					x.quantity == 1
+				if(x.quantity <= 1) {
+					x.quantity = 1
 				} else {
 					x.quantity = parseInt(x.quantity) - 1;
 					this.checkAllGroup = this.temp;

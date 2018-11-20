@@ -33,7 +33,10 @@ axios.interceptors.response.use(
 				     removeToken();
 					  store.dispatch('LogOut').then(() => {
 			            Message.error( '验证已过期, 请重新登录')
-				           window.location.href=global_.originurl+'/#/login'
+				          // window.location.href=global_.originurl+'/#/login'
+				              		router.replace({
+                        path: '/login',
+                        query: {redirect: router.currentRoute.fullPath}
 				             return false
 				          })
 			}else{

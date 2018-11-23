@@ -1,4 +1,4 @@
-<template>
+getTx<template>
 	<div class="page-reg">
 		<div class="nav">
 			<div class="main-width clearfix">
@@ -141,6 +141,7 @@
 				if(verificationCode == null || verificationCode == '') {
 					this.$Message.error('图形码不能为空!');
 					this.loadingDx = false;
+					return false
 				} else {
 					this.$axios({
 						method: 'post',

@@ -95,6 +95,10 @@
 			
 				getTx() {
 				let mobile = this.regiForm.mobile;
+				if(mobile == "") {
+					this.$Message.error('手机号不能为空');
+					return
+				}
 				this.$axios({
 					method: 'post',
 					url: '/customer/validate?userName=' + this.regiForm.mobile,

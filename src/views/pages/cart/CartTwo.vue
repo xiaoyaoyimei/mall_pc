@@ -93,6 +93,7 @@
 						
 						<span class="cost">快递费用 ￥{{freight | pricefilter}}</span>
 					</div>
+					<div class="fp"><span class="shipping">发票信息</span> <button @click="modaladdorderNo=true" class="btn_fp">编辑发票</button></div>
 					<div class="placeorderzhubei clearfix">
 						<span class="span">备注留言</span>
 						<textarea v-model.trim="beizhu" cols="80" rows="2"></textarea>
@@ -141,8 +142,67 @@
 				</FormItem>
 			</Form>
 		</Modal>
-		<Modal title="运费信息" v-model="expressModal" width="400">本商城指定跨越速运、顺丰速运为发货物流，具体发货信息以实际发货为准
-			<!--<img src="../../../assets/img/express.png">--></Modal>
+		<Modal title="运费信息" v-model="expressModal" width="400">本商城指定跨越速运、顺丰速运为发货物流，具体发货信息以实际发货为准</Modal>
+			
+			<!--新增发票信息-->
+				<Modal v-model="modaladdorderNo" class="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" :mask-closable='false'>
+			<Form :model="addInvoice" ref="addInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="fpruleValidate">
+				<FormItem label="发票类型" prop="invoiceType">
+					<RadioGroup v-model="addInvoice.invoiceType">
+						<Radio label="增值税普通发票">增值税普通发票</Radio>
+						<Radio label="增值税专用发票">增值税专用发票</Radio>
+					</RadioGroup>
+				</FormItem>
+				<div v-if="addInvoice.invoiceType=='增值税普通发票'">
+					<FormItem label="类型选择" prop="headType">
+						<RadioGroup v-model="addInvoice.headType">
+						<Radio label="个人">个人</Radio>
+						<Radio label="公司">公司</Radio>
+					</RadioGroup>
+					</FormItem>
+						<div v-if="addInvoice.headType=='公司'">
+					<FormItem label="纳税人识别码" prop='invoiceCode'>
+						<Input v-model="addInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
+					</FormItem>
+					</div>
+				</div>
+
+				<FormItem label="发票抬头" prop="invoiceTitle">
+					<Input v-model="addInvoice.invoiceTitle" placeholder="发票抬头" autocomplete="off"></Input>
+				</FormItem>
+					<div v-if="addInvoice.invoiceType=='增值税专用发票'">
+					<h5 class="color-blue">专用发票必填信息:</h5>
+					<FormItem label="开户行名称" prop="bankName">
+						<Input v-model="addInvoice.bankName" placeholder="开户行名称" autocomplete="off"></Input>
+					</FormItem>
+					<FormItem label="银行账号" prop="bankNo">
+						<Input v-model="addInvoice.bankNo" placeholder="银行账号" autocomplete="off"></Input>
+					</FormItem>
+					<FormItem label="纳税人识别码" prop='invoiceCode'>
+						<Input v-model="addInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
+					</FormItem>
+					<FormItem label="注册地址" prop="registerAddress">
+						<Input v-model="addInvoice.registerAddress" placeholder="注册地址"></Input>
+					</FormItem>
+							<FormItem label="注册电话" prop="registerPhone">
+						<Input v-model="addInvoice.registerPhone" placeholder="注册电话"></Input>
+					</FormItem>
+				</div>
+				<FormItem label="收票人姓名" prop="receivePerson">
+					<Input v-model="addInvoice.receivePerson" placeholder="收票人姓名" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="收票人手机" prop="receivePhone">
+					<Input v-model="addInvoice.receivePhone" placeholder="收票人手机" autocomplete="off"></Input>
+				</FormItem>
+				<FormItem label="所在地区" prop="selectedOptionsAddr">
+					<Cascader v-model="addInvoice.selectedOptionsAddr" placeholder="选择所在区域" :data="addressOption"></Cascader>
+				</FormItem>
+				<FormItem label="详细地址" prop='receiveAddress'>
+					<Input v-model="addInvoice.receiveAddress" placeholder="详细地址" autocomplete="off"></Input>
+				</FormItem>
+			
+			</Form>
+		</Modal>
 	</div>
 </template>
 <script>
@@ -202,6 +262,81 @@
 						trigger: 'change'
 					}],
 				},
+				orderInvoiceForm:{},
+				modaladdorderNo: false,
+				addInvoice: {
+					bankName: '',
+					bankNo: '',
+					invoiceCode: '',
+					invoiceTitle: '',
+					headType:'个人',
+					invoiceType: '增值税普通发票',
+					receiveAddress: '',
+					receivePerson: '',
+					registerAddress: '',
+					receivePhone: '',
+					selectedOptionsAddr: [],
+					registerPhone:''
+				},
+				fpruleValidate: {
+					selectedOptionsAddr: [{
+						required: true,
+						type: 'array',
+						message: '请选择省市区',
+						trigger: 'change'
+					}],
+					bankName: [{
+						required: true,
+						message: '开户行名称不能为空',
+						trigger: 'blur'
+					}],
+					bankNo: [{
+						required: true,
+						message: '银行账号不能为空',
+						trigger: 'blur'
+					}],
+					invoiceCode: [{
+						required: true,
+						message: '纳税人识别码不能为空',
+						trigger: 'blur'
+					}],
+					invoiceTitle: [{
+						required: true,
+						message: '发票抬头不能为空',
+						trigger: 'blur'
+					}, ],
+					invoiceType: [{
+						required: true,
+						message: '发票类型不能为空',
+						trigger: 'change'
+					}],
+					receiveAddress: [{
+						required: true,
+						message: '详细地址不能为空',
+						trigger: 'blur'
+					}],
+					receivePerson: [{
+						required: true,
+						message: '收票人姓名不能为空',
+						trigger: 'blur'
+					}],
+					receivePhone: [{
+						required: true,
+						trigger: 'blur',
+						validator: validatePhone,
+					}],
+					registerPhone: [{
+							required: true,
+						message: '注册电话不能为空',
+						trigger: 'blur'
+					}],
+					registerAddress: [{
+						required: true,
+						message: '注册地址不能为空',
+						trigger: 'blur'
+					}],
+					
+					},
 				modaleditaddr: false,
 				modaladdr: false,
 				orderfail: false,
@@ -242,6 +377,23 @@
 			}
 		},
 		methods: {
+						addinvoice() {
+				this.loading = false;
+				this.$nextTick(() => {
+					this.loading = true;
+					this.$refs['addInvoice'].validate((valid) => {
+						if(valid) {
+							let temp = this.addInvoice;
+							temp.receiveProvince = this.addInvoice.selectedOptionsAddr[0];
+							temp.receiveCity = this.addInvoice.selectedOptionsAddr[1];
+							temp.receiveDistrict = this.addInvoice.selectedOptionsAddr[2];
+							 this.orderInvoiceForm  = Object.assign({}, temp);
+							 delete this.orderInvoiceForm['selectedOptionsAddr']
+							 this.modaladdorderNo = false;
+						}
+					})
+				}, 2000)
+			},
 			itemtotal(p, n) {
 				return Number(p) * n;
 			},
@@ -555,6 +707,7 @@
 					type: this.orderfrom,
 					quantity: this.quantitys,
 					modelIds:this.modelIds,
+					orderInvoiceForm:this.orderInvoiceForm
 				};
 				this.$axios({
 					method: 'post',
@@ -815,15 +968,7 @@
 		width: 1100px;
 	}
 	
-	.placeorderActivity .shipping {
-		float: left;
-		width: 200px;
-		font-size: 18px;
-		text-align: left;
-		font-weight: 400;
-		padding-left: 10px;
-		color: #333333;
-	}
+
 	
 	.placeorderActivity .placeorderInformation {
 		font-size: 14px;
@@ -832,8 +977,9 @@
 		color: #FF0000;
 	}
 	
-	.placeorderInformation .btn {
-		width: 50px;
+	.placeorderInformation .btn,.btn_fp{
+		padding-left: 15px;
+		padding-right: 15px;
 		height: 30px;
 		font-weight: 400;
 		font-size: 14px;
@@ -867,15 +1013,16 @@
 		font-size: 14px;
 		color: #FF0000;
 	}
-	
+	.placeorderActivity .shipping{
+		float: left;
+	}
 	.placeorderSend {
 		height: 85px;
 		border-bottom: 1px solid #c6c6c6;
 		padding-top: 28px;
 		width: 1100px;
 	}
-	
-	.placeorderSend .shipping {
+.shipping {
 		font-size: 18px;
 		font-weight: 400;
 		color: #333333;
@@ -1153,6 +1300,11 @@
     width: 120px;
     display: inline-block;
     text-align: center;
+	}
+	.fp{
+		 padding-top: 30px;
+		 padding-bottom: 20px;
+		 border-bottom: 1px solid #ddd;
 	}
 </style>
 <style>

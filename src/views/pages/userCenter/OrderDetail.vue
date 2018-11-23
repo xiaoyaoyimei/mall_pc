@@ -94,12 +94,14 @@
 					<FormItem label="纳税人识别码" prop='invoiceCode'>
 						<Input v-model="addInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
 					</FormItem>
-					<FormItem label="注册地址" prop="registerAddress">
-						<Input v-model="addInvoice.registerAddress" placeholder="注册地址"></Input>
-					</FormItem>
-					<FormItem label="注册电话" prop="registerPhone">
-						<Input v-model="addInvoice.registerPhone" placeholder="注册电话"></Input>
-					</FormItem>
+					<div>
+						<FormItem label="注册地址" prop="registerAddress">
+							<Input v-model="addInvoice.registerAddress" placeholder="注册地址"></Input>
+						</FormItem>
+						<FormItem label="注册电话" prop="registerPhone">
+							<Input v-model="addInvoice.registerPhone" placeholder="注册电话"></Input>
+						</FormItem>
+					</div>
 				</div>
 				<FormItem label="收票人姓名" prop="receivePerson">
 					<Input v-model="addInvoice.receivePerson" placeholder="收票人姓名" autocomplete="off"></Input>
@@ -148,9 +150,9 @@
 			
 				<div v-if="editInvoice.invoiceType=='增值税专用发票'">
 					<h6 class="color-blue">专用发票必填信息:</h6>
-						<FormItem label="纳税人识别码" prop='invoiceCode'>
-					<Input v-model="editInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
-				</FormItem>
+					<FormItem label="纳税人识别码" prop='invoiceCode'>
+						<Input v-model="editInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
+					</FormItem>
 					<FormItem label="开户行名称" prop="bankName">
 						<Input v-model="editInvoice.bankName" placeholder="开户行名称" autocomplete="off"></Input>
 					</FormItem>
@@ -161,10 +163,9 @@
 						<Input v-model="editInvoice.registerAddress" placeholder="注册地址"></Input>
 					</FormItem>
 					<FormItem label="注册电话" prop="registerPhone">
-						<Input v-model="editInvoice.registerPhone" placeholder="注册电话"></Input>
+						<Input v-model="editInvoice.registerPhone" placeholder="注册电话" autocomplete="off"></Input>
 					</FormItem>
 				</div>
-
 				<FormItem label="收票人姓名" prop="receivePerson">
 					<Input v-model="editInvoice.receivePerson" placeholder="收票人姓名" autocomplete="off"></Input>
 				</FormItem>
@@ -228,8 +229,9 @@
 					receivePerson: '',
 					registerAddress: '',
 					receivePhone: '',
+					registerPhone:'',
 					selectedOptionsAddr: [],
-					registerPhone:''
+					
 				},
 				editInvoice: {
 					bankName: '',
@@ -243,15 +245,16 @@
 					receivePerson: '',
 					receivePhone: '',
 					registerAddress: '',
+					registerPhone:'',
 					selectedOptionsAddr: [],
-					registerPhone:''
+					
 				},
 				ruleValidate: {
-						registerPhone: [{
-							required: true,
-						message: '注册电话不能为空',
-						trigger: 'blur'
-					}],
+					registerPhone:[{
+						required:true,
+						validator:validatePhone,
+						trigger:'blur'
+					},],
 					selectedOptionsAddr: [{
 						required: true,
 						type: 'array',
@@ -303,7 +306,7 @@
 						required: true,
 						message: '注册地址不能为空',
 						trigger: 'blur'
-					}, ],
+					} ],
 				}
 			}
 		},

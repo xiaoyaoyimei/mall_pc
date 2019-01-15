@@ -2,7 +2,7 @@
 	<div class="padding40">
 		<h3 class="myorder">我的订单
 			<div class="myorderspan" >
-				<span  @click="changeStatus('00')" :class="{red:'00' == numactive}" >全部订单</span>
+				<span  @click="changeStatus('00')" :class="{red:'00' == numactive}">全部订单</span>
 				<span @click="changeStatus('01')" :class="{red:'01' == numactive}">待付款</span>
 				<span @click="changeStatus('02')" :class="{red:'02' == numactive}">已付款</span>
 				<span @click="changeStatus('05')" :class="{red:'05' == numactive}">待发货</span>
@@ -13,7 +13,8 @@
 		</h3>
 		<ul class="ul" v-if="pro.length>0">
 			<li v-for="(x,index) in pro" :key="index">
-				<h3 class="red"> {{statusfilter(x.order.orderStatus)}}</h3>
+				<h3 class="red"> {{statusfilter(x.order.orderStatus)}}
+				<span class="custom" v-show="x.order.type=='B'">定制订单</span></h3>
 				<div class="myorderinformation clearfix">
 					<span class="myorderOrder clearfix">{{x.order.createTime | formatDate('yyyy-MM-dd hh:mm:ss')}} 丨 {{x.orderAddress.receiverMobile }} 丨{{x.order.orderNo}} 
 										<span class="span">订单金额: ￥<strong>{{x.order.orderTotalFee | pricefilter}}</strong></span></span>
@@ -722,6 +723,9 @@
 	.myorderImg .w400{
 		width: 400px;
 		
+	}
+	.custom{
+		float: right;
 	}
 </style>
 <style>

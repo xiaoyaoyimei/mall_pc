@@ -7,7 +7,7 @@ var type=/govicon.js\?siteId=([0-9a-fA-F]{32})&width=([0-9]+)&height=([0-9]+)&ty
 var retstr={ "siteId": theRequest, "width": iconwidth, "height": iconheight, "type": type };
 return retstr;}
 var webprefix="http://www.jsdsgsxt.gov.cn/mbm/";
-var iconImageURL="http://odr.jsdsgsxt.gov.cn:8081/mbm/app/main/electronic/images/ebsIcon.png";
+var iconImageURL="/static/ebsIcon.png";
 var tempiconImageURL="";
 var params=GetRequest();
 if(params.type=="1"){tempiconImageURL=iconImageURL;}

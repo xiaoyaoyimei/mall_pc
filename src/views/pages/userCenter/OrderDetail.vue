@@ -1,6 +1,7 @@
 <template>
 	<div class="padding40">
 		<h2>订单详情</h2>
+		
 		<div class="font-14" v-show="orderdetail.shippingOrder.orderStatus=='01'||orderdetail.shippingOrder.orderStatus=='02'">
 			<span v-if='timerShow'>订单将在 <span class="color-red">{{protime}}</span>后 自动关闭，请及时付款~</span>
 		</div>
@@ -41,15 +42,22 @@
 			</div>
 			<div class="p">发票抬头：<span v-if="orderdetail.shippingInvoice != ''">{{orderdetail.shippingInvoice.invoiceTitle}} </span></div>
 		</div>
+		<div class="orderdetailsend" v-show="orderdetail.shippingOrder.customPrice!=0">
+			<div class="h5">定制信息</div>
+			<div  class="p">定制状态: <span style="color:red">{{customFilter(orderdetail.shippingOrder.customStatus) }} </span></div>
+			<div class="p">定制图片： <img :src="orderdetail.shippingOrder.finalPic | imgfilter"/></div>
+			</div>
 		<div class="orderdetailtotal">
 			<div class="orderdetailtotalAttr">
 				<p>商品总价:</p>
+				<p v-show="orderdetail.shippingOrder.customPrice!=0">定制总价:</p>
 				<p>活动优惠:</p>
 				<p>运费:</p>
 				<p>应付总额:</p>
 			</div>
 			<div class="orderdetailtotalValue">
 				<p>￥{{orderdetail.shippingOrder.productFee|pricefilter}}</p>
+				<p v-show="orderdetail.shippingOrder.customPrice!=0">￥{{orderdetail.shippingOrder.customPrice|pricefilter}}</p>
 				<p>-￥<label v-if="orderdetail.shippingOrder.discountFee!=''">{{orderdetail.shippingOrder.discountFee|pricefilter}}</label><label v-else>0</label></p>
 				<p v-if="orderdetail.shippingOrder.postageFee!=''">
 					￥{{orderdetail.shippingOrder.postageFee|pricefilter}}
@@ -200,7 +208,6 @@
 				}
 			};
 			return {
-
 				timerShow: false,
 				spinShow: true,
 				timer: '',
@@ -311,6 +318,18 @@
 			}
 		},
 		methods: {
+			//定制状态转换
+			customFilter(v){
+				if(v == 'A') {
+					return '定制进行中'
+				} else if(v == 'B') {
+					return '定制成功'
+				} else if(v=='C'){
+					return '定制失败'
+				}else{
+						return ''
+				}
+			},
 			//发票类型转换
 			invoiceFilter(v) {
 				if(v == 'created') {

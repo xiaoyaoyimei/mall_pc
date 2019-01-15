@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="cart2page">
 		<div class="nav Nav">
 			<div class="main-width clearfix">
 				<router-link to="/index" class="logo fl navcart"><img src="../../../assets/img/logo-red.png"></router-link>
@@ -53,8 +53,7 @@
 									<img :src="imageSrc+x.image" alt=""><span class="placeorderspan">{{x.productName}}</span>
 								</td>
 								<td width="300" align="left">
-									<em class="delprice">￥{{x.originSalePrice|pricefilter}}</em> 
-									￥{{x.salePrice|pricefilter }} x {{x.quantity}} </td>
+									<em class="delprice">￥{{x.originSalePrice|pricefilter}}</em> ￥{{x.salePrice|pricefilter }} x {{x.quantity}} </td>
 								<!--<p v-if="x.promotionTitle ==null&&xscoupon" >￥{{x.salePrice|pricefilter }}  x {{x.quantity}}</p>
 											<p v-else>￥{{x.salePrice |pricefilter}} x {{x.quantity}}</p></td>-->
 								<td width="250"><span v-if="x.promotionTitle !=null">{{x.promotionTitle}}</span> </td>
@@ -72,25 +71,25 @@
 								使用优惠码
 								<div class="inlineBlock">
 									<input class="input" type="text" ref="couponValue" onKeyUp="if(this.value.length>16){this.value=this.value.substr(0,16)}">
-									<span>-</span> 
+									<span>-</span>
 								</div>
 								<button class="btn" @click='usecoupon'>确定</button>
 								<span class="cost">已优惠   -￥{{(origintotal.price -total.price)|pricefilter}}</span>
 							</div>
-							<span class="color-newred couponMsg" >{{useCouponMsg}}</span>
+							<span class="color-newred couponMsg">{{useCouponMsg}}</span>
 						</div>
 
 					</div>
 					<div class="placeorderSend">
 						<span class="shipping">配送方式</span>
-						
-							<span class="information">
+
+						<span class="information">
 								
 								<Tooltip content="本商城指定跨越速运、顺丰速运为发货物流，具体发货信息以实际发货为准" placement="bottom-start">
 							<span class="doubt" > ?</span>了解物流信息
-							</Tooltip>
-							</span>
-						
+						</Tooltip>
+						</span>
+
 						<span class="cost">快递费用 ￥{{freight | pricefilter}}</span>
 					</div>
 					<div class="fp"><span class="shipping">发票信息</span> <button @click="modaladdorderNo=true" class="btn_fp">编辑发票</button></div>
@@ -102,7 +101,12 @@
 							<p class="heji"><span class="num">商品总价：</span><span class="red">￥{{origintotal.price|pricefilter}}</span></p>
 							<p class="heji"><span class="num">活动优惠：</span><span class="red">-￥{{(origintotal.price -total.price)|pricefilter}}</span></p>
 							<p class="heji"><span class="num">运费： </span><span class="red">￥{{freight | pricefilter}}</span></p>
-							<div class="heji totalPrice"><span class="num">应付总额：</span><span class="red"><strong>￥{{total.price+freight|pricefilter}}</strong> </span></div>
+							<p class="heji" v-show="cartTwoCustom.logoPrice!=0">
+								<span class="num">定制LOGO： </span><span class="red">￥{{cartTwoCustom.logoPrice | pricefilter}}</span></p>
+							<p class="heji" v-show="cartTwoCustom.textPrice!=0">
+								<span class="num">定制文字： </span><span class="red">￥{{cartTwoCustom.textPrice | pricefilter}}</span></p>
+							<div class="heji totalPrice"><span class="num">应付总额：</span><span class="red">
+								<strong>￥{{total.price+freight+cartTwoCustom.textPrice+cartTwoCustom.logoPrice |pricefilter}}</strong> </span></div>
 							<div class="heji gopay" @click="confirm">去结算</div>
 						</div>
 					</div>
@@ -143,9 +147,9 @@
 			</Form>
 		</Modal>
 		<Modal title="运费信息" v-model="expressModal" width="400">本商城指定跨越速运、顺丰速运为发货物流，具体发货信息以实际发货为准</Modal>
-			
-			<!--新增发票信息-->
-				<Modal v-model="modaladdorderNo" class="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" :mask-closable='false'>
+
+		<!--新增发票信息-->
+		<Modal v-model="modaladdorderNo" class="modaladdorderNo" title="新增发票信息" @on-ok="addinvoice()" :loading="loading" :mask-closable='false'>
 			<Form :model="addInvoice" ref="addInvoice" label-position="left" style="padding: 15px;" :label-width="120" :rules="fpruleValidate">
 				<FormItem label="发票类型" prop="invoiceType">
 					<RadioGroup v-model="addInvoice.invoiceType">
@@ -156,21 +160,21 @@
 				<div v-if="addInvoice.invoiceType=='增值税普通发票'">
 					<FormItem label="类型选择" prop="headType">
 						<RadioGroup v-model="addInvoice.headType">
-						<Radio label="个人">个人</Radio>
-						<Radio label="公司">公司</Radio>
-					</RadioGroup>
+							<Radio label="个人">个人</Radio>
+							<Radio label="公司">公司</Radio>
+						</RadioGroup>
 					</FormItem>
-						<div v-if="addInvoice.headType=='公司'">
-					<FormItem label="纳税人识别码" prop='invoiceCode'>
-						<Input v-model="addInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
-					</FormItem>
+					<div v-if="addInvoice.headType=='公司'">
+						<FormItem label="纳税人识别码" prop='invoiceCode'>
+							<Input v-model="addInvoice.invoiceCode" placeholder="纳税人识别码" autocomplete="off"></Input>
+						</FormItem>
 					</div>
 				</div>
 
 				<FormItem label="发票抬头" prop="invoiceTitle">
 					<Input v-model="addInvoice.invoiceTitle" placeholder="发票抬头" autocomplete="off"></Input>
 				</FormItem>
-					<div v-if="addInvoice.invoiceType=='增值税专用发票'">
+				<div v-if="addInvoice.invoiceType=='增值税专用发票'">
 					<h5 class="color-blue">专用发票必填信息:</h5>
 					<FormItem label="开户行名称" prop="bankName">
 						<Input v-model="addInvoice.bankName" placeholder="开户行名称" autocomplete="off"></Input>
@@ -184,7 +188,7 @@
 					<FormItem label="注册地址" prop="registerAddress">
 						<Input v-model="addInvoice.registerAddress" placeholder="注册地址"></Input>
 					</FormItem>
-							<FormItem label="注册电话" prop="registerPhone">
+					<FormItem label="注册电话" prop="registerPhone">
 						<Input v-model="addInvoice.registerPhone" placeholder="注册电话"></Input>
 					</FormItem>
 				</div>
@@ -200,7 +204,7 @@
 				<FormItem label="详细地址" prop='receiveAddress'>
 					<Input v-model="addInvoice.receiveAddress" placeholder="详细地址" autocomplete="off"></Input>
 				</FormItem>
-			
+
 			</Form>
 		</Modal>
 	</div>
@@ -220,6 +224,10 @@
 				}
 			};
 			return {
+				cartTwoCustom: {
+					logoPrice: 0,
+					textPrice: 0
+				},
 				expressModal: false,
 				beizhu: '',
 				loading: true,
@@ -262,21 +270,21 @@
 						trigger: 'change'
 					}],
 				},
-				orderInvoiceForm:{},
+				orderInvoiceForm: {},
 				modaladdorderNo: false,
 				addInvoice: {
 					bankName: '',
 					bankNo: '',
 					invoiceCode: '',
 					invoiceTitle: '',
-					headType:'个人',
+					headType: '个人',
 					invoiceType: '增值税普通发票',
 					receiveAddress: '',
 					receivePerson: '',
 					registerAddress: '',
 					receivePhone: '',
 					selectedOptionsAddr: [],
-					registerPhone:''
+					registerPhone: ''
 				},
 				fpruleValidate: {
 					selectedOptionsAddr: [{
@@ -326,7 +334,7 @@
 						validator: validatePhone,
 					}],
 					registerPhone: [{
-							required: true,
+						required: true,
 						message: '注册电话不能为空',
 						trigger: 'blur'
 					}],
@@ -335,8 +343,8 @@
 						message: '注册地址不能为空',
 						trigger: 'blur'
 					}],
-					
-					},
+
+				},
 				modaleditaddr: false,
 				modaladdr: false,
 				orderfail: false,
@@ -353,7 +361,7 @@
 				addressList: {},
 				tempcart: [],
 				productItemIds: [],
-				modelIds:[],
+				modelIds: [],
 				quantitys: [],
 				couponshow: true,
 				couponmsg: {
@@ -373,11 +381,11 @@
 				},
 				freight: 0,
 				orderfrom: 'B',
-				useCouponMsg: '',
+				useCouponMsg: ''
 			}
 		},
 		methods: {
-						addinvoice() {
+			addinvoice() {
 				this.loading = false;
 				this.$nextTick(() => {
 					this.loading = true;
@@ -387,9 +395,9 @@
 							temp.receiveProvince = this.addInvoice.selectedOptionsAddr[0];
 							temp.receiveCity = this.addInvoice.selectedOptionsAddr[1];
 							temp.receiveDistrict = this.addInvoice.selectedOptionsAddr[2];
-							 this.orderInvoiceForm  = Object.assign({}, temp);
-							 delete this.orderInvoiceForm['selectedOptionsAddr']
-							 this.modaladdorderNo = false;
+							this.orderInvoiceForm = Object.assign({}, temp);
+							delete this.orderInvoiceForm['selectedOptionsAddr']
+							this.modaladdorderNo = false;
 						}
 					})
 				}, 2000)
@@ -557,7 +565,7 @@
 			//总价计算
 			jisuan(value) {
 				let _this = this;
-				
+
 				if(this.cartList == null) {
 					return
 				} else {
@@ -577,7 +585,7 @@
 							_this.total.num += item.quantity;
 						});
 						let couponmethod = value;
-						if(couponmethod.availableSku == "" && couponmethod.availableCatalog == ""&&couponmethod.availableModel=="") {
+						if(couponmethod.availableSku == "" && couponmethod.availableCatalog == "" && couponmethod.availableModel == "") {
 							_this.total.price = 0;
 							if(couponmethod.couponMode == 'rate') {
 								this.cartList.forEach(function(item, index) {
@@ -642,8 +650,7 @@
 
 								});
 							}
-						} 
-						else {
+						} else {
 							_this.total.price = 0;
 							if(couponmethod.couponMode == 'rate') {
 								this.cartList.forEach(function(item, index) {
@@ -682,7 +689,7 @@
 						_this.productItemIds.push(item.id);
 						_this.quantitys.push(item.quantity)
 						_this.modelIds.push(item.productId)
-						
+
 					});
 					if(this.cartList.length == n) {
 						this.couponshow = false
@@ -695,20 +702,46 @@
 			},
 			//提交表单
 			confirm() {
-				if(this.selectItem == null) {
-					this.$Message.error('收货地址不能为空');
-					return
-				}
-				let para = {
+			 var para={};
+				if(sessionStorage.getItem("orderCustom")!=null){
+					var orderCustom = JSON.parse(sessionStorage.getItem("orderCustom"));
+				    para = {
+						addressId: this.addressList[this.selectItem].id,
+						productItemIds: this.productItemIds,
+						couponCode: this.couponCode,
+						remark: this.beizhu,
+						type: this.orderfrom,
+						quantity: this.quantitys,
+						modelIds: this.modelIds,
+						orderInvoiceForm: this.orderInvoiceForm,
+						customLogo: orderCustom.customLogo,
+						customText: orderCustom.customText,
+						textFont: 	orderCustom.textFont,
+						textColor: orderCustom.textColor,
+						finalPic: orderCustom.finalPic
+					};
+				}else{
+							para = {
 					addressId: this.addressList[this.selectItem].id,
 					productItemIds: this.productItemIds,
 					couponCode: this.couponCode,
 					remark: this.beizhu,
 					type: this.orderfrom,
 					quantity: this.quantitys,
-					modelIds:this.modelIds,
-					orderInvoiceForm:this.orderInvoiceForm
-				};
+					modelIds: this.modelIds,
+					orderInvoiceForm: this.orderInvoiceForm,
+						customLogo:'',
+						customText:'',
+						textFont: '',
+						textColor: '',
+						finalPic: ''
+					};
+				}
+				if(this.selectItem == null) {
+					this.$Message.error('收货地址不能为空');
+					return
+				}
+			
 				this.$axios({
 					method: 'post',
 					url: '/order/shopping/confirm',
@@ -717,7 +750,11 @@
 					if(res.code == '200') {
 
 						//						  订单提交以后清空列表
+						localStorage.removeItem("custom")
+						localStorage.removeItem("custompro")
 						sessionStorage.removeItem("cart")
+						sessionStorage.removeItem("cartTwoCustom")
+						sessionStorage.removeItem("orderCustom")
 						Bus.$emit('cartmsg', "again");
 						this.$router.push({
 							name: '/cartthree',
@@ -743,7 +780,7 @@
 					return;
 				}
 				let para = {
-					modelIds:this.modelIds,
+					modelIds: this.modelIds,
 					productItemIds: this.productItemIds,
 					couponCode: this.couponCode,
 					quantity: this.quantitys
@@ -758,7 +795,7 @@
 						this.xscoupon = true;
 						this.couponmsg = Object.assign({}, res.object);
 						this.jisuan(this.couponmsg);
-						this.useCouponMsg=''
+						this.useCouponMsg = ''
 					} else {
 						this.xscoupon = false;
 						this.useCouponMsg = res.object;
@@ -771,6 +808,11 @@
 			}
 		},
 		mounted() {
+			//sessionStorage包含cartTwoCustom（orderForm为C）
+			if(sessionStorage.getItem('cartTwoCustom')!=null){
+				this.cartTwoCustom = JSON.parse(sessionStorage.getItem('cartTwoCustom'))
+			}
+			
 			//获取from类型A为立即下单，B为来自购物车1
 			this.orderfrom = this.$route.query.orderfrom;
 			this.cartList = JSON.parse(sessionStorage.getItem('cart'));
@@ -784,7 +826,10 @@
 				this.getCartList();
 				this.jisuan();
 			}
-		}
+		},
+		destroyed() {sessionStorage.removeItem("cart")
+						sessionStorage.removeItem("cartTwoCustom")
+						sessionStorage.removeItem("orderCustom")}
 	}
 </script>
 <style lang="scss" scoped="scoped">
@@ -968,8 +1013,6 @@
 		width: 1100px;
 	}
 	
-
-	
 	.placeorderActivity .placeorderInformation {
 		font-size: 14px;
 		font-weight: 400;
@@ -977,7 +1020,8 @@
 		color: #FF0000;
 	}
 	
-	.placeorderInformation .btn,.btn_fp{
+	.placeorderInformation .btn,
+	.btn_fp {
 		padding-left: 15px;
 		padding-right: 15px;
 		height: 30px;
@@ -1013,16 +1057,19 @@
 		font-size: 14px;
 		color: #FF0000;
 	}
-	.placeorderActivity .shipping{
+	
+	.placeorderActivity .shipping {
 		float: left;
 	}
+	
 	.placeorderSend {
 		height: 85px;
 		border-bottom: 1px solid #c6c6c6;
 		padding-top: 28px;
 		width: 1100px;
 	}
-.shipping {
+	
+	.shipping {
 		font-size: 18px;
 		font-weight: 400;
 		color: #333333;
@@ -1282,29 +1329,33 @@
 	.placeorderInformation div:nth-last-child(2) {
 		background: red;
 	}
-	.couponMsg{
+	
+	.couponMsg {
 		position: absolute;
 		top: 40px;
 		left: 85px;
 		font-size: 14px;
 	}
-	.name .color-blue{
+	
+	.name .color-blue {
 		font-size: 12px;
 		font-weight: bold;
 		margin-left: 10px;
 	}
-	.delprice{
-		    text-decoration: line-through;
-    color: #999;
-    font-size: 10px;
-    width: 120px;
-    display: inline-block;
-    text-align: center;
+	
+	.delprice {
+		text-decoration: line-through;
+		color: #999;
+		font-size: 10px;
+		width: 120px;
+		display: inline-block;
+		text-align: center;
 	}
-	.fp{
-		 padding-top: 30px;
-		 padding-bottom: 20px;
-		 border-bottom: 1px solid #ddd;
+	
+	.fp {
+		padding-top: 30px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid #ddd;
 	}
 </style>
 <style>
@@ -1317,12 +1368,12 @@
 		line-height: 60px;
 	}
 	
-	.ivu-modal-close .ivu-icon-ios-close-empty {
+	.cart2page .ivu-modal-close .ivu-icon-ios-close-empty {
 		color: #000000;
 		font-weight: 900;
 	}
 	
-	.ivu-modal-header {
+	.cart2page .ivu-modal-header {
 		height: 60px;
 		line-height: 60px;
 		width: 100%;
@@ -1330,20 +1381,20 @@
 		padding: 0px;
 	}
 	
-	.ivu-input {
+	.cart2page .ivu-input {
 		height: 45px;
 		line-height: 45px;
 		border: 1px solid #cccccc;
 		border-radius: 0px;
 	}
 	
-	.modaladdressaddr .ivu-input {
+	.cart2page .modaladdressaddr .ivu-input {
 		height: 90px;
 		line-height: 90px;
 		border-radius: 0px;
 	}
 	
-	.ivu-modal-footer {
+	.cart2page .ivu-modal-footer {
 		height: 90px;
 		background-color: #F2F2F2;
 		padding: 0px 25px;
@@ -1351,7 +1402,7 @@
 		text-align: center;
 	}
 	
-	.ivu-btn-text {
+	.cart2page .ivu-btn-text {
 		margin-top: 20px;
 		margin-right: 15px;
 		padding: 10px 50px;
@@ -1361,7 +1412,7 @@
 		border-radius: 0px;
 	}
 	
-	.ivu-btn-primary {
+	.cart2page .ivu-btn-primary {
 		background-color: #ff0000;
 		margin-top: 20px;
 		margin-right: 15px;
@@ -1370,11 +1421,13 @@
 		border: none;
 		border-radius: 0px;
 	}
-	.ivu-tooltip-popper[x-placement^="bottom"] .ivu-tooltip-arrow{
-		border-bottom-color:#f9b260;
+	
+	.ivu-tooltip-popper[x-placement^="bottom"] .ivu-tooltip-arrow {
+		border-bottom-color: #f9b260;
 	}
-	.ivu-tooltip-inner{
+	
+	.ivu-tooltip-inner {
 		max-width: 500px;
-		background:#f9b260
+		background: #f9b260
 	}
 </style>

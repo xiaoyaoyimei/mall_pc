@@ -34,7 +34,6 @@
 					<li v-for="(item, index) in productList" :key='index'>
 						<router-link :to="{ path: '/sort/sortDetail',query:{id:item.id} }">
 							<i v-if="item.promotionTitle !=null">{{item.promotionTitle}}</i>
-
 							<img :src='item.model_img |imgfilter' alt="">
 							<p class="ptitle">{{item.model_name}}</p>
 							<p class="red">{{item.sale_price}}</p>

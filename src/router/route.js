@@ -37,8 +37,12 @@ const routes = [{
 			{
 				path: '/sort',
 				name: '/sort',
-				component: () =>
-					import('@/views/pages/Sort.vue'),
+				component: () =>import('@/views/pages/Sort.vue'),
+			},
+				{
+				path: '/custom',
+				name: '/custom',
+				component: () =>import('@/views/pages/Custom.vue'),
 			},
 			{
 				name: '/seckill',

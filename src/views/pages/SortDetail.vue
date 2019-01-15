@@ -53,8 +53,6 @@
 						</dd>
 					</dl>
 					<dl class="dl-base"><dt>数    &nbsp;&nbsp; &nbsp;&nbsp; 量</dt>
-						<!--<input value="1" type="number" v-model="quantity" style="width: 100px;
-							height: 45px;">-->
 						<dd>
 							<div class="number">
 								<input value="1" type="text" v-model="quantity" v-on:blur="changeNumber($event)">
@@ -65,6 +63,11 @@
 							<div v-if="xiajia" class="xiajia">
 								<Icon type="information-circled">
 								</Icon>该商品已下架
+							</div>
+							<div class="custom"  v-if="custom.show">
+									<Button  @click="gocustom" type="primary">
+							去定制
+							</Button>
 							</div>
 						</dd>
 					</dl>
@@ -162,7 +165,8 @@
 											<img :src="item.list.iconUrl | imgfilter" v-else>
 										{{item.list.nickName | plusXing('*')}}</h6>
 										<p>{{item.list.commentContent}}</p>
-										<div class="sz" :key="index"><span v-for="(child, index) in item.imgList"><img :src="child | imgfilter"></span></div>
+										<div class="sz" :key="index"><span v-for="(child, index) in item.imgList">
+											<img :src="child | imgfilter"  @click="handleView(child)"></span></div>
 										<div class="zan"><span class="fr">
 											<i class="icon-new icon-zan" :class="{'icon-zan-active':item.isZan=='Y' }" @click='zan(item.list.id,item.isZan)' ></i>
 											{{item.number}}</span>{{item.list.commentTime | formatDate('yyyy-MM-dd hh:mm:ss')}}
@@ -182,6 +186,9 @@
 
 			</div>
 		</div>
+			<modal title="查看大图" class="Myinfo" v-model="visible">
+			<img :src="bigimg | imgfilter" v-if="visible" style="width: 100%">
+		</modal>
 	</div>
 </template>
 <script>
@@ -254,7 +261,9 @@
 					endTime: '',
 					kucun: 0,
 					quantity: 1,
+				
 				},
+				custompro:{},
 				productItemId: '',
 				quantity: 1,
 				max: 100,
@@ -271,6 +280,13 @@
 				index: 4,
 				listindex: 5,
 				dpdata: [],
+				bigimg:'',
+				visible: false,
+				custom:{
+					show:false,//是否显示定制按钮
+					logoPrice:0,
+					textPrice:0
+				},
 			}
 		},
 		computed: {
@@ -280,8 +296,21 @@
 			},
 		},
 		methods: {
-			//隐藏中间字符
-
+			gocustom(){
+				this.custompro=this.choosesp;
+				this.custompro.productType = this.shangp.product.typeId;
+			    this.custompro.productCatalog = this.shangp.product.catalogId;
+				localStorage.setItem('custom',JSON.stringify(this.custom));
+				localStorage.setItem('custompro',JSON.stringify(this.custompro));
+					this.$router.push({
+					name: '/custom',
+				});
+			},
+			//查看评论大图
+			handleView(item) {
+				this.bigimg = item;
+				this.visible = true;
+			},
 			checkAllGroupChange(data) {
 				this.dpdata = data;
 				var _this = this;
@@ -575,6 +604,7 @@
 					//通过选择属性读出productItemId
 					for(let chooseItem of this.shangp.productItemList) {
 						if(chooseItem.productModelAttrs == chooseId) {
+							
 							this.shangp.product.modelNo = chooseItem.itemNo;
 							this.ImgUrl = chooseItem.listImg;
 							this.choosesp.id = chooseItem.id;
@@ -582,10 +612,18 @@
 							this.choosesp.img = chooseItem.listImg;
 							this.choosesp.itemNo = chooseItem.itemNo;
 							this.choosesp.price = chooseItem.salePrice;
-
 							//若无促销，则促销价为原价
 							this.choosesp.cuxiaoprice = chooseItem.salePrice;
+							if(chooseItem.isIp!="N"){
+								this.custom.show=true;
+								this.custom.logoPrice=chooseItem.logoPrice;
+								this.custom.textPrice=chooseItem.textPrice
+							}else{
+								this.custom.show=false
+							}
+						
 							this.productItemId = chooseItem.id;
+							
 							if(this.shangp.promotions.length > 0) {
 								for(let cxitem of this.shangp.promotions) {
 									if(cxitem.productItemId == this.productItemId) {
@@ -604,6 +642,7 @@
 						} else {
 							flag = false
 						}
+							
 					}
 					if(flag == false) {
 						this.choosesp.itemNo = "";
@@ -1339,4 +1378,12 @@
 	.flex-column{
 		flex-direction: column;
 	}
+	.custom {
+		    display: inline-block;
+
+    float: right;
+	}
+		.custom a{
+			    color: #f00;
+		}
 </style>
